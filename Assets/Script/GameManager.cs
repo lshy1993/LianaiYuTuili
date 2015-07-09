@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour {
 	public FGManager foreGround;
 
 	public string debugTest;
-	
 	private UILabel nameText, dialogText;
 	private float letterPause;
 
