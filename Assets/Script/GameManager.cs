@@ -25,18 +25,13 @@ public class GameManager : MonoBehaviour {
 		foreGround.GetComponent<FGManager>();
 		nameText = GameObject.Find("Label_Name").GetComponent<UILabel>();
 		dialogText = GameObject.Find("Label_Dialog").GetComponent<UILabel>();
-
+		//load gamescript
 		myText = (TextAsset)Resources.Load("Text/" + debugTest);
 		ScenarioInit();
-
+		//set 立ち絵 num, x, y
 		foreGround.SetPosition(0, 0, 0);
-
+		//set BG num, x, y
 		backGround.SetPosition(0, 0, 0);
-
-		nameText.text = "AAAA";
-
-		dialogText.text = "HAHAHA";
-
 	}
 
 	void Update ()
@@ -47,10 +42,10 @@ public class GameManager : MonoBehaviour {
 	void ScenarioInit()
 	{
 		string original = myText.text;
-		dialogs = Regex.Split(original,"/[p/]", RegexOptions.IgnoreCase);
+		dialogs = Regex.Split(original,"[p]", RegexOptions.IgnoreCase);
 		for(int i=0; i<dialogs.Length; i++)
 		{
-
+			//to split the gamescript
 		}
 		print(dialogs.Length);
 	}
@@ -58,7 +53,14 @@ public class GameManager : MonoBehaviour {
 	public void NextText()
 	{
 		textCount++;
-		//if (string.IsNullOrEmpty(names[textCount]))dialogText.text = names[textCount];
-		dialogText.text = dialogs[textCount];
+		nameText.text = "No." + textCount;
+		if(textCount >= dialogs.Length)
+		{
+			dialogText.text = "EndLine";
+		}
+		else
+		{
+			dialogText.text = dialogs[textCount];
+		}
 	}
 }
