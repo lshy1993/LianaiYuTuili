@@ -2,16 +2,17 @@
 using System.Collections;
 
 public class ClickController : MonoBehaviour {
+    public GameManager gm;
 
-	public GameManager gm;
-	// Use this for initialization
-	void Start () 
-	{
-		gm.GetComponent<GameManager>();
-	}
-
+    void Start()
+    {
+        gm = GameManager.instance;
+    }
+    
 	void OnClick()
 	{
-		gm.NextText();
+        //GameManager.instance.setNext(true);
+        //gm.updateText("testName", "TestContent");
+        gm.updateText();
 	}
 }

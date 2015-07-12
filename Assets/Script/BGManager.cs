@@ -3,25 +3,27 @@ using System.Collections;
 
 public class BGManager : MonoBehaviour {
 
-	public GameObject[] bgiamges;
+	// public GameObject[] bgiamges;
+    public GameObject background = null;
 	public Transform mainscene;
-	private GameObject currentbg, layoutbg;
+
+
+    public void setBackground(string name)
+    {
+
+    }
+    //private GameObject currentbg, layoutbg;
 	// Use this for initialization
-	void Start ()
-	{
-
-	}
-
-	public void SetPosition(int num, int left, int top)
-	{
-		currentbg = bgiamges [0];
-		GameObject ob = Instantiate(currentbg, new Vector3(left,top,0f), Quaternion.identity) as GameObject;
-		ob.transform.SetParent(mainscene);
-	}
-
 	// Update is called once per frame
 	void Update ()
 	{
+        //if(background != null)
+        //{
+        //    Debug.Log("background");
+        //    GameObject ob = Instantiate(background, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+        //    ob.layer = 0;
+        //    ob.transform.SetParent(mainscene); 
 	
-	}
+        //}
+    }
 }
