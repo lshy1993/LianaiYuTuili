@@ -3,23 +3,50 @@ using System.Collections;
 
 public class FGManager : MonoBehaviour {
 
-	public GameObject[] fgiamges;
+    // const for position
+    public const int LEFT = 0;
+    public const int MIDDLE = 1;
+    public const int RIGHT = 2;
+
+	//public GameObject[] fgiamges;
+    public GameObject[] charactors;
+    public Vector2[] positions;
 	public Transform mainscene;
-	private GameObject currentfg, layoutfg;
-	// Use this for initialization
-	void Start () {
+
+    public void SetCharactor(GameObject charactor, int positionNum)
+    {
+        charactors[positionNum] = charactor;
+    }
+
+    public void SetCharactor(GameObject charactor, int num, Vector2 position)
+    {
+        charactors[num] = charactor;
+        positions[num] = position; 
+    }
 	
-	}
-	
-	// Update is called once per frame
+    void Awake()
+    {
+        charactors = new GameObject[3];
+        positions = new Vector2[3];
+
+        // temporary position setting 
+        positions[LEFT] = new Vector2(-100, 0);
+        positions[MIDDLE] = new Vector2(0, 0);
+        positions[RIGHT] = new Vector2(100, 0);
+    }
+
 	void Update () {
-	
+        for(int i = 0; i < charactors.Length; i++)
+        {
+            if(charactors[i] != null)
+            {
+                GameObject ob = Instantiate(charactors[i], new Vector3(positions[i].x, positions[i].y), Quaternion.identity)
+                    as GameObject;
+                ob.layer = 1;
+                ob.transform.SetParent(mainscene);
+ 
+            }
+       }
 	}
 
-	public void SetPosition(int num, int left, int top)
-	{
-		currentfg = fgiamges [num];
-		GameObject ob = Instantiate(currentfg, new Vector3(left,top,0f), Quaternion.identity) as GameObject;
-		ob.transform.SetParent(mainscene);
-	}
 }
