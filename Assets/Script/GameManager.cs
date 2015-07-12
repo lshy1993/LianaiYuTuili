@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour {
 
     public Player player;
 
+    public GameNode node;
+
     private ScriptDecoder decoder;
 
     private bool next = false;
@@ -41,6 +43,108 @@ public class GameManager : MonoBehaviour {
     //private string[] names;
     //private string[] dialogs;
 
+    public void updateText()
+    {
+        Debug.Log("updateText");
+        if(node == null)
+        {
+            Debug.Log("get node");
+            node = decoder.getNode();
+        }
+        else if(node.isEnd())
+        {
+            Debug.Log("at end");
+            decoder.file = node.next();
+            node = decoder.getNode();
+        }
+        else
+        {
+            Debug.Log("process");
+            process(node);
+        }
+    }
+
+    public void updateText(string name, string content)
+    {
+        textManager.nameStr = name;
+        textManager.contentStr = content;
+    }
+
+    public void process(GameNode node)
+    {
+        string[] contents = node.contents;
+        Debug.Log("currPosition: " + node.currPosition);
+        Debug.Log("contents length: " + contents.Length);
+        // 用于处理内容文本
+        while (node.currPosition < contents.Length)
+        {
+            string sentence = (string)contents[node.currPosition];
+            char[] delim = new char[] { ' ' };
+            string[] splited = sentence.Split(delim);
+            Debug.Log("sentence = " + sentence);
+            if (sentence.Length == 0)
+            {
+                node.currPosition++;
+                return;
+            }
+           else if(GameNode.isKeyWord(splited[0]))
+            {
+                // 关键字解析
+                switch(splited[0])
+                {
+                    case "BG":
+                        // 格式：BG prefab 
+                        GameObject bg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;  
+                        GameManager.instance.bgManager.background = bg;
+                        break;
+                    case "FG":
+                        // 格式：FG prefab position 
+                        GameObject fg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;
+                        if(splited.Length == 3)
+                        {
+                            if(splited[2].Equals("LEFT")) {
+                                GameManager.instance.fgManager.SetCharactor(fg, FGManager.LEFT);
+                            }else if(splited[2].Equals("MIDDLE")){
+                                GameManager.instance.fgManager.SetCharactor(fg, FGManager.MIDDLE);
+                            }else if(splited[2].Equals("RIGHT")){
+                                GameManager.instance.fgManager.SetCharactor(fg, FGManager.RIGHT);
+                            }
+                        }else if(splited.Length == 2)
+                        {
+
+                            GameManager.instance.fgManager.SetCharactor(fg, FGManager.MIDDLE);
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else if (splited.Length == 1)
+            {
+                // 对话内容
+                string[] say = sentence.Split(new char[] { ':' });
+                if(say.Length == 2)
+                {
+                    GameManager.instance.textManager.nameStr = say[0];
+
+                    GameManager.instance.textManager.contentStr = say[1];
+                    ++node.currPosition;
+                    break;
+                }
+                else if(say.Length == 1)
+                {
+                    GameManager.instance.textManager.contentStr = say[0];
+                    ++node.currPosition;
+                    break;
+                }
+            }
+            //else if(splited.Length)
+
+
+            ++node.currPosition;
+        }
+    }
     void Awake()
     {
         if(instance == null) {
@@ -58,27 +162,24 @@ public class GameManager : MonoBehaviour {
     void InitGame()
     {
         // assign variables
-        fgManager.GetComponent<FGManager>();
-        bgManager.GetComponent<BGManager>();
-        uiManager.GetComponent<UIManager>();
-        soundManager.GetComponent<SoundManager>();
-        textManager.GetComponent<TextManager>();
+
         decoder = ScriptDecoder.get();
         player = Player.get();
-
+        //node = decoder.getNode();
         // set default value
         
     }
-
-    void Update()
-    {
-        if(next)
-        {
-            Debug.Log("update");
-            // do something
-            next = false;
-        }
-    }
+    
+   
+    //void Update()
+    //{
+    //    if(next)
+    //    {
+    //        Debug.Log("update");
+    //        // do something
+    //        next = false;
+    //    }
+    //}
     //void Start ()
     //{
     //    nameText = GameObject.Find("Label_Name").GetComponent<UILabel>();
