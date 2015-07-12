@@ -45,10 +45,10 @@ public class GameNode
 
     public static bool isKeyWord(string str)
     {
-        return str.Equals("BG") ||
-            str.Equals("FG")    ||
-            str.Equals("END")   ||
-            str.Equals("JUMP")  ||
-            str.Equals("LABEL");
+        return String.Equals("BG", str) ||
+            String.Equals("FG",str)     ||
+            String.Equals("END", str)   ||
+            String.Equals("JUMP", str)  ||
+            String.Equals("LABEL", str);
     }
 }

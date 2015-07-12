@@ -16,6 +16,10 @@ public class FGManager : MonoBehaviour {
     public void SetCharactor(GameObject charactor, int positionNum)
     {
         charactors[positionNum] = charactor;
+
+        GameObject ob = Instantiate(charactors[positionNum],
+            new Vector3(positions[positionNum].x,
+                positions[positionNum].y), Quaternion.identity) as GameObject;
     }
 
     public void SetCharactor(GameObject charactor, int num, Vector2 position)
@@ -23,6 +27,8 @@ public class FGManager : MonoBehaviour {
         charactors[num] = charactor;
         positions[num] = position; 
     }
+
+    
 	
     void Awake()
     {
@@ -35,18 +41,18 @@ public class FGManager : MonoBehaviour {
         positions[RIGHT] = new Vector2(100, 0);
     }
 
-	void Update () {
-        for(int i = 0; i < charactors.Length; i++)
-        {
-            if(charactors[i] != null)
-            {
-                GameObject ob = Instantiate(charactors[i], new Vector3(positions[i].x, positions[i].y), Quaternion.identity)
-                    as GameObject;
-                ob.layer = 1;
-                ob.transform.SetParent(mainscene);
+    //void Update () {
+    //    for(int i = 0; i < charactors.Length; i++)
+    //    {
+    //        if(charactors[i] != null)
+    //        {
+    //            GameObject ob = Instantiate(charactors[i], new Vector3(positions[i].x, positions[i].y), Quaternion.identity)
+    //                as GameObject;
+    //            ob.layer = 1;
+    //            ob.transform.SetParent(mainscene);
  
-            }
-       }
-	}
+    //        }
+    //   }
+    //}
 
 }
