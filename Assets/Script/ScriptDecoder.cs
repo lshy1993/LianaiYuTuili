@@ -6,6 +6,12 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+
+/**
+ * ScriptDecoder
+ * 解析文本文件，将文件分为元数据与内容两部分
+ * 并且创建GameNode
+ */
 public class ScriptDecoder 
 {
     public const string SCRIPT_PATH = "Text/"; 
