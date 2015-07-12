@@ -18,14 +18,14 @@ public class BGManager : MonoBehaviour {
         obj.transform.SetParent(mainscene);
     }
 
-    void Update()
-    {
-        if (background != null)
-        {
-            //Debug.Log("background");
-            //GameObject ob = Instantiate(background, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
-            background.layer = 0;
-            background.transform.SetParent(mainscene);
-        }
-    }
+    //void Update()
+    //{
+    //    if (background != null)
+    //    {
+    //        //Debug.Log("background");
+    //        //GameObject ob = Instantiate(background, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+    //        background.layer = 0;
+    //        background.transform.SetParent(mainscene);
+    //    }
+    //}
 }

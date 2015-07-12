@@ -101,11 +101,13 @@ public class GameManager : MonoBehaviour {
                         // 格式：BG prefab 
                         GameObject bg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;
                         //Debug.Log("update background");
-                        bgManager.background = bg;
+                        //bgManager.background = bg;
+                        bgManager.setBackground(bg);
                         break;
                     case "FG":
                         // 格式：FG prefab position 
-                        GameObject fg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;
+                        //GameObject fg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;
+                        GameObject fg = Resources.Load("Prefab/" + splited[1]) as GameObject;
                         if(splited.Length == 3)
                         {
                             if(splited[2].Equals("LEFT")) {
