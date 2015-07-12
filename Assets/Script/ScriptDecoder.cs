@@ -41,7 +41,7 @@ public class ScriptDecoder
         ArrayList nextNodes = new ArrayList();
         // 使用`====='五个等号来分割内容跟元数据
 
-        string processed = ts.text.Replace("\n", "");
+        string processed = ts.text.Replace("\r\n", "");
         string[] splited = Regex.Split(processed, "====="); 
         Debug.Log("splited length:" + splited.Length);
         for (int i = 0; i < splited.Length; i++ )
@@ -67,7 +67,7 @@ public class ScriptDecoder
                             type = words[1];
                             break;
                         case "NEXT":
-                            nextNodes.Add(words[2]);
+                            nextNodes.Add(words[1]);
                             break;
                         default:
                             break;

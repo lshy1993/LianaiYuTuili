@@ -45,21 +45,21 @@ public class GameManager : MonoBehaviour {
 
     public void updateText()
     {
-        Debug.Log("updateText");
+        //Debug.Log("updateText");
         if(node == null)
         {
-            Debug.Log("get node");
+            //Debug.Log("get node");
             node = decoder.getNode();
         }
         else if(node.isEnd())
         {
-            Debug.Log("at end");
+            //Debug.Log("at end");
             decoder.file = node.next();
             node = decoder.getNode();
         }
         else
         {
-            Debug.Log("process");
+            //Debug.Log("process");
             process(node);
         }
     }
@@ -73,15 +73,20 @@ public class GameManager : MonoBehaviour {
     public void process(GameNode node)
     {
         string[] contents = node.contents;
-        Debug.Log("currPosition: " + node.currPosition);
-        Debug.Log("contents length: " + contents.Length);
+        //Debug.Log("currPosition: " + node.currPosition);
+        //Debug.Log("contents length: " + contents.Length);
         // 用于处理内容文本
         while (node.currPosition < contents.Length)
         {
             string sentence = (string)contents[node.currPosition];
             char[] delim = new char[] { ' ' };
             string[] splited = sentence.Split(delim);
+
             Debug.Log("sentence = " + sentence);
+            Debug.Log("splited[0] = `" + splited[0] + "' isKeyword? " + GameNode.isKeyWord(splited[0])
+                + splited[0].Equals("BG") + splited[0].CompareTo("BG") + " " + splited[0].Length + " " + "BG".Length);
+
+            //Debug.Log((int)splited[0][0] + "," + splited[0][1] + "," + splited[0][2]);
             if (sentence.Length == 0)
             {
                 node.currPosition++;
@@ -94,8 +99,9 @@ public class GameManager : MonoBehaviour {
                 {
                     case "BG":
                         // 格式：BG prefab 
-                        GameObject bg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;  
-                        GameManager.instance.bgManager.background = bg;
+                        GameObject bg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;
+                        //Debug.Log("update background");
+                        bgManager.background = bg;
                         break;
                     case "FG":
                         // 格式：FG prefab position 
@@ -103,16 +109,16 @@ public class GameManager : MonoBehaviour {
                         if(splited.Length == 3)
                         {
                             if(splited[2].Equals("LEFT")) {
-                                GameManager.instance.fgManager.SetCharactor(fg, FGManager.LEFT);
+                                fgManager.SetCharactor(fg, FGManager.LEFT);
                             }else if(splited[2].Equals("MIDDLE")){
-                                GameManager.instance.fgManager.SetCharactor(fg, FGManager.MIDDLE);
+                                fgManager.SetCharactor(fg, FGManager.MIDDLE);
                             }else if(splited[2].Equals("RIGHT")){
-                                GameManager.instance.fgManager.SetCharactor(fg, FGManager.RIGHT);
+                                fgManager.SetCharactor(fg, FGManager.RIGHT);
                             }
                         }else if(splited.Length == 2)
                         {
 
-                            GameManager.instance.fgManager.SetCharactor(fg, FGManager.MIDDLE);
+                            fgManager.SetCharactor(fg, FGManager.MIDDLE);
                         }
                         break;
 
@@ -139,6 +145,10 @@ public class GameManager : MonoBehaviour {
                     break;
                 }
             }
+            else
+            {
+                //Debug.Log("oops");
+            }
             //else if(splited.Length)
 
 
@@ -154,6 +164,7 @@ public class GameManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad(gameObject);
+
 
         InitGame();
         
