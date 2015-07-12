@@ -1,0 +1,9 @@
+TYPE TEXT;
+NEXT test_script2;
+=====
+FG Chara_Girl1 LEFT;
+BG BG_Dom;
+
+李云萧:测试文本测试文本测试文本测试文本测试文本测试文本;
+西门吹:测试文本测试文本测试文本测试文本;
+苗仁星:测试测试测试测试;
