@@ -16,79 +16,36 @@ public class ScriptDecoder
 {
     public const string SCRIPT_PATH = "Text/"; 
     
-    public string file;
+    //public string file;
 
-    private static ScriptDecoder instance = null;
-
-    private ScriptDecoder()
+    public ScriptDecoder()
     {
-        file = "test_script";
+     //   file = "test_script";
     }
-
-    public static ScriptDecoder get()
+    public GameNode decode(string file) 
     {
-        if(instance == null)
-        {
-            instance = new ScriptDecoder();
-        }
-
-        return instance;
-    }
-
-    public GameNode getNode()
-    {
-        TextAsset ts = Resources.Load(SCRIPT_PATH + file) as TextAsset;
-        if (ts == null)
-            return null;
-
-        //Debug.Log(ts == null);
         GameNode node = null;
-        string type = "";
-        ArrayList nextNodes = new ArrayList();
-        // 使用`====='五个等号来分割内容跟元数据
 
-        string processed = ts.text.Replace("\r\n", "");
-        string[] splited = Regex.Split(processed, "====="); 
-        Debug.Log("splited length:" + splited.Length);
-        for (int i = 0; i < splited.Length; i++ )
-        {
-            Debug.Log("splited " + i + " " + splited[i]);
-        }
-            if (splited.Length == 2)
-            {
-                // 元数据
-                string meta = splited[0];
-                char[] sentenceDelim = new char[] { ';' };
-                foreach (string sentence in meta.Split(sentenceDelim))
-                {
-                    char[] wordDelim = new char[] { ' ' };
-                    string[] words = sentence.Split(wordDelim);
+        if (file == null)
+            throw new Exception("Empty file name!");
 
-                    if (words.Length == 0)
-                        continue;
+        TextAsset textAsset = (TextAsset)Resources.Load(SCRIPT_PATH + file);
 
-                    switch (words[0])
-                    {
-                        case "TYPE":
-                            type = words[1];
-                            break;
-                        case "NEXT":
-                            nextNodes.Add(words[1]);
-                            break;
-                        default:
-                            break;
-                    }
+        if (textAsset == null)
+            throw new Exception("File not found!" + file);
 
-                }
+        string source = textAsset.text;
 
-                // 内容
-                string content = splited[1];
+        string pattern = "#.*";
 
-                node = new GameNode(content, type, nextNodes);
-            }
-            
-        return node; 
+        Regex reg = new Regex(pattern);
+
+        reg.Replace(source, "");
+
+        string[] splited = source.Split(new char[] { ';' });
+
+        node = new GameNode(splited);
+        return node;
     }
-    
     
 }
