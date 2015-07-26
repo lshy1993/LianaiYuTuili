@@ -32,20 +32,25 @@ public class ScriptDecoder
         TextAsset textAsset = (TextAsset)Resources.Load(SCRIPT_PATH + file);
 
         if (textAsset == null)
-            throw new Exception("File not found!" + file);
+            throw new Exception("File not found!\nFilename: " + file);
 
         string source = textAsset.text;
 
-        string pattern = "#.*";
+        string pattern = "#.*\r\n";
 
         Regex reg = new Regex(pattern);
 
-        reg.Replace(source, "");
+        source = reg.Replace(source, "");
 
         string[] splited = source.Split(new char[] { ';' });
 
         node = new GameNode(splited);
-        return node;
+
+        //for (int i = 0; i < splited.Length; i++ )
+        //{
+        //    Debug.Log(splited[i]);
+        //}
+            return node;
     }
     
 }
