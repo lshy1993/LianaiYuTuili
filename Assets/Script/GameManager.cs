@@ -156,6 +156,9 @@ public class GameManager : MonoBehaviour {
 
         DontDestroyOnLoad(gameObject);
 
+        Dictionary<string, int> dict = new Dictionary<string, int>();
+        dict.Add("测试", 1);
+        Debug.Log(dict["测试"]);
         InitGame();
         Plugin.init();
         //// debug for compiler testing
