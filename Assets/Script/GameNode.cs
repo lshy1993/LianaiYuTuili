@@ -5,50 +5,22 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class GameNode 
-{
-    public string[] contents; // 存储实际有意义的内容
-    public int currPosition;
-    private ArrayList nextNodes; // 存储下一个Node的集合，空则意味着游戏结束
+public class GameNode {
 
-    public GameNode(string content, string type, ArrayList nextNodes)
-    {
-        // 初始化对象
-
-        contents = content.Split(new char[]{';'});
-        this.nextNodes = nextNodes;
-        currPosition = 0;
-        
-    }
-
-
-
-    public string next()
-    {
-        //if (nextNodes.Count != 0)
-        //{
-        //    // 在存在下一个node的情况下
-        //    return 
-        //}
-        //return null;
-        if (nextNodes.Count > 0)
-            return (string)nextNodes[0];
-        else
-            return "";
-    }
+    public string[] content;
+    public Dictionary<string, bool> variableDictionary;
+    public Dictionary<string, int> labelDictionary;
+    public GameNode next;
     
-    public bool isEnd()
-    {
-        //return currPosition == (contents.Count - 1);
-        return ((string)contents[currPosition]).Equals("END") || currPosition == (contents.Length - 1);
+    public int current;
+
+    public GameNode(string[] content) {
+        this.content = content;
+        variableDictionary = new Dictionary<string, bool>();
+        labelDictionary = new Dictionary<string,int>();
+
+        next = null;
+        current = 0;
     }
 
-    public static bool isKeyWord(string str)
-    {
-        return String.Equals("BG", str) ||
-            String.Equals("FG",str)     ||
-            String.Equals("END", str)   ||
-            String.Equals("JUMP", str)  ||
-            String.Equals("LABEL", str);
-    }
 }

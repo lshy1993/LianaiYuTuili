@@ -12,10 +12,10 @@ public class BGManager : MonoBehaviour {
     //{
     //    obj.
     //}
-    public void setBackground(GameObject obj)
-    {
+    public void setBackground(GameObject obj) {
         obj.layer = 0;
         obj.transform.SetParent(mainscene);
+        
     }
 
     //void Update()
