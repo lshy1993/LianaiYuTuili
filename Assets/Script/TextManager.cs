@@ -5,7 +5,8 @@ public class TextManager : MonoBehaviour {
 
     public string nameStr, contentStr;
 
-
+    // 用stack存储历史记录
+    //public Stack<string> history;
     private UILabel nameLabel, dialogLabel;
 
 	// Use this for initialization

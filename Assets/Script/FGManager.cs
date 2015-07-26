@@ -13,21 +13,15 @@ public class FGManager : MonoBehaviour {
     public Vector2[] positions;
 	public Transform mainscene;
 
-    public void SetCharactor(GameObject charactor, int positionNum)
+    public void SetCharactor(GameObject charactor, Vector2 position)
     {
-        charactors[positionNum] = charactor;
+        //charactors[positionNum] = charactor;
 
-        GameObject ob = Instantiate(charactors[positionNum],
-            new Vector3(positions[positionNum].x,
-                positions[positionNum].y), Quaternion.identity) as GameObject;
+        //GameObject ob = Instantiate(charactors[positionNum],
+        //    new Vector3(positions[positionNum].x,
+        //        positions[positionNum].y), Quaternion.identity) as GameObject;
+        //ob.transform.SetParent(mainscene);
     }
-
-    public void SetCharactor(GameObject charactor, int num, Vector2 position)
-    {
-        charactors[num] = charactor;
-        positions[num] = position; 
-    }
-
     
 	
     void Awake()
