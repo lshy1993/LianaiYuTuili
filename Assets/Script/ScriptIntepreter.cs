@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System;
 
 public class ScriptIntepreter : MonoBehaviour {
 
@@ -19,7 +20,15 @@ public class ScriptIntepreter : MonoBehaviour {
         if (instance == null)
             instance = this;
         decoder = new ScriptDecoder();
-        node = decoder.decode("test_script");
+        try
+        {
+
+            node = decoder.decode("test_script");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
         if (instance != this)
         {
             Destroy(gameObject);
@@ -29,33 +38,38 @@ public class ScriptIntepreter : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+        //Debug.Log("intepreter running");
+
+        //Debug.Log("node == null?" + node == null);
+        //Debug.Log("next == true?" + next);
         if(node == null) {
-
+            return;
         }
-        else{
-            while(next && node.current < node.content.Length) {
-                string sentence = node.content[node.current];
-                char firstChar = sentence[0];
+        else
+        {
+            while(next && node.current < node.content.Length) 
+            {
+                Debug.Log("interpreting");
+                string sentence = node.content[node.current++];
+                Debug.Log(sentence);
 
-                string pattern = "\\s";
+                string pattern = "\\s+";
                 Regex reg = new Regex(pattern);
 
                 sentence = reg.Replace(sentence, "");
+
+                char firstChar = sentence[0];
+                Debug.Log("First char = " + firstChar);
+
 
                 // 处理函数，变量，标签
                 if (firstChar == '%')
                 {
                     // 标签
                     string label = sentence.Substring(1);
-                    if (!node.labelDictionary.ContainsKey(label))
-                    {
-                        node.labelDictionary.Add(label, node.current);
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                    //setLabel(label);
+                    //Debug.Log("fake set label");
+
                 }
                 else if (firstChar == '@')
                 {
@@ -72,15 +86,8 @@ public class ScriptIntepreter : MonoBehaviour {
                     string[] splited = sentence.Substring(1).Split('=');
                     string variable = splited[0];
                     //string value = splited[1];
-                    bool value = bool.Parse(splited[1]);
-                    if(!node.variableDictionary.ContainsKey(variable))
-                    {
-                        node.variableDictionary.Add(variable, value);
-                    }
-                    else
-                    {
-                        node.variableDictionary[variable] = value;
-                    }
+                    setVariable(splited[0], splited[1]);
+                    
                 }
                 else if(sentence.StartsWith("IF"))
                 {
@@ -93,13 +100,13 @@ public class ScriptIntepreter : MonoBehaviour {
                     string bracketPattern = "(|)";
                     Regex bracketReg = new Regex(bracketPattern);
                     string var = bracketPattern.Replace(splited[0], "").Substring(1);
-                    if(!node.variableDictionary[var])
+
+                    if(!getVariable(var))
                     {
-                        continue;
+                        //continue;
                     }
                     else
                     {
-
                         string thenContent = bracketPattern.Replace(splited[1], "");
                         // 此时为GOTO%label或者EXITfile
                         if (thenContent.StartsWith("GOTO"))
@@ -122,6 +129,7 @@ public class ScriptIntepreter : MonoBehaviour {
                 else if(sentence.StartsWith("GOTO"))
                 {
                     string label = sentence.Substring(5);
+                    //Debug.Log("goto label: " + label);
                     gotoLabel(label);
                     continue;
  
@@ -156,13 +164,59 @@ public class ScriptIntepreter : MonoBehaviour {
        } 
 	}
 
+    private void setLabel(string label)
+    {
+        //        throw new NotImplementedException();
+        Debug.Log("setLabel: " + label + " line: " + node.current);
+        ////if (!node.labelDictionary.ContainsKey(label))
+        ////{
+        node.labelDictionary.Add(label, node.current);
+        //}
+        //else
+        //{
+        //    //continue;
+        //    return;
+        //}
+    }
+
+    private bool getVariable(string var)
+    {
+        //throw new NotImplementedException();
+        Debug.Log("get " + var);
+        if(!node.variableDictionary.ContainsKey(var))
+        {
+            return false;
+        }
+        else
+        {
+            return node.variableDictionary[var];
+        }
+    }
+
+    private void setVariable(string variable, string value)
+    {
+        //throw new NotImplementedException();
+        //bool value = bool.Parse(splited[1]);
+        Debug.Log("assign " + variable + " with " + value);
+        if(!node.variableDictionary.ContainsKey(variable))
+        {
+            node.variableDictionary.Add(variable, bool.Parse(value));
+        }
+        else
+        {
+            node.variableDictionary[variable] = bool.Parse(value);
+        }
+    }
+
     private void gotoNextScript(string nextScript)
     {
+        Debug.Log("goto script: " + nextScript);
         node = decoder.decode(nextScript);
     }
 
     private void gotoLabel(string label)
     {
+        Debug.Log("goto label: " + label);
         node.current = (int)node.labelDictionary[label];
     }
 
@@ -171,6 +225,7 @@ public class ScriptIntepreter : MonoBehaviour {
         if(!Plugin.execute(name, parameters))
         {
             // 找不到的情况下
+            Debug.Log("invalid function! " + name);
         }
     }
 }
