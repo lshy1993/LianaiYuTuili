@@ -22,8 +22,8 @@ public class ScriptIntepreter : MonoBehaviour {
         decoder = new ScriptDecoder();
         try
         {
-
             node = decoder.decode("test_script");
+            Debug.Log("xxx");
         }
         catch (Exception e)
         {
@@ -67,7 +67,7 @@ public class ScriptIntepreter : MonoBehaviour {
                 {
                     // 标签
                     string label = sentence.Substring(1);
-                    //setLabel(label);
+                    setLabel(label);
                     //Debug.Log("fake set label");
 
                 }
@@ -170,7 +170,9 @@ public class ScriptIntepreter : MonoBehaviour {
         Debug.Log("setLabel: " + label + " line: " + node.current);
         ////if (!node.labelDictionary.ContainsKey(label))
         ////{
+        //node.labelDictionary.Add(label, node.current);
         node.labelDictionary.Add(label, node.current);
+        Debug.Log("!!");
         //}
         //else
         //{

@@ -20,7 +20,7 @@ public class TextManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        nameLabel.text = nameStr;
-        dialogLabel.text = contentStr;
+        /*nameLabel.text = nameStr;
+        dialogLabel.text = contentStr;*/
 	}
 }
