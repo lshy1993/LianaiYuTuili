@@ -6,13 +6,13 @@ public class ClickController : MonoBehaviour {
 
     void Start()
     {
-        gm = GameManager.instance;
+//        gm = GameManager.instance;
     }
     
 	void OnClick()
 	{
         //GameManager.instance.setNext(true);
         //gm.updateText("testName", "TestContent");
-        gm.fresh();
+//        gm.fresh();
 	}
 }

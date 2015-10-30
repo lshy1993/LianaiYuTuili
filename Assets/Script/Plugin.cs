@@ -33,7 +33,7 @@ public abstract class Plugin
         if(plugins == null)
         {
             plugins = new List<Plugin>();
-            plugins.Add(new ImagePlugin());
+            //plugins.Add(new ImagePlugin());
         }
     }
 

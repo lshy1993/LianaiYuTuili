@@ -151,11 +151,11 @@ public class ScriptIntepreter : MonoBehaviour {
                         string name = splited[0];
                         string content = splited[1];
                         //更新文字
-                        GameManager.instance.updateText(name, content);
+                        //GameManager.instance.updateText(name, content);
                     }
                     else
                     {
-                        GameManager.instance.updateText(sentence);
+                        //GameManager.instance.updateText(sentence);
                     }
 
                     next = false;
