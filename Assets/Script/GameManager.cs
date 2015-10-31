@@ -1,240 +1,168 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
-using System.Text.RegularExpressions;
-//using Assets.Script.ScriptCompiler;
-using System.Collections.Generic;
-
-
-
 
 /**
  * GameManager: 
  * 整个游戏只允许一个，且不能由于场景切换而被删除
- * 保存其他manager的引用，将其初始化
- * 保存游戏数据，并且根据游戏进程解析剧情脚本
- * update方法中更新游戏数据，并且根据游戏数据调整对应的Manager的数据，
+ * 游戏的控制核心，逻辑控制
+ * 与其他Manager交互
+ * 储存主要游戏数据，提供其他Manager访问
+ * 提供方法供其他Manager使用，同时控制其他Manager
  * 从而实现游戏进程的推进
  */
 public class GameManager : MonoBehaviour {
 
+    /*
+     * 创建一个gamedata类 用于存放玩家数据
+     * 存读档均以此专门创建函数方法
+     * UI任意操作均可以修改
+     * public GameData userdata;
+     */
 
-    public static GameManager instance = null;
+    //测试用玩家数据
+    public UserData playerdata = new UserData();
 
-    // ui root 
-	public UIRoot uiRoot;
-   
-    // manager
-    //public BGManager       bgManager;
-    //public FGManager       fgManager;
-    public ImageManager   imgManager;
-    public UIManager       uiManager;
-    public TextManager   textManager;
-    public SoundManager soundManager;
+    /*
+     * 读取一个数据库，静态信息的储存，作为查询
+     * 剧本的信息，编号（索引），用于textmanager读取
+     * 证据的信息，编号（索引），名字，缩略图，详细信息，大图等等
+     * 妹子的信息，编号（索引），姓名，班级，社团，生日等等
+     * 地图的信息，编号（索引），缩略图，信息等等
+     */
 
-    public GameNode node;
+    //测试用妹子信息
+    public GirlData[] girl = new GirlData[7];
+    //测试用地点
+    public string placeid = "";
+    public bool isavg;
 
-   // private ScriptDecoder decoder;
+    private GameObject root;
 
-    public ScriptIntepreter intepreter = null;
-    //private bool next = false;
+    private PanelSwitch ps;
+    private TextManager tm;
+    private ImageManager im;
+    private SoundManager sm;
 
-    public void fresh()
+	void Start()
     {
-        intepreter.next = true;
-    }
-
-    public void updateText(string content)
-    {
-        textManager.contentStr = content;
-    }
-    public void updateText(string name, string content)
-    {
-        textManager.nameStr = name;
-        textManager.contentStr = content;
-    }
-
-    //public void process(GameNode node)
-    //{
-    //    string[] contents = node.contents;
-    //    //Debug.Log("currPosition: " + node.currPosition);
-    //    //Debug.Log("contents length: " + contents.Length);
-    //    // 用于处理内容文本
-    //    while (node.currPosition < contents.Length)
-    //    {
-    //        string sentence = (string)contents[node.currPosition];
-    //        char[] delim = new char[] { ' ' };
-    //        string[] splited = sentence.Split(delim);
-
-    //        Debug.Log("sentence = " + sentence);
-    //        Debug.Log("splited[0] = `" + splited[0] + "' isKeyword? " + GameNode.isKeyWord(splited[0])
-    //            + splited[0].Equals("BG") + splited[0].CompareTo("BG") + " " + splited[0].Length + " " + "BG".Length);
-
-    //        //Debug.Log((int)splited[0][0] + "," + splited[0][1] + "," + splited[0][2]);
-    //        if (sentence.Length == 0)
-    //        {
-    //            node.currPosition++;
-    //            return;
-    //        }
-    //       else if(GameNode.isKeyWord(splited[0]))
-    //        {
-    //            // 关键字解析
-    //            switch(splited[0])
-    //            {
-    //                case "IMG":
-    //                    // 格式： IMG name [position] [place] 
-
-    //                    break;
-    //                //case "BG":
-    //                //    // 格式：BG prefab 
-    //                //    GameObject bg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;
-    //                //    //Debug.Log("update background");
-    //                //    //bgManager.background = bg;
-    //                //    // bgManager.setBackground(bg);
-    //                //    break;
-    //                //case "FG":
-    //                //    // 格式：FG prefab position 
-    //                //    //GameObject fg = Instantiate(Resources.Load("Prefab/" + splited[1])) as GameObject;
-    //                //    GameObject fg = Resources.Load("Prefab/" + splited[1]) as GameObject;
-    //                //    if(splited.Length == 3)
-    //                //    {
-    //                //        if(splited[2].Equals("LEFT")) {
-    //                //            fgManager.SetCharactor(fg, FGManager.LEFT);
-    //                //        }else if(splited[2].Equals("MIDDLE")){
-    //                //            fgManager.SetCharactor(fg, FGManager.MIDDLE);
-    //                //        }else if(splited[2].Equals("RIGHT")){
-    //                //            fgManager.SetCharactor(fg, FGManager.RIGHT);
-    //                //        }
-    //                //    }else if(splited.Length == 2)
-    //                //    {
-
-    //                //        fgManager.SetCharactor(fg, FGManager.MIDDLE);
-    //                //    }
-    //                //    break;
-
-    //                default:
-    //                    break;
-    //            }
-    //        }
-    //        else if (splited.Length == 1)
-    //        {
-    //            // 对话内容
-    //            string[] say = sentence.Split(new char[] { ':' });
-    //            if(say.Length == 2)
-    //            {
-    //                GameManager.instance.textManager.nameStr = say[0];
-
-    //                GameManager.instance.textManager.contentStr = say[1];
-    //                ++node.currPosition;
-    //                break;
-    //            }
-    //            else if(say.Length == 1)
-    //            {
-    //                GameManager.instance.textManager.contentStr = say[0];
-    //                ++node.currPosition;
-    //                break;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            //Debug.Log("oops");
-    //        }
-    //        //else if(splited.Length)
-
-
-    //        ++node.currPosition;
-    //    }
-    //}
-
-    void Awake()
-    {
-        if(instance == null) {
-            instance = this;
-        } else if (instance != this){
-            Destroy(gameObject);          
+        root = GameObject.Find("UI Root");
+        ps = transform.GetComponent<PanelSwitch>();
+        tm = transform.GetComponent<TextManager>();
+        im = transform.GetComponent<ImageManager>();
+        for(int i = 0; i < 7; i++)
+        {
+            girl[i] = new GirlData(i);
         }
-
-        DontDestroyOnLoad(gameObject);
-
-        Dictionary<string, int> dict = new Dictionary<string, int>();
-        dict.Add("测试", 1);
-        Debug.Log(dict["测试"]);
-        InitGame();
-        Plugin.init();
-        //// debug for compiler testing
-        //LexicalAnalyzer la = new LexicalAnalyzer(((TextAsset)Resources.Load("Text/test_script")).text); 
-        //string[] test = la.preprocess();
-        ////Debug.Log(la.source);
-
-        //List<List<Token>> res = la.divide();
-
-        //for(int i = 0; i < res.Count; i++)
-        //{
-        //    string values = "";
-        //    for(int j = 0; j < res[i].Count; j++)
-        //    {
-        //        values += res[i][j].value;
-        //        values += "|";
-        //    }
-        //    Debug.Log(values);
-        //}
-        
     }
 
-    void InitGame()
+	void Update()
     {
-        // assign variables
-
-        intepreter = ScriptIntepreter.instance; 
-        //decoder = ScriptDecoder.get();
-
-        //player = Player.get();
-        //node = decoder.getNode();
-        // set default value
+        if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
+    }
+    //新游戏数据准备
+    public void NewGame()
+    {
+        //playerdata = new UserData();
+        tm.file = "test_script";
+        tm.NewFile();
+    }
+    //下一句
+    public void ShowNext()
+    {
+        tm.Next();
+    }
+    //打开phone
+    public void OpenPhone()
+    {
+        ps.OpenPhone();
+    }
+    //关闭phoen
+    public void ClosePhone()
+    {
+        ps.ClosePhone();
+    }
+    //游戏天数与主进度控制
+    public void NextDay()
+    {
+        playerdata.day++;
+        if (playerdata.day > 30) playerdata.month++;
+        playerdata.week++;
+        if (playerdata.week > 7) playerdata.week = 1;
+        //特定日期的事件
+        //平日的随机事件
+        if (playerdata.week < 6)
+        {
+            if (isavg)
+            {
+                isavg = false;
+                ps.AvgToEdu();
+            }
+            else
+            {
+                int seed = Random.Range(0, 100);
+                Debug.Log(seed);
+                if (seed > 50)
+                {
+                    Debug.Log("Avg");
+                    ps.EduToAvg();
+                    tm.file = "test";
+                    tm.NewFile();
+                }
+            }
+        }
+        //普通双休的情况
+        else
+        {
+            Debug.Log("Map+week:" + playerdata.week);
+            if (isavg)
+            {
+                isavg = false;
+                ps.AvgToMap();
+            }
+            else ps.EduToMap();
+        }
         
     }
-    
-   
-    //void Update()
-    //{
-    //    if(next)
-    //    {
-    //        Debug.Log("update");
-    //        // do something
-    //        next = false;
-    //    }
-    //}
-    //void Start ()
-    //{
-    //    nameText = GameObject.Find("Label_Name").GetComponent<UILabel>();
-    //    dialogText = GameObject.Find("Label_Dialog").GetComponent<UILabel>();
-    //    //load gamescript
-    //    myText = (TextAsset)Resources.Load("Text/" + debugTest);
-    //    ScenarioInit();
-    //    //set 立ち絵 num, x, y
-    //    foreGround.SetPosition(0, 0, 0);
-    //    //set BG num, x, y
-    //    backGround.SetPosition(0, 0, 0);
-    //}
-
-    //void Update ()
-    //{
-
-    //}
-
-    //void ScenarioInit()
-    //{
-    //    string original = myText.text;
-    //    dialogs = Regex.Split(original,"[p]", RegexOptions.IgnoreCase);
-    //    for(int i=0; i<dialogs.Length; i++)
-    //    {
-    //        //to split the gamescript
-    //    }
-    //    print(dialogs.Length);
-    //}
-
-    //public void setNext(bool next)
-    //{
-    //    this.next = next;
-    //}
+    public void MapEvent()
+    {
+        Debug.Log("Map+week:" + playerdata.week);
+        ps.MapToAvg();
+        tm.file = "testplace";
+        tm.NewFile();
+    }
+    //解析指令并传递给相应manager执行
+    public void ExecuteFunction(string name, string[] parameters)
+    {
+        Debug.Log("execute @" + name);
+        if (string.Compare(name, "setfg", true) == 0)
+        {
+            //im.SetImage(parameters[0]);
+        }
+        if(string.Compare(name, "setbg", true) == 0)
+        {
+            im.SetBackground(parameters[0]);
+        }
+    }
+    //解析模块转换指令
+    public void ModeSwitch(string name)
+    {
+        if (string.Compare(name, "edu", true) == 0)
+        {
+            isavg = true;
+            NextDay();
+        }
+        if (string.Compare(name, "map", true) == 0)
+        {
+            isavg = true;
+            NextDay();
+        }
+        if (string.Compare(name, "invest", true) == 0)
+        {
+            ps.OpenInvest();
+        }
+        if (string.Compare(name, "detect", true) == 0)
+        {
+            ps.OpenDetect();
+        }
+    }
 }
