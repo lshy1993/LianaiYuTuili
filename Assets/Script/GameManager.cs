@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
      */
 
     //测试用玩家数据
-    public UserData playerdata = new UserData();
+    public UserData playerdata;
 
     /*
      * 读取一个数据库，静态信息的储存，作为查询
@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour {
         ps = transform.GetComponent<PanelSwitch>();
         tm = transform.GetComponent<TextManager>();
         im = transform.GetComponent<ImageManager>();
+        playerdata = new UserData();
         for(int i = 0; i < 7; i++)
         {
             girl[i] = new GirlData(i);

@@ -17,7 +17,7 @@ public class EduManager : MonoBehaviour {
 
     private GameObject qgo, sgo, acgo;
 
-	void Start () {
+	void Awake () {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
         datelabel = transform.Find("Time_Container/Date_Label").gameObject.GetComponent<UILabel>();
