@@ -1,15 +1,17 @@
 using UnityEngine;
 using System.Collections;
 
-/**
- * GameManager: 
- * 整个游戏只允许一个，且不能由于场景切换而被删除
- * 游戏的控制核心，逻辑控制
- * 与其他Manager交互
- * 储存主要游戏数据，提供其他Manager访问
- * 提供方法供其他Manager使用，同时控制其他Manager
- * 从而实现游戏进程的推进
- */
+/// <summary>
+/// 
+///  GameManager: 
+///  整个游戏只允许一个，且不能由于场景切换而被删除
+///  游戏的控制核心，逻辑控制
+///  与其他Manager交互
+///  储存主要游戏数据，提供其他Manager访问
+///  提供方法供其他Manager使用，同时控制其他Manager
+///  从而实现游戏进程的推进
+/// 
+/// </summary>
 public class GameManager : MonoBehaviour {
 
     /*
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour {
      */
 
     //测试用玩家数据
-    public UserData playerdata;
+    //public UserData playerdata;
 
     /*
      * 读取一个数据库，静态信息的储存，作为查询
@@ -31,34 +33,50 @@ public class GameManager : MonoBehaviour {
      */
 
     //测试用妹子信息
-    public GirlData[] girl = new GirlData[7];
+    //public GirlData[] girl = new GirlData[7];
     //测试用地点
-    public string placeid = "";
-    public bool isavg;
+    //public string placeid = "";
+    //public bool isavg;
 
     private GameObject root;
 
-    private PanelSwitch ps;
-    private TextManager tm;
-    private ImageManager im;
-    private SoundManager sm;
+    public static PanelSwitch ps;
+    //private TextManager tm;
+    public static ImageManager im;
+    public static SoundManager sm;
+    public static AnimationManager am;
+
+
+    /// <summary>
+    /// void Awake:
+    /// init everyting for game from here.
+    /// </summary>
+    void Awake() {
+
+        root = GameObject.Find("UI Root");
+
+        if (im == null) im = ImageManager.get();
+        if (sm == null) sm = SoundManager.get();
+        if (am == null) am = AnimationManager.get();
+        if (ps == null) ps = PanelSwitch.get();
+    }
+
 
 	void Start()
     {
-        root = GameObject.Find("UI Root");
-        ps = transform.GetComponent<PanelSwitch>();
-        tm = transform.GetComponent<TextManager>();
-        im = transform.GetComponent<ImageManager>();
-        playerdata = new UserData();
-        for(int i = 0; i < 7; i++)
-        {
-            girl[i] = new GirlData(i);
-        }
+        //ps = transform.GetComponent<PanelSwitch>();
+        //tm = transform.GetComponent<TextManager>();
+        //im = transform.GetComponent<ImageManager>();
+        //playerdata = new UserData();
+        //for(int i = 0; i < 7; i++)
+        //{
+        //    girl[i] = new GirlData(i);
+        //}
     }
 
 	void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
+        if (Input.GetKeyDown(KeyCode.Escape)) ps.MenuSwitch();
     }
     //新游戏数据准备
     public void NewGame()

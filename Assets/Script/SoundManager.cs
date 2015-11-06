@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SoundManager : MonoBehaviour {
+public class SoundManager {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    private static SoundManager instance;
+    private SoundManager()
+    {
+
+    }
+
+
+    public static SoundManager get()
+    {
+        if (instance == null) instance = new SoundManager();
+
+        return instance;
+    }
 }
