@@ -54,11 +54,7 @@ public class PhoneManager : MonoBehaviour {
         LoveFresh(1);
         EvidenceFresh();
     }
-	
-	void Update () {
-	
-	}
-    //基本信息刷新
+    //[基本信息]刷新
     public void CardFresh()
     {
         wenlb.text = gm.playerdata.wen.ToString();
@@ -66,11 +62,6 @@ public class PhoneManager : MonoBehaviour {
         tilb.text = gm.playerdata.yi.ToString();
         yilb.text = gm.playerdata.ti.ToString();
         zhailb.text = gm.playerdata.zhai.ToString();
-        StartCoroutine(ShowBar(wenb, gm.playerdata.wen));
-        StartCoroutine(ShowBar(lib, gm.playerdata.li));
-        StartCoroutine(ShowBar(tib, gm.playerdata.ti));
-        StartCoroutine(ShowBar(yib, gm.playerdata.yi));
-        StartCoroutine(ShowBar(zhaib, gm.playerdata.zhai));
         ranklb.text = ChineseRank(gm.playerdata.rank);
         moneylb.text = "当前金钱余额 " + gm.playerdata.money.ToString() + " 元";
         statuslb.text = ChineseStatus(gm.playerdata.status);
@@ -78,13 +69,66 @@ public class PhoneManager : MonoBehaviour {
         koub.value = gm.playerdata.kou / 10f;
         sib.value = gm.playerdata.si / 10f;
         guanb.value = gm.playerdata.guan / 10f;
+        //数值条动画
+        StartCoroutine(ShowBar(wenb, gm.playerdata.wen));
+        StartCoroutine(ShowBar(lib, gm.playerdata.li));
+        StartCoroutine(ShowBar(tib, gm.playerdata.ti));
+        StartCoroutine(ShowBar(yib, gm.playerdata.yi));
+        StartCoroutine(ShowBar(zhaib, gm.playerdata.zhai));
     }
-    IEnumerator ShowBar(UIProgressBar target, int x) {
+    //[联系人]刷新
+    public void LoveFresh(int x)
+    {
+        namelb.text = gm.girl[x].name;
+        classlb.text = gm.girl[x].cla;
+        clublb.text = gm.girl[x].club;
+        hlb.text = "身高：" + gm.girl[x].height.ToString() + "cm";
+        wlb.text = "体重：" + gm.girl[x].weight.ToString() + "kg";
+        birthlb.text = gm.girl[x].birth;
+        starlb.text = gm.girl[x].star;
+        rlb.text = "排名：年级" + gm.girl[x].graderank + "名 全省" + gm.girl[x].provencerank + "名";
+        likelb.text = "喜欢：" + gm.girl[x].like;
+        dislb.text = "讨厌：" + gm.girl[x].dislike;
+        infolb.text = gm.girl[x].info;
+    }
+    //[证据]刷新
+    public void EvidenceFresh()
+    {
+        //载入证据
+    }
+    public void MoveGrid(string tabname)
+    {
+        if(tabname == "Card_But")
+        {
+            StartCoroutine(StartMove(0));
+        }
+        if (tabname == "Friend_But")
+        {
+            StartCoroutine(StartMove(700));
+        }
+        if (tabname == "Case_But")
+        {
+            StartCoroutine(StartMove(1400));
+        }
+    }
+    IEnumerator StartMove(float final)
+    {
+        float start = grid.transform.localPosition.y;
+        float y = start;
+        while (y != final)
+        {
+            y = Mathf.MoveTowards(y, final, Mathf.Abs(final - start) / 0.2f * Time.deltaTime);
+            grid.transform.localPosition = new Vector3(0, y, 0);
+            yield return null;
+        }
+    }
+    IEnumerator ShowBar(UIProgressBar target, int x)
+    {
         float value = 0;
         float t = (x + 1) / 200f;
         while (value < t)
         {
-            value = Mathf.MoveTowards(value, t, Time.deltaTime);
+            value = Mathf.MoveTowards(value, t, t / 0.2f * Time.deltaTime);
             target.value = value;
             yield return null;
         }
@@ -120,51 +164,5 @@ public class PhoneManager : MonoBehaviour {
                 return "";
         }
         return "当前状态：" + result;
-    }
-    //联系人刷新
-    public void LoveFresh(int x)
-    {
-        namelb.text = gm.girl[x].name;
-        classlb.text = gm.girl[x].cla;
-        clublb.text = gm.girl[x].club;
-        hlb.text = "身高：" + gm.girl[x].height.ToString() + "cm";
-        wlb.text = "体重：" + gm.girl[x].weight.ToString() + "kg";
-        birthlb.text = gm.girl[x].birth;
-        starlb.text = gm.girl[x].star;
-        rlb.text = "排名：年级" + gm.girl[x].graderank + "名 全省" + gm.girl[x].provencerank + "名";
-        likelb.text = "喜欢：" + gm.girl[x].like;
-        dislb.text = "讨厌：" + gm.girl[x].dislike;
-        infolb.text = gm.girl[x].info;
-    }
-    //证据刷新
-    public void EvidenceFresh()
-    {
-
-    }
-    public void MoveGrid(string tabname)
-    {
-        if(tabname == "Card_But")
-        {
-            StartCoroutine(StartMove(0));
-        }
-        if (tabname == "Friend_But")
-        {
-            StartCoroutine(StartMove(700));
-        }
-        if (tabname == "Case_But")
-        {
-            StartCoroutine(StartMove(1400));
-        }
-        
-    }
-    IEnumerator StartMove(float x)
-    {
-        float y = grid.transform.localPosition.y;
-        while (y != x)
-        {
-            y = Mathf.MoveTowards(y, x, 1 / Time.deltaTime);
-            grid.transform.localPosition = new Vector3(0, y, 0);
-            yield return null;
-        }
     }
 }

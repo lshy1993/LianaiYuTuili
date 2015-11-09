@@ -11,7 +11,8 @@ using System.Collections;
 public class EduManager : MonoBehaviour {
 
     private GameManager gm;
-
+    private GameObject eduObject;
+    private UIPanel eduPanel;
     private UILabel daylabel, datelabel, moneylabel;
     private UILabel wenlabel, lilabel, tilabel, yilabel, zhailabel, showlabel;
 
@@ -34,10 +35,22 @@ public class EduManager : MonoBehaviour {
         UIFresh();
     }
 
-	void Update () {
-	
-	}
-    //刷新UI
+    public void Open()
+    {
+        eduPanel.alpha = 0;
+        StartCoroutine(FadeIn());
+    }
+    IEnumerator FadeIn()
+    {
+        eduObject.SetActive(true);
+        float x = 0;
+        while (x < 1)
+        {
+            x = Mathf.MoveTowards(x, 1, Time.deltaTime);
+            eduPanel.alpha = x;
+            yield return null;
+        }
+    }
     public void UIFresh()
     {
         daylabel.text = gm.playerdata.month.ToString() + "月"+ gm.playerdata.day.ToString() + "日";

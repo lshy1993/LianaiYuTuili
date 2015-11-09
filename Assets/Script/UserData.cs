@@ -3,22 +3,23 @@ using System.Collections;
 
 public class UserData{
 
-    public int month { set; get; }
-    public int day { set; get; }
-    public int week { set; get; }
-    public int date { set; get; }
-    public int money { set; get; }
-    public int wen { set; get; }
-    public int li { set; get; }
-    public int yi { set; get; }
-    public int ti { set; get; }
-    public int zhai { set; get; }
-    public int rank { set; get; }
-    public int status { set; get; }
-    public int leng { set; get; }
-    public int kou { set; get; }
-    public int si { set; get; }
-    public int guan { set; get; }
+    //玩家数据（进度）
+    public int month, day, week, date, money;
+    public int rank, status;
+    //玩家数据（养成）
+    public int wen, li, yi, ti, zhai;
+    //玩家数据（推理）
+    public int leng, kou, si, guan;
+    public int hp, mp;
+    public int[] evidenceList;
+    //玩家数据（恋爱）
+    public int[] girlsPoint;
+    //系统数据（游戏）
+    public int gamenode;
+    public int volumeBGM, volumeSE, volumeVoice;
+    public string currentBGM, currentSE, currentVoice;
+    public string currentScenario;
+    public int ScenarioLine;
 
     public UserData()
     {
@@ -37,6 +38,9 @@ public class UserData{
         kou = 4;
         si = 4;
         guan = 3;
+        hp = 8;
+        mp = 4;
+
     }
 
 }

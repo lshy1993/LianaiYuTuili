@@ -10,7 +10,6 @@ public class Click_Note : MonoBehaviour {
     }
 
 	void OnClick(){
-        Debug.Log ("Phone Open!");
         gm.OpenPhone();
 	}
 }

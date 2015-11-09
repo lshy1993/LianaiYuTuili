@@ -11,12 +11,14 @@ using System.Collections;
 public class MapManager : MonoBehaviour {
 
     private GameManager gm;
-
+    private GameObject mapObject;
+    private UIPanel mapPanel;
     private UILabel daylabel, datelabel;
     private UILabel wenlabel, lilabel, tilabel, yilabel, zhailabel, moneylabel;
 
     void Start () {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        mapObject = transform.parent.gameObject;
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
         datelabel = transform.Find("Time_Container/Date_Label").gameObject.GetComponent<UILabel>();
         moneylabel = transform.Find("CharaInfo_Container/Number_Container/Money_Label").gameObject.GetComponent<UILabel>();
@@ -32,6 +34,37 @@ public class MapManager : MonoBehaviour {
 	
 	}
 
+    public void Open()
+    {
+        mapPanel.alpha = 0;
+        StartCoroutine(FadeIn());
+    }
+    public void Close()
+    {
+        StartCoroutine(FadeOut());
+    }
+    IEnumerator FadeIn()
+    {
+        mapObject.SetActive(true);
+        float x = 0;
+        while (x < 1)
+        {
+            x = Mathf.MoveTowards(x, 1, Time.deltaTime);
+            mapPanel.alpha = x;
+            yield return null;
+        }
+    }
+    IEnumerator FadeOut()
+    {
+        float x = 1;
+        while (x > 0)
+        {
+            x = Mathf.MoveTowards(x, 0, Time.deltaTime);
+            mapPanel.alpha = x;
+            yield return null;
+        }
+        mapObject.SetActive(false);
+    }
     public void UIFresh()
     {
         daylabel.text = gm.playerdata.month.ToString() + "月" + gm.playerdata.day.ToString() + "日";

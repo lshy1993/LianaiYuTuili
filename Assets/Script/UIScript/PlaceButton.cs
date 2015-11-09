@@ -8,9 +8,10 @@ public class PlaceButton : MonoBehaviour {
     private MapManager mm;
 
     public int placeNum;
-    public GameObject thumbImgaeObject;
-    public GameObject placeNameObject;
-    public GameObject placeInfoObject;
+    private GameObject infoContainerObject;
+    private GameObject thumbImgaeObject;
+    private GameObject placeNameObject;
+    private GameObject placeInfoObject;
     private UI2DSprite uiSprite;
     private UILabel uiLabelName;
     private UILabel uiLabelInfo;
@@ -21,6 +22,10 @@ public class PlaceButton : MonoBehaviour {
     {
         root = GameObject.Find("UI Root");
         mm = root.transform.Find("Map_Panel").gameObject.GetComponent<MapManager>();
+        infoContainerObject = root.transform.Find("Map_Panel/PlaceInfo_Container").gameObject;
+        thumbImgaeObject = root.transform.Find("Map_Panel/PlaceInfo_Container/ThumbNails_Sprite").gameObject;
+        placeNameObject = root.transform.Find("Map_Panel/PlaceInfo_Container/PlaceName_Text").gameObject;
+        placeInfoObject = root.transform.Find("Map_Panel/PlaceInfo_Container/PlaceInfo_Text").gameObject;
         uiSprite = thumbImgaeObject.GetComponent<UI2DSprite>();
         uiLabelName = placeNameObject.GetComponent<UILabel>();
         uiLabelInfo = placeInfoObject.GetComponent<UILabel>();
@@ -32,7 +37,20 @@ public class PlaceButton : MonoBehaviour {
 	
 	}
 
-    void OnHover()
+    void OnHover(bool ishover)
+    {
+        if (ishover)
+        {
+            SetText();
+            StartCoroutine(MoveIn(true));  
+        }
+        else
+        {
+            StartCoroutine(MoveOut(true));
+        }
+    }
+
+    void SetText()
     {
         switch (placeNum)
         {
@@ -74,5 +92,55 @@ public class PlaceButton : MonoBehaviour {
     void OnClick()
     {
         mm.GoPlace(placeNum);
+    }
+
+    IEnumerator MoveIn(bool isleft)
+    {
+        float x = isleft ? -815 : 1280;
+        infoContainerObject.transform.position = new Vector3(x, 0, 0);
+        if (isleft)
+        {
+            while (x < -465)
+            {
+                x = Mathf.MoveTowards(x, -465, 450 / 0.2f * Time.deltaTime);
+                infoContainerObject.transform.localPosition = new Vector3(x, -60, 0); 
+                yield return null;
+            }
+        }
+        else
+        {
+            while (x > 830)
+            {
+                x = Mathf.MoveTowards(x, 830, 450 / 0.2f * Time.deltaTime);
+                infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
+                yield return null;
+            }
+        }
+        
+    }
+
+    IEnumerator MoveOut(bool isleft)
+    {
+        float x = isleft ? -465 : 830;
+        infoContainerObject.transform.position = new Vector3(x, -60, 0);
+        if (isleft)
+        {
+            while (x > -815)
+            {
+                x = Mathf.MoveTowards(x, -815, 450 / 0.2f * Time.deltaTime);
+                infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
+                yield return null;
+            }
+        }
+        else
+        {
+            while (x > 1280)
+            {
+                x = Mathf.MoveTowards(x, 1280, 450 / 0.2f * Time.deltaTime);
+                infoContainerObject.transform.localPosition = new Vector3(x, 0, 0);
+                yield return null;
+            }
+        }
+
     }
 }
