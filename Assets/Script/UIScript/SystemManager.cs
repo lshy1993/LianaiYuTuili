@@ -53,6 +53,7 @@ public class SystemManager : MonoBehaviour {
             panel.alpha = x;
             yield return null;
         }
+        butContainer.SetActive(true);
     }
     IEnumerator FadeOutP()
     {
@@ -65,6 +66,7 @@ public class SystemManager : MonoBehaviour {
             yield return null;
         }
         sysObject.SetActive(false);
+        butContainer.SetActive(false);
     }
     IEnumerator FadeIn(GameObject target)
     {

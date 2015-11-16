@@ -7,28 +7,29 @@ public class SoundManager : MonoBehaviour {
     public AudioSource currentSE;
     public AudioSource currentVoice;
 
-    private float volumeBGM, volumeSE, volumeVoice;
-
+    private AudioClip ac;
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        //SetBGM("HEAT UP");
 	
 	}
 
-    public void SetBGM(string name)
+    public void SetBGM(string fileName)
     {
-
+        ac = Resources.Load("Audio/" + fileName) as AudioClip;
+        currentBGM.clip = ac;
+        currentBGM.Play();
     }
-    public void SetSE(string name)
+    public void SetSE(string fileName)
     {
-
+        ac = Resources.Load("Audio/" + fileName) as AudioClip;
+        currentSE.clip = ac;
+        currentSE.Play();
     }
-    public void SetVoice(string name)
+    public void SetVoice(string fileName)
     {
-
+        ac = Resources.Load("Audio/" + fileName) as AudioClip;
+        currentVoice.clip = ac;
+        currentVoice.Play();
     }
 }
