@@ -7,6 +7,7 @@ public class TitleManager : MonoBehaviour {
 
     public UIWidget title, button, music, gallery, recollection, ending;
     public GameObject bg;
+    public UILabel info;
     public UIWidget large;
     public UI2DSprite largepic;
     public AudioSource bgm;
@@ -135,6 +136,11 @@ public class TitleManager : MonoBehaviour {
     #endregion
 
     #region Ending操作
+    public void ClickAchieveAt(string str)
+    {
+        int x = System.Convert.ToInt32(str);
+        info.text = "这是第" + str + "个成就！";
+    }
     #endregion
 
     IEnumerator OpenExtra()

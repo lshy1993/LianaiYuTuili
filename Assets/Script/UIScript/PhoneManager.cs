@@ -51,7 +51,7 @@ public class PhoneManager : MonoBehaviour {
         infolb = transform.Find("Scroll View/Grid/Love_Container/Info_Label").gameObject.GetComponent<UILabel>();
         grid = transform.Find("Scroll View/Grid").gameObject;
         CardFresh();
-        LoveFresh(1);
+        LoveFresh("QButton1");
         EvidenceFresh();
     }
     //[基本信息]刷新
@@ -77,8 +77,9 @@ public class PhoneManager : MonoBehaviour {
         StartCoroutine(ShowBar(zhaib, gm.playerdata.zhai));
     }
     //[联系人]刷新
-    public void LoveFresh(int x)
+    public void LoveFresh(string str)
     {
+        int x = System.Convert.ToInt32(str.Substring(7));
         namelb.text = gm.girl[x].name;
         classlb.text = gm.girl[x].cla;
         clublb.text = gm.girl[x].club;
@@ -98,15 +99,15 @@ public class PhoneManager : MonoBehaviour {
     }
     public void MoveGrid(string tabname)
     {
-        if(tabname == "Card_But")
+        if(tabname == "Card_Button")
         {
             StartCoroutine(StartMove(0));
         }
-        if (tabname == "Friend_But")
+        if (tabname == "Friend_Button")
         {
             StartCoroutine(StartMove(700));
         }
-        if (tabname == "Case_But")
+        if (tabname == "Case_Button")
         {
             StartCoroutine(StartMove(1400));
         }
