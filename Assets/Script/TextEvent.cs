@@ -10,9 +10,9 @@ namespace Assets.Script.Event
         public string next = "";
         private string dialog;
         private UILabel nameLabel, dialogLabel;
-        
 
-        public TextEvent(string name, string content, UILabel nameLabel, UILabel dialogLabel, int pos = 0, Func<int> nextLogic = null)  : base(pos, nextLogic)
+
+        public TextEvent(string name, string content, UILabel nameLabel, UILabel dialogLabel, int pos = 0, Func<int> nextLogic = null) : base(pos, nextLogic)
         {
             this.name = name;
             this.dialog = content;
@@ -22,8 +22,17 @@ namespace Assets.Script.Event
         }
         public override void Exec()
         {
-            nameLabel.text = name;
-            dialogLabel.text = dialog;
+            if (name != "")
+            {
+
+                nameLabel.text = name;
+            }
+
+            if (dialog != "")
+            {
+
+                dialogLabel.text = dialog;
+            }
 
         }
     }
