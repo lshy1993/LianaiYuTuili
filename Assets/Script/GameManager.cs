@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Assets.Script.DataModel;
 
 /// <summary>
 /// 
@@ -12,17 +13,19 @@ using System.Collections;
 ///  从而实现游戏进程的推进
 /// 
 /// </summary>
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
     /*
      * 创建一个gamedata类 用于存放玩家数据
      * 存读档均以此专门创建函数方法
      * UI任意操作均可以修改
+     
      * public GameData userdata;
      */
 
     //测试用玩家数据
-    //public UserData playerdata;
+    public UserData playerdata;
 
     /*
      * 读取一个数据库，静态信息的储存，作为查询
@@ -33,62 +36,89 @@ public class GameManager : MonoBehaviour {
      */
 
     //测试用妹子信息
-    //public GirlData[] girl = new GirlData[7];
+    public GirlData[] girl = new GirlData[7];
     //测试用地点
-    //public string placeid = "";
-    //public bool isavg;
+    public string placeid = "";
+    public bool isavg;
+
+    public User user;
 
     private GameObject root;
 
-    public static PanelSwitch ps;
-    //private TextManager tm;
-    public static ImageManager im;
-    public static SoundManager sm;
-    public static AnimationManager am;
+    public PanelSwitch ps;
+    public TextManager tm;
+    public ImageManager im;
+    public SoundManager sm;
+    public AnimationManager am;
 
+    private GameNode node;
 
     /// <summary>
     /// void Awake:
-    /// init everyting for game from here.
+    /// 将所有游戏相关数据初始化
     /// </summary>
-    void Awake() {
+    void Awake()
+    {
 
         root = GameObject.Find("UI Root");
 
-        if (im == null) im = ImageManager.get();
+        if (im == null) im = transform.GetComponent<ImageManager>();
         if (sm == null) sm = SoundManager.get();
         if (am == null) am = AnimationManager.get();
-        if (ps == null) ps = PanelSwitch.get();
+        if (ps == null) ps = transform.GetComponent<PanelSwitch>();
+        im.Init();
+        ps.Init(); // 此处已经载入标题界面
+        user = new User();
+        playerdata = new UserData();
+        for (int i = 0; i < 7; i++)
+        {
+            girl[i] = new GirlData(i);
+        }
+        node = new Script_1();
+        node.Init();
+
     }
 
-
-	void Start()
+    void Start()
     {
         //ps = transform.GetComponent<PanelSwitch>();
         //tm = transform.GetComponent<TextManager>();
         //im = transform.GetComponent<ImageManager>();
-        //playerdata = new UserData();
-        //for(int i = 0; i < 7; i++)
-        //{
-        //    girl[i] = new GirlData(i);
-        //}
     }
 
-	void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.MenuSwitch();
+
+        //Debug.Log("Node == null? " + (node == null));
+        if (node == null)
+        {
+            // Game End
+            Debug.Log("Game End!");
+        }
+        else if (node.end == true)
+        {
+            // Node end, switch panel
+            node = node.NextNode();
+            node.Init();
+        }
+
     }
     //新游戏数据准备
     public void NewGame()
     {
-        //playerdata = new UserData();
-        tm.file = "test_script";
-        tm.NewFile();
+//       playerdata = new UserData();
+//        tm.file = "test_script";
+//        tm.NewFile();
     }
     //下一句
     public void ShowNext()
     {
-        tm.Next();
+        //        tm.Next();
+
+        //((Script)node).move = true;
+        node.Update();
+
     }
     //打开phone
     public void OpenPhone()
@@ -114,7 +144,8 @@ public class GameManager : MonoBehaviour {
             if (isavg)
             {
                 isavg = false;
-                ps.AvgToEdu();
+                //ps.AvgToEdu();
+                ps.SwitchTo("Edu");
             }
             else
             {
@@ -123,7 +154,8 @@ public class GameManager : MonoBehaviour {
                 if (seed > 50)
                 {
                     Debug.Log("Avg");
-                    ps.EduToAvg();
+                    //ps.EduToAvg();
+                    ps.SwitchTo("Avg");
                     tm.file = "test";
                     tm.NewFile();
                 }
@@ -136,16 +168,22 @@ public class GameManager : MonoBehaviour {
             if (isavg)
             {
                 isavg = false;
-                ps.AvgToMap();
+                //ps.AvgToMap();
+                ps.SwitchTo("Map");
             }
-            else ps.EduToMap();
+            //else ps.EduToMap();
+            else
+            {
+                ps.SwitchTo("Map");
+            }
         }
-        
+
     }
     public void MapEvent()
     {
         Debug.Log("Map+week:" + playerdata.week);
-        ps.MapToAvg();
+        //ps.MapToAvg();
+        ps.SwitchTo("Avg");
         tm.file = "testplace";
         tm.NewFile();
     }
@@ -157,7 +195,7 @@ public class GameManager : MonoBehaviour {
         {
             //im.SetImage(parameters[0]);
         }
-        if(string.Compare(name, "setbg", true) == 0)
+        if (string.Compare(name, "setbg", true) == 0)
         {
             im.SetBackground(parameters[0]);
         }
@@ -177,11 +215,11 @@ public class GameManager : MonoBehaviour {
         }
         if (string.Compare(name, "invest", true) == 0)
         {
-            ps.OpenInvest();
+            ps.SwitchTo("Invest");
         }
         if (string.Compare(name, "detect", true) == 0)
         {
-            ps.OpenDetect();
+            ps.SwitchTo("Invest");
         }
     }
 }

@@ -5,22 +5,21 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class GameNode {
-
-    public string[] content;
-    public Dictionary<string, bool> variableDictionary;
-    public Dictionary<string, int> labelDictionary;
-    public GameNode next;
-    
-    public int current;
-
-    public GameNode(string[] content) {
-        this.content = content;
-        variableDictionary = new Dictionary<string, bool>();
-        labelDictionary = new Dictionary<string,int>();
-
-        next = null;
-        current = 0;
+/// <summary>
+/// GameNode
+/// 游戏推进的节点，是各个子系统的父类。
+/// </summary>
+public abstract class GameNode {
+    public PanelSwitch ps { set ; get; }
+    public bool end { set; get; }
+    public string panelType = "";
+    public virtual void Init() { }
+    public abstract void Update();
+    public virtual GameNode NextNode()
+    {
+        return null;
     }
+//    public abstract void MoveNext();
+
 
 }

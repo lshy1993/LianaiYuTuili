@@ -8,39 +8,28 @@ using System.Collections;
  * 控制 立绘 与 背景 的切换等等
  * Next方法中，根据脚本解析结果，调用GameManager的函数
  */
-public class ImageManager
+public class ImageManager:MonoBehaviour
 {
     public Hashtable images;
 
-    private static ImageManager instance = null;
-
     const string IMG_PATH = "Background/";
-
 
     public static Vector3 LEFT() { return new Vector3(-300, 0, 0); }
     public static Vector3 MIDDLE() { return new Vector3(0, 0, 0); }
     public static Vector3 RIGHT() { return new Vector3(300, 0, 0); }
     
 
-    private ImageManager()
+    public void Init()
     {
         // initialize  
         images = new Hashtable();
     }
-
-    public static ImageManager get()
-    {
-        if (instance == null) instance = new ImageManager();
-
-        return instance;
-    }
-
     public void SetBackground(string name,float time = 0f,int method = 0)
     {
         //GameObject bg = GameObject.Find("BackGround_Sprite");
         //Sprite sp = Resources.Load(IMG_PATH + name) as Sprite;
         //bg.GetComponent<UI2DSprite>().sprite2D = (Sprite)Resources.Load(IMG_PATH + name);
-    }  
+    }
 
     public void SetImage(string name, Vector3 position, int layer)
     {
