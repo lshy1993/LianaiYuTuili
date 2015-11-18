@@ -8,7 +8,11 @@ using System.Collections;
  * 控制 立绘 与 背景 的切换等等
  * Next方法中，根据脚本解析结果，调用GameManager的函数
  */
+<<<<<<< HEAD
 public class ImageManager:MonoBehaviour
+=======
+public class ImageManager : MonoBehaviour
+>>>>>>> refs/remotes/origin/zhy_develop
 {
     public Hashtable images;
 
@@ -24,12 +28,20 @@ public class ImageManager:MonoBehaviour
         // initialize  
         images = new Hashtable();
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/zhy_develop
     public void SetBackground(string name,float time = 0f,int method = 0)
     {
         //GameObject bg = GameObject.Find("BackGround_Sprite");
         //Sprite sp = Resources.Load(IMG_PATH + name) as Sprite;
         //bg.GetComponent<UI2DSprite>().sprite2D = (Sprite)Resources.Load(IMG_PATH + name);
+<<<<<<< HEAD
     }
+=======
+    }  
+>>>>>>> refs/remotes/origin/zhy_develop
 
     public void SetImage(string name, Vector3 position, int layer)
     {

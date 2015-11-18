@@ -574,7 +574,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48292b9a87256ba4db413b696ad38b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   currentPanel: {fileID: 0}
+=======
+  uiroot: {fileID: 105908859}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!114 &46274296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,6 +590,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c216c00777694c4ab02682e8d7218a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
+=======
+  uiroot: {fileID: 105908859}
+  gm: {fileID: 46274299}
+>>>>>>> refs/remotes/origin/zhy_develop
   file: 
   linenum: 0
 --- !u!114 &46274297
@@ -599,6 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c2b6ce89a99a42b70280662ca9caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 --- !u!114 &46274298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,6 +637,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c4a3a989dd65d443bedbf309c2bba8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+--- !u!114 &46274299 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11451386, guid: 106b073a02059ff42b0ea8d8b387280a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1763850431}
+  m_Script: {fileID: 11500000, guid: 11e90b15fd1dfcb45877eda63d00d154, type: 3}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!1 &46817844
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,7 +765,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1812054764}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!114 &48504273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1430,6 +1448,131 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
+<<<<<<< HEAD
+=======
+  m_GameObject: {fileID: 94282618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 300
+  mHeight: 64
+  mDepth: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 4.6875
+  keepCrispWhenShrunk: 1
+  mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
+  mFont: {fileID: 0}
+  mText: "\u8BC1\u636E\u4E00\u554A\u554A\u554A\u554A"
+  mFontSize: 28
+  mFontStyle: 0
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 0
+  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 0
+  mMaterial: {fileID: 0}
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
+--- !u!1 &105908855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 105908856}
+  - 114: {fileID: 105908859}
+  - 114: {fileID: 105908858}
+  - 54: {fileID: 105908857}
+  m_Layer: 5
+  m_Name: UI Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &105908856
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 105908855}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .00277777785, y: .00277777785, z: .00277777785}
+  m_Children:
+  - {fileID: 249959035}
+  - {fileID: 592183667}
+  - {fileID: 1812054764}
+  - {fileID: 1971936371}
+  - {fileID: 789145494}
+  - {fileID: 1889784541}
+  - {fileID: 1936878734}
+  - {fileID: 1759274570}
+  - {fileID: 509263486}
+  - {fileID: 1182135658}
+  - {fileID: 1293926307}
+  - {fileID: 845258999}
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+--- !u!54 &105908857
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 105908855}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &105908858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+>>>>>>> refs/remotes/origin/zhy_develop
   m_GameObject: {fileID: 105908855}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -2711,6 +2854,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 168440805}
   - 114: {fileID: 168440806}
+  - 61: {fileID: 168440807}
   m_Layer: 5
   m_Name: Evidence_Container
   m_TagString: Untagged
@@ -2770,6 +2914,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.56923079
+--- !u!61 &168440807
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 168440804}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1020, y: 650}
 --- !u!1 &173842864
 GameObject:
   m_ObjectHideFlags: 0
@@ -3095,7 +3252,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1812054764}
+<<<<<<< HEAD
   m_RootOrder: 2
+=======
+  m_RootOrder: 3
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!114 &205687513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4330,6 +4491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc3818a5e90f9a4fad29c4ced369362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 --- !u!1 &254149680
 GameObject:
   m_ObjectHideFlags: 0
@@ -4423,6 +4585,8 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+=======
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!1 &256974383
 GameObject:
   m_ObjectHideFlags: 0
@@ -5277,7 +5441,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiroot: {fileID: 105908859}
+<<<<<<< HEAD
   gm: {fileID: 46274298}
+=======
+  gm: {fileID: 46274299}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!1 &326901165
 GameObject:
   m_ObjectHideFlags: 0
@@ -6165,7 +6333,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1812054764}
+<<<<<<< HEAD
   m_RootOrder: 0
+=======
+  m_RootOrder: 1
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!1 &397643412
 GameObject:
   m_ObjectHideFlags: 0
@@ -6270,6 +6442,10 @@ GameObject:
   - 114: {fileID: 406590306}
   - 114: {fileID: 406590309}
   - 61: {fileID: 406590308}
+<<<<<<< HEAD
+=======
+  - 114: {fileID: 406590307}
+>>>>>>> refs/remotes/origin/zhy_develop
   m_Layer: 5
   m_Name: App_But
   m_TagString: Untagged
@@ -6354,8 +6530,79 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+<<<<<<< HEAD
 --- !u!61 &406590308
 BoxCollider2D:
+=======
+--- !u!114 &406590307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 406590304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac894c589d6303045a2a2d0373c13e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 528986781}
+--- !u!61 &406590308
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 406590304}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 44, y: 146}
+--- !u!114 &406590309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 406590304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdca5042b1d12a4890ec1bd4f04290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenTarget: {fileID: 406590304}
+  hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
+  pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
+  disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
+  dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  hoverSprite2D: {fileID: 0}
+  pressedSprite2D: {fileID: 0}
+  disabledSprite2D: {fileID: 0}
+  pixelSnap: 0
+  onClick: []
+--- !u!1 &411447543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 411447544}
+  - 114: {fileID: 411447545}
+  m_Layer: 5
+  m_Name: Weight_Label
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &411447544
+Transform:
+>>>>>>> refs/remotes/origin/zhy_develop
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -6596,6 +6843,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa27fc54c5b41c47afd4d005c705625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
+=======
+  uiroot: {fileID: 105908859}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!114 &436921819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7454,7 +7705,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1812054764}
+<<<<<<< HEAD
   m_RootOrder: 3
+=======
+  m_RootOrder: 4
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!1 &503523481
 GameObject:
   m_ObjectHideFlags: 0
@@ -7824,7 +8079,64 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+<<<<<<< HEAD
 --- !u!1 &519217221
+=======
+--- !u!1 &528986781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 528986782}
+  - 114: {fileID: 528986783}
+  m_Layer: 5
+  m_Name: Grid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &528986782
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 528986781}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 997906714}
+  - {fileID: 1005873666}
+  - {fileID: 168440805}
+  - {fileID: 1969468272}
+  m_Father: {fileID: 1686036984}
+  m_RootOrder: 0
+--- !u!114 &528986783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 528986781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c4de3b4b6fe9045b059ee627c100df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrangement: 1
+  sorting: 0
+  pivot: 0
+  maxPerLine: 0
+  cellWidth: 1020
+  cellHeight: 700
+  animateSmoothly: 0
+  hideInactive: 0
+  keepWithinPanel: 0
+  sorted: 0
+--- !u!1 &541979150
+>>>>>>> refs/remotes/origin/zhy_develop
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 133508, guid: 091ef7af553f0ca499205a461266e95e, type: 2}
@@ -12087,6 +12399,7 @@ MonoBehaviour:
     relative: 1
     absolute: 0
   updateAnchors: 1
+<<<<<<< HEAD
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 364
@@ -12097,6 +12410,26 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 5.6875
 --- !u!1 &789145493
+=======
+  showInPanelTool: 1
+  generateNormals: 0
+  widgetsAreStatic: 0
+  cullWhileDragging: 1
+  alwaysOnScreen: 0
+  anchorOffset: 0
+  softBorderPadding: 1
+  renderQueue: 0
+  startingRenderQueue: 3006
+  mClipTexture: {fileID: 0}
+  mAlpha: 1
+  mClipping: 3
+  mClipRange: {x: 0, y: 230, z: 900, w: 140}
+  mClipSoftness: {x: 4, y: 4}
+  mDepth: 4
+  mSortingOrder: 0
+  mClipOffset: {x: 0, y: 0}
+--- !u!1 &764599833
+>>>>>>> refs/remotes/origin/zhy_develop
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -12486,10 +12819,20 @@ GameObject:
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
+<<<<<<< HEAD
   - 4: {fileID: 807302587}
   - 114: {fileID: 807302588}
   m_Layer: 5
   m_Name: Zhai_Label
+=======
+  - 4: {fileID: 783100725}
+  - 114: {fileID: 783100726}
+  - 114: {fileID: 783100729}
+  - 61: {fileID: 783100728}
+  - 114: {fileID: 783100727}
+  m_Layer: 5
+  m_Name: Friend_But
+>>>>>>> refs/remotes/origin/zhy_develop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12537,10 +12880,17 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
+<<<<<<< HEAD
   mWidth: 60
   mHeight: 30
   mDepth: 4
   autoResizeBoxCollider: 0
+=======
+  mWidth: 44
+  mHeight: 146
+  mDepth: 1
+  autoResizeBoxCollider: 1
+>>>>>>> refs/remotes/origin/zhy_develop
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2
@@ -12572,7 +12922,61 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+<<<<<<< HEAD
 --- !u!1 &807445584
+=======
+--- !u!114 &783100727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 783100724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b82bac3cd9b234d995c12cc82655a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 528986781}
+--- !u!61 &783100728
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 783100724}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 44, y: 146}
+--- !u!114 &783100729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 783100724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdca5042b1d12a4890ec1bd4f04290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenTarget: {fileID: 783100724}
+  hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
+  pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
+  disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
+  dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  hoverSprite2D: {fileID: 0}
+  pressedSprite2D: {fileID: 0}
+  disabledSprite2D: {fileID: 0}
+  pixelSnap: 0
+  onClick: []
+--- !u!1 &789145493
+>>>>>>> refs/remotes/origin/zhy_develop
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -14959,6 +15363,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 997906714}
   - 114: {fileID: 997906715}
+  - 61: {fileID: 997906716}
   m_Layer: 5
   m_Name: Info_Container
   m_TagString: Untagged
@@ -14984,7 +15389,11 @@ Transform:
   - {fileID: 624066319}
   - {fileID: 933845281}
   - {fileID: 1160220879}
+<<<<<<< HEAD
   - {fileID: 1095297727}
+=======
+  - {fileID: 240455024}
+>>>>>>> refs/remotes/origin/zhy_develop
   m_Father: {fileID: 528986782}
   m_RootOrder: 0
 --- !u!114 &997906715
@@ -15024,6 +15433,7 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.56923079
+<<<<<<< HEAD
 --- !u!1 &1001582532
 GameObject:
   m_ObjectHideFlags: 0
@@ -15106,6 +15516,21 @@ MonoBehaviour:
   mFixedAspect: 0
   mPixelSize: 1
   nextSprite: {fileID: 0}
+=======
+--- !u!61 &997906716
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 997906713}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1020, y: 650}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!1 &1004432754
 GameObject:
   m_ObjectHideFlags: 0
@@ -15263,7 +15688,11 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
+<<<<<<< HEAD
   aspectRatio: 21.4285717
+=======
+  aspectRatio: 17.8571434
+>>>>>>> refs/remotes/origin/zhy_develop
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
   mFont: {fileID: 0}
@@ -15301,6 +15730,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1005873666}
   - 114: {fileID: 1005873667}
+  - 61: {fileID: 1005873668}
   m_Layer: 5
   m_Name: Love_Container
   m_TagString: Untagged
@@ -15365,6 +15795,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.56923079
+--- !u!61 &1005873668
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1005873665}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1020, y: 650}
 --- !u!1 &1015542084
 GameObject:
   m_ObjectHideFlags: 0
@@ -18387,7 +18830,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1216080552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: -48, y: 47.9999771, z: 0}
+=======
+  m_LocalPosition: {x: 94.5000153, y: -31.4999943, z: 0}
+>>>>>>> refs/remotes/origin/zhy_develop
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 263300511}
@@ -18870,9 +19317,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1267456248}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 428f9b552dc721943aa0ee81f207abe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Script: {fileID: 11500000, guid: 10995917ae73d6a40a1f8ff7ac9d9955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 528986781}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!61 &1267456252
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19254,9 +19708,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1306220676}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 428f9b552dc721943aa0ee81f207abe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Script: {fileID: 11500000, guid: 3cdc86d822f19a341a11a8d2d84d5b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 528986781}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!1 &1315471250
 GameObject:
   m_ObjectHideFlags: 0
@@ -23127,6 +23588,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5c3aec7770733419c338b9658740a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
+=======
+  gm: {fileID: 46274299}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!61 &1681505067
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23172,7 +23637,11 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 1280
   mHeight: 720
+<<<<<<< HEAD
   mDepth: 3
+=======
+  mDepth: 5
+>>>>>>> refs/remotes/origin/zhy_develop
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -23385,6 +23854,134 @@ MonoBehaviour:
     relative: 1
     absolute: 0
   updateAnchors: 1
+<<<<<<< HEAD
+=======
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 155
+  mHeight: 36
+  mDepth: 0
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 4.30555534
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mSprite: {fileID: 21300000, guid: 6bfe041efafa8fb4f82ae692cf36ed46, type: 3}
+  mMat: {fileID: 0}
+  mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
+  mBorder: {x: 0, y: 0, z: 0, w: 0}
+  mFixedAspect: 0
+  mPixelSize: 1
+  nextSprite: {fileID: 0}
+--- !u!61 &1684470725
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1684470721}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 155, y: 36}
+--- !u!1 &1686036983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1686036984}
+  - 114: {fileID: 1686036986}
+  - 114: {fileID: 1686036985}
+  m_Layer: 5
+  m_Name: Scroll View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1686036984
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686036983}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 528986782}
+  m_Father: {fileID: 1182135658}
+  m_RootOrder: 2
+--- !u!114 &1686036985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686036983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d81807633ea807d4c8e3fff7e10c6000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: 1
+  dragEffect: 2
+  restrictWithinPanel: 1
+  disableDragIfFits: 1
+  smoothDragStart: 1
+  iOSDragEmulation: 1
+  scrollWheelFactor: .25
+  momentumAmount: 35
+  dampenStrength: 9
+  horizontalScrollBar: {fileID: 0}
+  verticalScrollBar: {fileID: 0}
+  showScrollBars: 1
+  customMovement: {x: 1, y: 0}
+  contentPivot: 0
+  scale: {x: 0, y: 0, z: 0}
+  relativePositionOnReset: {x: 0, y: 0}
+  centerOnChild: {fileID: 0}
+--- !u!114 &1686036986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686036983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae942c9068183dc40a9d01f648273726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+>>>>>>> refs/remotes/origin/zhy_develop
   showInPanelTool: 1
   generateNormals: 0
   widgetsAreStatic: 0
@@ -23399,7 +23996,11 @@ MonoBehaviour:
   mClipping: 3
   mClipRange: {x: 0, y: 0, z: 1020, w: 650}
   mClipSoftness: {x: 4, y: 4}
+<<<<<<< HEAD
   mDepth: 7
+=======
+  mDepth: 8
+>>>>>>> refs/remotes/origin/zhy_develop
   mSortingOrder: 0
   mClipOffset: {x: 0, y: 0}
 --- !u!1 &1686604310
@@ -24502,6 +25103,7 @@ Prefab:
       propertyPath: uiRoot
       value: 
       objectReference: {fileID: 105908859}
+<<<<<<< HEAD
     - target: {fileID: 0}
       propertyPath: imgManager
       value: 
@@ -24526,6 +25128,23 @@ Prefab:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+=======
+    - target: {fileID: 11451386, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
+      propertyPath: imgManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11451386, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
+      propertyPath: uiroot
+      value: 
+      objectReference: {fileID: 105908859}
+    m_RemovedComponents:
+    - {fileID: 11453786, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
+    - {fileID: 11431372, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
+    - {fileID: 11482968, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
+    - {fileID: 11494510, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
+    - {fileID: 11490772, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
+    - {fileID: 11462778, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
+>>>>>>> refs/remotes/origin/zhy_develop
   m_ParentPrefab: {fileID: 100100000, guid: 106b073a02059ff42b0ea8d8b387280a, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1770297556
@@ -25407,6 +26026,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+<<<<<<< HEAD
+=======
+  - {fileID: 1681505065}
+>>>>>>> refs/remotes/origin/zhy_develop
   - {fileID: 384964617}
   - {fileID: 48504272}
   - {fileID: 205687512}
@@ -25948,6 +26571,7 @@ GameObject:
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
+<<<<<<< HEAD
   - 4: {fileID: 1872394417}
   - 61: {fileID: 1872394420}
   - 114: {fileID: 1872394419}
@@ -25955,6 +26579,15 @@ GameObject:
   - 114: {fileID: 1872394421}
   m_Layer: 5
   m_Name: Button5
+=======
+  - 4: {fileID: 1855029982}
+  - 114: {fileID: 1855029984}
+  - 61: {fileID: 1855029985}
+  - 114: {fileID: 1855029983}
+  - 114: {fileID: 1855029986}
+  m_Layer: 5
+  m_Name: Note_Button
+>>>>>>> refs/remotes/origin/zhy_develop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25970,9 +26603,15 @@ Transform:
   m_LocalPosition: {x: -176, y: -80.0000076, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
+<<<<<<< HEAD
   m_Father: {fileID: 263300511}
   m_RootOrder: 4
 --- !u!114 &1872394418
+=======
+  m_Father: {fileID: 1812054764}
+  m_RootOrder: 5
+--- !u!114 &1855029983
+>>>>>>> refs/remotes/origin/zhy_develop
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11454872, guid: 091ef7af553f0ca499205a461266e95e,
@@ -25993,9 +26632,15 @@ MonoBehaviour:
   hoverSprite: 
   pressedSprite: 
   disabledSprite: 
+<<<<<<< HEAD
   hoverSprite2D: {fileID: 21300000, guid: b0beb0a8ee34ee646bd04e3dda6af3eb, type: 3}
   pressedSprite2D: {fileID: 21300000, guid: b0beb0a8ee34ee646bd04e3dda6af3eb, type: 3}
   disabledSprite2D: {fileID: 21300000, guid: c849bf3261a34384898b4676af1c487e, type: 3}
+=======
+  hoverSprite2D: {fileID: 21300000, guid: 2234549689f0d7f4fa683413a130f19c, type: 3}
+  pressedSprite2D: {fileID: 21300000, guid: fc7a18813e0162344be6ab1cc22b80bf, type: 3}
+  disabledSprite2D: {fileID: 21300000, guid: fc7a18813e0162344be6ab1cc22b80bf, type: 3}
+>>>>>>> refs/remotes/origin/zhy_develop
   pixelSnap: 0
   onClick: []
 --- !u!114 &1872394419
@@ -26066,18 +26711,33 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
+<<<<<<< HEAD
   m_Size: {x: 96, y: 96}
 --- !u!114 &1872394421
+=======
+  m_Size: {x: 60, y: 100}
+--- !u!114 &1855029986
+>>>>>>> refs/remotes/origin/zhy_develop
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1872394416}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f770d3009c5b8847a6dd3b25af8307c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_GameObject: {fileID: 1855029981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f009583eda78824ab973d7db8f86a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiroot: {fileID: 105908859}
+>>>>>>> refs/remotes/origin/zhy_develop
 --- !u!1 &1879456098
 GameObject:
   m_ObjectHideFlags: 0
@@ -26705,6 +27365,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
+<<<<<<< HEAD
   aspectRatio: 1
   mType: 0
   mFillDirection: 4
@@ -26847,6 +27508,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 854, y: 50}
 --- !u!1 &1918201607
+=======
+  aspectRatio: 7.14285707
+  keepCrispWhenShrunk: 1
+  mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
+  mFont: {fileID: 0}
+  mText: "\u9AD8\u4E00\uFF084\uFF09\u73ED"
+  mFontSize: 28
+  mFontStyle: 0
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 0
+  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 3
+  mMaterial: {fileID: 0}
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
+--- !u!1 &1911151705
+>>>>>>> refs/remotes/origin/zhy_develop
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -27509,7 +28202,11 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
+<<<<<<< HEAD
   startingRenderQueue: 3006
+=======
+  startingRenderQueue: 3008
+>>>>>>> refs/remotes/origin/zhy_develop
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 3
@@ -27527,6 +28224,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1969468272}
   - 114: {fileID: 1969468273}
+  - 61: {fileID: 1969468274}
   m_Layer: 5
   m_Name: App_Container
   m_TagString: Untagged
@@ -27583,6 +28281,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.56923079
+--- !u!61 &1969468274
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1969468271}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1020, y: 650}
 --- !u!1 &1971936370
 GameObject:
   m_ObjectHideFlags: 0

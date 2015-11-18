@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Click_Next : MonoBehaviour {
 
+<<<<<<< HEAD
     private GameManager gm;
 
     void Start()
@@ -14,5 +15,13 @@ public class Click_Next : MonoBehaviour {
     {
         gm.ShowNext();
         //Debug.Log("Click!");
+=======
+    public GameManager gm;
+
+    void OnClick()
+    {
+        gm.isNext = true;
+        Debug.Log("Click!");
+>>>>>>> refs/remotes/origin/zhy_develop
     }
 }
