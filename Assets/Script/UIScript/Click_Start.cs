@@ -5,21 +5,24 @@ public class Click_Start : MonoBehaviour {
 
 	public UIRoot uiroot;
     public GameManager gm;
-	private GameObject titlepanel;
+
+    private GameObject titlepanel;
 	private GameObject avgpanel;
 	private UIPanel currpanel;
 	// Use this for initialization
 	void Start () {
-		titlepanel = uiroot.transform.Find ("Title_Panel").gameObject;
-		avgpanel = uiroot.transform.Find ("Avg_Panel").gameObject;
-		currpanel = titlepanel.GetComponent<UIPanel>();
+	//	titlepanel = uiroot.transform.Find ("Title_Panel").gameObject;
+	//	avgpanel = uiroot.transform.Find ("Avg_Panel").gameObject;
+	//	currpanel = titlepanel.GetComponent<UIPanel>();
 	}
 
 	void OnClick(){
-		//set off
-		GetComponent<UIButton>().isEnabled = false;
-		//start fadeout
-		StartCoroutine(Fadeout(2));
+        //set off
+        //		GetComponent<UIButton>().isEnabled = false;
+        //start fadeout
+        //		StartCoroutine(Fadeout(2));
+        gm.ps.SwitchTo("Avg");
+
 		Debug.Log ("Game Start!");
 	}
 

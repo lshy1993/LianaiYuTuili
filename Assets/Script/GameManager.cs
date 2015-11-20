@@ -1,15 +1,15 @@
 using UnityEngine;
 using System.Collections;
-
-/**
- * GameManager: 
- * 整个游戏只允许一个，且不能由于场景切换而被删除
- * 游戏的控制核心，逻辑控制
- * 与其他Manager交互
- * 储存主要游戏数据，提供其他Manager访问
- * 提供方法供其他Manager使用，同时控制其他Manager
- * 从而实现游戏进程的推进
- */
+using Assets.Script.Events;
+/// <summary>
+/// GameManager: 
+/// 整个游戏只允许一个，且不能由于场景切换而被删除
+/// 游戏的控制核心，逻辑控制
+/// 与其他Manager交互
+/// 储存主要游戏数据，提供其他Manager访问
+/// 提供方法供其他Manager使用，同时控制其他Manager
+/// 从而实现游戏进程的推进
+/// </summary>
 public class GameManager : MonoBehaviour {
 
     /*
@@ -38,12 +38,14 @@ public class GameManager : MonoBehaviour {
 
     private GameObject root;
 
-    private PanelSwitch ps;
-    private TextManager tm;
-    private ImageManager im;
-    private SoundManager sm;
+    public PanelSwitch ps;
+    public TextManager tm;
+    public ImageManager im;
+    public SoundManager sm;
 
-	void Start()
+    GameNode node;
+    
+	void Awake()
     {
         root = GameObject.Find("UI Root");
         ps = transform.GetComponent<PanelSwitch>();
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour {
 	void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
+
     }
     //新游戏数据准备
     public void NewGame()
@@ -96,7 +99,8 @@ public class GameManager : MonoBehaviour {
             if (isavg)
             {
                 isavg = false;
-                ps.AvgToEdu();
+                //ps.AvgToEdu();
+                ps.SwitchTo("Edu");
             }
             else
             {
@@ -105,7 +109,8 @@ public class GameManager : MonoBehaviour {
                 if (seed > 50)
                 {
                     Debug.Log("Avg");
-                    ps.EduToAvg();
+                    //ps.EduToAvg();
+                    ps.SwitchTo("Avg");
                     tm.file = "test";
                     tm.NewFile();
                 }
@@ -118,16 +123,20 @@ public class GameManager : MonoBehaviour {
             if (isavg)
             {
                 isavg = false;
-                ps.AvgToMap();
+                //ps.AvgToMap();
+                ps.SwitchTo("Map");
             }
-            else ps.EduToMap();
+            else// ps.EduToMap();
+            {
+                ps.SwitchTo("Map");
+            }
         }
         
     }
     public void MapEvent()
     {
         Debug.Log("Map+week:" + playerdata.week);
-        ps.MapToAvg();
+        //ps.MapToAvg();
         tm.file = "testplace";
         tm.NewFile();
     }
@@ -159,11 +168,13 @@ public class GameManager : MonoBehaviour {
         }
         if (string.Compare(name, "invest", true) == 0)
         {
-            ps.OpenInvest();
+            //ps.OpenInvest();
+            ps.SwitchTo("Invest");
         }
         if (string.Compare(name, "detect", true) == 0)
         {
-            ps.OpenDetect();
+            //ps.OpenDetect();
+            ps.SwitchTo("Detect");
         }
     }
 }
