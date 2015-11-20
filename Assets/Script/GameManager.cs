@@ -35,8 +35,10 @@ public class GameManager : MonoBehaviour {
     //测试用地点
     public string placeid = "";
     public bool isavg;
-
+    
     private GameObject root;
+
+    private Hashtable gVars;
 
     public PanelSwitch ps;
     public TextManager tm;
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour {
         tm = transform.GetComponent<TextManager>();
         im = transform.GetComponent<ImageManager>();
         playerdata = new UserData();
+        gVars = new Hashtable();
         for(int i = 0; i < 7; i++)
         {
             girl[i] = new GirlData(i);
