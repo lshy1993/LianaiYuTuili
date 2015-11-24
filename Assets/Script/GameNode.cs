@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Script.Events
+namespace Assets.Script.GameStruct
 {
     /// <summary>
     /// GameNode
@@ -16,8 +16,22 @@ namespace Assets.Script.Events
         /// <summary>
         /// 存储局部变量
         /// </summary>
-        public Hashtable vars;
+        public Hashtable gVars, lVars;
+        public GameObject root;
+        public bool end { set; get; }
+        public PanelSwitch ps;
 
+        public GameNode(Hashtable gVars, GameObject root, PanelSwitch ps) 
+        {
+            
+            this.gVars = gVars;
+            this.root = root;
+            this.ps = ps;
+            lVars = new Hashtable();
+            end = false;
+
+            Init();
+        }
         /// <summary>
         /// 初始化游戏节点
         /// </summary>
@@ -25,7 +39,7 @@ namespace Assets.Script.Events
         /// <summary>
         /// 单步更新
         /// </summary>
-        public virtual void Update() { }
+        public abstract void Update();
         /// <summary>
         /// 结束，重写此方法实现将可能需要写入全局的信息写入
         /// </summary>

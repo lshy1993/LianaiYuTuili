@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using Assets.Script.Events;
+using Assets.Script.GameStruct;
+using Assets.Script;
 /// <summary>
 /// GameManager: 
 /// 整个游戏只允许一个，且不能由于场景切换而被删除
@@ -38,11 +39,24 @@ public class GameManager : MonoBehaviour {
     
     private GameObject root;
 
+    /// <summary>
+    /// 储存全局的变量，可能有装箱拆箱的开销
+    /// 总体考虑可以忽略？
+    /// </summary>
     private Hashtable gVars;
 
+    /// <summary>
+    /// PanelSwitch，控制面板切换
+    /// </summary>
     public PanelSwitch ps;
     public TextManager tm;
+    /// <summary>
+    /// ImageManager, 控制图像处理
+    /// </summary>
     public ImageManager im;
+    /// <summary>
+    /// SoundManager，控制音效
+    /// </summary>
     public SoundManager sm;
 
     GameNode node;
@@ -55,15 +69,26 @@ public class GameManager : MonoBehaviour {
         im = transform.GetComponent<ImageManager>();
         playerdata = new UserData();
         gVars = new Hashtable();
+        node = new Script_1(gVars, root, ps);
         for(int i = 0; i < 7; i++)
         {
             girl[i] = new GirlData(i);
         }
+
     }
 
 	void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
+        if(node == null)
+        {
+            Debug.Log("Game End, node null");
+        }
+        if (node.end)
+        {
+            node = node.NextNode();
+        }
+        
 
     }
     //新游戏数据准备
@@ -76,7 +101,8 @@ public class GameManager : MonoBehaviour {
     //下一句
     public void ShowNext()
     {
-        tm.Next();
+        //tm.Next();
+        node.Update();
     }
     //打开phone
     public void OpenPhone()

@@ -14,6 +14,9 @@ public class PanelSwitch : MonoBehaviour
 
     private GameObject root;
 
+    /// <summary>
+    /// 存储面板名称
+    /// </summary>
     public readonly string[] PANEL_NAMES =
     {
         "Avg",
@@ -28,20 +31,9 @@ public class PanelSwitch : MonoBehaviour
 		"Edu",
 		"Phone"
     };
-    //private GameObject avgpanel;
-    //private GameObject syspanel;
-    //private GameObject investpanel;
-    //private GameObject detectpanel;
-    //private GameObject titlepanel;
-    //private GameObject enquirepanel;
-    //private GameObject negotiatepanel;
-    //private GameObject mappanel;
-    //private GameObject edupanel;
-    //private GameObject phonepanel;
 
     Dictionary<string, GameObject> panels;
     private string current;
-    //private UIPanel panel;
 
     // Use this for initialization
     void Start()
@@ -77,8 +69,15 @@ public class PanelSwitch : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// 切换面板,TODO:可能需要对每个Panel做一个切换特效？
+    /// </summary>
+    /// <param name="panel">切换目标面板</param>
+    /// <param name="fadein">淡入时间，默认0.5s</param>
+    /// <param name="fadeout">淡出时间，默认0.5s</param>
     public void SwitchTo(string panel, float fadein = 0.5f, float fadeout = 0.5f)
     {
+        Debug.Log(panel);
         for (int i = 0; i < PANEL_NAMES.Length; i++)
         {
             if (panel == PANEL_NAMES[i])
@@ -90,7 +89,6 @@ public class PanelSwitch : MonoBehaviour
             }
         }
         Debug.Log("Can't find panel: " + panel);
-
     }
     //进入调查（只与avg交互）
     //public void OpenInvest()
