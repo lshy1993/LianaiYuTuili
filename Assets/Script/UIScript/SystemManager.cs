@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SystemManager : MonoBehaviour {
+public class SystemManager : MonoBehaviour, IPanelManager
+{
 
     public GameObject sysObject;
     public GameObject butContainer, saveloadContainer, settingContainer, backlogContainer;

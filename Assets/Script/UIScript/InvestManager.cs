@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class InvestManager : MonoBehaviour {
+public class InvestManager : MonoBehaviour, IPanelManager
+{
 
     private GameObject investObject;
     private UIPanel investPanel;
@@ -94,5 +96,10 @@ public class InvestManager : MonoBehaviour {
         cancelButton.SetActive(false);
         dialogContainer.SetActive(false);
         invbutContainer.SetActive(false);
+    }
+
+    public void Close()
+    {
+        throw new NotImplementedException();
     }
 }

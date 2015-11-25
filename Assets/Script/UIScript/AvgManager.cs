@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AvgManager : MonoBehaviour {
+public class AvgManager : MonoBehaviour, IPanelManager
+{
 
     //private GameObject root;
-    private GameManager gm;
-    private GameObject avgObject;
-    private UIPanel avgPanel;
+    public GameManager gm;
+    public GameObject avgObject;
+    public UIPanel avgPanel;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         avgObject = transform.parent.gameObject;
         avgPanel = avgObject.GetComponent<UIPanel>();
-        Open();
+        Debug.Log("AvgPanel init");
+        //Open();
 	}
 
     public void Open()
     {
         avgPanel.alpha = 0;
+        Debug.Log("avgObj == null?" + (avgObject == null));
         StartCoroutine(FadeIn());
     }
     public void Close()

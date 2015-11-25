@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class TitleManager : MonoBehaviour {
+public class TitleManager : MonoBehaviour , IPanelManager
+{
 
     public GameManager gm;
 
@@ -12,14 +14,15 @@ public class TitleManager : MonoBehaviour {
     public UI2DSprite largepic;
     public AudioSource bgm;
 
-    
     public void ClickStart()
     {
         //新游戏start
-        StartCoroutine(FadeOut(title));
         gm.NewGame();
+        //StartCoroutine(FadeOut(title));
+        
     }
 	public void ClickExtra()
+
     {
         //打开extra
         StartCoroutine(OpenExtra());
@@ -188,5 +191,19 @@ public class TitleManager : MonoBehaviour {
             yield return null;
         }
         title.transform.gameObject.SetActive(false);
+    }
+
+    public void Open()
+    {
+        //        throw new NotImplementedException();
+
+        //ClickStart();
+        StartCoroutine(FadeIn(title));
+    }
+
+    public void Close()
+    {
+        //throw new NotImplementedException();
+        StartCoroutine(FadeOut(title));
     }
 }

@@ -8,7 +8,8 @@ using System.Collections;
  * 提供方法供旗下按钮调用，并修改游戏数据
  * 实现与AVG模块的互动，推动游戏进程
  */
-public class MapManager : MonoBehaviour {
+public class MapManager : MonoBehaviour, IPanelManager
+{
 
     private GameManager gm;
     private GameObject mapObject;

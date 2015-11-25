@@ -17,38 +17,38 @@ public class PanelSwitch : MonoBehaviour
     /// <summary>
     /// 存储面板名称
     /// </summary>
-    public readonly string[] PANEL_NAMES =
+    public readonly List<String> PANEL_NAMES = new List<String>()
     {
         "Avg",
-		"Title",
-		"Invest",
-		"Detect",
+        "Title",
+        "Invest",
+        "Detect",
 		//"SysMenu",
         "System",
-		"Enquire",
-		"Negotiate",
-		"Map",
-		"Edu",
-		"Phone"
+        "Enquire",
+        "Negotiate",
+        "Map",
+        "Edu",
+        "Phone"
     };
 
     Dictionary<string, GameObject> panels;
     private string current;
 
     // Use this for initialization
-    void Start()
+    public void Init()
     {
         root = GameObject.Find("UI Root");
         panels = new Dictionary<string, GameObject>();
-        for(int i = 0; i < PANEL_NAMES.Length; i++)
+        for (int i = 0; i < PANEL_NAMES.Count; i++)
         {
-            Debug.Log("panel = " + PANEL_NAMES[i]);
-            panels.Add(PANEL_NAMES[i], root.transform.Find(PANEL_NAMES[i] + "_Panel").gameObject);
+            //Debug.Log("panel = " + PANEL_NAMES[i]);
+            GameObject panelObj =  root.transform.Find(PANEL_NAMES[i] + "_Panel").gameObject;
+            //panelObj.SetActive(true);
+            //panelObj.SetActive(false);
+            panels.Add(PANEL_NAMES[i], panelObj);
         }
         current = "Title";
-        
-        StartCoroutine(Fadein(1, panels[current]));
-
     }
     //开启关闭系统菜单
     public void OpenMenu()
@@ -78,17 +78,25 @@ public class PanelSwitch : MonoBehaviour
     public void SwitchTo(string panel, float fadein = 0.5f, float fadeout = 0.5f)
     {
         Debug.Log(panel);
-        for (int i = 0; i < PANEL_NAMES.Length; i++)
+        if (panels.ContainsKey(panel))
         {
-            if (panel == PANEL_NAMES[i])
-            {
-                StartCoroutine(Fadeout(fadeout, panels[current]));
-                current = panel;
-                StartCoroutine(Fadein(fadein, panels[current]));
-                return;
-            }
+            GameObject currentPanel = panels[current];
+            currentPanel.GetComponent<IPanelManager>().Close();
+            currentPanel.SetActive(false);
+            GameObject nextPanel = panels[panel];
+            nextPanel.SetActive(true);
+            nextPanel.GetComponent<IPanelManager>().Open();
+            //Debug.Log("CurrentManager == null?" + (currentManager == null));
+            //Debug.Log("NextManager == null?" + (nextManager == null));
+
+            //panels[current].SetActive(false);
+            //panels[panel].SetActive(true);
+            //StartCoroutine(Fadeout(fadeout, panels[current]));
+            current = panel;
+            //StartCoroutine(Fadein(fadein, panels[current]));
         }
-        Debug.Log("Can't find panel: " + panel);
+        else
+            Debug.Log("Can't find panel: " + panel);
     }
     //进入调查（只与avg交互）
     //public void OpenInvest()

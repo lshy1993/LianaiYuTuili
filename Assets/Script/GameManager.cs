@@ -64,12 +64,12 @@ public class GameManager : MonoBehaviour {
 	void Awake()
     {
         root = GameObject.Find("UI Root");
-        ps = transform.GetComponent<PanelSwitch>();
-        tm = transform.GetComponent<TextManager>();
-        im = transform.GetComponent<ImageManager>();
+        if(ps == null) ps = transform.GetComponent<PanelSwitch>();
+        if(tm == null) tm = transform.GetComponent<TextManager>();
+        if(im == null)im = transform.GetComponent<ImageManager>();
+        ps.Init();
         playerdata = new UserData();
         gVars = new Hashtable();
-        node = new Script_1(gVars, root, ps);
         for(int i = 0; i < 7; i++)
         {
             girl[i] = new GirlData(i);
@@ -82,9 +82,9 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
         if(node == null)
         {
-            Debug.Log("Game End, node null");
+            //Debug.Log("Game End, node null");
         }
-        if (node.end)
+        else if (node.end)
         {
             node = node.NextNode();
         }
@@ -94,9 +94,11 @@ public class GameManager : MonoBehaviour {
     //新游戏数据准备
     public void NewGame()
     {
+        node = new Script_1(gVars, root, ps);
+        //ps.SwitchTo("Avg");
         //playerdata = new UserData();
-        tm.file = "test_script";
-        tm.NewFile();
+        //tm.file = "test_script";
+        //tm.NewFile();
     }
     //下一句
     public void ShowNext()

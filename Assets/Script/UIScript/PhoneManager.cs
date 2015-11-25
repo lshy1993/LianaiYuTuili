@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 /**
  * PhoneManager: 
@@ -8,7 +9,8 @@ using System.Collections;
  * 提供方法供旗下按钮调用，并修改游戏数据
  * 实现与任何其他模块的互动，推动游戏进程
  */
-public class PhoneManager : MonoBehaviour {
+public class PhoneManager : MonoBehaviour, IPanelManager
+{
 
     private GameManager gm;
 
@@ -165,5 +167,15 @@ public class PhoneManager : MonoBehaviour {
                 return "";
         }
         return "当前状态：" + result;
+    }
+
+    public void Open()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Close()
+    {
+        throw new NotImplementedException();
     }
 }

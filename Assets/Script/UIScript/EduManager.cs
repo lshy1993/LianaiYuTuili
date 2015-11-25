@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 /**
  * EduManager: 
@@ -8,7 +9,8 @@ using System.Collections;
  * 提供方法供旗下按钮调用，并修改游戏数据
  * 实现与AVG模块的互动，推动游戏进程
  */
-public class EduManager : MonoBehaviour {
+public class EduManager : MonoBehaviour, IPanelManager
+{
 
     private GameManager gm;
     private GameObject eduObject;
@@ -120,16 +122,16 @@ public class EduManager : MonoBehaviour {
         switch (x)
         {
             case 1:
-                gm.playerdata.wen += Random.Range(1,6);
+                gm.playerdata.wen += UnityEngine.Random.Range(1,6);
                 break;
             case 2:
-                gm.playerdata.li += Random.Range(1, 6);
+                gm.playerdata.li += UnityEngine.Random.Range(1, 6);
                 break;
             case 3:
-                gm.playerdata.ti += Random.Range(1, 6);
+                gm.playerdata.ti += UnityEngine.Random.Range(1, 6);
                 break;
             case 4:
-                gm.playerdata.yi += Random.Range(1, 6);
+                gm.playerdata.yi += UnityEngine.Random.Range(1, 6);
                 break;
             case 5:
                 gm.playerdata.wen += 8;
@@ -174,5 +176,10 @@ public class EduManager : MonoBehaviour {
                 return "这是第8个选项：暂定是大幅增加【艺术】属性，但降低【体育】属性，成功概率：中。";
         }
         return "";
+    }
+
+    public void Close()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Text.RegularExpressions;
 
-public class EnquireManager : MonoBehaviour {
+public class EnquireManager : MonoBehaviour, IPanelManager {
 
     private GameObject root;
     private GameManager gm;
