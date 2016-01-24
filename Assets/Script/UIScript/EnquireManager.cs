@@ -33,14 +33,15 @@ public class EnquireManager : MonoBehaviour, IPanelManager {
         Open();
     }
 
-    public void Open()
+    public IEnumerator Open()
     {
         LoadText();
-        StartCoroutine(MainEnquire());
+        yield return StartCoroutine(MainEnquire());
     }
-    public void Close()
+    public IEnumerator Close()
     {
-
+        // TODO
+        yield return null;
     }
     void LoadText()
     {

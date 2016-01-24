@@ -193,17 +193,22 @@ public class TitleManager : MonoBehaviour , IPanelManager
         title.transform.gameObject.SetActive(false);
     }
 
-    public void Open()
+    public IEnumerator Open()
     {
         //        throw new NotImplementedException();
+        this.GetComponent<PanelFade>().FadeIn(0, 0);
 
+        
+        return null;
         //ClickStart();
-        StartCoroutine(FadeIn(title));
+       // yield return StartCoroutine(FadeIn(title));
     }
 
-    public void Close()
+    public IEnumerator Close()
     {
         //throw new NotImplementedException();
-        StartCoroutine(FadeOut(title));
+        this.GetComponent<PanelFade>().FadeOut(0, 0);
+        return null;
+        //yield return StartCoroutine(FadeOut(title));
     }
 }

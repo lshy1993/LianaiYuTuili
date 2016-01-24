@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+//using Assets.Script.UIScript;
 
 /**
  * EduManager: 
@@ -12,6 +13,16 @@ using System;
 public class EduManager : MonoBehaviour, IPanelManager
 {
 
+    public static readonly string[] WEEKDAYS = {
+            "星期一",
+            "星期二",
+            "星期三",
+            "星期四",
+            "星期五",
+            "星期六",
+            "星期天"
+        };
+
     private GameManager gm;
     private GameObject eduObject;
     private UIPanel eduPanel;
@@ -20,7 +31,7 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     private GameObject qgo, sgo, acgo;
 
-	void Awake () {
+    void Awake () {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
         datelabel = transform.Find("Time_Container/Date_Label").gameObject.GetComponent<UILabel>();
@@ -37,20 +48,28 @@ public class EduManager : MonoBehaviour, IPanelManager
         UIFresh();
     }
 
-    public void Open()
+
+
+    public IEnumerator Open()
     {
-        eduPanel.alpha = 0;
-        StartCoroutine(FadeIn());
+        //eduPanel.alpha = 0;
+
+        //yield return StartCoroutine(FadeIn());
+
+        this.GetComponent<PanelFade>().FadeIn(0, 0);
+
+        return null;
     }
+
     IEnumerator FadeIn()
     {
         eduObject.SetActive(true);
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1/ 0.3f * Time.deltaTime);
             eduPanel.alpha = x;
-            yield return null;
+            yield return new WaitForSeconds(Time.deltaTime);
         }
     }
     public void UIFresh()
@@ -66,30 +85,12 @@ public class EduManager : MonoBehaviour, IPanelManager
     }
     string GetWeek(int x)
     {
-        switch (x)
-        {
-            case 1:
-                return "星期一";
-            case 2:
-                return "星期二";
-            case 3:
-                return "星期三";
-            case 4:
-                return "星期四";
-            case 5:
-                return "星期五";
-            case 6:
-                return "星期六";
-            case 7:
-                return "星期日";
-            default:
-                return "";
-        }
+        return WEEKDAYS[x];
     }
     //显示Q版界面与文字信息
     public void ShowAnime(int x)
     {
-        NumGenerate(x);//数值增减
+        //NumGenerate(x);//数值增减
         StartCoroutine(Animate());//显示动画(临时用文字代替)
     }
     IEnumerator Animate()
@@ -117,9 +118,9 @@ public class EduManager : MonoBehaviour, IPanelManager
         UIFresh();
     }
     //随机数值养成
-    void NumGenerate(int x)
+    void NumGenerate(int choice)
     {
-        switch (x)
+        switch (choice)
         {
             case 1:
                 gm.playerdata.wen += UnityEngine.Random.Range(1,6);
@@ -178,8 +179,25 @@ public class EduManager : MonoBehaviour, IPanelManager
         return "";
     }
 
-    public void Close()
+    public IEnumerator Close()
     {
-        throw new NotImplementedException();
+        //       throw new NotImplementedException();
+        //close = true;
+        //yield return StartCoroutine(FadeOut());
+
+        this.GetComponent<PanelFade>().FadeOut(0, 0);
+        return null;
+    }
+
+    IEnumerator FadeOut()
+    {
+        float x = 1;
+        while (x > 0)
+        {
+            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.deltaTime);
+            eduPanel.alpha = x;
+            yield return null;
+        }
+        //eduObject.SetActive(false);
     }
 }

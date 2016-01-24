@@ -11,13 +11,13 @@ public class SystemManager : MonoBehaviour, IPanelManager
 	
 	}
 	
-    public void Open()
+    public IEnumerator Open()
     {
-        StartCoroutine(FadeInP());
+        yield return StartCoroutine(FadeInP());
     }
-    public void Close()
+    public IEnumerator Close()
     {
-        StartCoroutine(FadeOutP());
+        yield return StartCoroutine(FadeOutP());
     }
 
     public void OpenSetting()

@@ -13,7 +13,6 @@ namespace Assets.Script
         public Script_1(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps) { }
         public override void Init()
         {
-            int i = 1;
             base.Init();
             pieces = new List<Piece>()
             {
@@ -34,8 +33,16 @@ namespace Assets.Script
                 }),
                 f.t("第八句", "如果变量a为true则不显示"),
                 f.t("第九句","9999999"),
-                f.t("跳转", "简单跳转第二句", ()=> 1)
+                //f.t("跳转", "简单跳转第二句", ()=> 1)
+                f.t("跳转EDU", "跳转到edu部分", () => pieces.Count)
             };
+        }
+
+        public override GameNode NextNode()
+        {
+            //return base.NextNode();
+            Finish();
+            return new WeekNode(gVars, root, ps);
         }
 
     }

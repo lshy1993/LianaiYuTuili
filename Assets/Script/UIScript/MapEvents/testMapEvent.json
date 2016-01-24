@@ -1,0 +1,15 @@
+﻿{
+  "data": [
+    {
+      "name": "test1",
+      "position": "test",
+      "entryNode": "Script_1",
+      "conditionEventsAnd": [ ],
+      "conditionEventsOr": [ ],
+      "conditionTurn": { "min": 1},
+      "conditionStatus": {
+        "文科": { "min": 0 }
+      }
+    }
+  ]
+}

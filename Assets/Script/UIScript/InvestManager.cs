@@ -21,9 +21,9 @@ public class InvestManager : MonoBehaviour, IPanelManager
         Open();
     }
 
-    public void Open()
+    public IEnumerator Open()
     {
-        StartCoroutine(FadeIn());
+        yield return StartCoroutine(FadeIn());
         cancelButton.SetActive(false);
     }
     IEnumerator FadeIn()
@@ -98,7 +98,7 @@ public class InvestManager : MonoBehaviour, IPanelManager
         invbutContainer.SetActive(false);
     }
 
-    public void Close()
+    public IEnumerator Close()
     {
         throw new NotImplementedException();
     }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+//using Assets.Script.UIScript;
 
 /**
  * PanelSwitch: 
@@ -13,7 +14,6 @@ public class PanelSwitch : MonoBehaviour
 {
 
     private GameObject root;
-
     /// <summary>
     /// 存储面板名称
     /// </summary>
@@ -42,10 +42,7 @@ public class PanelSwitch : MonoBehaviour
         panels = new Dictionary<string, GameObject>();
         for (int i = 0; i < PANEL_NAMES.Count; i++)
         {
-            //Debug.Log("panel = " + PANEL_NAMES[i]);
-            GameObject panelObj =  root.transform.Find(PANEL_NAMES[i] + "_Panel").gameObject;
-            //panelObj.SetActive(true);
-            //panelObj.SetActive(false);
+            GameObject panelObj = root.transform.Find(PANEL_NAMES[i] + "_Panel").gameObject;
             panels.Add(PANEL_NAMES[i], panelObj);
         }
         current = "Title";
@@ -81,108 +78,59 @@ public class PanelSwitch : MonoBehaviour
         if (panels.ContainsKey(panel))
         {
             GameObject currentPanel = panels[current];
-            currentPanel.GetComponent<IPanelManager>().Close();
-            currentPanel.SetActive(false);
             GameObject nextPanel = panels[panel];
-            nextPanel.SetActive(true);
-            nextPanel.GetComponent<IPanelManager>().Open();
-            //Debug.Log("CurrentManager == null?" + (currentManager == null));
-            //Debug.Log("NextManager == null?" + (nextManager == null));
 
-            //panels[current].SetActive(false);
-            //panels[panel].SetActive(true);
-            //StartCoroutine(Fadeout(fadeout, panels[current]));
+            currentPanel.GetComponent<IPanelManager>().Close();
+            //nextPanel.SetActive(true);
+
+            //nextPanel.GetComponent<IPanelManager>().Open();
+            StartCoroutine(Switch(currentPanel, nextPanel));
+
             current = panel;
-            //StartCoroutine(Fadein(fadein, panels[current]));
+
         }
         else
+        {
             Debug.Log("Can't find panel: " + panel);
+        }
     }
-    //进入调查（只与avg交互）
-    //public void OpenInvest()
-    //{
-    //    StartCoroutine(Fadein(0, investpanel));
-    //    StartCoroutine(Fadeout(0, avgpanel));
-    //}
-    //public void CloseInvest()
-    //{
-    //    StartCoroutine(Fadein(0, avgpanel));
-    //    StartCoroutine(Fadeout(0, investpanel));
-    //}
-    ////进入推理（只与avg交互）
-    //public void OpenDetect()
-    //{
-    //    StartCoroutine(Fadein(0, detectpanel));
-    //    StartCoroutine(Fadeout(0, avgpanel));
-    //}
-    //public void CloseDetect()
-    //{
-    //    StartCoroutine(Fadein(0, avgpanel));
-    //    StartCoroutine(Fadeout(0, detectpanel));
-    //}
-    ////进入询问（只与avg交互）
-    //public void OpenEnquire()
-    //{
-    //    StartCoroutine(Fadein(0, enquirepanel));
-    //    StartCoroutine(Fadeout(0, avgpanel));
-    //}
-    //public void CloseEnquire()
-    //{
-    //    StartCoroutine(Fadeout(0, enquirepanel));
-    //    StartCoroutine(Fadein(0, avgpanel));
-    //}
-    ////进入谈判（只与avg交互）
-    //public void OpenNegotiate()
-    //{
-    //    StartCoroutine(Fadein(0, negotiatepanel));
-    //    StartCoroutine(Fadeout(0, avgpanel));
-    //}
-    //public void CloseNegotate()
-    //{
-    //    StartCoroutine(Fadeout(0, negotiatepanel));
-    //    StartCoroutine(Fadein(0, avgpanel));
-    //}
-    ////养成进大地图
-    //public void EduToMap()
-    //{
-    //    StartCoroutine(Fadein(0.5f, mappanel));
-    //    StartCoroutine(Fadeout(0, edupanel));
-    //}
-    ////文字进大地图（例：周六大地图事件结束后）
-    //public void AvgToMap()
-    //{
-    //    StartCoroutine(Fadein(0.5f, mappanel));
-    //    StartCoroutine(Fadeout(0, avgpanel));
-    //    mappanel.GetComponent<MapManager>().UIFresh();
-    //}
-    ////大地图进文字（大地图事件）
-    //public void MapToAvg()
-    //{
-    //    StartCoroutine(Fadein(0.5f, avgpanel));
-    //    StartCoroutine(Fadeout(0, mappanel));
-    //}
-    ////文字进养成（例：平日随机事件结束后）
-    //public void AvgToEdu()
-    //{
-    //    StartCoroutine(Fadein(0.5f, edupanel));
-    //    StartCoroutine(Fadeout(0, avgpanel));
-    //    edupanel.GetComponent<EduManager>().UIFresh();
-    //}
-    ////养成进文字（平日随机事件）
-    //public void EduToAvg()
-    //{
-    //    StartCoroutine(Fadein(0.5f, avgpanel));
-    //    StartCoroutine(Fadeout(0, edupanel));
-    //}
-    ////打开手机
+
+    private IEnumerator Switch(GameObject currentPanel, GameObject nextPanel)
+    {
+
+        //Debug.Log("current panel null?" + (currentPanel == null));
+        //Debug.Log("current panel manager null?" + (currentPanel.GetComponent<IPanelManager>() == null));
+        //Debug.Log("current panel fade null?" + (currentPanel.GetComponent<PanelFade>() == null));
+        while (currentPanel.GetComponent<PanelFade>().close)
+        {
+            yield return null;
+        }
+        currentPanel.SetActive(false);
+        nextPanel.SetActive(true);
+        while (!nextPanel.GetComponent<PanelFade>().updating)
+        {
+            yield return null;
+        }
+        
+        nextPanel.GetComponent<IPanelManager>().Open();
+        //while (nextPanel.GetComponent<PanelFade>().open)
+        //{
+        //    yield return null;
+        //}
+        //        throw new NotImplementedException();
+    }
+
+    //打开手机
     public void OpenPhone()
     {
         StartCoroutine(Fadein(0.2f, panels["Phone"]));
     }
+
     public void ClosePhone()
     {
         StartCoroutine(Fadeout(0.2f, panels["Phone"]));
     }
+
     IEnumerator Fadein(float time, GameObject target)
     {
         UIPanel panel = target.GetComponent<UIPanel>();
@@ -197,6 +145,11 @@ public class PanelSwitch : MonoBehaviour
         }
     }
 
+    IEnumerator DelaySec(float time, Action action)
+    {
+        yield return new WaitForSeconds(time);
+        action();
+    }
     IEnumerator Fadeout(float time, GameObject target)
     {
         UIPanel panel = target.GetComponent<UIPanel>();

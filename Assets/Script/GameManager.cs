@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Assets.Script.GameStruct;
 using Assets.Script;
+using Assets.Script.GameStruct.Model;
 /// <summary>
 /// GameManager: 
 /// 整个游戏只允许一个，且不能由于场景切换而被删除
@@ -43,23 +44,30 @@ public class GameManager : MonoBehaviour {
     /// 储存全局的变量，可能有装箱拆箱的开销
     /// 总体考虑可以忽略？
     /// </summary>
-    private Hashtable gVars;
+    private static Hashtable gVars;
+    public static Hashtable GetGlobalVars()
+    {
+        if (gVars == null) gVars = new Hashtable();
+        return GameManager.gVars;
+    }
 
     /// <summary>
     /// PanelSwitch，控制面板切换
     /// </summary>
     public PanelSwitch ps;
     public TextManager tm;
+
     /// <summary>
     /// ImageManager, 控制图像处理
     /// </summary>
     public ImageManager im;
+
     /// <summary>
     /// SoundManager，控制音效
     /// </summary>
     public SoundManager sm;
 
-    GameNode node;
+    public GameNode node;
     
 	void Awake()
     {
@@ -69,7 +77,9 @@ public class GameManager : MonoBehaviour {
         if(im == null)im = transform.GetComponent<ImageManager>();
         ps.Init();
         playerdata = new UserData();
-        gVars = new Hashtable();
+        //gVars = new Hashtable();
+        GetGlobalVars();
+        gVars.Add("用户数据", User.GetInstance());
         for(int i = 0; i < 7; i++)
         {
             girl[i] = new GirlData(i);
@@ -82,7 +92,7 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
         if(node == null)
         {
-            //Debug.Log("Game End, node null");
+            Debug.Log("Game End, node null");
         }
         else if (node.end)
         {
@@ -95,6 +105,7 @@ public class GameManager : MonoBehaviour {
     public void NewGame()
     {
         node = new Script_1(gVars, root, ps);
+        //Debug.Log("New Game!");
         //ps.SwitchTo("Avg");
         //playerdata = new UserData();
         //tm.file = "test_script";

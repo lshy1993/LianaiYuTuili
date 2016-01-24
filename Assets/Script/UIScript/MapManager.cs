@@ -35,14 +35,14 @@ public class MapManager : MonoBehaviour, IPanelManager
 	
 	}
 
-    public void Open()
+    public IEnumerator Open()
     {
         mapPanel.alpha = 0;
-        StartCoroutine(FadeIn());
+        yield return StartCoroutine(FadeIn());
     }
-    public void Close()
+    public IEnumerator Close()
     {
-        StartCoroutine(FadeOut());
+        yield return StartCoroutine(FadeOut());
     }
     IEnumerator FadeIn()
     {

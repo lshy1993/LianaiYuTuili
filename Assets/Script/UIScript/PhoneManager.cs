@@ -169,12 +169,12 @@ public class PhoneManager : MonoBehaviour, IPanelManager
         return "当前状态：" + result;
     }
 
-    public void Open()
+    public IEnumerator Open()
     {
         throw new NotImplementedException();
     }
 
-    public void Close()
+    public IEnumerator Close()
     {
         throw new NotImplementedException();
     }

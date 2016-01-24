@@ -40,7 +40,6 @@ public class UserData{
         guan = 3;
         hp = 8;
         mp = 4;
-
     }
 
 }

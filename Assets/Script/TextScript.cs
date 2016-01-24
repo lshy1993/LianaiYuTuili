@@ -13,6 +13,8 @@ namespace Assets.Script.GameStruct
         public IList<Piece> pieces;
         public PieceFactory f;
         private bool move;
+
+
         public TextScript(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps) { }
         public override void Init()
         {

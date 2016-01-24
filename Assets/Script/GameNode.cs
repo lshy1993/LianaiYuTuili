@@ -22,7 +22,6 @@ namespace Assets.Script.GameStruct
         public PanelSwitch ps;
         public GameNode(Hashtable gVars, GameObject root, PanelSwitch ps) 
         {
-            
             this.gVars = gVars;
             this.root = root;
             this.ps = ps;
