@@ -18,6 +18,18 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public string name { set; get; }
 
+
+        /// <summary>
+        /// 事件发生地点
+        /// </summary>
+        public string position { set; get; }
+
+
+        /// <summary>
+        /// 事件入口文件名
+        /// </summary>
+        public string entryNode { set; get; }
+
         /// <summary>
         /// 前置事件名
         /// </summary>
@@ -27,12 +39,18 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 条件回合
         /// </summary>
-        public int conditionTurn;
+        public Range conditionTurn;
 
         /// <summary>
         /// 条件状态
         /// </summary>
-        public Dictionary<string, int[]> conditionStatus;
+        public Dictionary<string, Range> conditionStatus;
+
+
+        /// <summary>
+        /// 可能女主
+        /// </summary>
+        public List<string> girls;
 
 
         /// <summary>
@@ -40,20 +58,25 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public bool overFlag;
 
-        public MapEvent()
+        public MapEvent(string name, string position, string entryNode)
         {
+            this.name = name;
+            this.position = position;
+            this.entryNode = entryNode;
             conditionEvents = new List<string>();
-            conditionStatus = new Dictionary<string, int[]>();
-            conditionTurn = 0;
+            conditionStatus = new Dictionary<string, Range>();
+            conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
+            girls = new List<string>();
             overFlag = false;
         }
 
-
-
+        
         public override string ToString()
         {
             string str = base.ToString();
             str += ("name : " + name + "\n");
+
+            str += ("position: " + position + "\n");
 
             str += ("conditionEvents : " + "\n");
 
@@ -63,24 +86,59 @@ namespace Assets.Script.GameStruct
             }
 
             str += "\n";
+
             str += ("conditionTurn : " + conditionTurn + "\n");
 
             str += ("conditionStatus :" + "\n");
 
-            foreach (KeyValuePair<string, int[]> kv in conditionStatus)
+            foreach (KeyValuePair<string, Range> kv in conditionStatus)
             {
-                str += (kv.Key + ":" );
+                str += (kv.Key + ": " );
 
-                foreach(int i in kv.Value)
-                {
-                    str += (i + " ");
-                }
-                str += "\n";
+                str += ("min: " + kv.Value.GetMin() + " max: " + kv.Value.GetMax() + "\n");
+
             }
-            
+
+            str += ("girls:\n");
+            foreach(string g in girls)
+            {
+                str += (g + "\n");
+            }
 
             return str;
         }
 
+    }
+
+
+    public class Range
+    {
+        private int min;
+        private int max;
+        public Range(int min, int max)
+        {
+            this.min = min;
+            this.max = max;
+        }
+
+        public void SetMin(int min)
+        {
+            this.min = min;
+        }
+
+        public void SetMax(int max)
+        {
+            this.max = max;
+        }
+
+        public int GetMin()
+        {
+            return min;
+        }
+
+        public int GetMax()
+        {
+            return max;
+        }
     }
 }

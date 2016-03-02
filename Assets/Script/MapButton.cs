@@ -38,25 +38,6 @@ namespace Assets.Script.UIScript
 
         void OnClick()
         {
-            events.Union(eventManager.GetAvailableEvents(position));
-            
-            if(events == null || events.Count < 1)
-            {
-                // do nothing 
-
-            }
-            else
-            {
-                GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-                MapNode node = gm.node as MapNode;
-                if(node != null)
-                {
-                    node.
-                    node.end = true;
-                }
-
-
-            }
 
         }
 

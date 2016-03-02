@@ -1,48 +1,116 @@
 ﻿using Assets.Script.GameStruct.Model;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using LitJson;
 using UnityEngine;
+using System;
+
+/// <summary>
+/// EventManager
+/// 用于管理事件树
+/// TODO
+/// </summary>
 
 namespace Assets.Script.GameStruct
 {
     public class EventManager
     {
+        private System.Random random;
         private static EventManager instance;
         private readonly string PATH = "MapEvents/";
         public static EventManager GetInstance()
         {
-            if(instance == null) instance = new EventManager();
+            if (instance == null) instance = new EventManager();
             return instance;
         }
 
         private EventManager()
         {
-            LoadEvents();
+            init();
+
         }
 
 
-        private Dictionary<string, Dictionary<string, MapEvent>> eventTable;
+        /// <summary>
+        /// 以事件链为key的所有事件表
+        /// </summary>
+        private Dictionary<string, List<MapEvent>> eventTable;
 
         /// <summary>
-        /// 获取当前可以进行的事件列表
+        /// 以地点为key的当前事件表
         /// </summary>
-        /// <param name="pos">位置</param>
-        /// <returns>事件列表</returns>
-        public List<MapEvent> GetAvailableEvents(string pos)
-        {
-            if (!eventTable.ContainsKey(pos)) throw new KeyNotFoundException();
-            List<MapEvent> temp = new List<MapEvent>();
+        private Dictionary<string, List<MapEvent>> currentEvents;
 
-            foreach(KeyValuePair<string, MapEvent> kv in eventTable[pos])
+
+        /// <summary>
+        /// 事件指针，存储目前事件的位置
+        /// </summary>
+        private Dictionary<string, int> eventPointers;
+
+
+        
+        private void init()
+        {
+            eventTable = new Dictionary<string, List<MapEvent>>();
+            currentEvents = new Dictionary<string, List<MapEvent>>();
+            eventPointers = new Dictionary<string, int>();
+            random = new System.Random();
+            LoadEvents();
+            initPointer();
+            updateEvents();
+        }
+
+
+
+        /// <summary>
+        /// 获取当前地点的事件，没有返回null
+        /// </summary>
+        /// <param name="pos">地点</param>
+        /// <returns>当前地点的事件，没有事件则为null</returns>
+        public MapEvent GetCurrentEvent(string pos)
+        {
+            updateEvents();
+
+            return currentEvents.ContainsKey(pos) ? currentEvents[pos][random.Next(0, currentEvents[pos].Count - 1)] : null;
+        }
+
+        /// <summary>
+        /// 更新当前事件列表
+        /// </summary>
+        private void updateEvents()
+        {
+
+            foreach(KeyValuePair<string, List<MapEvent>> kv in currentEvents)
             {
-                if (isAvailableEvent(kv.Value)) temp.Add(kv.Value);
+                kv.Value.Clear();
             }
 
-            return temp;
+
+            foreach(KeyValuePair<string, int> kv in eventPointers)
+            {
+                MapEvent me = eventTable[kv.Key][kv.Value];
+
+                if (!currentEvents.ContainsKey(me.position))
+                {
+                    currentEvents.Add(me.position, new List<MapEvent>());
+                }
+
+                currentEvents[kv.Key].Add(me);
+            }
+
+        }
+
+
+        /// <summary>
+        /// 初始化事件指针
+        /// </summary>
+        private void initPointer()
+        {
+            foreach(string eventLink in eventTable.Keys)
+            {
+                Debug.Log("Reset event: " + eventLink);
+                eventPointers.Add(eventLink, 0); 
+            }
         }
 
         private bool isAvailableEvent(MapEvent value)
@@ -51,20 +119,22 @@ namespace Assets.Script.GameStruct
             if (user == null) return false;
 
             // 不满足前置日期
-            if (value.conditionTurn > user.GetTime("回合")) return false;
+            if (value.conditionTurn.GetMax() < user.GetTime("回合") &&
+                value.conditionTurn.GetMin() > user.GetTime("回合"))
+                return false;
 
             // 不满足前置属性
             if (value.conditionStatus != null &&
                 value.conditionStatus.Count > 0)
             {
-                foreach (KeyValuePair<string, int[]> kv in value.conditionStatus)
+                foreach (KeyValuePair<string, Range> kv in value.conditionStatus)
                 {
                     if (user.ContainsClass(kv.Key) &&
-                        (kv.Value[0] > user.GetClass(kv.Key) || user.GetClass(kv.Key) > kv.Value[1]))
+                        (kv.Value.GetMin() > user.GetClass(kv.Key) || user.GetClass(kv.Key) > kv.Value.GetMax()))
                         return false;
 
                     if (user.ContainsStatus(kv.Key) &&
-                        (kv.Value[0] > user.GetStatus(kv.Key) || user.GetStatus(kv.Key) > kv.Value[1]))
+                        (kv.Value.GetMin() > user.GetStatus(kv.Key) || user.GetStatus(kv.Key) > kv.Value.GetMax()))
                         return false;
                 }
             }
@@ -72,26 +142,31 @@ namespace Assets.Script.GameStruct
             // 不满足前置事件
             if (value.conditionEvents != null && value.conditionEvents.Count > 0)
             {
-                foreach (string name in value.conditionEvents)
-                {
-                    foreach (Dictionary<string, MapEvent> d in eventTable.Values)
-                    {
-                        if (d.ContainsKey(name) && !d[name].overFlag) return false;
-                    }
-                }
+                // TODO
+
             }
+
+            // 不是正确的妹子
+            if (value.girls != null && value.girls.Count > 0)
+            {
+                // 噫
+            }
+
 
             return true;
         }
 
-        public void LoadEvents()
+        private void LoadEvents()
         {
             if (Directory.GetFiles(PATH).Length < 1)
             {
                 Debug.Log("事件路径无效");
+                return;
             }
 
-            foreach(string file in Directory.GetFiles(PATH))
+
+
+            foreach (string file in Directory.GetFiles(PATH))
             {
                 if (Path.GetExtension(file) == ".json")
                 {
@@ -99,56 +174,57 @@ namespace Assets.Script.GameStruct
 
                     Debug.Log("读取：" + Path.GetFileName(file));
 
-                    eventTable.Add(Path.GetFileName(file), ParseJson(jsonContent));
+                    eventTable.Add(Path.GetFileName(file), ParseJsonToEventList(jsonContent));
                 }
 
             }
         }
 
-        private Dictionary<string, MapEvent> ParseJson(string jsonContent)
+        private List<MapEvent> ParseJsonToEventList(string jsonContent)
         {
-            Dictionary<string, MapEvent> dict = new Dictionary<string, MapEvent>();
+
+            //Dictionary<string, MapEvent> dict = new Dictionary<string, MapEvent>();
+            List<MapEvent> list = new List<MapEvent>();
 
             JsonData alldata = JsonMapper.ToObject(jsonContent)["data"];
 
-            foreach(JsonData data in alldata)
+            foreach (JsonData data in alldata)
             {
-                MapEvent me = new MapEvent();
+                string name = (string)data["name"];
+                string position = (string)data["positon"];
+                string entryNode = (string)data["entryNode"];
+                MapEvent me = new MapEvent(name, position, entryNode);
 
-                string name = (string)data["test1"];
 
-                me.name = name;
 
-                if (data.Contains("conditionEvents"))
+                /// 属性
+                if (data.Contains("conditionStatus")) 
                 {
-                    JsonData conditionEvents = data["conditionEvents"];
-                    for(int i = 0; i < conditionEvents.Count; i++)
+                    foreach (KeyValuePair<string, JsonData> kv in data["conditionStatus"])
                     {
-                        me.conditionEvents.Add((string) conditionEvents[i]);
+                        Range range = new Range((int)kv.Value["min"], (int)kv.Value["max"]);
+                        me.conditionStatus.Add(kv.Key, range);
                     }
 
                 }
 
-                if (data.Contains("conditionStatus"))
+                // 回合
+                if (data.Contains("conditionTurn"))
                 {
-                    foreach(KeyValuePair<string, JsonData> kv in data["conditionStatus"])
-                    {
-                        int[] arr = new int[2];
-                        arr[0] = (int)kv.Value[0];
-                        arr[1] = (int)kv.Value[1];
-                        me.conditionStatus.Add(kv.Key, arr);
-                    }
+                    JsonData conditionTurn = data["conditionTurn"];
 
+                    if (conditionTurn.Contains("min"))
+                        me.conditionTurn.SetMin((int)conditionTurn["min"]);
+
+                    if (conditionTurn.Contains("max"))
+                        me.conditionTurn.SetMax((int)conditionTurn["max"]);
                 }
 
-                if(data.Contains("conditionTurn"))
-                me.conditionTurn = (int)data["conditionTurn"];
-
-                dict.Add(name, me);
+                list.Add(me);
 
             }
 
-            return dict;
+            return list;
         }
     }
 }

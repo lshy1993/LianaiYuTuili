@@ -52,9 +52,6 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     public IEnumerator Open()
     {
-        //eduPanel.alpha = 0;
-
-        //yield return StartCoroutine(FadeIn());
 
         this.GetComponent<PanelFade>().FadeIn(0, 0);
 
@@ -72,6 +69,7 @@ public class EduManager : MonoBehaviour, IPanelManager
             yield return new WaitForSeconds(Time.deltaTime);
         }
     }
+
     public void UIFresh()
     {
         daylabel.text = gm.playerdata.month.ToString() + "月"+ gm.playerdata.day.ToString() + "日";
@@ -87,6 +85,7 @@ public class EduManager : MonoBehaviour, IPanelManager
     {
         return WEEKDAYS[x];
     }
+
     //显示Q版界面与文字信息
     public void ShowAnime(int x)
     {
@@ -117,7 +116,7 @@ public class EduManager : MonoBehaviour, IPanelManager
         sgo.SetActive(true);
         UIFresh();
     }
-    //随机数值养成
+    // duplicated
     void NumGenerate(int choice)
     {
         switch (choice)
@@ -154,7 +153,6 @@ public class EduManager : MonoBehaviour, IPanelManager
                 break;
         }
     }
-    //与组件交互部分
     public string GetHelp(int num)
     {
         switch (num)
@@ -181,10 +179,6 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     public IEnumerator Close()
     {
-        //       throw new NotImplementedException();
-        //close = true;
-        //yield return StartCoroutine(FadeOut());
-
         this.GetComponent<PanelFade>().FadeOut(0, 0);
         return null;
     }
@@ -198,6 +192,5 @@ public class EduManager : MonoBehaviour, IPanelManager
             eduPanel.alpha = x;
             yield return null;
         }
-        //eduObject.SetActive(false);
     }
 }
