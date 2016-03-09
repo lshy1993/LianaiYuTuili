@@ -34,7 +34,7 @@ namespace Assets.Script
                 f.t("第八句", "如果变量a为true则不显示"),
                 f.t("第九句","9999999"),
                 //f.t("跳转", "简单跳转第二句", ()=> 1)
-                f.t("跳转EDU", "跳转到edu部分", () => pieces.Count)
+                f.t("结束", "跳转到大地图部分", () => pieces.Count)
             };
         }
 

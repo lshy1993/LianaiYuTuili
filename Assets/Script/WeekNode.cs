@@ -20,7 +20,8 @@ namespace Assets.Script.GameStruct
         {
             base.Init();
             finished = false;
-            ps.SwitchTo("Edu");
+            //ps.SwitchTo("Edu");
+            ps.SwitchTo("Map");
         }
         public override void Update()
         {

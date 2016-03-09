@@ -12,10 +12,9 @@ namespace Assets.Script.GameStruct
         public EduNode(Hashtable gVars, GameObject root, PanelSwitch ps, string type):base(gVars, root, ps)
         {
 
-
-
         }
         public override void Update(){ /* DO NOTHING */}
+
         public override void Init()
         {
             base.Init();

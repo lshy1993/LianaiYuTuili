@@ -67,17 +67,24 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public SoundManager sm;
 
+
+    /// <summary>
+    /// 事件管理器
+    /// </summary>
+    public EventManager em;
+
     public GameNode node;
+
     
 	void Awake()
     {
         root = GameObject.Find("UI Root");
+        em = EventManager.GetInstance();
         if(ps == null) ps = transform.GetComponent<PanelSwitch>();
         if(tm == null) tm = transform.GetComponent<TextManager>();
         if(im == null)im = transform.GetComponent<ImageManager>();
         ps.Init();
         playerdata = new UserData();
-        //gVars = new Hashtable();
         GetGlobalVars();
         gVars.Add("用户数据", User.GetInstance());
         for(int i = 0; i < 7; i++)
@@ -92,7 +99,7 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
         if(node == null)
         {
-            Debug.Log("Game End, node null");
+            //Debug.Log("Game End, node null");
         }
         else if (node.end)
         {

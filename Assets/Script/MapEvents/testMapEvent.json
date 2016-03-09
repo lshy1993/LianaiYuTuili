@@ -4,9 +4,8 @@
       "name": "test1",
       "position": "test",
       "entryNode": "Script_1",
-      "conditionEventsAnd": [ ],
-      "conditionEventsOr": [ ],
-      "conditionTurn": { "min": 1},
+      "conditionEvents": [ "test" ],
+      "conditionTurn": { "min": 3 },
       "conditionStatus": {
         "文科": { "min": 0 }
       }

@@ -35,7 +35,6 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public List<string> conditionEvents;
 
-
         /// <summary>
         /// 条件回合
         /// </summary>
@@ -56,7 +55,7 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 是否结束
         /// </summary>
-        public bool overFlag;
+        public bool finished;
 
         public MapEvent(string name, string position, string entryNode)
         {
@@ -67,9 +66,8 @@ namespace Assets.Script.GameStruct
             conditionStatus = new Dictionary<string, Range>();
             conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
             girls = new List<string>();
-            overFlag = false;
+            finished = false;
         }
-
         
         public override string ToString()
         {

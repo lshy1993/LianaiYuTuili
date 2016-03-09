@@ -17,7 +17,7 @@ namespace Assets.Script.GameStruct
     {
         private System.Random random;
         private static EventManager instance;
-        private readonly string PATH = "MapEvents/";
+        private readonly string PATH = "Assets/Script/MapEvents/";
         public static EventManager GetInstance()
         {
             if (instance == null) instance = new EventManager();
@@ -51,6 +51,7 @@ namespace Assets.Script.GameStruct
         
         private void init()
         {
+            Debug.Log("Init Event Manager");
             eventTable = new Dictionary<string, List<MapEvent>>();
             currentEvents = new Dictionary<string, List<MapEvent>>();
             eventPointers = new Dictionary<string, int>();
@@ -113,6 +114,22 @@ namespace Assets.Script.GameStruct
             }
         }
 
+        public MapEvent GetEventByName(string name)
+        {
+            foreach (List<MapEvent> eventLink in eventTable.Values)
+            {
+                foreach(MapEvent e in eventLink)
+                {
+                    if (e.name.Equals(name))
+                    {
+                        return e;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         private bool isAvailableEvent(MapEvent value)
         {
             User user = (User)GameManager.GetGlobalVars()["用户数据"];
@@ -121,7 +138,9 @@ namespace Assets.Script.GameStruct
             // 不满足前置日期
             if (value.conditionTurn.GetMax() < user.GetTime("回合") &&
                 value.conditionTurn.GetMin() > user.GetTime("回合"))
+            {
                 return false;
+            }
 
             // 不满足前置属性
             if (value.conditionStatus != null &&
@@ -142,8 +161,13 @@ namespace Assets.Script.GameStruct
             // 不满足前置事件
             if (value.conditionEvents != null && value.conditionEvents.Count > 0)
             {
-                // TODO
-
+                foreach(string eventName in value.conditionEvents)
+                {
+                    if (!GetEventByName(eventName).finished)
+                    {
+                        return false;
+                    }
+                }
             }
 
             // 不是正确的妹子
@@ -164,8 +188,6 @@ namespace Assets.Script.GameStruct
                 return;
             }
 
-
-
             foreach (string file in Directory.GetFiles(PATH))
             {
                 if (Path.GetExtension(file) == ".json")
@@ -183,7 +205,6 @@ namespace Assets.Script.GameStruct
         private List<MapEvent> ParseJsonToEventList(string jsonContent)
         {
 
-            //Dictionary<string, MapEvent> dict = new Dictionary<string, MapEvent>();
             List<MapEvent> list = new List<MapEvent>();
 
             JsonData alldata = JsonMapper.ToObject(jsonContent)["data"];
@@ -195,9 +216,16 @@ namespace Assets.Script.GameStruct
                 string entryNode = (string)data["entryNode"];
                 MapEvent me = new MapEvent(name, position, entryNode);
 
+                if (data.Contains("conditionEvents"))
+                {
+                    foreach(string eventName in data["conditionEvents"])
+                    {
+                        me.conditionEvents.Add(eventName);
+                    }
+                }
 
 
-                /// 属性
+                // 属性
                 if (data.Contains("conditionStatus")) 
                 {
                     foreach (KeyValuePair<string, JsonData> kv in data["conditionStatus"])
