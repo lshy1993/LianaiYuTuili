@@ -23,7 +23,6 @@ public class PanelSwitch : MonoBehaviour
         "Title",
         "Invest",
         "Detect",
-		//"SysMenu",
         "System",
         "Enquire",
         "Negotiate",
@@ -55,7 +54,6 @@ public class PanelSwitch : MonoBehaviour
             //if (panels["SysMenu"].activeSelf)//已经开启的情况
             if (panels["System"].activeSelf)
             {
-                //StartCoroutine(Fadeout(0.5f, panels["SysMenu"]));
                 StartCoroutine(Fadeout(0.5f, panels["System"]));
                 Debug.Log("Close Menu!");
             }

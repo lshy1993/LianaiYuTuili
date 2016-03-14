@@ -26,7 +26,7 @@ namespace Assets.Script.GameStruct
 
         private EventManager()
         {
-            init();
+            Init();
 
         }
 
@@ -49,7 +49,7 @@ namespace Assets.Script.GameStruct
 
 
         
-        private void init()
+        private void Init()
         {
             Debug.Log("Init Event Manager");
             eventTable = new Dictionary<string, List<MapEvent>>();
@@ -59,8 +59,8 @@ namespace Assets.Script.GameStruct
             LoadEvents();
             initPointer();
             updateEvents();
+            Debug.Log(GetEventDebugStr());
         }
-
 
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Assets.Script.GameStruct
                     currentEvents.Add(me.position, new List<MapEvent>());
                 }
 
-                currentEvents[kv.Key].Add(me);
+                currentEvents[me.position].Add(me);
             }
 
         }
@@ -113,6 +113,19 @@ namespace Assets.Script.GameStruct
                 eventPointers.Add(eventLink, 0); 
             }
         }
+
+        private void MovePointer(string place)
+        {
+            if (eventPointers.ContainsKey(place))
+            {
+                eventPointers[place]++;
+            }
+            else
+            {
+                Debug.Log("没有对应的地点: " + place);
+            }
+        }
+
 
         public MapEvent GetEventByName(string name)
         {
@@ -180,6 +193,25 @@ namespace Assets.Script.GameStruct
             return true;
         }
 
+        public GameNode RunEvent(string place)
+        {
+            GameNode nextNode = null;
+            MapEvent e = GetCurrentEvent(place);
+
+            if (e.entryNode.Equals("WeekNode"))
+            {
+
+            }
+            else
+            {
+                nextNode = NodeFactory.GetInstance().FindTextScript(e.entryNode);
+            }
+
+            MovePointer(place);
+            e.finished = true;
+            return nextNode;
+        }
+
         private void LoadEvents()
         {
             if (Directory.GetFiles(PATH).Length < 1)
@@ -212,15 +244,15 @@ namespace Assets.Script.GameStruct
             foreach (JsonData data in alldata)
             {
                 string name = (string)data["name"];
-                string position = (string)data["positon"];
+                string position = (string)data["position"];
                 string entryNode = (string)data["entryNode"];
                 MapEvent me = new MapEvent(name, position, entryNode);
 
                 if (data.Contains("conditionEvents"))
                 {
-                    foreach(string eventName in data["conditionEvents"])
+                    foreach(JsonData eventName in data["conditionEvents"])
                     {
-                        me.conditionEvents.Add(eventName);
+                        me.conditionEvents.Add((string)eventName);
                     }
                 }
 
@@ -230,7 +262,9 @@ namespace Assets.Script.GameStruct
                 {
                     foreach (KeyValuePair<string, JsonData> kv in data["conditionStatus"])
                     {
-                        Range range = new Range((int)kv.Value["min"], (int)kv.Value["max"]);
+                        int min = kv.Value.Contains("min") ? (int)kv.Value["min"] :  Constants.STATUS_MIN;
+                        int max = kv.Value.Contains("max") ? (int)kv.Value["max"] :  Constants.STATUS_MAX;
+                        Range range = new Range(min, max);
                         me.conditionStatus.Add(kv.Key, range);
                     }
 
@@ -253,6 +287,24 @@ namespace Assets.Script.GameStruct
             }
 
             return list;
+        }
+
+        public String GetEventDebugStr()
+        {
+            string str = "";
+
+
+            str += "EventTable:\n";
+            foreach(KeyValuePair<string, List<MapEvent>> kv in eventTable){
+                str += ("  " + kv.Key + "\n");
+                foreach(MapEvent e in kv.Value)
+                {
+                    str += ("    " + e.ToString() + "\n");
+                }
+
+            }
+
+            return str;
         }
     }
 }

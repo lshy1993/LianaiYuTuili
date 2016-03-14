@@ -14,13 +14,19 @@ namespace Assets.Script.GameStruct
     public class WeekNode : GameNode
     {
         private bool finished;
+
+        private EventManager em;
+        private GameNode next;
         public WeekNode(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps)
-        { }
+        {
+            next = this;
+            em = EventManager.GetInstance();
+        }
+
         public override void Init()
         {
             base.Init();
             finished = false;
-            //ps.SwitchTo("Edu");
             ps.SwitchTo("Map");
         }
         public override void Update()
@@ -32,6 +38,16 @@ namespace Assets.Script.GameStruct
                 
             }
 
+        }
+
+        public void SetNext(GameNode node)
+        {
+            this.next = node;
+
+        }
+        public override GameNode NextNode()
+        {
+            return next;
         }
     }
 }

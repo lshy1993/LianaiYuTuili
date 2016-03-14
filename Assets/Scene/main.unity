@@ -1991,6 +1991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f800d45e533b6458b2daa6b870a822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btnDataJSON: {fileID: 0}
   placeNum: 4
 --- !u!114 &78080994
 MonoBehaviour:
@@ -3109,6 +3110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f800d45e533b6458b2daa6b870a822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btnDataJSON: {fileID: 0}
   placeNum: 3
 --- !u!114 &138151513
 MonoBehaviour:
@@ -29005,7 +29007,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1293926307
 Transform:
   m_ObjectHideFlags: 0
@@ -29061,7 +29063,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3003
+  startingRenderQueue: 3001
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -33669,6 +33671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f800d45e533b6458b2daa6b870a822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btnDataJSON: {fileID: 0}
   placeNum: 5
 --- !u!114 &1570792578
 MonoBehaviour:
@@ -33913,6 +33916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f800d45e533b6458b2daa6b870a822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btnDataJSON: {fileID: 4900000, guid: f50c0a583b48fdb4a8fc863fcbaa2ae2, type: 3}
   placeNum: 1
 --- !u!1 &1571810856
 GameObject:
@@ -34148,6 +34152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f800d45e533b6458b2daa6b870a822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btnDataJSON: {fileID: 0}
   placeNum: 2
 --- !u!114 &1593404713
 MonoBehaviour:
@@ -39151,6 +39156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f800d45e533b6458b2daa6b870a822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btnDataJSON: {fileID: 0}
   placeNum: 6
 --- !u!114 &1844824610
 MonoBehaviour:
@@ -42242,13 +42248,13 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
-  mWidth: 86
+  mWidth: 82
   mHeight: 28
   mDepth: 6
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 3.07142854
+  aspectRatio: 2.92857146
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
   mFont: {fileID: 0}

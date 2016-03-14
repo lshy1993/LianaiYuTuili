@@ -11,7 +11,8 @@ namespace Assets.Script.GameStruct
     {
         private int current;
         public IList<Piece> pieces;
-        public PieceFactory f;
+        protected PieceFactory f;
+        protected NodeFactory nodeFactory;
         private bool move;
 
 
@@ -23,6 +24,7 @@ namespace Assets.Script.GameStruct
             move = false;
             pieces = null;
             f = new PieceFactory(root, gVars, lVars);
+            nodeFactory = NodeFactory.GetInstance();
 
             ps.SwitchTo("Avg");
         }
@@ -42,6 +44,22 @@ namespace Assets.Script.GameStruct
         }
 
 
-        
+        public override string ToString()
+        {
+            string str = "";
+
+
+            foreach(Piece p in pieces)
+            {
+                TextPiece tp = p as TextPiece;
+                if(tp != null)
+                {
+                    str += tp.ToString();
+                }
+
+            }
+
+            return  base.ToString() + str;
+        }
     }
 }

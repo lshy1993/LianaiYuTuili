@@ -23,7 +23,7 @@ namespace Assets.Script.GameStruct
             nameLabel = root.transform.Find("Avg_Panel/Label_Name").GetComponent<UILabel>();
             
             dialogLabel = root.transform.Find("Avg_Panel/Label_Dialog").GetComponent<UILabel>();
-                }
+        }
 
         /// <summary>
         /// 生成一个简单的文字段

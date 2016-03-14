@@ -73,13 +73,17 @@ namespace Assets.Script.GameStruct
             if (name != null && name.Length != 0) nameLabel.text = name;
             if (name != null && dialog.Length != 0) dialogLabel.text = dialog;
         }
-
         private void setVars(string name, string dialog, UILabel nameLabel, UILabel dialogLabel)
         {
             this.name = name;
             this.dialog = dialog;
             this.dialogLabel = dialogLabel;
             this.nameLabel = nameLabel;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString()+ "name: " + name + "dialog: " + dialog + "\n";
         }
     }
 }

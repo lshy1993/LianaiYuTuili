@@ -16,23 +16,35 @@ namespace Assets.Script.GameStruct
 
         private GameNode next = null;
 
-        public MapNode(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps) { }
+        public MapNode(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps)
+        {
+            this.next = this;
+        }
+
+
+        public override void Init()
+        {
+            base.Init();
+
+            ps.SwitchTo("Map");
+        }
+
         public override void Update() { }
 
         public void ChooseNext(GameNode next)
         {
             this.next = next;
+
             base.end = true;
         }
 
         public override GameNode NextNode()
         {
 
-            if (this.next == null) return this;
-
             GameNode temp = this.next;
 
             base.end = false;
+
             this.next = null;
 
             return temp;

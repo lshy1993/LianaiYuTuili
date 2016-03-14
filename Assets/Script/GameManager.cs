@@ -3,6 +3,8 @@ using System.Collections;
 using Assets.Script.GameStruct;
 using Assets.Script;
 using Assets.Script.GameStruct.Model;
+using System;
+using Assets.Script.TextScripts;
 /// <summary>
 /// GameManager: 
 /// 整个游戏只允许一个，且不能由于场景切换而被删除
@@ -73,20 +75,28 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public EventManager em;
 
+
+    public NodeFactory nodeFactory;
+
     public GameNode node;
 
     
+    /// <summary>
+    /// 需要重新整理初始化顺序之类，太乱了
+    /// </summary>
 	void Awake()
     {
         root = GameObject.Find("UI Root");
         em = EventManager.GetInstance();
+        nodeFactory = NodeFactory.GetInstance();
         if(ps == null) ps = transform.GetComponent<PanelSwitch>();
         if(tm == null) tm = transform.GetComponent<TextManager>();
-        if(im == null)im = transform.GetComponent<ImageManager>();
+        if(im == null) im = transform.GetComponent<ImageManager>();
         ps.Init();
         playerdata = new UserData();
         GetGlobalVars();
         gVars.Add("用户数据", User.GetInstance());
+        nodeFactory.Init(gVars, root, ps);
         for(int i = 0; i < 7; i++)
         {
             girl[i] = new GirlData(i);
@@ -103,15 +113,26 @@ public class GameManager : MonoBehaviour {
         }
         else if (node.end)
         {
-            node = node.NextNode();
+            // node = node.NextNode();
+            SwitchNode();
         }
         
 
     }
+
+    private void SwitchNode()
+    {
+        this.node = this.node.NextNode();
+    }
+
+
+
     //新游戏数据准备
     public void NewGame()
     {
-        node = new Script_1(gVars, root, ps);
+        node = nodeFactory.FindTextScript("Script_1");
+        //node = new Script_1(gVars, root, ps);
+
         //Debug.Log("New Game!");
         //ps.SwitchTo("Avg");
         //playerdata = new UserData();
@@ -153,7 +174,7 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
-                int seed = Random.Range(0, 100);
+                int seed = UnityEngine.Random.Range(0, 100);
                 Debug.Log(seed);
                 if (seed > 50)
                 {
@@ -184,8 +205,6 @@ public class GameManager : MonoBehaviour {
     }
     public void MapEvent()
     {
-        Debug.Log("Map+week:" + playerdata.week);
-        //ps.MapToAvg();
         tm.file = "testplace";
         tm.NewFile();
     }

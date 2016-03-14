@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Script
+namespace Assets.Script.TextScripts
 {
     public class Script_1 : TextScript
     {
@@ -42,7 +42,7 @@ namespace Assets.Script
         {
             //return base.NextNode();
             Finish();
-            return new WeekNode(gVars, root, ps);
+            return nodeFactory.GetMapNode();
         }
 
     }

@@ -1,13 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using AnimationOrTween;
+using LitJson;
+using Assets.Script.GameStruct;
+using System;
 
 public class PlaceButton : MonoBehaviour {
 
+    public TextAsset btnDataJSON;
+    public int placeNum;
+ 
     private GameObject root;
     private MapManager mm;
+    private EventManager em;
+    private GameManager gm;
+    private static readonly string BACKGROUND_PATH_PREFIX = "Background/";
 
-    public int placeNum;
+    private string place;
+    private string name;
+    private string background;
+    private string info;
     private GameObject infoContainerObject;
     private GameObject thumbImgaeObject;
     private GameObject placeNameObject;
@@ -17,11 +29,12 @@ public class PlaceButton : MonoBehaviour {
     private UILabel uiLabelInfo;
     private Sprite[] spr;
 
-	// Use this for initialization
 	void Start ()
     {
         root = GameObject.Find("UI Root");
         mm = root.transform.Find("Map_Panel").gameObject.GetComponent<MapManager>();
+        em = EventManager.GetInstance();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         infoContainerObject = root.transform.Find("Map_Panel/PlaceInfo_Container").gameObject;
         thumbImgaeObject = root.transform.Find("Map_Panel/PlaceInfo_Container/ThumbNails_Sprite").gameObject;
         placeNameObject = root.transform.Find("Map_Panel/PlaceInfo_Container/PlaceName_Text").gameObject;
@@ -30,10 +43,38 @@ public class PlaceButton : MonoBehaviour {
         uiLabelName = placeNameObject.GetComponent<UILabel>();
         uiLabelInfo = placeInfoObject.GetComponent<UILabel>();
         spr = Resources.LoadAll<Sprite>("Background");
+        LoadJson();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void LoadJson()
+    {
+        string jsonStr = btnDataJSON.text;
+        if(jsonStr == null || jsonStr.Length == 0)
+        {
+            Debug.LogError("请检查按钮的JSON配置文件！" + gameObject.name);
+            return;
+        }
+
+        JsonData jsonData = JsonMapper.ToObject(jsonStr);
+        if(jsonData.Contains("place") &&
+           jsonData.Contains("background") &&
+           jsonData.Contains("name") &&
+           jsonData.Contains("info"))
+        {
+            place = (string)jsonData["place"];
+            name = (string)jsonData["name"];
+            background = (string)jsonData["background"];
+            info = (string)jsonData["info"];
+        }
+        else
+        {
+
+            Debug.LogError("JSON配置文件格式错误！" + gameObject.name);
+        }
+       
+    }
+
+    void Update () {
 	
 	}
 
@@ -52,12 +93,17 @@ public class PlaceButton : MonoBehaviour {
 
     void SetText()
     {
+
+        uiSprite.sprite2D = Resources.Load<Sprite>(BACKGROUND_PATH_PREFIX + background);
+        uiLabelName.text = name;
+        uiLabelInfo.text = info;
+        
         switch (placeNum)
         {
             case 1:
-                uiSprite.sprite2D = spr[0];
-                uiLabelName.text = "1号教学楼";
-                uiLabelInfo.text = "华的教学楼，整个高中部都在这里。而2号和3号教学楼则给初中部使用。";
+                //uiSprite.sprite2D = spr[0];
+                //uiLabelName.text = "1号教学楼";
+                //uiLabelInfo.text = "华的教学楼，整个高中部都在这里。而2号和3号教学楼则给初中部使用。";
                 break;
             case 2:
                 uiSprite.sprite2D = spr[1];
@@ -91,7 +137,29 @@ public class PlaceButton : MonoBehaviour {
 
     void OnClick()
     {
-        mm.GoPlace(placeNum);
+        // mm.GoPlace(placeNum);
+
+        MapNode mapNode = gm.node as MapNode;
+
+        if(mapNode != null)
+        {
+            GameNode next = em.RunEvent(place);
+
+            if(next != null)
+            {
+
+                mapNode.ChooseNext(next);
+            }
+            else
+            {
+                Debug.LogError("无法运行事件!返回值为空");
+            }
+
+        }
+        else
+        {
+            Debug.LogError("当前Node不是MapNode");
+        }
     }
 
     IEnumerator MoveIn(bool isleft)
