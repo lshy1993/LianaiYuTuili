@@ -1,0 +1,43 @@
+﻿{
+  "data": [
+    {
+      "name": "S3001",
+      "position": "Market",
+      "entryNode": "S3001",
+      "conditionTurn": { "min": 5 },
+      "conditionStatus": {
+        "宅": { "min": 0 }
+      }
+    },
+    {
+      "name": "S3002",
+      "position": "Market",
+      "entryNode": "S3002",
+      "conditionEvents": [ "S3001" ],
+      "conditionTurn": { "min": 12 },
+      "conditionStatus": {
+        "宅": { "min": 0 }
+      }
+    },
+    {
+      "name": "S3003",
+      "position": "University",
+      "entryNode": "S3003",
+      "conditionEvents": [ "S3002" ],
+      "conditionTurn": { "min": 17 },
+      "conditionStatus": {
+        "宅": { "min": 0 }
+      }
+    },
+    {
+      "name": "S3004",
+      "position": "University",
+      "entryNode": "S3004",
+      "conditionEvents": [ "S3003" ],
+      "conditionTurn": { "min": 22 },
+      "conditionStatus": {
+        "宅": { "min": 0 }
+      }
+    }
+  ]
+}
