@@ -1,20 +1,19 @@
 ﻿{
   "data": [
     {
-      "name": "test1",
+      "name": "S1001",
       "position": "TeachOne",
-      "entryNode": "Script_1",
-      "conditionEvents": [ "test" ],
+      "entryNode": "S1001",
       "conditionTurn": { "min": 3 },
       "conditionStatus": {
         "文科": { "min": 0 }
       }
     },
     {
-      "name": "test2",
-      "position": "TeachTwo",
-      "entryNode": "Script_2",
-      "conditionEvents": [ "test" ],
+      "name": "S1002",
+      "position": "Ground",
+      "entryNode": "S1002",
+      "conditionEvents": [ "S1001" ],
       "conditionTurn": { "min": 3 },
       "conditionStatus": {
         "文科": { "min": 0 }

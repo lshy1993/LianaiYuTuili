@@ -4,7 +4,7 @@
       "name": "S3001",
       "position": "Market",
       "entryNode": "S3001",
-      "conditionTurn": { "min": 5 },
+      "conditionTurn": { "min": 0 },
       "conditionStatus": {
         "宅": { "min": 0 }
       }
@@ -14,7 +14,7 @@
       "position": "Market",
       "entryNode": "S3002",
       "conditionEvents": [ "S3001" ],
-      "conditionTurn": { "min": 12 },
+      "conditionTurn": { "min": 0 },
       "conditionStatus": {
         "宅": { "min": 0 }
       }
@@ -24,7 +24,7 @@
       "position": "University",
       "entryNode": "S3003",
       "conditionEvents": [ "S3002" ],
-      "conditionTurn": { "min": 17 },
+      "conditionTurn": { "min": 0 },
       "conditionStatus": {
         "宅": { "min": 0 }
       }
@@ -34,7 +34,7 @@
       "position": "University",
       "entryNode": "S3004",
       "conditionEvents": [ "S3003" ],
-      "conditionTurn": { "min": 22 },
+      "conditionTurn": { "min": 0 },
       "conditionStatus": {
         "宅": { "min": 0 }
       }

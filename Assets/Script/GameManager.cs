@@ -130,7 +130,10 @@ public class GameManager : MonoBehaviour {
     //新游戏数据准备
     public void NewGame()
     {
-        node = nodeFactory.FindTextScript("S0001_1");
+        //node = nodeFactory.FindTextScript("S0001_1");此为真的初始
+
+        node = nodeFactory.FindTextScript("test0");
+
         //node = new Script_1(gVars, root, ps);
 
         //Debug.Log("New Game!");

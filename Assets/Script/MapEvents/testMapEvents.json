@@ -2,8 +2,8 @@
   "data": [
     {
       "name": "test1",
-      "position": "TeachOne",
-      "entryNode": "Script_1",
+      "position": "TeachTwo",
+      "entryNode": "S0000",
       "conditionEvents": [ "test" ],
       "conditionTurn": { "min": 3 },
       "conditionStatus": {
