@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Assets.Script.GameStruct
 {
-
     /// <summary>
     /// MapEvent 
     /// 大地图事件
