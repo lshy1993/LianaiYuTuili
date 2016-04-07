@@ -17,7 +17,7 @@ namespace Assets.Script.GameStruct
     {
         private System.Random random;
         private static EventManager instance;
-        private readonly string PATH = "Assets/Script/MapEvents/";
+        private readonly string PATH = "Text/MapEvents/";
         public static EventManager GetInstance()
         {
             if (instance == null) instance = new EventManager();
@@ -214,23 +214,12 @@ namespace Assets.Script.GameStruct
 
         private void LoadEvents()
         {
-            if (Directory.GetFiles(PATH).Length < 1)
+
+            foreach (TextAsset text in Resources.LoadAll<TextAsset>(PATH))
             {
-                Debug.Log("事件路径无效");
-                return;
-            }
+                Debug.Log("读取：" + text.name);
 
-            foreach (string file in Directory.GetFiles(PATH))
-            {
-                if (Path.GetExtension(file) == ".json")
-                {
-                    string jsonContent = File.ReadAllText(file);
-
-                    Debug.Log("读取：" + Path.GetFileName(file));
-
-                    eventTable.Add(Path.GetFileName(file), ParseJsonToEventList(jsonContent));
-                }
-
+                eventTable.Add(text.name, ParseJsonToEventList(text.text));
             }
         }
 
