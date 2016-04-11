@@ -23,6 +23,10 @@ namespace Assets.Script.GameStruct
             nameLabel = root.transform.Find("Avg_Panel/Label_Name").GetComponent<UILabel>();
             
             dialogLabel = root.transform.Find("Avg_Panel/Label_Dialog").GetComponent<UILabel>();
+
+            // Fix: 将文本初始设为空，避免重复上一个文本的最后部分
+            nameLabel.text = "";
+            dialogLabel.text = "";
         }
 
         /// <summary>

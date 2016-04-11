@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using LitJson;
 using UnityEngine;
-using System;
 
 /// <summary>
 /// EventManager
@@ -15,7 +14,7 @@ namespace Assets.Script.GameStruct
 {
     public class EventManager
     {
-        private System.Random random;
+        private UnityEngine.Random random;
         private static EventManager instance;
         private readonly string PATH = "Text/MapEvents/";
         public static EventManager GetInstance()
@@ -27,7 +26,6 @@ namespace Assets.Script.GameStruct
         private EventManager()
         {
             Init();
-
         }
 
 
@@ -55,7 +53,8 @@ namespace Assets.Script.GameStruct
             eventTable = new Dictionary<string, List<MapEvent>>();
             currentEvents = new Dictionary<string, List<MapEvent>>();
             eventPointers = new Dictionary<string, int>();
-            random = new System.Random();
+            //random = new System.Random();
+            random = new Random();
             LoadEvents();
             initPointer();
             updateEvents();
@@ -71,8 +70,7 @@ namespace Assets.Script.GameStruct
         public MapEvent GetCurrentEvent(string pos)
         {
             updateEvents();
-
-            return currentEvents.ContainsKey(pos) ? currentEvents[pos][random.Next(0, currentEvents[pos].Count - 1)] : null;
+            return currentEvents.ContainsKey(pos) ? currentEvents[pos][Random.Range(0, currentEvents[pos].Count)] : null;
         }
 
         /// <summary>
@@ -114,16 +112,28 @@ namespace Assets.Script.GameStruct
             }
         }
 
-        private void MovePointer(string place)
+        private void MovePointer(MapEvent e)
         {
-            if (eventPointers.ContainsKey(place))
+            string eventLink = GetEventLinkName(e);
+            if (eventLink != null)
             {
-                eventPointers[place]++;
+                //eventPointers[place] = eventPointers[place] + 1;
+                eventPointers[eventLink]++;
             }
             else
             {
-                Debug.Log("没有对应的地点: " + place);
+                Debug.LogError("找不到事件对应的事件链: " + e.name);
             }
+        }
+
+        private string GetEventLinkName(MapEvent e)
+        {
+
+            foreach(KeyValuePair<string, List<MapEvent>> kv in eventTable)
+            {
+                if (kv.Value.Contains(e)) return kv.Key;
+            }
+            return null;
         }
 
 
@@ -200,14 +210,14 @@ namespace Assets.Script.GameStruct
 
             if (e.entryNode.Equals("WeekNode"))
             {
-
+                // TODO 
             }
             else
             {
                 nextNode = NodeFactory.GetInstance().FindTextScript(e.entryNode);
             }
 
-            MovePointer(place);
+            MovePointer(e);
             e.finished = true;
             return nextNode;
         }
@@ -278,7 +288,7 @@ namespace Assets.Script.GameStruct
             return list;
         }
 
-        public String GetEventDebugStr()
+        public string GetEventDebugStr()
         {
             string str = "";
 
