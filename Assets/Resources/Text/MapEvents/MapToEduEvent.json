@@ -1,9 +1,9 @@
 ﻿{
   "data": [
     {
-      "name": "ToEdu",
-      "position": "TeachThree",
-      "entryNode": "S0000"
+      "事件": "ToEdu",
+      "地点": "三号教学楼",
+      "入口": "S0000"
     }
   ]
 }

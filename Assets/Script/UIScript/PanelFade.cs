@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-//namespace Assets.Script.UIScript
-//{
 public class PanelFade : MonoBehaviour
 {
     public bool open;

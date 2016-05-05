@@ -1,23 +1,23 @@
 ﻿{
   "data": [
     {
-      "name": "test1",
-      "position": "TeachTwo",
-      "entryNode": "S0000",
-      "conditionEvents": [ "test" ],
-      "conditionTurn": { "min": 3 },
-      "conditionStatus": {
-        "文科": { "min": 0 }
+      "事件": "test1",
+      "地点": "二号教学楼",
+      "入口": "S0000",
+      "前置事件": [ "test" ],
+      "回合条件": { "最小": 3 },
+      "属性条件": {
+        "文科": { "最小": 0 }
       }
     },
     {
-      "name": "test2",
-      "position": "TeachTwo",
-      "entryNode": "Script_2",
-      "conditionEvents": [ "test" ],
-      "conditionTurn": { "min": 3 },
-      "conditionStatus": {
-        "文科": { "min": 0 }
+      "事件": "test2",
+      "地点": "二号教学楼",
+      "入口": "Script_2",
+      "前置事件": [ "test" ],
+      "回合条件": { "最小": 3 },
+      "属性条件": {
+        "文科": { "最小": 0 }
       }
     }
   ]
