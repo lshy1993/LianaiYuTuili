@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Script.GameStruct.Model
 {
+
     /// <summary>
     /// Class User
     /// 用户数据模型
     /// </summary>
     public class Player
     {
+
+        public static readonly string[] WEEKDAYS = {
+            "星期一",
+            "星期二",
+            "星期三",
+            "星期四",
+            "星期五",
+            "星期六",
+            "星期天"
+        };
+
+
         /// <summary>
         /// 进度
         /// </summary>
@@ -31,6 +45,34 @@ namespace Assets.Script.GameStruct.Model
         /// </summary>
         private Dictionary<string, int> logicStatus;
 
+        /// <summary>
+        /// 体力
+        /// </summary>
+        private int energyPoint;
+        public int EnergyPoint
+        {
+            set{
+                if(value > Constants.MOVE_MAX || value < Constants.MOVE_MIN)
+                {
+                    Debug.Log("体力超过上下限");
+                }
+                else
+                {
+                    this.energyPoint = value;
+                }
+            }
+
+            get { return energyPoint; }
+        }
+
+        public void ResetEnergyPoint()
+        {
+            energyPoint = Constants.MOVE_MAX;
+        }
+        public void AddEnergy(int i)
+        {
+            EnergyPoint = EnergyPoint + i;
+        }
         private static Player instance = null;
         public static Player GetInstance()
         {
@@ -40,10 +82,10 @@ namespace Assets.Script.GameStruct.Model
 
         private Player()
         {
-            init();
+            Init();
         }
 
-        private void init()
+        private void Init()
         {
             progress = new Dictionary<string, int>();
             basicStatus = new Dictionary<string, int>();
@@ -54,7 +96,7 @@ namespace Assets.Script.GameStruct.Model
             progress["日"] = 1;
             progress["星期"] = 1;
             progress["回合"] = 1;
-            
+
 
             basicStatus["文科"] = 50;
             basicStatus["理科"] = 50;
@@ -62,7 +104,7 @@ namespace Assets.Script.GameStruct.Model
             basicStatus["体育"] = 50;
             basicStatus["宅力"] = 50;
             basicStatus["排名"] = 150000;
-            basicStatus["金钱"] = 100; 
+            basicStatus["金钱"] = 100;
 
 
             girls["苏梦忆"] = 0;
@@ -79,10 +121,10 @@ namespace Assets.Script.GameStruct.Model
         }
 
 
-        public void moveOneTurn()
+        public void MoveOneTurn()
         {
             int t = progress["回合"] + 1;
-            if(0 < t && t <= 30)
+            if (0 < t && t <= 30)
             {
                 progress["月"] = 9;
                 progress["日"] = t;
@@ -92,25 +134,25 @@ namespace Assets.Script.GameStruct.Model
                 progress["月"] = 10;
                 progress["日"] = t - 30;
             }
-            else if(t <= 91)
+            else if (t <= 91)
             {
                 progress["月"] = 11;
                 progress["日"] = t - 61;
             }
-            else if(t <= 122)
+            else if (t <= 122)
             {
                 progress["月"] = 12;
                 progress["日"] = t - 91;
             }
-            else if(t <= 153)
+            else if (t <= 153)
             {
                 progress["月"] = 1;
                 progress["日"] = t - 122;
             }
-            else if(t <= 180)
+            else if (t <= 180)
             {
                 progress["月"] = 2;
-                progress["日"] = t - 153;               
+                progress["日"] = t - 153;
             }
             else
             {
@@ -122,22 +164,41 @@ namespace Assets.Script.GameStruct.Model
             progress["回合"] = t;
 
         }
-
+        /// <summary>
+        /// 获取时间
+        /// </summary>
+        /// <param name="s">日， 月， 星期，回合</param>
+        /// <returns></returns>
         public int GetTime(string s)
         {
             return progress[s];
         }
-
+        /// <summary>
+        /// 获取基本属性
+        /// 文科，理科，艺术，体育，宅力，排名，金钱
+        /// </summary>
+        /// <param name="s">文科，理科，艺术，体育，宅力，排名，金钱</param>
+        /// <returns></returns>
         public int GetBasicStatus(string s)
         {
             return basicStatus[s];
         }
-
+        /// <summary>
+        /// 检测基本属性
+        /// 文科，理科，艺术，体育，宅力，排名，金钱
+        /// </summary>
+        /// <param name="s">文科，理科，艺术，体育，宅力，排名，金钱</param>
+        /// <returns></returns>
         public bool ContainsBasicStatus(string s)
         {
             return basicStatus.ContainsKey(s);
         }
-
+        /// <summary>
+        /// 基本属性
+        /// 文科，理科，艺术，体育，宅力，排名，金钱
+        /// </summary>
+        /// <param name="s">文科，理科，艺术，体育，宅力，排名，金钱</param>
+        /// <returns></returns>
         public void AddBasicStatus(string s, int i)
         {
             if (basicStatus.ContainsKey(s))
@@ -164,10 +225,22 @@ namespace Assets.Script.GameStruct.Model
         }
 
 
+        /// <summary>
+        /// 好感度
+        /// 苏梦忆,西门吹,欧阳晓芸,车小曼,陈瑜
+        /// </summary>
+        /// <param name="s">苏梦忆,西门吹,欧阳晓芸,车小曼,陈瑜</param>
+        /// <returns></returns>
         public int GetGirlPoint(string s)
         {
             return girls[s];
         }
+
+        /// 好感度
+        /// 苏梦忆,西门吹,欧阳晓芸,车小曼,陈瑜
+        /// </summary>
+        /// <param name="s">苏梦忆,西门吹,欧阳晓芸,车小曼,陈瑜</param>
+        /// <returns></returns>
 
         public void AddGirlPoint(string s, int i)
         {
@@ -182,14 +255,35 @@ namespace Assets.Script.GameStruct.Model
 
 
 
+        /// <summary>
+        /// 获取逻辑属性
+        /// 冷静，口才，思维，观察，生命上限
+        /// </summary>
+        /// <param name="s">冷静，口才，思维，观察，生命上限</param>
+        /// <returns></returns>
         public int GetLogicStatus(string s)
         {
             return logicStatus[s];
         }
+
+        /// <summary>
+        /// 获取逻辑属性
+        /// 冷静，口才，思维，观察，生命上限
+        /// </summary>
+        /// <param name="s">冷静，口才，思维，观察，生命上限</param>
+        /// <returns></returns>
         public bool ContainsLogicStatus(string s)
         {
             return logicStatus.ContainsKey(s);
         }
+
+
+        /// <summary>
+        /// 获取逻辑属性
+        /// 冷静，口才，思维，观察，生命上限
+        /// </summary>
+        /// <param name="s">冷静，口才，思维，观察，生命上限</param>
+        /// <returns></returns>
         public void AddLogicStatus(string s, int i)
         {
             if (logicStatus.ContainsKey(s))
@@ -197,15 +291,17 @@ namespace Assets.Script.GameStruct.Model
                 logicStatus[s] += i;
                 if (logicStatus[s] < Constants.LOGIC_MIN) logicStatus[s] = Constants.LOGIC_MIN;
                 if (logicStatus[s] > Constants.LOGIC_MAX) logicStatus[s] = Constants.LOGIC_MAX;
-
             }
 
-            
         }
+
+
 
         public override string ToString()
         {
             string str = base.ToString();
+            str += "玩家数据Player:\n";
+            str += "体力： " + energyPoint;
 
             str += "\nprogress: \n";
             foreach (var item in progress)
@@ -232,7 +328,6 @@ namespace Assets.Script.GameStruct.Model
             }
             return str;
         }
-
 
     }
 }

@@ -15,8 +15,10 @@ using Assets.Script.GameStruct.EventSystem;
 /// 储存主要游戏数据，提供其他Manager访问
 /// 提供方法供其他Manager使用，同时控制其他Manager
 /// 从而实现游戏进程的推进
+/// TODO: 存储读档机制
 /// </summary>
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
     private GameObject root;
     /// <summary>
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour {
         if (gVars == null)
         {
             gVars = new Hashtable();
-//            InitGlobalVars();
+            //            InitGlobalVars();
         }
         return GameManager.gVars;
     }
@@ -49,6 +51,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public SoundManager sm;
 
+
     /// <summary>
     /// 事件管理器
     /// </summary>
@@ -57,7 +60,7 @@ public class GameManager : MonoBehaviour {
     /// <summary>
     /// 文字部分管理器
     /// </summary>
-    public TextManager tm;
+    //public TextManager tm;
 
     /// <summary>
     /// 创建Node的工厂
@@ -67,29 +70,25 @@ public class GameManager : MonoBehaviour {
 
     /// <summary>
     /// 当前游戏节点
-    /// 游戏节点包含一组游戏指令，这个节点通常由
     /// </summary>
     public GameNode node;
 
-    
-    /// <summary>
-    /// TODO 需要重新整理初始化顺序之类，太乱了
-    /// </summary>
-	void Awake()
+    void Awake()
     {
         InitSystem();
         InitGlobalGameData();
         InitSource();
         InitEvents();
-
     }
 
-	void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
-        if(node == null)
+        if (node == null)
         {
             // Debug.Log("Game End, node null");
+            // 标题画面
+            //ps.SwitchTo("Title");
         }
         else if (node.end)
         {
@@ -109,19 +108,34 @@ public class GameManager : MonoBehaviour {
     public void NewGame()
     {
         //node = nodeFactory.FindTextScript("S0001_1");此为真的初始
-        node = nodeFactory.FindTextScript("test0");
+        node = nodeFactory.FindTextScript(Constants.DEBUG ?
+            "test0" : "S0001_1");
+
+        //GameDataSet defaultData = new GameDataSet();
+        //defaultData.currentNode = nodeFactory.FindTextScript(Constants.DEBUG ?
+        //    "test0" : "S0001_1");
+        //defaultData.currentPosition = 0;
+
+        //LoadGame(defaultData);
     }
 
-    public void LoadGame(int saveid)
+    public void LoadGame(GameDataSet data)
     {
+        // TODO
 
+    }
+
+
+    public GameNode GetCurrentNode()
+    {
+        return node;
     }
 
     //下一句
-    public void ShowNext()
-    {
-        node.Update();
-    }
+    //public void ShowNext()
+    //{
+    //    node.Update();
+    //}
 
     // 打开phone TODO: 转移到该用的地方
     public void OpenPhone()
@@ -148,7 +162,8 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private void InitEvents()
     {
-        if(em == null) em = EventManager.GetInstance();
+        if (em == null) em = EventManager.GetInstance();
+        em.Init();
     }
 
     /// <summary>
@@ -158,7 +173,7 @@ public class GameManager : MonoBehaviour {
     {
         // TODO
         GetGlobalVars();
-        gVars.Add("用户数据", Player.GetInstance());
+        gVars.Add("玩家数据", Player.GetInstance());
 
     }
 
@@ -168,11 +183,11 @@ public class GameManager : MonoBehaviour {
     private void InitSystem()
     {
         root = GameObject.Find("UI Root");
-        if(ps == null) ps = transform.GetComponent<PanelSwitch>();
+        if (ps == null) ps = transform.GetComponent<PanelSwitch>();
         ps.Init();
 
-        if(tm == null) tm = transform.GetComponent<TextManager>();
-        if(im == null) im = transform.GetComponent<ImageManager>();
+        //if(tm == null) tm = transform.GetComponent<TextManager>();
+        if (im == null) im = transform.GetComponent<ImageManager>();
 
         nodeFactory = NodeFactory.GetInstance();
         nodeFactory.Init(gVars, root, ps);

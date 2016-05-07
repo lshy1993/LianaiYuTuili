@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Script.GameStruct.Model;
 
 /**
  * MapManager: 
@@ -47,6 +48,7 @@ namespace Assets.Script.GameStruct.EventSystem
             mapPanel.alpha = 0;
             yield return StartCoroutine(FadeIn());
         }
+
         public IEnumerator Close()
         {
             yield return StartCoroutine(FadeOut());
@@ -75,39 +77,20 @@ namespace Assets.Script.GameStruct.EventSystem
             }
             mapObject.SetActive(false);
         }
+
         public void UIFresh()
         {
-            //daylabel.text = gm.playerdata.month.ToString() + "月" + gm.playerdata.day.ToString() + "日";
-            //datelabel.text = GetWeek(gm.playerdata.week);
-            //moneylabel.text = gm.playerdata.money.ToString();
-            //wenlabel.text = gm.playerdata.wen.ToString();
-            //lilabel.text = gm.playerdata.li.ToString();
-            //yilabel.text = gm.playerdata.yi.ToString();
-            //tilabel.text = gm.playerdata.ti.ToString();
-            //zhailabel.text = gm.playerdata.zhai.ToString();
+            Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+            daylabel.text = player.GetTime("月") + "月" + player.GetTime("日") + "日";
+            datelabel.text = Player.WEEKDAYS[player.GetTime("星期")];
+            moneylabel.text = player.GetBasicStatus("金钱").ToString();
+            wenlabel.text = player.GetBasicStatus("文科").ToString();
+            lilabel.text = player.GetBasicStatus("理科").ToString();
+            yilabel.text = player.GetBasicStatus("艺术").ToString();
+            tilabel.text = player.GetBasicStatus("体育").ToString();
+            zhailabel.text = player.GetBasicStatus("宅力").ToString();
         }
-        string GetWeek(int x)
-        {
-            switch (x)
-            {
-                case 1:
-                    return "星期一";
-                case 2:
-                    return "星期二";
-                case 3:
-                    return "星期三";
-                case 4:
-                    return "星期四";
-                case 5:
-                    return "星期五";
-                case 6:
-                    return "星期六";
-                case 7:
-                    return "星期日";
-                default:
-                    return "";
-            }
-        }
+
         public void GoPlace(int placeid)
         {
             //gm.placeid = placeid.ToString();

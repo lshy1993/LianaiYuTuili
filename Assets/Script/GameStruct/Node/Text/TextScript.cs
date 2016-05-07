@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Script.GameStruct.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Script.GameStruct
 {
-    public class TextScript : GameNode
+    public class TextScript : GameNode, LoadSaveInterface
     {
         private int current;
         public IList<Piece> pieces;
@@ -16,7 +17,7 @@ namespace Assets.Script.GameStruct
         private bool move;
 
 
-        public TextScript(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps) { }
+        public TextScript(Hashtable gVars, GameObject root, PanelSwitch ps) : base(gVars, root, ps) { }
         public override void Init()
         {
             base.Init();
@@ -29,9 +30,10 @@ namespace Assets.Script.GameStruct
             ps.SwitchTo("Avg");
         }
 
+
         public override void Update()
         {
-            if(pieces != null && current >= 0 && current < pieces.Count)
+            if (pieces != null && current >= 0 && current < pieces.Count)
             {
                 pieces[current].Exec();
                 current = pieces[current].Next();
@@ -49,17 +51,30 @@ namespace Assets.Script.GameStruct
             string str = "";
 
 
-            foreach(Piece p in pieces)
+            foreach (Piece p in pieces)
             {
                 TextPiece tp = p as TextPiece;
-                if(tp != null)
+                if (tp != null)
                 {
                     str += tp.ToString();
                 }
 
             }
 
-            return  base.ToString() + str;
+            return base.ToString() + str;
+        }
+
+        public void Load(GameDataSet data)
+        {
+            lVars = data.lVars == null ? new Hashtable() : new Hashtable(data.lVars);
+            current = data.currentPosition;
+            f = new PieceFactory(root, gVars, lVars);
+        }
+
+        public void Save(GameDataSet data)
+        {
+            throw new NotImplementedException();
+            //data.currentPosition = 
         }
     }
 }

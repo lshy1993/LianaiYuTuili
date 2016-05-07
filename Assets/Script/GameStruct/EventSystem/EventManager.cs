@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Assets.Script.GameStruct.EventSystem
 {
-    public class EventManager
+    public class EventManager : LoadSaveInterface
     {
         private UnityEngine.Random random;
         private static EventManager instance;
@@ -28,19 +28,23 @@ namespace Assets.Script.GameStruct.EventSystem
             Init();
         }
 
+        public MapEvent lastEvent;
 
         /// <summary>
         /// 初始化
         /// </summary>
         public void Init()
         {
-            random = new Random();
+            random = new UnityEngine.Random();
             eventPool = EventPool.GetInstance();
             eventPool.Init();
-            //LoadEvents();
-            //initPointer();
-            //updateEvents();
-            //Debug.Log(GetEventDebugStr());
+        }
+
+        public void Init(Dictionary<string, List<MapEvent>> eventTable,
+            Dictionary<string, List<MapEvent>> currentEvents, Dictionary<string, int> eventPointers)
+        {
+            eventPool = EventPool.GetInstance();
+            eventPool.Init(eventTable, currentEvents, eventPointers);
         }
 
 
@@ -49,11 +53,11 @@ namespace Assets.Script.GameStruct.EventSystem
         /// </summary>
         /// <param name="pos">地点</param>
         /// <returns>当前地点的事件，没有事件则为null</returns>
-        public MapEvent GetCurrentEvent(string pos)
+        public MapEvent GetCurrentEventAt(string pos)
         {
             eventPool.UpdateEvents();
             return eventPool.currentEvents.ContainsKey(pos) ?
-                eventPool.currentEvents[pos][Random.Range(0, eventPool.currentEvents[pos].Count)] : null;
+                eventPool.currentEvents[pos][UnityEngine.Random.Range(0, eventPool.currentEvents[pos].Count)] : null;
         }
 
         private void MovePointer(MapEvent e)
@@ -87,12 +91,12 @@ namespace Assets.Script.GameStruct.EventSystem
 
         private bool IsAvailableEvent(MapEvent value)
         {
-            Player user = (Player)GameManager.GetGlobalVars()["用户数据"];
-            if (user == null) return false;
+            Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+            if (player == null) return false;
 
             // 不满足前置日期
-            if (value.conditionTurn.GetMax() < user.GetTime("回合") &&
-                value.conditionTurn.GetMin() > user.GetTime("回合"))
+            if (value.conditionTurn.GetMax() < player.GetTime("回合") &&
+                value.conditionTurn.GetMin() > player.GetTime("回合"))
             {
                 return false;
             }
@@ -103,12 +107,12 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 foreach (KeyValuePair<string, Range> kv in value.conditionStatus)
                 {
-                    if (user.ContainsBasicStatus(kv.Key) &&
-                        (kv.Value.GetMin() > user.GetBasicStatus(kv.Key) || user.GetBasicStatus(kv.Key) > kv.Value.GetMax()))
+                    if (player.ContainsBasicStatus(kv.Key) &&
+                        (kv.Value.GetMin() > player.GetBasicStatus(kv.Key) || player.GetBasicStatus(kv.Key) > kv.Value.GetMax()))
                         return false;
 
-                    if (user.ContainsLogicStatus(kv.Key) &&
-                        (kv.Value.GetMin() > user.GetLogicStatus(kv.Key) || user.GetLogicStatus(kv.Key) > kv.Value.GetMax()))
+                    if (player.ContainsLogicStatus(kv.Key) &&
+                        (kv.Value.GetMin() > player.GetLogicStatus(kv.Key) || player.GetLogicStatus(kv.Key) > kv.Value.GetMax()))
                         return false;
                 }
             }
@@ -130,8 +134,8 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 foreach (KeyValuePair<string, Range> kv in value.conditionGirls)
                 {
-                    if (user.ContainsBasicStatus(kv.Key) &&
-                        (kv.Value.GetMin() > user.GetGirlPoint(kv.Key) || user.GetGirlPoint(kv.Key) > kv.Value.GetMax()))
+                    if (player.ContainsBasicStatus(kv.Key) &&
+                        (kv.Value.GetMin() > player.GetGirlPoint(kv.Key) || player.GetGirlPoint(kv.Key) > kv.Value.GetMax()))
                         return false;
                 }
             }
@@ -145,7 +149,7 @@ namespace Assets.Script.GameStruct.EventSystem
         public GameNode RunEvent(string place)
         {
             GameNode nextNode = null;
-            MapEvent e = GetCurrentEvent(place);
+            MapEvent e = GetCurrentEventAt(place);
 
             nextNode = NodeFactory.GetInstance().FindTextScript(e.entryNode);
 
@@ -155,5 +159,14 @@ namespace Assets.Script.GameStruct.EventSystem
             return nextNode;
         }
 
+        public void Load(GameDataSet data)
+        {
+            //            throw new NotImplementedException();
+        }
+
+        public void Save(GameDataSet data)
+        {
+            //            throw new NotImplementedException();
+        }
     }
 }

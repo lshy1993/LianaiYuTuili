@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Assets.Script.GameStruct.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Assets.Script.GameStruct.Model;
 
 namespace Assets.Script.GameStruct
 {
@@ -15,10 +17,13 @@ namespace Assets.Script.GameStruct
     {
 
         private GameNode next = null;
+        private Player player;
 
         public MapNode(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps)
         {
             this.next = this;
+
+            player = (Player)gVars["玩家数据"];
         }
 
 
@@ -26,9 +31,12 @@ namespace Assets.Script.GameStruct
         {
             base.Init();
 
-            ps.SwitchTo("Map");
-        }
+            // TODO: 检查是否有特殊事件，有则跳转
 
+            ps.SwitchTo("Map");
+
+
+        }
         public override void Update() { }
 
         public void ChooseNext(GameNode next)
@@ -40,6 +48,10 @@ namespace Assets.Script.GameStruct
 
         public override GameNode NextNode()
         {
+            if(next != null)
+            {
+                player.MoveOneTurn();
+            }
 
             GameNode temp = this.next;
 

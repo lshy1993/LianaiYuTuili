@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Script.GameStruct.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,10 @@ namespace Assets.Script.GameStruct
 {
     public class EduNode : GameNode
     {
+        private Player player;
         public EduNode(Hashtable gVars, GameObject root, PanelSwitch ps, string type):base(gVars, root, ps)
         {
-
+            player = (Player)gVars["玩家数据"];
         }
         public override void Update(){ /* DO NOTHING */}
 
@@ -25,7 +27,8 @@ namespace Assets.Script.GameStruct
 
         public override GameNode NextNode()
         {
-            return base.NextNode();
+            player.MoveOneTurn();
+            return new MapNode(gVars, root, ps);
         }
     }
 }

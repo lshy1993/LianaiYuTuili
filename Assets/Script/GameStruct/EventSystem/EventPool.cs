@@ -64,7 +64,7 @@ namespace Assets.Script.GameStruct.EventSystem
             this.eventTable = new Dictionary<string, List<MapEvent>>(eventTable);
             this.currentEvents = new Dictionary<string, List<MapEvent>>(currentEvents);
             this.eventPointers = new Dictionary<string, int>(eventPointers);
-            Init();
+            UpdateEvents();
         }
 
         /// <summary>
@@ -105,7 +105,6 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 foreach (string eventLink in eventTable.Keys)
                 {
-                    // Debug.Log("Reset event: " + eventLink);
                     eventPointers.Add(eventLink, 0);
                 }
             }
@@ -117,10 +116,6 @@ namespace Assets.Script.GameStruct.EventSystem
             UpdateEvents();
         }
 
-        internal Dictionary<string, int> ExportPointer()
-        {
-            return eventPointers;
-        }
 
         internal string GetEventLinkName(MapEvent e)
         {

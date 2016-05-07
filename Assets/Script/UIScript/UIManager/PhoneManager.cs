@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Assets.Script.GameStruct.Model;
 
 /**
  * PhoneManager: 
@@ -21,7 +22,8 @@ public class PhoneManager : MonoBehaviour, IPanelManager
     private UILabel namelb, classlb, clublb, hlb, wlb, birthlb, starlb, rlb, likelb, dislb, infolb;
     private GameObject grid;
 
-	void Start () {
+    void Start()
+    {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         wenlb = transform.Find("Scroll View/Grid/Info_Container/Num_Grid/Wen_Label").gameObject.GetComponent<UILabel>();
         lilb = transform.Find("Scroll View/Grid/Info_Container/Num_Grid/Li_Label").gameObject.GetComponent<UILabel>();
@@ -59,40 +61,43 @@ public class PhoneManager : MonoBehaviour, IPanelManager
     //[基本信息]刷新
     public void CardFresh()
     {
-        wenlb.text = gm.playerdata.wen.ToString();
-        lilb.text = gm.playerdata.li.ToString();
-        tilb.text = gm.playerdata.yi.ToString();
-        yilb.text = gm.playerdata.ti.ToString();
-        zhailb.text = gm.playerdata.zhai.ToString();
-        ranklb.text = ChineseRank(gm.playerdata.rank);
-        moneylb.text = "当前金钱余额 " + gm.playerdata.money.ToString() + " 元";
-        statuslb.text = ChineseStatus(gm.playerdata.status);
-        lengb.value = gm.playerdata.leng / 10f;
-        koub.value = gm.playerdata.kou / 10f;
-        sib.value = gm.playerdata.si / 10f;
-        guanb.value = gm.playerdata.guan / 10f;
+        Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+        wenlb.text = player.GetBasicStatus("文科").ToString();
+        lilb.text = player.GetBasicStatus("理科").ToString();
+        tilb.text = player.GetBasicStatus("体育").ToString();
+        yilb.text = player.GetBasicStatus("艺术").ToString();
+        zhailb.text = player.GetBasicStatus("宅度").ToString();
+        //ranklb.text = ChineseRank(gm.playerdata.rank);
+        ranklb.text = "全省排名: " + player.GetBasicStatus("排名");
+        moneylb.text = "存款: " + player.GetBasicStatus("金：钱") + " 元";
+        //statuslb.text = ChineseStatus(gm.playerdata.status);
+        lengb.value = player.GetLogicStatus("冷静") / 10f;
+        koub.value = player.GetLogicStatus("口才") / 10f;
+        sib.value = player.GetLogicStatus("思维") / 10f;
+        guanb.value = player.GetLogicStatus("观察") / 10f;
         //数值条动画
-        StartCoroutine(ShowBar(wenb, gm.playerdata.wen));
-        StartCoroutine(ShowBar(lib, gm.playerdata.li));
-        StartCoroutine(ShowBar(tib, gm.playerdata.ti));
-        StartCoroutine(ShowBar(yib, gm.playerdata.yi));
-        StartCoroutine(ShowBar(zhaib, gm.playerdata.zhai));
+        StartCoroutine(ShowBar(wenb, player.GetBasicStatus("文科")));
+        StartCoroutine(ShowBar(lib, player.GetBasicStatus("理科")));
+        StartCoroutine(ShowBar(tib, player.GetBasicStatus("体育")));
+        StartCoroutine(ShowBar(yib, player.GetBasicStatus("艺术")));
+        StartCoroutine(ShowBar(zhaib, player.GetBasicStatus("宅度")));
     }
     //[联系人]刷新
     public void LoveFresh(string str)
     {
+        // TODO: 女生的属性，考虑根据json文档处理
         int x = System.Convert.ToInt32(str.Substring(7));
-        namelb.text = gm.girl[x].name;
-        classlb.text = gm.girl[x].cla;
-        clublb.text = gm.girl[x].club;
-        hlb.text = "身高：" + gm.girl[x].height.ToString() + "cm";
-        wlb.text = "体重：" + gm.girl[x].weight.ToString() + "kg";
-        birthlb.text = gm.girl[x].birth;
-        starlb.text = gm.girl[x].star;
-        rlb.text = "排名：年级" + gm.girl[x].graderank + "名 全省" + gm.girl[x].provencerank + "名";
-        likelb.text = "喜欢：" + gm.girl[x].like;
-        dislb.text = "讨厌：" + gm.girl[x].dislike;
-        infolb.text = gm.girl[x].info;
+        //namelb.text = gm.girl[x].name;
+        //classlb.text = gm.girl[x].cla;
+        //clublb.text = gm.girl[x].club;
+        //hlb.text = "身高：" + gm.girl[x].height.ToString() + "cm";
+        //wlb.text = "体重：" + gm.girl[x].weight.ToString() + "kg";
+        //birthlb.text = gm.girl[x].birth;
+        //starlb.text = gm.girl[x].star;
+        //rlb.text = "排名：年级" + gm.girl[x].graderank + "名 全省" + gm.girl[x].provencerank + "名";
+        //likelb.text = "喜欢：" + gm.girl[x].like;
+        //dislb.text = "讨厌：" + gm.girl[x].dislike;
+        //infolb.text = gm.girl[x].info;
     }
     //[证据]刷新
     public void EvidenceFresh()
@@ -101,7 +106,7 @@ public class PhoneManager : MonoBehaviour, IPanelManager
     }
     public void MoveGrid(string tabname)
     {
-        if(tabname == "Card_Button")
+        if (tabname == "Card_Button")
         {
             StartCoroutine(StartMove(0));
         }

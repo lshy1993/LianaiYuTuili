@@ -12,7 +12,8 @@ public class Click_Next : MonoBehaviour {
 
     void OnClick()
     {
-        gm.ShowNext();
+        //gm.ShowNext();
         //Debug.Log("Click!");
+        gm.GetCurrentNode().Update();
     }
 }

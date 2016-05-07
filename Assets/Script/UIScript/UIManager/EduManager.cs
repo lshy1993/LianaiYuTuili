@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Assets.Script.GameStruct.Model;
 //using Assets.Script.UIScript;
 
 /**
@@ -12,17 +13,6 @@ using System;
  */
 public class EduManager : MonoBehaviour, IPanelManager
 {
-
-    public static readonly string[] WEEKDAYS = {
-            "星期一",
-            "星期二",
-            "星期三",
-            "星期四",
-            "星期五",
-            "星期六",
-            "星期天"
-        };
-
     private GameManager gm;
     private GameObject eduObject;
     private UIPanel eduPanel;
@@ -31,7 +21,8 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     private GameObject qgo, sgo, acgo;
 
-    void Awake () {
+    void Awake()
+    {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
         datelabel = transform.Find("Time_Container/Date_Label").gameObject.GetComponent<UILabel>();
@@ -64,7 +55,7 @@ public class EduManager : MonoBehaviour, IPanelManager
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1/ 0.3f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
             eduPanel.alpha = x;
             yield return new WaitForSeconds(Time.deltaTime);
         }
@@ -72,109 +63,61 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     public void UIFresh()
     {
-        daylabel.text = gm.playerdata.month.ToString() + "月"+ gm.playerdata.day.ToString() + "日";
-        datelabel.text = GetWeek(gm.playerdata.week);
-        moneylabel.text = "金钱：" + gm.playerdata.money.ToString();
-        wenlabel.text = gm.playerdata.wen.ToString();
-        lilabel.text = gm.playerdata.li.ToString();
-        yilabel.text = gm.playerdata.yi.ToString();
-        tilabel.text = gm.playerdata.ti.ToString();
-        zhailabel.text = gm.playerdata.zhai.ToString();
-    }
-    string GetWeek(int x)
-    {
-        return WEEKDAYS[x];
+        Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+        daylabel.text = player.GetTime("月") + "月" + player.GetTime("日") + "日";
+        datelabel.text = Player.WEEKDAYS[player.GetTime("星期")];
+        moneylabel.text = "金钱: " + player.GetBasicStatus("金钱");
+        wenlabel.text = player.GetBasicStatus("文科").ToString();
+        lilabel.text = player.GetBasicStatus("理科").ToString();
+        yilabel.text = player.GetBasicStatus("艺术").ToString();
+        tilabel.text = player.GetBasicStatus("体育").ToString();
+        zhailabel.text = player.GetBasicStatus("宅力").ToString();
     }
 
-    //显示Q版界面与文字信息
-    public void ShowAnime(int x)
+    string GetWeek(int x)
     {
-        //NumGenerate(x);//数值增减
-        StartCoroutine(Animate());//显示动画(临时用文字代替)
+        return Player.WEEKDAYS[x];
     }
-    IEnumerator Animate()
+
+    
+
+    /// <summary>
+    /// 显示Q版界面与文字信息
+    /// </summary>
+    /// <param name="eduItem">edu的项目</param>
+    /// <param name="result">执行结果</param>
+    public void ShowAnime(string eduItem, int result)
     {
-        sgo.SetActive(false);
-        qgo.SetActive(true);
-        float i = 0;
-        while (i < 2)
+        switch (result)
         {
-            if (i < 1) showlabel.text = "动画还有 2 秒";
-            else if (i < 2) showlabel.text = "动画还有 1 秒";
-            else showlabel.text = "";
-            i = Mathf.MoveTowards(i, 2, Time.deltaTime);
-            yield return null;
+
         }
-        showlabel.text = "结算显示：请点击任意地方进入下一天";
-        acgo.SetActive(true);
+        //NumGenerate(x);//数值增减
+        //StartCoroutine(Animate());//显示动画(临时用文字代替)
     }
+        IEnumerator Animate()
+    {
+            sgo.SetActive(false);
+            qgo.SetActive(true);
+            float i = 0;
+            while (i < 2)
+            {
+                if (i < 1) showlabel.text = "动画还有 2 秒";
+                else if (i < 2) showlabel.text = "动画还有 1 秒";
+                else showlabel.text = "";
+                i = Mathf.MoveTowards(i, 2, Time.deltaTime);
+                yield return null;
+            }
+            showlabel.text = "结算显示：请点击任意地方进入下一天";
+            acgo.SetActive(true);
+        }
     public void NextDay()
     {
         acgo.SetActive(false);
         qgo.SetActive(false);
-        gm.NextDay();
+        //        gm.NextDay();
         sgo.SetActive(true);
         UIFresh();
-    }
-    // duplicated
-    void NumGenerate(int choice)
-    {
-        switch (choice)
-        {
-            case 1:
-                gm.playerdata.wen += UnityEngine.Random.Range(1,6);
-                break;
-            case 2:
-                gm.playerdata.li += UnityEngine.Random.Range(1, 6);
-                break;
-            case 3:
-                gm.playerdata.ti += UnityEngine.Random.Range(1, 6);
-                break;
-            case 4:
-                gm.playerdata.yi += UnityEngine.Random.Range(1, 6);
-                break;
-            case 5:
-                gm.playerdata.wen += 8;
-                gm.playerdata.li -= 3;
-                break;
-            case 6:
-                gm.playerdata.li += 8;
-                gm.playerdata.wen -= 3;
-                break;
-            case 7:
-                gm.playerdata.ti += 8;
-                gm.playerdata.yi -= 3;
-                break;
-            case 8:
-                gm.playerdata.yi += 8;
-                gm.playerdata.ti -= 3;
-                break;
-            default:
-                break;
-        }
-    }
-    public string GetHelp(int num)
-    {
-        switch (num)
-        {
-            case 1:
-                return "这是第1个选项：暂定是增加【文科】属性，成功概率：高。";
-            case 2:
-                return "这是第2个选项：暂定是增加【理科】属性，成功概率：高。";
-            case 3:
-                return "这是第3个选项：暂定是增加【体育】属性，成功概率：高。";
-            case 4:
-                return "这是第4个选项：暂定是增加【艺术】属性，成功概率：高。";
-            case 5:
-                return "这是第5个选项：暂定是大幅增加【文科】属性，但降低【理科】属性，成功概率：中。";
-            case 6:
-                return "这是第6个选项：暂定是大幅增加【理科】属性，但降低【文科】属性，成功概率：中。";
-            case 7:
-                return "这是第7个选项：暂定是大幅增加【体育】属性，但降低【艺术】属性，成功概率：中。";
-            case 8:
-                return "这是第8个选项：暂定是大幅增加【艺术】属性，但降低【体育】属性，成功概率：中。";
-        }
-        return "";
     }
 
     public IEnumerator Close()
