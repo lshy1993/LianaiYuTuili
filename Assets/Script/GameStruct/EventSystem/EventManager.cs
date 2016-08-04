@@ -55,9 +55,23 @@ namespace Assets.Script.GameStruct.EventSystem
         /// <returns>当前地点的事件，没有事件则为null</returns>
         public MapEvent GetCurrentEventAt(string pos)
         {
+            Debug.Log("获取地点 '" + pos + "'的事件");
             eventPool.UpdateEvents();
-            return eventPool.currentEvents.ContainsKey(pos) ?
-                eventPool.currentEvents[pos][UnityEngine.Random.Range(0, eventPool.currentEvents[pos].Count)] : null;
+            if (eventPool.currentEvents.ContainsKey(pos))
+            {
+                if(eventPool.currentEvents[pos].Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return eventPool.currentEvents[pos][UnityEngine.Random.Range(0, eventPool.currentEvents[pos].Count)];
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void MovePointer(MapEvent e)
@@ -157,6 +171,11 @@ namespace Assets.Script.GameStruct.EventSystem
             // TODO: 保存一份全局可调用的当前事件副本，在事件结尾脚本手动控制事件结束
             //e.finished = true;
             return nextNode;
+        }
+
+        public void PrintEvents()
+        {
+            
         }
 
         public void Load(GameDataSet data)

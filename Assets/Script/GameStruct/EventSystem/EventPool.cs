@@ -14,6 +14,7 @@ namespace Assets.Script.GameStruct.EventSystem
         private static EventPool instance;
 
         private readonly string DEFAULT_PATH = "Text/MapEvents/";
+        private readonly string DEBUG_PATH = "Text/TestEvents/";
         public static EventPool GetInstance()
         {
             if (instance == null) instance = new EventPool();
@@ -42,11 +43,12 @@ namespace Assets.Script.GameStruct.EventSystem
             eventTable = new Dictionary<string, List<MapEvent>>();
             currentEvents = new Dictionary<string, List<MapEvent>>();
             eventPointers = new Dictionary<string, int>();
-            Init();
+            //Init();
         }
 
         public void Init()
         {
+            LoadEvents();
             InitPointer();
             UpdateEvents();
         }
@@ -79,14 +81,19 @@ namespace Assets.Script.GameStruct.EventSystem
 
             foreach (KeyValuePair<string, int> kv in eventPointers)
             {
-                MapEvent me = eventTable[kv.Key][kv.Value];
-
-                if (!currentEvents.ContainsKey(me.position))
+                List<MapEvent> list = eventTable[kv.Key];
+                if(list.Count > kv.Value)
                 {
-                    currentEvents.Add(me.position, new List<MapEvent>());
+                    MapEvent me = list[kv.Value];
+
+                    if (!currentEvents.ContainsKey(me.position))
+                    {
+                        currentEvents.Add(me.position, new List<MapEvent>());
+                    }
+
+                    currentEvents[me.position].Add(me);
                 }
 
-                currentEvents[me.position].Add(me);
             }
 
         }
@@ -144,14 +151,15 @@ namespace Assets.Script.GameStruct.EventSystem
 
         private void LoadEvents()
         {
-            LoadEvents(DEFAULT_PATH);
+            LoadEvents(Constants.DEBUG? DEBUG_PATH : DEFAULT_PATH);
         }
 
         private void LoadEvents(string path)
         {
+            Debug.Log("读取事件表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
-                //Debug.Log("读取：" + text.name);
+                Debug.Log("读取：" + text.name);
                 eventTable.Add(text.name, ParseJsonToEventList(text.text));
             }
         }
@@ -168,6 +176,9 @@ namespace Assets.Script.GameStruct.EventSystem
                 string position = (string)data["地点"];
                 string entryNode = (string)data["入口"];
                 MapEvent me = new MapEvent(name, position, entryNode);
+                Debug.Log("事件 " + name);
+                Debug.Log("地点 " + position);
+                Debug.Log("入口 " + entryNode);
 
                 if (data.Contains("前置事件"))
                 {

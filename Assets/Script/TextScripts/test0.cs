@@ -16,6 +16,7 @@ namespace Assets.Script.TextScripts
             base.Init();
             pieces = new List<Piece>()
             {
+                f.t("","直接进入map"),
                 f.t("","直接进入map",() => pieces.Count),
             };
         }

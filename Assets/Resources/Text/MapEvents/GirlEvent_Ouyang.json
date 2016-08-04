@@ -1,42 +1,42 @@
 ﻿{
   "data": [
     {
-      "事件": "S3001",
-      "地点": "天一广场",
-      "入口": "S3001",
-      "回合条件": { "最小": 0 },
-      "属性条件": {
-        "宅": { "最小": 0 }
+      "name": "S3001",
+      "position": "Market",
+      "entryNode": "S3001",
+      "conditionTurn": { "min": 0 },
+      "conditionStatus": {
+        "宅": { "min": 0 }
       }
     },
     {
-      "事件": "S3002",
-      "地点": "天一广场",
-      "入口": "S3002",
-      "前置事件": [ "S3001" ],
-      "回合条件": { "最小": 0 },
-      "属性条件": {
-        "宅": { "最小": 0 }
+      "name": "S3002",
+      "position": "Market",
+      "entryNode": "S3002",
+      "conditionEvents": [ "S3001" ],
+      "conditionTurn": { "min": 0 },
+      "conditionStatus": {
+        "宅": { "min": 0 }
       }
     },
     {
-      "事件": "S3003",
-      "地点": "夕云大学",
-      "入口": "S3003",
-      "前置事件": [ "S3002" ],
-      "回合条件": { "最小": 0 },
-      "属性条件": {
-        "宅": { "最小": 0 }
+      "name": "S3003",
+      "position": "University",
+      "entryNode": "S3003",
+      "conditionEvents": [ "S3002" ],
+      "conditionTurn": { "min": 0 },
+      "conditionStatus": {
+        "宅": { "min": 0 }
       }
     },
     {
-      "事件": "S3004",
-      "地点": "夕云大学",
-      "入口": "S3004",
-      "前置事件": [ "S3003" ],
-      "回合条件": { "最小": 0 },
-      "属性条件": {
-        "宅": { "最小": 0 }
+      "name": "S3004",
+      "position": "University",
+      "entryNode": "S3004",
+      "conditionEvents": [ "S3003" ],
+      "conditionTurn": { "min": 0 },
+      "conditionStatus": {
+        "宅": { "min": 0 }
       }
     }
   ]

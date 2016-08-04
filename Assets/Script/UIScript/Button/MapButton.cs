@@ -61,7 +61,7 @@ public class MapButton : MonoBehaviour
         {
             place = (string)jsonData["地点"];
             background = (string)jsonData["背景"];
-            info = (string)jsonData["信息"];
+            info = (string)jsonData["介绍"];
         }
         else
         {
@@ -79,13 +79,13 @@ public class MapButton : MonoBehaviour
             if (em.GetCurrentEventAt(place) == null)
             {
                 // TODO: 换个图标之类
-                uiLabelInfo.text += "*当前地点没有事件*";
+                uiLabelInfo.text += "\n\n\n*当前地点没有事件*";
             }
-            StartCoroutine(MoveIn(transform.position.x < 640));
+            StartCoroutine(MoveIn(transform.position.x > 0));
         }
         else
         {
-            StartCoroutine(MoveOut(transform.position.x < 640));
+            StartCoroutine(MoveOut(transform.position.x > 0));
         }
     }
 
@@ -98,6 +98,9 @@ public class MapButton : MonoBehaviour
 
     void OnClick()
     {
+        Debug.Log("点击地点：" + place);
+        Debug.Log("点击事件：");
+        Debug.Log(em.GetCurrentEventAt(place));
         if (em.GetCurrentEventAt(place) != null)
         {
             MapNode mapNode = gm.node as MapNode;
@@ -125,22 +128,22 @@ public class MapButton : MonoBehaviour
 
     IEnumerator MoveIn(bool isleft)
     {
-        float x = isleft ? -815 : 1280;
-        infoContainerObject.transform.position = new Vector3(x, 0, 0);
+        float x = isleft ? -815 : 815;
+        infoContainerObject.transform.localPosition = new Vector3(x, 0, 0);
         if (isleft)
         {
-            while (x < -465)
+            while (x < -466)
             {
-                x = Mathf.MoveTowards(x, -465, 450 / 0.2f * Time.deltaTime);
+                x = Mathf.MoveTowards(x, -466, 450 / 0.2f * Time.deltaTime);
                 infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
                 yield return null;
             }
         }
         else
         {
-            while (x > 830)
+            while (x > 466)
             {
-                x = Mathf.MoveTowards(x, 830, 450 / 0.2f * Time.deltaTime);
+                x = Mathf.MoveTowards(x, 466, 450 / 0.2f * Time.deltaTime);
                 infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
                 yield return null;
             }
@@ -150,8 +153,8 @@ public class MapButton : MonoBehaviour
 
     IEnumerator MoveOut(bool isleft)
     {
-        float x = isleft ? -465 : 830;
-        infoContainerObject.transform.position = new Vector3(x, -60, 0);
+        float x = isleft ? -466 : 466;
+        infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
         if (isleft)
         {
             while (x > -815)
@@ -163,10 +166,10 @@ public class MapButton : MonoBehaviour
         }
         else
         {
-            while (x > 1280)
+            while (x < 815)
             {
-                x = Mathf.MoveTowards(x, 1280, 450 / 0.2f * Time.deltaTime);
-                infoContainerObject.transform.localPosition = new Vector3(x, 0, 0);
+                x = Mathf.MoveTowards(x, 815, 450 / 0.2f * Time.deltaTime);
+                infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
                 yield return null;
             }
         }

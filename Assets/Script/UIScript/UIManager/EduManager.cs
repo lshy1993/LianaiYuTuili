@@ -115,7 +115,7 @@ public class EduManager : MonoBehaviour, IPanelManager
     {
         acgo.SetActive(false);
         qgo.SetActive(false);
-        //        gm.NextDay();
+        //gm.NextDay();
         sgo.SetActive(true);
         UIFresh();
     }

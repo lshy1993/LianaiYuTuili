@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &415040
 Transform:
   m_ObjectHideFlags: 1
@@ -42,12 +42,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 158538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac9baf63781ce6e48bcccc9ea57301d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 09792010cb61ab84ca86ef92574d07b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBGM: {fileID: 0}
-  currentSE: {fileID: 0}
-  currentVoice: {fileID: 0}
+  charactors: []
+  positions: []
+  mainscene: {fileID: 415040}
 --- !u!114 &11451386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -56,12 +56,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 158538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47dd41200cb4a1d49a5459062f10040a, type: 3}
+  m_Script: {fileID: 11500000, guid: 11e90b15fd1dfcb45877eda63d00d154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ps: {fileID: 0}
-  im: {fileID: 0}
-  sm: {fileID: 0}
+  uiRoot: {fileID: 0}
+  imgManager: {fileID: 0}
+  uiManager: {fileID: 11482968}
+  textManager: {fileID: 11462778}
+  soundManager: {fileID: 11490772}
+  intepreter: {fileID: 11494510}
 --- !u!114 &11453786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,9 +73,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 158538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48292b9a87256ba4db413b696ad38b26, type: 3}
+  m_Script: {fileID: 11500000, guid: aea56637c68f65a4487cd3691ba1bcff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 0}
+  mainscene: {fileID: 415040}
 --- !u!114 &11462778
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,7 +99,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 158538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b9c06312e315246ba90b51354ac878, type: 3}
+  m_Script: {fileID: 11500000, guid: 2768021a088babe43b6d5b58ed60ae01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11490772

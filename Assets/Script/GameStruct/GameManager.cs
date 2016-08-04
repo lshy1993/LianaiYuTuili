@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
         if (gVars == null)
         {
             gVars = new Hashtable();
-            //            InitGlobalVars();
         }
         return GameManager.gVars;
     }
@@ -51,16 +50,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public SoundManager sm;
 
-
     /// <summary>
     /// 事件管理器
     /// </summary>
     public EventManager em;
-
-    /// <summary>
-    /// 文字部分管理器
-    /// </summary>
-    //public TextManager tm;
 
     /// <summary>
     /// 创建Node的工厂
@@ -98,6 +91,8 @@ public class GameManager : MonoBehaviour
 
     private void SwitchNode()
     {
+        //GameNode n = this.node.NextNode();
+        //this.node = n;
         this.node = this.node.NextNode();
     }
 
@@ -110,13 +105,6 @@ public class GameManager : MonoBehaviour
         //node = nodeFactory.FindTextScript("S0001_1");此为真的初始
         node = nodeFactory.FindTextScript(Constants.DEBUG ?
             "test0" : "S0001_1");
-
-        //GameDataSet defaultData = new GameDataSet();
-        //defaultData.currentNode = nodeFactory.FindTextScript(Constants.DEBUG ?
-        //    "test0" : "S0001_1");
-        //defaultData.currentPosition = 0;
-
-        //LoadGame(defaultData);
     }
 
     public void LoadGame(GameDataSet data)
@@ -129,24 +117,6 @@ public class GameManager : MonoBehaviour
     public GameNode GetCurrentNode()
     {
         return node;
-    }
-
-    //下一句
-    //public void ShowNext()
-    //{
-    //    node.Update();
-    //}
-
-    // 打开phone TODO: 转移到该用的地方
-    public void OpenPhone()
-    {
-        ps.OpenPhone();
-    }
-
-    // 关闭phone TODO: 转移到该用的地方
-    public void ClosePhone()
-    {
-        ps.ClosePhone();
     }
 
     /// <summary>
@@ -163,7 +133,7 @@ public class GameManager : MonoBehaviour
     private void InitEvents()
     {
         if (em == null) em = EventManager.GetInstance();
-        em.Init();
+        //em.Init();
     }
 
     /// <summary>
@@ -172,7 +142,7 @@ public class GameManager : MonoBehaviour
     private void InitGlobalGameData()
     {
         // TODO
-        GetGlobalVars();
+        //GetGlobalVars();
         gVars.Add("玩家数据", Player.GetInstance());
 
     }
@@ -190,6 +160,26 @@ public class GameManager : MonoBehaviour
         if (im == null) im = transform.GetComponent<ImageManager>();
 
         nodeFactory = NodeFactory.GetInstance();
+        GetGlobalVars();
         nodeFactory.Init(gVars, root, ps);
     }
+
+
+
+
+
+
+    // 打开phone TODO: 转移到该用的地方
+    public void OpenPhone()
+    {
+        ps.OpenPhone();
+    }
+
+    // 关闭phone TODO: 转移到该用的地方
+    public void ClosePhone()
+    {
+        ps.ClosePhone();
+    }
+
+
 }
