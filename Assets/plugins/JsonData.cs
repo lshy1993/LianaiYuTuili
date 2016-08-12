@@ -189,7 +189,12 @@ namespace LitJson
 			this.inst_string = str;
 		}
 
-		private void JsonDataList(IList obj)
+        public void SetMin(int v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void JsonDataList(IList obj)
 		{
 			this.type = JsonType.Array;
 			List<object> lst = obj as List<object>;

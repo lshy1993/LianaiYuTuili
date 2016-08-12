@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Script.GameStruct.Model;
+using System;
 
 /**
  * MapManager: 
@@ -80,9 +81,16 @@ namespace Assets.Script.GameStruct.EventSystem
 
         public void UIFresh()
         {
-            Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
-            daylabel.text = player.GetTime("月") + "月" + player.GetTime("日") + "日";
-            datelabel.text = Player.WEEKDAYS[player.GetTime("星期")];
+            //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+            Player player = Player.GetInstance();
+
+            Hashtable gVars = DataManager.GetInstance().GetGameVars();
+            //daylabel.text = player.GetTime("月") + "月" + player.GetTime("日") + "日";
+            //datelabel.text = Player.WEEKDAYS[player.GetTime("星期")];
+            DateTime date = (DateTime)gVars["日期"];
+            daylabel.text = date.Month + "月" + date.Day + "日";
+            datelabel.text = date.DayOfWeek.ToString();
+
             moneylabel.text = player.GetBasicStatus("金钱").ToString();
             wenlabel.text = player.GetBasicStatus("文科").ToString();
             lilabel.text = player.GetBasicStatus("理科").ToString();

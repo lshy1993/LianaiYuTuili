@@ -21,19 +21,6 @@ public class GameManager : MonoBehaviour
 {
 
     private GameObject root;
-    /// <summary>
-    /// 全局变量信息,包括：
-    /// 游戏数据
-    /// </summary>
-    private static Hashtable gVars { set; get; }
-    public static Hashtable GetGlobalVars()
-    {
-        if (gVars == null)
-        {
-            gVars = new Hashtable();
-        }
-        return GameManager.gVars;
-    }
 
     /// <summary>
     /// PanelSwitch，控制面板切换
@@ -53,7 +40,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 事件管理器
     /// </summary>
-    public EventManager em;
+    //public EventManager em;
 
     /// <summary>
     /// 创建Node的工厂
@@ -66,12 +53,18 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public GameNode node;
 
+
+    /// <summary>
+    /// 数据管理
+    /// </summary>
+    public DataManager dm;
+
     void Awake()
     {
         InitSystem();
-        InitGlobalGameData();
-        InitSource();
-        InitEvents();
+        //InitGlobalGameData();
+        //InitSource();
+        //InitEvents();
     }
 
     void Update()
@@ -91,8 +84,6 @@ public class GameManager : MonoBehaviour
 
     private void SwitchNode()
     {
-        //GameNode n = this.node.NextNode();
-        //this.node = n;
         this.node = this.node.NextNode();
     }
 
@@ -102,49 +93,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
+
+        MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
+        EventManager.GetInstance().currentEvent = e;
+        node = nodeFactory.FindTextScript(e.entryNode);
+        //node = nodeFactory.GetEndTurnNode();
+        //node.Update();
+
         //node = nodeFactory.FindTextScript("S0001_1");此为真的初始
-        node = nodeFactory.FindTextScript(Constants.DEBUG ?
-            "test0" : "S0001_1");
+        //node = nodeFactory.FindTextScript(Constants.DEBUG ?
+        //    "test0" : "S0001_1");
     }
-
-    public void LoadGame(GameDataSet data)
-    {
-        // TODO
-
-    }
-
 
     public GameNode GetCurrentNode()
     {
         return node;
-    }
-
-    /// <summary>
-    /// 初始化来自外部的素材，图片音频之类
-    /// </summary>
-    private void InitSource()
-    {
-
-    }
-
-    /// <summary>
-    /// 读取事件信息
-    /// </summary>
-    private void InitEvents()
-    {
-        if (em == null) em = EventManager.GetInstance();
-        //em.Init();
-    }
-
-    /// <summary>
-    /// 初始化二周目全局数值等
-    /// </summary>
-    private void InitGlobalGameData()
-    {
-        // TODO
-        //GetGlobalVars();
-        gVars.Add("玩家数据", Player.GetInstance());
-
     }
 
     /// <summary>
@@ -156,17 +119,13 @@ public class GameManager : MonoBehaviour
         if (ps == null) ps = transform.GetComponent<PanelSwitch>();
         ps.Init();
 
-        //if(tm == null) tm = transform.GetComponent<TextManager>();
         if (im == null) im = transform.GetComponent<ImageManager>();
 
+        dm = DataManager.GetInstance();
+
         nodeFactory = NodeFactory.GetInstance();
-        GetGlobalVars();
-        nodeFactory.Init(gVars, root, ps);
+        nodeFactory.Init(dm.GetGameVars(), dm.GetInTurnVars(), root, ps);
     }
-
-
-
-
 
 
     // 打开phone TODO: 转移到该用的地方
@@ -180,6 +139,4 @@ public class GameManager : MonoBehaviour
     {
         ps.ClosePhone();
     }
-
-
 }

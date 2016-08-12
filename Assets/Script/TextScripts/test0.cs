@@ -10,7 +10,7 @@ namespace Assets.Script.TextScripts
 {
     public class test0 : TextScript
     {
-        public test0(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps) { }
+        public test0(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
         public override void Init()
         {
             base.Init();
@@ -25,7 +25,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetMapNode();
+            return nodeFactory.GetEndTurnNode();
         }
 
     }

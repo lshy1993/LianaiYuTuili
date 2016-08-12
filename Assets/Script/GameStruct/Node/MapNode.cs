@@ -19,7 +19,8 @@ namespace Assets.Script.GameStruct
         private GameNode next = null;
         private Player player;
 
-        public MapNode(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps)
+        public MapNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):
+            base(gVars, lVars, root, ps)
         {
             this.next = this;
 
@@ -48,11 +49,6 @@ namespace Assets.Script.GameStruct
 
         public override GameNode NextNode()
         {
-            if(next != null)
-            {
-                player.MoveOneTurn();
-            }
-
             GameNode temp = this.next;
 
             base.end = false;

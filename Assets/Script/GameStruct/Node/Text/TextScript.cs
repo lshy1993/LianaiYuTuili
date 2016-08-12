@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Script.GameStruct
 {
-    public class TextScript : GameNode, LoadSaveInterface
+    public class TextScript : GameNode
     {
         private int current;
         public IList<Piece> pieces;
@@ -17,7 +17,7 @@ namespace Assets.Script.GameStruct
         private bool move;
 
 
-        public TextScript(Hashtable gVars, GameObject root, PanelSwitch ps) : base(gVars, root, ps) { }
+        public TextScript(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) : base(gVars, lVars, root, ps) { }
         public override void Init()
         {
             base.Init();
@@ -64,17 +64,17 @@ namespace Assets.Script.GameStruct
             return base.ToString() + str;
         }
 
-        public void Load(GameDataSet data)
-        {
-            lVars = data.lVars == null ? new Hashtable() : new Hashtable(data.lVars);
-            current = data.currentPosition;
-            f = new PieceFactory(root, gVars, lVars);
-        }
+        //public void Load(GameDataSet data)
+        //{
+        //    lVars = data.lVars == null ? new Hashtable() : new Hashtable(data.lVars);
+        //    current = data.currentPosition;
+        //    f = new PieceFactory(root, gVars, lVars);
+        //}
 
-        public void Save(GameDataSet data)
-        {
-            throw new NotImplementedException();
-            //data.currentPosition = 
-        }
+        //public void Save(GameDataSet data)
+        //{
+        //    throw new NotImplementedException();
+        //    //data.currentPosition = 
+        //}
     }
 }

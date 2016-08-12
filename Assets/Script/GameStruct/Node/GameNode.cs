@@ -20,12 +20,12 @@ namespace Assets.Script.GameStruct
         public GameObject root;
         public bool end { set; get; }
         public PanelSwitch ps;
-        public GameNode(Hashtable gVars, GameObject root, PanelSwitch ps) 
+        public GameNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) 
         {
             this.gVars = gVars;
             this.root = root;
             this.ps = ps;
-            lVars = new Hashtable();
+            this.lVars = lVars;
             end = false;
 
             Init();

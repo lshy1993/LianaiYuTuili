@@ -18,7 +18,7 @@ namespace Assets.Script.GameStruct
 
         private EventManager em;
         private GameNode next;
-        public WeekNode(Hashtable gVars, GameObject root, PanelSwitch ps):base(gVars, root, ps)
+        public WeekNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps)
         {
             next = this;
             em = EventManager.GetInstance();

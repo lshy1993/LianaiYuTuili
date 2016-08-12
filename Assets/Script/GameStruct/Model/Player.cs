@@ -14,22 +14,6 @@ namespace Assets.Script.GameStruct.Model
     public class Player
     {
 
-        public static readonly string[] WEEKDAYS = {
-            "星期一",
-            "星期二",
-            "星期三",
-            "星期四",
-            "星期五",
-            "星期六",
-            "星期天"
-        };
-
-
-        /// <summary>
-        /// 进度
-        /// </summary>
-        private Dictionary<string, int> progress;
-
         /// <summary>
         /// 养成属性
         /// </summary>
@@ -49,6 +33,7 @@ namespace Assets.Script.GameStruct.Model
         /// 体力
         /// </summary>
         private int energyPoint;
+
         public int EnergyPoint
         {
             set{
@@ -69,11 +54,14 @@ namespace Assets.Script.GameStruct.Model
         {
             energyPoint = Constants.MOVE_MAX;
         }
+
         public void AddEnergy(int i)
         {
             EnergyPoint = EnergyPoint + i;
         }
+
         private static Player instance = null;
+
         public static Player GetInstance()
         {
             if (instance == null) instance = new Player();
@@ -87,17 +75,10 @@ namespace Assets.Script.GameStruct.Model
 
         private void Init()
         {
-            progress = new Dictionary<string, int>();
             basicStatus = new Dictionary<string, int>();
             girls = new Dictionary<string, int>();
             logicStatus = new Dictionary<string, int>();
-
-            progress["月"] = 9;
-            progress["日"] = 1;
-            progress["星期"] = 1;
-            progress["回合"] = 1;
-
-
+            
             basicStatus["文科"] = 50;
             basicStatus["理科"] = 50;
             basicStatus["艺术"] = 50;
@@ -105,7 +86,6 @@ namespace Assets.Script.GameStruct.Model
             basicStatus["宅力"] = 50;
             basicStatus["排名"] = 150000;
             basicStatus["金钱"] = 100;
-
 
             girls["苏梦忆"] = 0;
             girls["西门吹"] = 0;
@@ -121,58 +101,15 @@ namespace Assets.Script.GameStruct.Model
         }
 
 
-        public void MoveOneTurn()
-        {
-            int t = progress["回合"] + 1;
-            if (0 < t && t <= 30)
-            {
-                progress["月"] = 9;
-                progress["日"] = t;
-            }
-            else if (t <= 61)
-            {
-                progress["月"] = 10;
-                progress["日"] = t - 30;
-            }
-            else if (t <= 91)
-            {
-                progress["月"] = 11;
-                progress["日"] = t - 61;
-            }
-            else if (t <= 122)
-            {
-                progress["月"] = 12;
-                progress["日"] = t - 91;
-            }
-            else if (t <= 153)
-            {
-                progress["月"] = 1;
-                progress["日"] = t - 122;
-            }
-            else if (t <= 180)
-            {
-                progress["月"] = 2;
-                progress["日"] = t - 153;
-            }
-            else
-            {
-                // 不做改变
-                return;
-            }
-
-            progress["星期"] = t % 7;
-            progress["回合"] = t;
-
-        }
         /// <summary>
         /// 获取时间
         /// </summary>
         /// <param name="s">日， 月， 星期，回合</param>
         /// <returns></returns>
-        public int GetTime(string s)
-        {
-            return progress[s];
-        }
+        //public int GetTime(string s)
+        //{
+        //    return progress[s];
+        //}
         /// <summary>
         /// 获取基本属性
         /// 文科，理科，艺术，体育，宅力，排名，金钱
@@ -303,11 +240,11 @@ namespace Assets.Script.GameStruct.Model
             str += "玩家数据Player:\n";
             str += "体力： " + energyPoint;
 
-            str += "\nprogress: \n";
-            foreach (var item in progress)
-            {
-                str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
-            }
+            //str += "\nprogress: \n";
+            //foreach (var item in progress)
+            //{
+            //    str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
+            //}
 
             str += "\ngirls: \n";
             foreach (var item in girls)

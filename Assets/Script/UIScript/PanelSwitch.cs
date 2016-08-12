@@ -72,16 +72,13 @@ public class PanelSwitch : MonoBehaviour
     /// <param name="fadeout">淡出时间，默认0.5s</param>
     public void SwitchTo(string panel, float fadein = 0.5f, float fadeout = 0.5f)
     {
-        //Debug.Log(panel);
         if (panels.ContainsKey(panel))
         {
             GameObject currentPanel = panels[current];
             GameObject nextPanel = panels[panel];
 
             currentPanel.GetComponent<IPanelManager>().Close();
-            //nextPanel.SetActive(true);
 
-            //nextPanel.GetComponent<IPanelManager>().Open();
             StartCoroutine(Switch(currentPanel, nextPanel));
 
             current = panel;

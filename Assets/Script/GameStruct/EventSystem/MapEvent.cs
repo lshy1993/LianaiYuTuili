@@ -1,8 +1,10 @@
-﻿using System;
+﻿using LitJson;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Script.GameStruct
 {
@@ -30,9 +32,14 @@ namespace Assets.Script.GameStruct
         public string entryNode { set; get; }
 
         /// <summary>
-        /// 前置事件名
+        /// 前置与事件
         /// </summary>
-        public List<string> conditionEvents;
+        public List<string> conditionAndEvents;
+
+        /// <summary>
+        /// 前置或事件
+        /// </summary>
+        public List<string> conditionOrEvents;
 
         /// <summary>
         /// 条件回合
@@ -54,18 +61,80 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 是否结束
         /// </summary>
-        public bool finished;
+        //public bool finished;
 
         public MapEvent(string name, string position, string entryNode)
         {
             this.name = name;
             this.position = position;
             this.entryNode = entryNode;
-            conditionEvents = new List<string>();
+            conditionAndEvents = new List<string>();
+            conditionOrEvents = new List<string>();
             conditionStatus = new Dictionary<string, Range>();
             conditionGirls = new Dictionary<string, Range>();
             conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
-            finished = false;
+            //finished = false;
+        }
+
+        /// <summary>
+        /// 根据事件定义文件来创建一个事件
+        /// 事件定义见tower
+        /// </summary>
+        public MapEvent(JsonData data)
+        {
+            name = (string)data["事件"];
+            entryNode = (string)data["入口"];
+            conditionAndEvents = new List<string>();
+            conditionOrEvents = new List<string>();
+            conditionStatus = new Dictionary<string, Range>();
+            conditionGirls = new Dictionary<string, Range>();
+            conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
+
+
+            if (data.Contains("地点"))
+            {
+                position = (string)data["地点"];
+            }
+            else
+            {
+                // 强制事件没有地点
+                position = null;
+            }
+
+            // 属性
+            if (data.Contains("属性条件"))
+            {
+                foreach (KeyValuePair<string, JsonData> kv in data["属性条件"])
+                {
+                    int min = kv.Value.Contains("最小") ? (int)kv.Value["最小"] : Constants.BASIC_MIN;
+                    int max = kv.Value.Contains("最大") ? (int)kv.Value["最大"] : Constants.BASIC_MAX;
+                    Range range = new Range(min, max);
+                    conditionStatus.Add(kv.Key, range);
+                }
+            }
+
+            // 回合
+            if (data.Contains("回合条件"))
+            {
+                JsonData turn = data["回合条件"];
+
+                if (turn.Contains("最小"))
+                    conditionTurn.SetMin((int)turn["最小"]);
+
+                if (turn.Contains("最大"))
+                    conditionTurn.SetMax((int)turn["最大"]);
+            }
+
+            if (data.Contains("好感度条件"))
+            {
+                foreach (KeyValuePair<string, JsonData> kv in data["好感度条件"])
+                {
+                    int min = kv.Value.Contains("最小") ? (int)kv.Value["最小"] : Constants.GIRLS_MIN;
+                    int max = kv.Value.Contains("最大") ? (int)kv.Value["最大"] : Constants.GIRLS_MAX;
+                    Range range = new Range(min, max);
+                    conditionGirls.Add(kv.Key, range);
+                }
+            }
         }
         
         public override string ToString()
@@ -75,12 +144,20 @@ namespace Assets.Script.GameStruct
 
             str += ("position: " + position + "\n");
 
-            str += ("conditionEvents : " + "\n");
+            str += ("conditionAndEvents : " + "\n");
 
-            foreach(string s in conditionEvents)
+            foreach(string s in conditionAndEvents)
             {
                 str += (s + " ");
             }
+
+            str += ("conditionOrEvents : " + "\n");
+
+            foreach(string s in conditionOrEvents)
+            {
+                str += (s + " ");
+            }
+
 
             str += "\n";
 

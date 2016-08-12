@@ -49,7 +49,7 @@ namespace Assets.Script.GameStruct.EventSystem
         public void Init()
         {
             LoadEvents();
-            InitPointer();
+            //InitPointer();
             UpdateEvents();
         }
 
@@ -101,27 +101,27 @@ namespace Assets.Script.GameStruct.EventSystem
         /// <summary>
         /// 初始化事件指针
         /// </summary>
-        private void InitPointer()
-        {
-            InitPointer(null);
-        }
+        //private void InitPointer()
+        //{
+        //    InitPointer(null);
+        //}
 
-        internal void InitPointer(Dictionary<string, int> dict)
-        {
-            if (dict == null)
-            {
-                foreach (string eventLink in eventTable.Keys)
-                {
-                    eventPointers.Add(eventLink, 0);
-                }
-            }
-            else
-            {
-                eventPointers = new Dictionary<string, int>(dict);
-            }
+        //internal void InitPointer(Dictionary<string, int> dict)
+        //{
+        //    if (dict == null)
+        //    {
+        //        foreach (string eventLink in eventTable.Keys)
+        //        {
+        //            eventPointers.Add(eventLink, 0);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        eventPointers = new Dictionary<string, int>(dict);
+        //    }
 
-            UpdateEvents();
-        }
+        //    UpdateEvents();
+        //}
 
 
         internal string GetEventLinkName(MapEvent e)
@@ -184,7 +184,7 @@ namespace Assets.Script.GameStruct.EventSystem
                 {
                     foreach (JsonData eventName in data["前置事件"])
                     {
-                        me.conditionEvents.Add((string)eventName);
+                        //me.conditionEvents.Add((string)eventName);
                     }
                 }
 

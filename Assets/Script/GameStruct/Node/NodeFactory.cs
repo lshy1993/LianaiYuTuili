@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Assets.Script.GameStruct.Node;
 
 namespace Assets.Script.GameStruct
 {
@@ -19,30 +20,34 @@ namespace Assets.Script.GameStruct
 
         }
         private Hashtable gVars;
+        private Hashtable lVars;
         private GameObject root;
         private PanelSwitch ps;
         private static readonly string SCRIPT_PATH = "Assets.Script.TextScripts";
         private NodeFactory() { }      
 
-        public void Init(Hashtable gVars, GameObject root, PanelSwitch ps)
+        public void Init(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps)
         {
             this.gVars = gVars;
+            this.lVars = lVars;
             this.root = root;
             this.ps = ps;
         }
 
         public MapNode GetMapNode()
         {
-            Debug.Log("创建MapNode");
-            return new MapNode(gVars, root, ps);
+            return new MapNode(gVars, lVars, root, ps);
         }
-
     
         public EduNode GetEduNode(string type)
         {
-            return new EduNode(gVars, root, ps, type);
+            return new EduNode(gVars, lVars, root, ps, type);
         }
 
+        public EndTurnNode GetEndTurnNode()
+        {
+            return new EndTurnNode(gVars, lVars, root, ps);
+        }
 
         public TextScript FindTextScript(string name)
         {
@@ -52,10 +57,9 @@ namespace Assets.Script.GameStruct
             {
                 Type t = Type.GetType(classStr);
                 Debug.Log("t == null?" + (t == null));
-                object[] args = new object[] { gVars, root, ps };
+                object[] args = new object[] { gVars, lVars, root, ps };
                 script = (TextScript)Activator.CreateInstance(t, args);
                 Debug.Log("转换成功：" + classStr);
-
             }
             catch(Exception e)
             {

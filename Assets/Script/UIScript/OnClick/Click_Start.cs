@@ -22,7 +22,7 @@ public class Click_Start : MonoBehaviour {
         //start fadeout
         //		StartCoroutine(Fadeout(2));
         gm.NewGame();
-        gm.ps.SwitchTo("Avg");
+        //gm.ps.SwitchTo("Avg");
 
 		Debug.Log ("Game Start!");
 	}

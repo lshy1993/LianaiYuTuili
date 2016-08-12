@@ -61,7 +61,8 @@ public class PhoneManager : MonoBehaviour, IPanelManager
     //[基本信息]刷新
     public void CardFresh()
     {
-        Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+        //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+        Player player = Player.GetInstance();
         wenlb.text = player.GetBasicStatus("文科").ToString();
         lilb.text = player.GetBasicStatus("理科").ToString();
         tilb.text = player.GetBasicStatus("体育").ToString();

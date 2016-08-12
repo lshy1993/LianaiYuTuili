@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 using Assets.Script.GameStruct.Model;
+using Assets.Script.GameStruct;
+using Assets.Script.GameStruct;
 //using Assets.Script.UIScript;
 
 /**
@@ -63,9 +65,12 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     public void UIFresh()
     {
-        Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
-        daylabel.text = player.GetTime("月") + "月" + player.GetTime("日") + "日";
-        datelabel.text = Player.WEEKDAYS[player.GetTime("星期")];
+        //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+        Player player = Player.GetInstance();
+        Hashtable gVars = DataManager.GetInstance().GetGameVars();
+        DateTime date = (DateTime)gVars["日期"];
+        daylabel.text = date.Month + "月" + date.Day + "日";
+        datelabel.text = date.DayOfWeek.ToString();
         moneylabel.text = "金钱: " + player.GetBasicStatus("金钱");
         wenlabel.text = player.GetBasicStatus("文科").ToString();
         lilabel.text = player.GetBasicStatus("理科").ToString();
@@ -74,10 +79,10 @@ public class EduManager : MonoBehaviour, IPanelManager
         zhailabel.text = player.GetBasicStatus("宅力").ToString();
     }
 
-    string GetWeek(int x)
-    {
-        return Player.WEEKDAYS[x];
-    }
+    //string GetWeek(int x)
+    //{
+    //    return Player.WEEKDAYS[x];
+    //}
 
     
 
@@ -88,10 +93,10 @@ public class EduManager : MonoBehaviour, IPanelManager
     /// <param name="result">执行结果</param>
     public void ShowAnime(string eduItem, int result)
     {
-        switch (result)
-        {
+        //switch (result)
+        //{
 
-        }
+        //}
         //NumGenerate(x);//数值增减
         //StartCoroutine(Animate());//显示动画(临时用文字代替)
     }

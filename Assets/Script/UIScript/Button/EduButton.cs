@@ -6,7 +6,6 @@ using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 using System;
 using Assets.Script.GameStruct.EduSystem.Algorithm;
-using Assets.Script.GameStruct.EduSystem.Algorithm;
 
 public class EduButton : MonoBehaviour
 {
@@ -73,7 +72,9 @@ public class EduButton : MonoBehaviour
     /// </summary>
     private int Execute()
     {
-        Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+        //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+        //Player player = (Player)DataManager.GetInstance().GetGameVars()["玩家"];
+        Player player = Player.GetInstance();
         int status = algorithm.ResultType(player);
 
         foreach (KeyValuePair<string, Range> kv in statusDelta)
