@@ -11,9 +11,9 @@ namespace Assets.Script.TextScripts
     public class TI1201_5 : TextScript
     {
         public TI1201_5(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
-        public override void Init()
+        public override void InitText()
         {
-            base.Init();
+            
             pieces = new List<Piece>()
             {
                 //*调查->地上的玻璃

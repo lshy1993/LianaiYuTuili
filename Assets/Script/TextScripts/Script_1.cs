@@ -11,9 +11,9 @@ namespace Assets.Script.TextScripts
     public class Script_1 : TextScript
     {
         public Script_1(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
-        public override void Init()
+        public override void InitText()
         {
-            base.Init();
+            
             pieces = new List<Piece>()
             {
                 f.t("第一句", "11111"),

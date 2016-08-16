@@ -20,6 +20,8 @@ namespace Assets.Script.GameStruct
 
         public static readonly int RANK_MAX = 300000;
         public static readonly int RANK_MIN = 1;
+
+        public static readonly string[] WEEK_DAYS = new string[]{ " 星期日 " , " 星期一 " , " 星期二 " , " 星期三 " , " 星期四 " , " 星期五 " , " 星期六 " };
         internal static readonly int MONEY_MIN = 0;
         internal static readonly int MONEY_MAX = int.MaxValue;
 

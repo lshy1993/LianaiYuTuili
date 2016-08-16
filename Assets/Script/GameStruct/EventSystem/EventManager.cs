@@ -103,9 +103,14 @@ namespace Assets.Script.GameStruct.EventSystem
 
         public MapEvent GetCurrentForceEvent()
         {
-            foreach(KeyValuePair<string, MapEvent> kv in forceEventTable)
+            foreach (KeyValuePair<string, MapEvent> kv in forceEventTable)
             {
-                if (IsAvailableEvent(kv.Value)) return kv.Value;
+                //Debug.Log("强制事件遍历"+kv.Key + " 状态" + IsAvailableEvent(kv.Value));
+                if (IsAvailableEvent(kv.Value))
+                {
+                    Debug.Log("选取强制事件:" + kv.Value.name);
+                    return kv.Value;
+                }
             }
             return null;
 
@@ -123,8 +128,8 @@ namespace Assets.Script.GameStruct.EventSystem
             }
             else
             {
-                Debug.Log(UnityEngine.Random.Range(0, 1));
-                Debug.Log(locationEvents[location][0].ToString());
+                //Debug.Log(UnityEngine.Random.Range(0, 1));
+                //Debug.Log(locationEvents[location][0].ToString());
                 return locationEvents[location]
                     [UnityEngine.Random.Range(0, locationEvents[location].Count)];
             }
@@ -150,6 +155,7 @@ namespace Assets.Script.GameStruct.EventSystem
         public void FinishCurrentEvent()
         {
             eventState[currentEvent.name] = STATE_RUNNED;
+            //Debug.Log("当前事件:" + currentEvent.name + "状态：" + eventState[currentEvent.name]);
             UpdateEvent();
         }
 
@@ -214,6 +220,21 @@ namespace Assets.Script.GameStruct.EventSystem
         public GameNode RunEvent(string place)
         {
             MapEvent e = GetCurrentEventAt(place);
+
+            currentEvent = e;
+
+            GameNode node = NodeFactory.GetInstance().FindTextScript(e.entryNode);
+            return node;
+        }
+
+        /// <summary>
+        /// 运行强制事件
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns></returns>
+        public GameNode RunForceEvent()
+        {
+            MapEvent e = GetCurrentForceEvent();
 
             currentEvent = e;
 

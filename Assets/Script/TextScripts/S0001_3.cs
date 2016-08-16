@@ -11,9 +11,9 @@ namespace Assets.Script.TextScripts
     public class S0001_3 : TextScript
     {
         public S0001_3(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
-        public override void Init()
+        public override void InitText()
         {
-            base.Init();
+            
             pieces = new List<Piece>()
             {
                 //——背景：教材领取处——

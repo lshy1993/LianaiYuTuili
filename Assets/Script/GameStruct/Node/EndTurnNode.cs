@@ -21,25 +21,21 @@ namespace Assets.Script.GameStruct.Node
 
         public override void Update()
         {
-            /* TODO: 过场动画？ */
-            Debug.Log("EndTurnNode");
-            Debug.Log("forceEventTable size:" + em.getForceEvents().Count);
-            //if(em.currentEvent != null)
-            //{
             em.FinishCurrentEvent();
             DataManager.GetInstance().MoveOneTurn();
-            //}
 
             end = true;
         }
 
         public override GameNode NextNode()
         {
-            MapEvent e = em.GetCurrentForceEvent();
-            if (e != null)
+            //MapEvent e = em.GetCurrentForceEvent();
+            if (em.GetCurrentForceEvent() != null)
             {
                 //根据强制事件表执行
-                return factory.FindTextScript(e.entryNode);
+                //em.currentEvent = e;
+                //return factory.FindTextScript(e.entryNode);
+                return em.RunForceEvent();
             }
             else
             {

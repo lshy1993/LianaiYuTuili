@@ -11,9 +11,9 @@ namespace Assets.Script.TextScripts
     public class TZ1101_x : TextScript
     {
         public TZ1101_x(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
-        public override void Init()
+        public override void InitText()
         {
-            base.Init();
+            
             pieces = new List<Piece>()
             {
                 //——背景 辩护方侧——

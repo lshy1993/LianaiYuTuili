@@ -11,13 +11,13 @@ namespace Assets.Script.TextScripts
     public class test1 : TextScript
     {
         public test1(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
-        public override void Init()
+        public override void InitText()
         {
-            base.Init();
+            
             pieces = new List<Piece>()
             {
                 f.t("测试","测试强制事件"),
-                f.t("","直接进入map",() => pieces.Count),
+                f.t("测试","直接进入map",() => pieces.Count),
             };
         }
 

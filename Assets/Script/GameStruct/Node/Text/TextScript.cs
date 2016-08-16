@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Script.GameStruct
 {
-    public class TextScript : GameNode
+    public abstract class TextScript : GameNode
     {
         private int current;
         public IList<Piece> pieces;
@@ -26,9 +26,13 @@ namespace Assets.Script.GameStruct
             pieces = null;
             f = new PieceFactory(root, gVars, lVars);
             nodeFactory = NodeFactory.GetInstance();
+            InitText();
 
             ps.SwitchTo("Avg");
+            Update();
         }
+
+        public abstract void InitText();
 
 
         public override void Update()
@@ -64,17 +68,5 @@ namespace Assets.Script.GameStruct
             return base.ToString() + str;
         }
 
-        //public void Load(GameDataSet data)
-        //{
-        //    lVars = data.lVars == null ? new Hashtable() : new Hashtable(data.lVars);
-        //    current = data.currentPosition;
-        //    f = new PieceFactory(root, gVars, lVars);
-        //}
-
-        //public void Save(GameDataSet data)
-        //{
-        //    throw new NotImplementedException();
-        //    //data.currentPosition = 
-        //}
     }
 }

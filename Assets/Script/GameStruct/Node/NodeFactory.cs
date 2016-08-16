@@ -52,14 +52,15 @@ namespace Assets.Script.GameStruct
         public TextScript FindTextScript(string name)
         {
             string classStr = SCRIPT_PATH + "." + name;
+            Debug.Log("Class Str = " + classStr);
             TextScript script = null;
             try
             {
                 Type t = Type.GetType(classStr);
-                Debug.Log("t == null?" + (t == null));
+                //Debug.Log("t == null?" + (t == null));
                 object[] args = new object[] { gVars, lVars, root, ps };
                 script = (TextScript)Activator.CreateInstance(t, args);
-                Debug.Log("转换成功：" + classStr);
+                //Debug.Log("转换成功：" + classStr);
             }
             catch(Exception e)
             {

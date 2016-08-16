@@ -24,7 +24,7 @@ namespace Assets.Script.GameStruct.EventSystem
         private UILabel daylabel, datelabel;
         private UILabel wenlabel, lilabel, tilabel, yilabel, zhailabel, moneylabel;
 
-        void Start()
+        void Awake()
         {
             gm = GameObject.Find("GameManager").GetComponent<GameManager>();
             mapObject = transform.parent.gameObject;
@@ -36,6 +36,10 @@ namespace Assets.Script.GameStruct.EventSystem
             tilabel = transform.Find("CharaInfo_Container/Number_Container/Ti_Label").gameObject.GetComponent<UILabel>();
             yilabel = transform.Find("CharaInfo_Container/Number_Container/Yi_Label").gameObject.GetComponent<UILabel>();
             zhailabel = transform.Find("CharaInfo_Container/Number_Container/Zhai_Label").gameObject.GetComponent<UILabel>();
+        }
+
+        void OnEnable()
+        {
             UIFresh();
         }
 
@@ -81,15 +85,18 @@ namespace Assets.Script.GameStruct.EventSystem
 
         public void UIFresh()
         {
-            //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
+            //Debug.Log("MapManager UIFresh");
             Player player = Player.GetInstance();
 
             Hashtable gVars = DataManager.GetInstance().GetGameVars();
-            //daylabel.text = player.GetTime("月") + "月" + player.GetTime("日") + "日";
-            //datelabel.text = Player.WEEKDAYS[player.GetTime("星期")];
             DateTime date = (DateTime)gVars["日期"];
             daylabel.text = date.Month + "月" + date.Day + "日";
-            datelabel.text = date.DayOfWeek.ToString();
+            datelabel.text = Constants.WEEK_DAYS[Convert.ToInt16(date.DayOfWeek)];
+
+            //datelabel.text = date.DayOfWeek.ToString();
+            //datelabel.text = 
+
+
 
             moneylabel.text = player.GetBasicStatus("金钱").ToString();
             wenlabel.text = player.GetBasicStatus("文科").ToString();
@@ -99,11 +106,11 @@ namespace Assets.Script.GameStruct.EventSystem
             zhailabel.text = player.GetBasicStatus("宅力").ToString();
         }
 
-        public void GoPlace(int placeid)
-        {
-            //gm.placeid = placeid.ToString();
-            //gm.MapEvent();
-            //UIFresh();
-        }
+        //public void GoPlace(int placeid)
+        //{
+        //    //gm.placeid = placeid.ToString();
+        //    //gm.MapEvent();
+        //    //UIFresh();
+        //}
     }
 }

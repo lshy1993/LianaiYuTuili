@@ -98,9 +98,9 @@ public class MapButton : MonoBehaviour
 
     void OnClick()
     {
-        Debug.Log("点击地点：" + place);
-        Debug.Log("点击事件：");
-        Debug.Log(em.GetCurrentEventAt(place));
+        //Debug.Log("点击地点：" + place);
+        //Debug.Log("点击事件：");
+        //Debug.Log(em.GetCurrentEventAt(place));
         if (em.GetCurrentEventAt(place) != null)
         {
             MapNode mapNode = gm.node as MapNode;

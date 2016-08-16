@@ -20,9 +20,9 @@ namespace Assets.Script.GameStruct
             this.gVars = gVars;
             this.lVars = lVars;
             this.root = root;
-            nameLabel = root.transform.Find("Avg_Panel/Label_Name").GetComponent<UILabel>();
+            nameLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Label_Name").GetComponent<UILabel>();
             
-            dialogLabel = root.transform.Find("Avg_Panel/Label_Dialog").GetComponent<UILabel>();
+            dialogLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Label_Dialog").GetComponent<UILabel>();
 
             // Fix: 将文本初始设为空，避免重复上一个文本的最后部分
             nameLabel.text = "";

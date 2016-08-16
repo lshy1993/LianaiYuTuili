@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using Assets.Script.UIScript;
 //using Assets.Script.UIScript;
 
 /**
@@ -21,11 +22,11 @@ public class PanelSwitch : MonoBehaviour
     {
         "Avg",
         "Title",
-        "Invest",
-        "Detect",
+        //"Invest",
+        //"Detect",
         "System",
-        "Enquire",
-        "Negotiate",
+        //"Enquire",
+        //"Negotiate",
         "Map",
         "Edu",
         "Phone"
@@ -64,25 +65,23 @@ public class PanelSwitch : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// 切换面板,TODO:可能需要对每个Panel做一个切换特效？
     /// </summary>
     /// <param name="panel">切换目标面板</param>
-    /// <param name="fadein">淡入时间，默认0.5s</param>
-    /// <param name="fadeout">淡出时间，默认0.5s</param>
-    public void SwitchTo(string panel, float fadein = 0.5f, float fadeout = 0.5f)
+    /// <param name="fadein">淡入时间，默认0.3s</param>
+    /// <param name="fadeout">淡出时间，默认0.3s</param>
+    public void SwitchTo(string panel, float fadein = 0.3f, float fadeout = 0.3f)
     {
+        
         if (panels.ContainsKey(panel))
         {
             GameObject currentPanel = panels[current];
             GameObject nextPanel = panels[panel];
-
-            currentPanel.GetComponent<IPanelManager>().Close();
-
-            StartCoroutine(Switch(currentPanel, nextPanel));
-
+            Debug.Log(panel);
+            StartCoroutine(Switch(currentPanel, nextPanel, fadein, fadeout));
             current = panel;
-
         }
         else
         {
@@ -90,29 +89,15 @@ public class PanelSwitch : MonoBehaviour
         }
     }
 
-    private IEnumerator Switch(GameObject currentPanel, GameObject nextPanel)
+    private IEnumerator Switch(GameObject currentPanel, GameObject nextPanel, float fadein, float fadeout)
     {
-
-        //Debug.Log("current panel null?" + (currentPanel == null));
-        //Debug.Log("current panel manager null?" + (currentPanel.GetComponent<IPanelManager>() == null));
-        //Debug.Log("current panel fade null?" + (currentPanel.GetComponent<PanelFade>() == null));
-        while (currentPanel.GetComponent<PanelFade>().close)
-        {
-            yield return null;
-        }
-        currentPanel.SetActive(false);
+        PanelFade2 current = currentPanel.GetComponent<PanelFade2>(),
+                   next = nextPanel.GetComponent<PanelFade2>();
+        current.Close(fadeout);
+        yield return new WaitForSeconds(fadeout);
         nextPanel.SetActive(true);
-        while (!nextPanel.GetComponent<PanelFade>().updating)
-        {
-            yield return null;
-        }
-        
-        nextPanel.GetComponent<IPanelManager>().Open();
-        //while (nextPanel.GetComponent<PanelFade>().open)
-        //{
-        //    yield return null;
-        //}
-        //        throw new NotImplementedException();
+        next.Open(fadein);
+
     }
 
     //打开手机

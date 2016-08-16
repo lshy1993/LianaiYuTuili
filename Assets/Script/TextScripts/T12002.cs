@@ -11,9 +11,9 @@ namespace Assets.Script.TextScripts
     public class T12002 : TextScript
     {
         public T12002(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
-        public override void Init()
+        public override void InitText()
         {
-            base.Init();
+            
             pieces = new List<Piece>()
             {
                 //——背景 教室-李云萧视角——

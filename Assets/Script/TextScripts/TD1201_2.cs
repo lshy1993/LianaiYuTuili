@@ -11,9 +11,9 @@ namespace Assets.Script.TextScripts
     public class TD1201_2 : TextScript
     {
         public TD1201_2(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
-        public override void Init()
+        public override void InitText()
         {
-            base.Init();
+            
             pieces = new List<Piece>()
             {
                 //*喵星人->现场情况

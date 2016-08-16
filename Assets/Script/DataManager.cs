@@ -100,10 +100,11 @@ namespace Assets.Script.GameStruct
 
         public void MoveOneTurn()
         {
-            Debug.Log("MoveOneTurn");
+/*            Debug.Log("MoveOneTurn")*/;
             int t = (int)datapool.GetGameVar("回合");
+            //Debug.Log("回合:" + t);
             DateTime day = (DateTime)datapool.GetGameVar("日期");
-            Debug.Log(day.AddDays(1).ToString());
+            //Debug.Log(day.AddDays(1).ToString());
             datapool.WriteGameVar("回合", t + 1);
             datapool.WriteGameVar("日期", day.AddDays(1));
         }
