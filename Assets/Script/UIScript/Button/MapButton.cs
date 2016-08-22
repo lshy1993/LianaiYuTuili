@@ -14,7 +14,7 @@ public class MapButton : MonoBehaviour
     private MapManager mm;
     private EventManager em;
     private GameManager gm;
-    private static readonly string BACKGROUND_PATH_PREFIX = "Background/";
+    private static readonly string BACKGROUND_PATH = "Background/";
 
     private string place;
     private string background;
@@ -91,7 +91,7 @@ public class MapButton : MonoBehaviour
 
     void SetText()
     {
-        uiSprite.sprite2D = Resources.Load<Sprite>(BACKGROUND_PATH_PREFIX + background);
+        uiSprite.sprite2D = Resources.Load<Sprite>(BACKGROUND_PATH + background);
         uiLabelPlace.text = place;
         uiLabelInfo.text = info;
     }

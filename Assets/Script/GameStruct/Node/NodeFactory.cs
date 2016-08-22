@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Assets.Script.GameStruct.Node;
+using Assets.Script.GameStruct.Model;
 
 namespace Assets.Script.GameStruct
 {
@@ -48,19 +49,25 @@ namespace Assets.Script.GameStruct
         {
             return new EndTurnNode(gVars, lVars, root, ps);
         }
+        public GameNode GetDetectJudgeNode(string eventName)
+        {
+            return new DetectJudgeNode(gVars, lVars, root, ps, eventName);
+        }
+
+        public GameNode GetDetectNode(DetectEvent detectEvent)
+        {
+            return new DetectNode(gVars, lVars, root, ps, detectEvent);
+        }
 
         public TextScript FindTextScript(string name)
         {
             string classStr = SCRIPT_PATH + "." + name;
-            Debug.Log("Class Str = " + classStr);
             TextScript script = null;
             try
             {
                 Type t = Type.GetType(classStr);
-                //Debug.Log("t == null?" + (t == null));
                 object[] args = new object[] { gVars, lVars, root, ps };
                 script = (TextScript)Activator.CreateInstance(t, args);
-                //Debug.Log("转换成功：" + classStr);
             }
             catch(Exception e)
             {

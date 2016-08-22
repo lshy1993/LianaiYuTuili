@@ -24,6 +24,7 @@ namespace Assets.Script.GameStruct
 
         private DataPool datapool;
         private EventManager eventManager;
+        private DetectManager detectManager;
         
 
         private DataManager()
@@ -59,7 +60,18 @@ namespace Assets.Script.GameStruct
         private void InitStatic()
         {
             InitEvents();
+            InitDetects();
             //InitGirls();
+        }
+
+        private void InitDetects()
+        {
+            Dictionary<string, DetectEvent> events = DetectManager.GetStaticDetectEvents();
+            datapool.WriteStaticVar("侦探事件表", events);
+
+            detectManager = DetectManager.GetInstance();
+            detectManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
+
         }
 
         private void InitGirls()

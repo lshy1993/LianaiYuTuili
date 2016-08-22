@@ -11,6 +11,7 @@ namespace Assets.Script.GameStruct
     public class EduNode : GameNode
     {
         private Player player;
+
         public EduNode(Hashtable gVars, Hashtable lVars,GameObject root, PanelSwitch ps, string type):
             base(gVars, lVars, root, ps)
         {

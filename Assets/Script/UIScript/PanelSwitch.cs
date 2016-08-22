@@ -15,6 +15,7 @@ public class PanelSwitch : MonoBehaviour
 {
 
     private GameObject root;
+
     /// <summary>
     /// 存储面板名称
     /// </summary>
