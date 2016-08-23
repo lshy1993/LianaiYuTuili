@@ -74,6 +74,12 @@ namespace Assets.Script.GameStruct
 
         public void LoadEvent(string key)
         {
+            //Debug.Log(key);
+            //foreach(string de in detectEvents.Keys)
+            //{
+            //    Debug.Log(de);
+            //}
+
             if (!detectEvents.ContainsKey(key)) throw new Exception();
 
             currentEvent = detectEvents[key];
@@ -134,13 +140,19 @@ namespace Assets.Script.GameStruct
         {
             Dictionary<string, DetectEvent> events = new Dictionary<string, DetectEvent>();
             string path = Constants.DEBUG ? DETECT_DEBUG_PATH : DETECT_PATH;
-
+            Debug.Log("读取侦探表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
-                events.Add(text.text, LoadSingleDetectEvent(text));
+                Debug.Log("读取：" + text.name);
+                events.Add(text.name, LoadSingleDetectEvent(text));
             }
 
             return events;
+        }
+
+        public bool IsCurrentEventFinished()
+        {
+            return false;
         }
     }
 }

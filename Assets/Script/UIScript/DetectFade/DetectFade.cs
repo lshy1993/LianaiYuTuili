@@ -10,7 +10,7 @@ namespace Assets.Script.UIScript
     {
         internal bool updating;
         internal float fadeSpeed;
-        private bool close, open;
+        internal bool close, open;
         private UIWidget container;
 
         void Awake()

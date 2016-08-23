@@ -18,6 +18,7 @@ namespace Assets.Script.GameStruct
         {
             detectManager = DetectManager.GetInstance();
             LoadEvent(eventName);
+            factory = NodeFactory.GetInstance();
         }
 
         public void LoadEvent(string eventName)
@@ -31,12 +32,18 @@ namespace Assets.Script.GameStruct
 
         public override GameNode NextNode()
         {
-            Debug.Log(detectEvent.sections.FirstOrDefault());
+
+            //Debug.Log(string.IsNullOrEmpty(detectEvent.sections.FirstOrDefault().Value.entry));
+
+            //Debug.Log(!detectManager.IsEntered(detectEvent.sections.FirstOrDefault().Value.place)
+            //    && !string.IsNullOrEmpty(detectEvent.sections.FirstOrDefault().Value.entry));
+
             if (detectManager.IsCurrentEventFinished())
             {
                 return factory.FindTextScript(detectEvent.eventExit);
             }
-            else if (!detectManager.IsEntered(detectEvent.sections.FirstOrDefault().Value.place))
+            else if (!detectManager.IsEntered(detectEvent.sections.FirstOrDefault().Value.place)
+                && !string.IsNullOrEmpty(detectEvent.sections.FirstOrDefault().Value.entry))
             {
                 return factory.FindTextScript(detectEvent.sections.FirstOrDefault().Value.entry);
             }

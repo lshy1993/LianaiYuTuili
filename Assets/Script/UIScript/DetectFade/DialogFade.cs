@@ -10,18 +10,17 @@ namespace Assets.Script.UIScript
     {
         private List<GameObject> dialogButtons;
         private int[] destinations;
-        private bool open = false;
+        private bool animate = false;
 
         public void setDialogBtns(List<GameObject> dialogButtons)
         {
             this.dialogButtons = dialogButtons;
         }
 
-
-        public override void Open(float fadein)
+        public override void Open(float fadein = 0.3f)
         {
             InitPosition();
-            open = true;
+            animate = true;
         }
 
         private void InitPosition()
@@ -43,7 +42,7 @@ namespace Assets.Script.UIScript
         new void FixedUpdate()
         {
             base.FixedUpdate();
-            if (open)
+            if (animate)
             {
                 for (int i = 0; i < dialogButtons.Count; i++)
                 {

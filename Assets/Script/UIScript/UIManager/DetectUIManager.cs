@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
-using System.Collections.Generic;
+using Assets.Script.UIScript;
 
 /// <summary>
 /// 
@@ -31,14 +32,19 @@ public class DetectUIManager : MonoBehaviour
     //private GameObject[] invButton, selectButton;//调查点集与对话选项集
     private List<GameObject> investButtons, dialogButtons, moveButtons;
 
-    void Start()
+    void Awake()
     {
         investObject = transform.parent.gameObject;
         investPanel = investObject.GetComponent<UIPanel>();
-        functionContainer = transform.Find("Function_Container").gameObject;
-        investContainer = transform.Find("InvestButton_Container").gameObject;
-        dialogContainer = transform.Find("Dialog_Container").gameObject;
-        moveContainer = transform.Find("Move_Container").gameObject;
+        
+        dialogContainer = this.transform.Find("Dialog_Container").gameObject;
+
+        functionContainer = this.transform.Find("Function_Container").gameObject;
+
+        investContainer = this.transform.Find("InvestButton_Container").gameObject;
+
+        moveContainer = this.transform.Find("Move_Container").gameObject;
+
         cancelButton = transform.Find("But_Cancel").gameObject;
         investButtons = new List<GameObject>();
         dialogButtons = new List<GameObject>();
@@ -62,63 +68,103 @@ public class DetectUIManager : MonoBehaviour
 
     public void SwitchStatus(Constants.DETECT_STATUS nextStatus)
     {
-        CloseContainer(currentStatus);
-    
-
+        CloseContainer(status);
         OpenContainer(nextStatus);
-
         this.status = nextStatus;
     }
 
-
-    public IEnumerator Open()
+    private void OpenContainer(Constants.DETECT_STATUS status)
     {
-        yield return StartCoroutine(FadeIn());
-        cancelButton.SetActive(false);
-    }
-
-    IEnumerator FadeIn()
-    {
-        investObject.SetActive(true);
-        float x = 0;
-        while (x < 1)
+        switch (status)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
-            investPanel.alpha = x;
-            yield return null;
-        }
-        yield return StartCoroutine(FuncUp());
-    }
+            case Constants.DETECT_STATUS.FREE:
+                functionContainer.GetComponent<FreeFade>().Open();
+                break;
+            case Constants.DETECT_STATUS.DIALOG:
+                dialogContainer.GetComponent<DialogFade>().Open();
+                break;
+            case Constants.DETECT_STATUS.INVEST:
+                investContainer.GetComponent<InvestFade>().Open();
+                break;
+            case Constants.DETECT_STATUS.MOVE:
+                moveContainer.GetComponent<MoveFade>().Open();
+                break;
+            default:
+                break;
 
-    IEnumerator FuncUp()
-    {
-        float y = -410;
-        while (y < -310)
-        {
-            y = Mathf.MoveTowards(y, -310, 100 / 0.2f * Time.deltaTime);
-            functionContainer.transform.localPosition = new Vector3(-350, y, 0);
-            yield return null;
         }
     }
 
-    IEnumerator FuncDown()
+    private void CloseContainer(Constants.DETECT_STATUS status)
     {
-        float y = -310;
-        while (y > -410)
+        switch (status)
         {
-            y = Mathf.MoveTowards(y, -410, 100 / 0.2f * Time.deltaTime);
-            functionContainer.transform.localPosition = new Vector3(-350, y, 0);
-            yield return null;
+            case Constants.DETECT_STATUS.FREE:
+                functionContainer.GetComponent<FreeFade>().Close();
+                break;
+            case Constants.DETECT_STATUS.DIALOG:
+                dialogContainer.GetComponent<DialogFade>().Close();
+                break;
+            case Constants.DETECT_STATUS.INVEST:
+                investContainer.GetComponent<InvestFade>().Close();
+                break;
+            case Constants.DETECT_STATUS.MOVE:
+                moveContainer.GetComponent<MoveFade>().Close();
+                break;
+            default:
+                break;
         }
     }
 
-    public void OpenInvestButton()
-    {
-        SetInvest();
-        StartCoroutine(FuncDown());
-        cancelButton.SetActive(true);
-        investContainer.SetActive(true);
-    }
+    //public IEnumerator Open()
+    //{
+    //    yield return StartCoroutine(FadeIn());
+    //    cancelButton.SetActive(false);
+    //}
+
+    //IEnumerator FadeIn()
+    //{
+    //    investObject.SetActive(true);
+    //    float x = 0;
+    //    while (x < 1)
+    //    {
+    //        x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
+    //        investPanel.alpha = x;
+    //        yield return null;
+    //    }
+    //    yield return StartCoroutine(FuncUp());
+    //}
+
+    //IEnumerator FuncUp()
+    //{
+    //    float y = -410;
+    //    while (y < -310)
+    //    {
+    //        y = Mathf.MoveTowards(y, -310, 100 / 0.2f * Time.deltaTime);
+    //        functionContainer.transform.localPosition = new Vector3(-350, y, 0);
+    //        yield return null;
+    //    }
+    //}
+
+    //IEnumerator FuncDown()
+    //{
+    //    float y = -310;
+    //    while (y > -410)
+    //    {
+    //        y = Mathf.MoveTowards(y, -410, 100 / 0.2f * Time.deltaTime);
+    //        functionContainer.transform.localPosition = new Vector3(-350, y, 0);
+    //        yield return null;
+    //    }
+    //}
+
+    //public void OpenInvestButton()
+    //{
+    //    transform.gameObject.SetActive(true);
+    //    SetInvest();
+    //    StartCoroutine(FuncDown());
+    //    cancelButton.SetActive(true);
+    //    investContainer.SetActive(true);
+    //}
 
     //public void CheckVisible()
     //{
@@ -128,12 +174,17 @@ public class DetectUIManager : MonoBehaviour
     public void SetInvest()
     {
         investButtons.Clear();
+
+        //investContainer = this.transform.Find("InvestButton_Container").gameObject;
+
         investContainer.transform.DestroyChildren();
+
         //载入调查点
         foreach (DetectInvest invest in section.invests)
         {
             GameObject investBtn = (GameObject)Resources.Load("Prefabs/Invest_Choice");
-            Instantiate(investBtn);
+            investBtn = Instantiate(investBtn) as GameObject;
+
             investBtn.transform.parent = investContainer.transform;
             investBtn.transform.position = invest.coordinate;
             UIButton btn = investBtn.GetComponent<UIButton>();
@@ -150,24 +201,28 @@ public class DetectUIManager : MonoBehaviour
         }
     }
 
-    public void OpenDialog()
-    {
-        //SetSelection();
-        StartCoroutine(FuncDown());
-        cancelButton.SetActive(true);
-        dialogContainer.SetActive(true);
-        StartCoroutine(SelectionMove());
-    }
+    //public void OpenDialog()
+    //{
+    //    //SetSelection();
+    //    StartCoroutine(FuncDown());
+    //    cancelButton.SetActive(true);
+    //    dialogContainer.SetActive(true);
+    //    StartCoroutine(SelectionMove());
+    //}
 
     public void SetDialog()
     {
         dialogButtons.Clear();
+
+        //dialogContainer = this.transform.Find("Dialog_Container").gameObject;
+
         dialogContainer.transform.DestroyChildren();
 
         foreach (DetectDialog dialog in section.dialogs)
         {
-            GameObject dialogBtn = (GameObject)Resources.Load("Prefabs/Dialog_Choice");
-            Instantiate(dialogBtn);
+            GameObject dialogBtn = (GameObject)Resources.Load("Prefab/Dialog_Choice");
+            dialogBtn = Instantiate(dialogBtn) as GameObject;
+            
             dialogBtn.transform.parent = dialogContainer.transform;
             dialogBtn.transform.Find("Label").GetComponent<UILabel>().text = dialog.dialog;
             DialogButton script = dialogBtn.GetComponent<DialogButton>();
@@ -181,13 +236,17 @@ public class DetectUIManager : MonoBehaviour
     void SetMove()
     {
         moveButtons.Clear();
+
+        //moveContainer = this.transform.Find("Move_Container").gameObject;
+
         moveContainer.transform.DestroyChildren();
+
         foreach (string move in section.moves)
         {
 
-            GameObject moveBtn = (GameObject)Resources.Load("Prefabs/Move_Choice");
-            Instantiate(moveBtn);
-            moveBtn.transform.parent = investContainer.transform;
+            GameObject moveBtn = (GameObject)Resources.Load("Prefab/Move_Choice");
+            moveBtn = Instantiate(moveBtn) as GameObject;
+            moveBtn.transform.parent = moveContainer.transform;
             moveBtn.transform.Find("Label").GetComponent<UILabel>().text = move;
             moveButtons.Add(moveBtn);
         }
@@ -205,13 +264,13 @@ public class DetectUIManager : MonoBehaviour
 
     }
 
-    public void Cancel()
-    {
-        StartCoroutine(FuncUp());
-        cancelButton.SetActive(false);
-        dialogContainer.SetActive(false);
-        investContainer.SetActive(false);
-    }
+    //public void Cancel()
+    //{
+    //    StartCoroutine(FuncUp());
+    //    cancelButton.SetActive(false);
+    //    dialogContainer.SetActive(false);
+    //    investContainer.SetActive(false);
+    //}
 
     public IEnumerator Close()
     {

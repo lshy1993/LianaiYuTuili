@@ -22,7 +22,6 @@ namespace Assets.Script.GameStruct.Model
             JsonData contents = data["内容"],
                      exit = data["出口"];
 
-            //List<DetectPlaceSection> sections = new List<DetectPlaceSection>();
             sections = new Dictionary<string, DetectPlaceSection>();
             // 处理内容
             foreach (JsonData content in contents)
@@ -34,6 +33,7 @@ namespace Assets.Script.GameStruct.Model
             // 处理出口
             eventExit = (string)exit["事件"];
 
+            conditions = new List<string>();
             foreach(JsonData condition in exit["条件"])
             {
                 conditions.Add((string)condition);

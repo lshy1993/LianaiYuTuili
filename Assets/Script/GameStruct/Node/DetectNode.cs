@@ -21,19 +21,23 @@ namespace Assets.Script.GameStruct
             : base(gVars, lVars, root, ps)
         {
             this.detectEvent = detectEvent;
-
+            
             section = detectEvent.sections.FirstOrDefault().Value;
-
+            
             uiManager.LoadSection(section);
         }
 
         public override void Init()
         {
             base.Init();
-
+            
             detectManager = DetectManager.GetInstance();
 
-            uiManager = root.transform.Find("Avg_Panel/Invest_panel").GetComponent<DetectUIManager>();
+            //关闭对话box
+            root.transform.Find("Avg_Panel/DialogBox_Panel").gameObject.SetActive(false);
+            //打开invest panel
+            uiManager = root.transform.Find("Avg_Panel/Invest_Panel").GetComponent<DetectUIManager>();
+            uiManager.transform.gameObject.SetActive(true);
 
             factory = NodeFactory.GetInstance();
         }
@@ -53,7 +57,7 @@ namespace Assets.Script.GameStruct
             next = this;
 
             section = detectEvent.sections[place];
-
+            
             uiManager.LoadSection(section);
 
             end = true;

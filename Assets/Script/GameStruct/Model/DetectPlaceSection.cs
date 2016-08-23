@@ -26,21 +26,24 @@ namespace Assets.Script.GameStruct.Model
                 && data["调查"] != null
                 && data["调查"].Count > 0)
             {
-                invests.Add(new DetectInvest(data["调查"]));
+                foreach (JsonData inv in data["调查"]) invests.Add(new DetectInvest(inv));
+                //invests.Add(new DetectInvest(data["调查"]));
             }
 
             if (data.Contains("对话")
                 && data["对话"] != null
                 && data["对话"].Count > 0)
             {
-                dialogs.Add(new DetectDialog(data["对话"]));
+                foreach (JsonData dia in data["对话"]) dialogs.Add(new DetectDialog(dia));
+                //dialogs.Add(new DetectDialog(data["对话"]));
             }
 
             if (data.Contains("移动")
                 && data["移动"] != null
                 && data["移动"].Count > 0)
             {
-                moves.Add((string)data["移动"]);
+                foreach (JsonData mov in data["移动"]) moves.Add((string)mov);
+                //moves.Add((string)data["移动"]);
             }
         }
     }
