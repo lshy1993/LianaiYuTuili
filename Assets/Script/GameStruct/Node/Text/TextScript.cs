@@ -14,10 +14,12 @@ namespace Assets.Script.GameStruct
         public IList<Piece> pieces;
         protected PieceFactory f;
         protected NodeFactory nodeFactory;
+        //private AvgPanelSwitch avgps;
         private bool move;
+        private static AvgPanelSwitch AvgPS;
 
-
-        public TextScript(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) : base(gVars, lVars, root, ps) { }
+        public TextScript(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) : base(gVars, lVars, root, ps) {
+        }
         public override void Init()
         {
             base.Init();
@@ -28,8 +30,15 @@ namespace Assets.Script.GameStruct
             nodeFactory = NodeFactory.GetInstance();
             InitText();
 
-            ps.SwitchTo("Avg");
+            ps.SwitchTo_IdeaVerify("Avg");
+            //ps.SwitchTo("Avg");
+            //AvgPS.SwitchTo("DialogBox");
             Update();
+        }
+
+        public static void SetAvgPanelSwitch(AvgPanelSwitch avgps)
+        {
+            AvgPS = avgps;
         }
 
         public abstract void InitText();

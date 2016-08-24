@@ -59,6 +59,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public DataManager dm;
 
+
+    //test for the init node
+    private bool startNewGame = false;
+
+
     void Awake()
     {
         InitSystem();
@@ -70,6 +75,13 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
+        if (startNewGame == true)
+        {
+            MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
+            EventManager.GetInstance().currentEvent = e;
+            node = nodeFactory.FindTextScript(e.entryNode);
+            startNewGame = false;
+        }
         if (node == null)
         {
             // Debug.Log("Game End, node null");
@@ -94,9 +106,10 @@ public class GameManager : MonoBehaviour
     public void NewGame()
     {
 
-        MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
-        EventManager.GetInstance().currentEvent = e;
-        node = nodeFactory.FindTextScript(e.entryNode);
+        startNewGame = true;
+        //MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
+        //EventManager.GetInstance().currentEvent = e;
+        //node = nodeFactory.FindTextScript(e.entryNode);
         //node = nodeFactory.GetEndTurnNode();
         //node.Update();
 

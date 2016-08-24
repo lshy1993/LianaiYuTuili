@@ -36,6 +36,30 @@ public class PanelSwitch : MonoBehaviour
     Dictionary<string, GameObject> panels;
     private string current;
 
+
+    /// <summary>
+    ///  用于验证新的PanelSwitch想法的函数
+    /// </summary>
+    /// <param name="next"></param>
+    public void SwitchTo_IdeaVerify(string next)
+    {
+        // TODO 想办法直接获取相应的符合接口的component
+        PanelFadeInterface currentFade = panels[current].GetComponent<DefaultFade>(),
+            nextFade = panels[next].GetComponent<DefaultFade>();
+
+
+        panels[current].GetComponent<UIPanel>().alpha = 1;
+        currentFade.Close(
+            () => {
+                Debug.Log("OnCloseFinished");
+                panels[current].SetActive(false);
+                panels[next].GetComponent<UIPanel>().alpha = 0;
+                panels[next].SetActive(true);
+                nextFade.Open(() => { Debug.Log("OnOpenFinished"); });
+            });
+    }
+
+
     // Use this for initialization
     public void Init()
     {
@@ -67,6 +91,7 @@ public class PanelSwitch : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// 切换面板,TODO:可能需要对每个Panel做一个切换特效？
     /// </summary>
@@ -75,12 +100,17 @@ public class PanelSwitch : MonoBehaviour
     /// <param name="fadeout">淡出时间，默认0.3s</param>
     public void SwitchTo(string panel, float fadein = 0.3f, float fadeout = 0.3f)
     {
-        
+        Debug.Log("从：" + current + "切换:" + panel);
+
         if (panels.ContainsKey(panel))
         {
             GameObject currentPanel = panels[current];
             GameObject nextPanel = panels[panel];
-            Debug.Log(panel);
+            //Debug.Log(panel);
+            //nextPanel.SetActive(true);
+            //nextPanel.GetComponent<UIPanel>().alpha = 0;
+            //yield return new WaitForSeconds(1);
+
             StartCoroutine(Switch(currentPanel, nextPanel, fadein, fadeout));
             current = panel;
         }
@@ -95,7 +125,7 @@ public class PanelSwitch : MonoBehaviour
         PanelFade2 current = currentPanel.GetComponent<PanelFade2>(),
                    next = nextPanel.GetComponent<PanelFade2>();
         current.Close(fadeout);
-        yield return new WaitForSeconds(fadeout);
+        yield return new WaitForSeconds(fadeout + 1f);
         nextPanel.SetActive(true);
         next.Open(fadein);
 

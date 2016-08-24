@@ -20,26 +20,35 @@ namespace Assets.Script.GameStruct
         public DetectNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, DetectEvent detectEvent)
             : base(gVars, lVars, root, ps)
         {
-            this.detectEvent = detectEvent;
-            
-            section = detectEvent.sections.FirstOrDefault().Value;
-            
-            uiManager.LoadSection(section);
+            Init(detectEvent);
         }
 
-        public override void Init()
+        public void Init(DetectEvent detectEvent)
         {
-            base.Init();
-            
             detectManager = DetectManager.GetInstance();
 
             //关闭对话box
             root.transform.Find("Avg_Panel/DialogBox_Panel").gameObject.SetActive(false);
+
             //打开invest panel
             uiManager = root.transform.Find("Avg_Panel/Invest_Panel").GetComponent<DetectUIManager>();
             uiManager.transform.gameObject.SetActive(true);
 
             factory = NodeFactory.GetInstance();
+
+            this.detectEvent = detectEvent;
+
+
+            uiManager.SetDetectNode(this);
+
+            section = detectEvent.sections.FirstOrDefault().Value;
+
+            uiManager.LoadSection(section);
+
+            uiManager.CheckEvent(detectEvent.id);
+
+
+            //uiManager.SwitchStatus(Constants.DETECT_STATUS.FREE);
         }
 
         public override void Update()
@@ -47,6 +56,7 @@ namespace Assets.Script.GameStruct
 
         public void ChooseNext(string entry)
         {
+            Debug.Log("detect next: " + entry);
             next = factory.FindTextScript(entry);
 
             end = true;
@@ -57,7 +67,7 @@ namespace Assets.Script.GameStruct
             next = this;
 
             section = detectEvent.sections[place];
-            
+
             uiManager.LoadSection(section);
 
             end = true;

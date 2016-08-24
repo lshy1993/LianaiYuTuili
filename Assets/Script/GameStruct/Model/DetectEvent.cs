@@ -10,7 +10,6 @@ namespace Assets.Script.GameStruct.Model
     {
         private static int ID = 0;
 
-        //public List<DetectPlaceSection> sections;
         public Dictionary<string, DetectPlaceSection> sections;
         public List<string> conditions;
         public int id;

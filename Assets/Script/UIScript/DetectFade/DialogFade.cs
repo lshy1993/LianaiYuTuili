@@ -19,6 +19,7 @@ namespace Assets.Script.UIScript
 
         public override void Open(float fadein = 0.3f)
         {
+            base.Open(fadein);
             InitPosition();
             animate = true;
         }
@@ -27,7 +28,7 @@ namespace Assets.Script.UIScript
         {
             foreach (GameObject btn in dialogButtons)
             {
-                btn.transform.position = new Vector3(0, 410);
+                btn.transform.localPosition = new Vector3(0, 410);
             }
 
             int n = dialogButtons.Count;
@@ -46,8 +47,8 @@ namespace Assets.Script.UIScript
             {
                 for (int i = 0; i < dialogButtons.Count; i++)
                 {
-                    float y = Mathf.MoveTowards(dialogButtons[i].transform.position.y, destinations[i], (360 - destinations[i]) * 0.3f * Time.fixedDeltaTime);
-                    dialogButtons[i].transform.position = new Vector3(0, y);
+                    float y = Mathf.MoveTowards(dialogButtons[i].transform.localPosition.y, destinations[i], (360 - destinations[i]) / 0.3f * Time.fixedDeltaTime);
+                    dialogButtons[i].transform.localPosition = new Vector3(0, y);
                 }
             }
 

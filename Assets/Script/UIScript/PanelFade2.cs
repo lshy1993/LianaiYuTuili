@@ -37,6 +37,8 @@ namespace Assets.Script.UIScript
             updating = false;
             fadeSpeed = 1 / 0.5f;
             panel = this.GetComponentInParent<UIPanel>();
+            //panel = this.transform.GetComponent<UIPanel>();
+            Debug.Log("PanelFade2: " + panel.name);
         }
 
         void FixedUpdate()

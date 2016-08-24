@@ -10,15 +10,13 @@ namespace Assets.Script.GameStruct
 {
     public class AvgPanelSwitch : MonoBehaviour
     {
-        // UISet
-        //UIPanel dialogBoxPanel, investPanel, reasoningPanel, enquirePanel;
-
         private static readonly List<String> PANEL_NAMES = new List<String>()
         {
             "DialogBox",
             "Invest",
             "Reasoning",
-            "Enquire"
+            "Enquire",
+            "Negotiate"
         };
 
         private GameObject root;
@@ -28,14 +26,17 @@ namespace Assets.Script.GameStruct
 
         public void Init()
         {
-            root = GameObject.Find("UI Root/Avg_Panel");
+            //root = GameObject.Find("UI Root/Avg_Panel");
+            root = transform.gameObject;
+            Debug.Log("AvgPanelSwitch root name: " + root.name);
             panels = new Dictionary<string, GameObject>();
             for (int i = 0; i < PANEL_NAMES.Count; i++)
             {
+                //Debug.Log("初始化AVG Panel:"+PANEL_NAMES[i]);
                 GameObject panelObj = root.transform.Find(PANEL_NAMES[i] + "_Panel").gameObject;
                 panels.Add(PANEL_NAMES[i], panelObj);
             }
-            current = "DialogBox";
+            current = null;
         }
 
 
@@ -47,14 +48,27 @@ namespace Assets.Script.GameStruct
         /// <param name="fadeout">淡出时间，默认0.3s</param>
         public void SwitchTo(string panel, float fadein = 0.3f, float fadeout = 0.3f)
         {
+            Debug.Log("AVG Panel: "+ panel);
 
             if (panels.ContainsKey(panel))
             {
-                GameObject currentPanel = panels[current];
-                GameObject nextPanel = panels[panel];
-                Debug.Log(panel);
-                StartCoroutine(Switch(currentPanel, nextPanel, fadein, fadeout));
-                current = panel;
+                if (current == null || current.Length == 0)
+                {
+                    GameObject nextPanel = panels[panel];
+                    StartCoroutine(Switch(null, nextPanel, fadein, fadeout));
+                    current = panel;
+                }
+                else
+                {
+                    GameObject currentPanel = panels[current];
+                    GameObject nextPanel = panels[panel];
+                    Debug.Log("AvgPanel从 " + current +" 到 "+panel);
+                    Debug.Log("Avg Panel 状态" + transform.gameObject.active);
+                    nextPanel.SetActive(true);
+                    StartCoroutine(Switch(currentPanel, nextPanel, fadein, fadeout));
+                    Debug.Log("Avg Panel 状态" + transform.gameObject.active);
+                    current = panel;
+                }
             }
             else
             {
@@ -66,25 +80,16 @@ namespace Assets.Script.GameStruct
         {
             PanelFade2 current = currentPanel.GetComponent<PanelFade2>(),
                        next = nextPanel.GetComponent<PanelFade2>();
-            current.Close(fadeout);
-            yield return new WaitForSeconds(fadeout);
-            nextPanel.SetActive(true);
+            Debug.Log("AvgPanelSwitch 进入coroutine");
+            if (current != null)
+            {
+                current.Close(fadeout);
+                yield return new WaitForSeconds(fadeout + 1f);
+            }
+
+            //nextPanel.SetActive(true);
+
             next.Open(fadein);
-
         }
-
-
-
-        private AvgPanelSwitch() { }
-
-        private static AvgPanelSwitch instance;
-
-        public static AvgPanelSwitch GetInstance()
-        {
-            if (instance == null) instance = new AvgPanelSwitch();
-
-            return instance;
-        }
-
     }
 }

@@ -196,7 +196,7 @@ public class TitleManager : MonoBehaviour , IPanelManager
     public IEnumerator Open()
     {
         //        throw new NotImplementedException();
-        this.GetComponent<PanelFade>().FadeIn(0, 0);
+        this.GetComponent<PanelFade_OldBack>().FadeIn(0, 0);
 
         
         return null;
@@ -207,7 +207,7 @@ public class TitleManager : MonoBehaviour , IPanelManager
     public IEnumerator Close()
     {
         //throw new NotImplementedException();
-        this.GetComponent<PanelFade>().FadeOut(0, 0);
+        this.GetComponent<PanelFade_OldBack>().FadeOut(0, 0);
         return null;
         //yield return StartCoroutine(FadeOut(title));
     }

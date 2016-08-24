@@ -46,7 +46,7 @@ public class EduManager : MonoBehaviour, IPanelManager
     public IEnumerator Open()
     {
 
-        this.GetComponent<PanelFade>().FadeIn(0, 0);
+        this.GetComponent<PanelFade_OldBack>().FadeIn(0, 0);
 
         return null;
     }
@@ -127,7 +127,7 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     public IEnumerator Close()
     {
-        this.GetComponent<PanelFade>().FadeOut(0, 0);
+        this.GetComponent<PanelFade_OldBack>().FadeOut(0, 0);
         return null;
     }
 

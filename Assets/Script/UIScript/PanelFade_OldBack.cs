@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class PanelFade : MonoBehaviour
+public class PanelFade_OldBack : MonoBehaviour
 {
     public bool open;
     public bool openning;

@@ -13,12 +13,15 @@ namespace Assets.Script.GameStruct
         private DetectManager detectManager;
         private DetectEvent detectEvent;
         private NodeFactory factory;
-        public DetectJudgeNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, string eventName)
+        private AvgPanelSwitch avgps;
+        public DetectJudgeNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, string eventName, AvgPanelSwitch avgps)
             : base(gVars, lVars, root, ps)
         {
             detectManager = DetectManager.GetInstance();
             LoadEvent(eventName);
             factory = NodeFactory.GetInstance();
+            this.avgps = avgps;
+            avgps.SwitchTo("Invest");
         }
 
         public void LoadEvent(string eventName)
@@ -42,8 +45,8 @@ namespace Assets.Script.GameStruct
             {
                 return factory.FindTextScript(detectEvent.eventExit);
             }
-            else if (!detectManager.IsEntered(detectEvent.sections.FirstOrDefault().Value.place)
-                && !string.IsNullOrEmpty(detectEvent.sections.FirstOrDefault().Value.entry))
+            else if (!string.IsNullOrEmpty(detectEvent.sections.FirstOrDefault().Value.entry)
+                && !detectManager.IsEntered(detectEvent.sections.FirstOrDefault().Value.place))
             {
                 return factory.FindTextScript(detectEvent.sections.FirstOrDefault().Value.entry);
             }

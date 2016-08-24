@@ -10,10 +10,10 @@ namespace Assets.Script.UIScript
     {
         private float y;
 
-        void OnEnable()
-        {
-            Open();
-        }
+        //void OnEnable()
+        //{
+        //    Open();
+        //}
 
         public override void Open(float fadein = 0.3f)
         {

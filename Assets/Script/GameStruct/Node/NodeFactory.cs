@@ -24,6 +24,7 @@ namespace Assets.Script.GameStruct
         private Hashtable lVars;
         private GameObject root;
         private PanelSwitch ps;
+        private AvgPanelSwitch avgPanelSwitch;
         private static readonly string SCRIPT_PATH = "Assets.Script.TextScripts";
         private NodeFactory() { }      
 
@@ -33,6 +34,10 @@ namespace Assets.Script.GameStruct
             this.lVars = lVars;
             this.root = root;
             this.ps = ps;
+            //avgPanelSwitch = Transform.Find("UI Root/Avg_Panel").GetComponent<AvgPanelSwitch>();
+            avgPanelSwitch = root.transform.Find("Avg_Panel").gameObject.GetComponent<AvgPanelSwitch>();
+            avgPanelSwitch.Init();
+            TextScript.SetAvgPanelSwitch(avgPanelSwitch);
         }
 
         public MapNode GetMapNode()
@@ -51,7 +56,7 @@ namespace Assets.Script.GameStruct
         }
         public GameNode GetDetectJudgeNode(string eventName)
         {
-            return new DetectJudgeNode(gVars, lVars, root, ps, eventName);
+            return new DetectJudgeNode(gVars, lVars, root, ps, eventName, avgPanelSwitch);
         }
 
         public GameNode GetDetectNode(DetectEvent detectEvent)
@@ -61,6 +66,7 @@ namespace Assets.Script.GameStruct
 
         public TextScript FindTextScript(string name)
         {
+            Debug.Log("获取文件脚本:" + name);
             string classStr = SCRIPT_PATH + "." + name;
             TextScript script = null;
             try
