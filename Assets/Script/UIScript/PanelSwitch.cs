@@ -62,19 +62,25 @@ public class PanelSwitch : MonoBehaviour
 
     public void SwitchTo_VerifyIterative(string next)
     {
-        Debug.Log("Switch to iterative:" + next);
-        //List<string> 
+        Debug.Log(Time.time + " Switch to iterative:" + next);
+
         List<string>[] result = GetListIntersectAndDifference(currentPanelPath, iterator.pathTable[next + "_Panel"]);
         List<string> sameChain = result[0],
                      closeChain = result[1],
                      openChain = result[2];
+        //自己切换自己
+        if (openChain.Count == 0 && closeChain.Count == 0)
+        {
+            closeChain = sameChain;
+            openChain = sameChain;
+        }
 
+        //Debug.Log("currentPath:" + ConvertToStringPath(currentPanelPath));
+        //Debug.Log("sameChain:" + ConvertToStringPath(sameChain));
+        //Debug.Log("closeChain:" + ConvertToStringPath(closeChain));
+        //Debug.Log("openChain:" + ConvertToStringPath(openChain));
+        
         DefaultFade closeFade = iterator.satellightTable[closeChain[0]];
-        //List<DefaultFade> openFadeChain = new List<DefaultFade>();
-        //foreach(string s in openChain)
-        //{
-
-        //}
 
         closeFade.Close(() =>
         {
@@ -83,8 +89,6 @@ public class PanelSwitch : MonoBehaviour
             OpenChain(new Queue<string>(openChain));
         });
 
-        //string closePath = 
-        //DefaultFade closeFade = root.transform.Find(Conver)
     }
 
     private void SetActiveChain(bool v, List<string> openChain)
@@ -92,20 +96,29 @@ public class PanelSwitch : MonoBehaviour
         //throw new NotImplementedException();
         foreach (string s in openChain)
         {
-            iterator.satellightTable[s].gameObject.SetActive(v);
+            GameObject go = iterator.satellightTable[s].gameObject;
+            if (v)
+            {
+                UIPanel up = go.GetComponent<UIPanel>();
+                if (up != null) up.alpha = 0;
+            }
+            go.SetActive(v);
         }
     }
 
     private void OpenChain(Queue<string> openQueue)
     {
-        if (openQueue.Peek() == null)
+        ///if (openQueue.Peek() == null)
+        if(openQueue.Count == 0 || openQueue.Peek() == null)
         {
-            Debug.Log("Close All");
+            //Debug.Log("Close All");
+            Debug.Log(Time.time + " Open Finished");
             return;
         }
         else
         {
             string open = openQueue.Dequeue();
+            currentPanelPath = iterator.pathTable[open];
             iterator.satellightTable[open].Open(() =>
             {
                 OpenChain(openQueue);
@@ -118,8 +131,8 @@ public class PanelSwitch : MonoBehaviour
         string path = "";
         foreach (string str in strs)
         {
+            path += str + ">";
         }
-
         return path;
     }
 
@@ -152,11 +165,13 @@ public class PanelSwitch : MonoBehaviour
         // new
         currentPanelPath = new List<string>()
         {
-            "UI Root", "Title"};
+            //"UI Root", "Title"
+            "UI Root", "Title_Panel"
+        };
 
         iterator = new FadeTreeIterator(root.GetComponent<DefaultFade>());
         iterator.Init();
-        iterator.PrintTree();
+        //iterator.PrintTree();
     }
 
     //开启关闭系统菜单

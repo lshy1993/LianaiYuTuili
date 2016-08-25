@@ -20,8 +20,9 @@ namespace Assets.Script.GameStruct
             detectManager = DetectManager.GetInstance();
             LoadEvent(eventName);
             factory = NodeFactory.GetInstance();
-            this.avgps = avgps;
-            avgps.SwitchTo("Invest");
+            //this.avgps = avgps;
+            //avgps.SwitchTo("Invest");
+            ps.SwitchTo_VerifyIterative("Invest");
         }
 
         public void LoadEvent(string eventName)

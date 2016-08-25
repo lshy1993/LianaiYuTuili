@@ -28,7 +28,7 @@ namespace Assets.Script.UIScript
             {
                 for (int i = 0; i < subPanels.Length; i++)
                 {
-                    Debug.Log(subPanels[i].name);
+                    //Debug.Log(subPanels[i].name);
                     childrenDictionary.Add(subPanels[i].name, subPanels[i]);
                 }
                 
@@ -62,7 +62,7 @@ namespace Assets.Script.UIScript
 
         internal virtual IEnumerator CloseSequence(UIAnimationCallback callback)
         {
-            Debug.Log("Close Panel:" + panel.name);
+            Debug.Log(Time.time + " Close Panel:" + panel.name);
 
             panel.alpha = maxAlpha;
             float fadeSpeed = Math.Abs(maxAlpha - minAlpha) / closeTime;
@@ -78,7 +78,7 @@ namespace Assets.Script.UIScript
 
         internal virtual IEnumerator OpenSequence(UIAnimationCallback callback)
         {
-            Debug.Log("Open Panel:" + panel.name);
+            Debug.Log(Time.time + " Open Panel:" + panel.name);
             panel.alpha = minAlpha;
             float fadeSpeed = Math.Abs(maxAlpha - minAlpha) / openTime;
             while (panel.alpha < maxAlpha)

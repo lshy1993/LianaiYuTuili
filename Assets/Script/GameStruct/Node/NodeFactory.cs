@@ -75,7 +75,7 @@ namespace Assets.Script.GameStruct
             catch(Exception e)
             {
                 Debug.LogError("文本脚本文件转换错误，请检查名称");
-                Debug.LogError(e.Message);
+                Debug.LogError(e.InnerException.Message);
             }
             return script;
         }
