@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Assets.Script.UIScript
+{
+    public interface IPanelFade
+    {
+        void Open(UIAnimationCallback callback);
+        void Open();
+        void Close(UIAnimationCallback callback);
+        void Close();
+    }
+}

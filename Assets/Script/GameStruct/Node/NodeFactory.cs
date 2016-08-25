@@ -34,10 +34,7 @@ namespace Assets.Script.GameStruct
             this.lVars = lVars;
             this.root = root;
             this.ps = ps;
-            //avgPanelSwitch = Transform.Find("UI Root/Avg_Panel").GetComponent<AvgPanelSwitch>();
-            avgPanelSwitch = root.transform.Find("Avg_Panel").gameObject.GetComponent<AvgPanelSwitch>();
-            avgPanelSwitch.Init();
-            TextScript.SetAvgPanelSwitch(avgPanelSwitch);
+            //TextScript.SetAvgPanelSwitch(avgPanelSwitch);
         }
 
         public MapNode GetMapNode()

@@ -3102,6 +3102,7 @@ GameObject:
   - 114: {fileID: 105908859}
   - 114: {fileID: 105908858}
   - 54: {fileID: 105908857}
+  - 114: {fileID: 105908860}
   m_Layer: 5
   m_Name: UI Root
   m_TagString: Untagged
@@ -3117,14 +3118,14 @@ Transform:
   m_GameObject: {fileID: 105908855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0027777778, y: 0.0027777778, z: 0.0027777778}
+  m_LocalScale: {x: 0.003076923, y: 0.003076923, z: 0.003076923}
   m_Children:
   - {fileID: 249959035}
   - {fileID: 1812054764}
   - {fileID: 1759274570}
   - {fileID: 509263486}
-  - {fileID: 1182135658}
   - {fileID: 1293926307}
+  - {fileID: 1182135658}
   - {fileID: 845258999}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -3208,6 +3209,27 @@ MonoBehaviour:
   fitHeight: 0
   adjustByDPI: 0
   shrinkPortraitUI: 0
+--- !u!114 &105908860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 105908855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c3834d1636cc94ea4c0553d7fb2d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 105908858}
+  maxAlpha: 1
+  minAlpha: 0
+  closeTime: 0.5
+  openTime: 0.5
+  subPanels:
+  - {fileID: 1812054770}
+  - {fileID: 1759274574}
+  - {fileID: 509263491}
+  - {fileID: 1293926312}
 --- !u!1 &106533464
 GameObject:
   m_ObjectHideFlags: 0
@@ -3580,7 +3602,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 122369863}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 69.999985, y: -75, z: 0}
+  m_LocalPosition: {x: 70, y: -75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 714513043}
@@ -7281,7 +7303,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 251234098}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 70, y: -224.99998, z: 0}
+  m_LocalPosition: {x: 70, y: -225, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 714513043}
@@ -12557,6 +12579,7 @@ GameObject:
   - 114: {fileID: 509263488}
   - 114: {fileID: 509263489}
   - 114: {fileID: 509263490}
+  - 114: {fileID: 509263491}
   m_Layer: 5
   m_Name: Edu_Panel
   m_TagString: Untagged
@@ -12665,6 +12688,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64f76553dca9e84bb54a1cd222c2c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &509263491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 509263485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c3834d1636cc94ea4c0553d7fb2d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 509263487}
+  maxAlpha: 1
+  minAlpha: 0
+  closeTime: 0.5
+  openTime: 0.5
+  subPanels: []
 --- !u!1 &515463426
 GameObject:
   m_ObjectHideFlags: 0
@@ -19369,6 +19409,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 789145494}
   - 114: {fileID: 789145495}
+  - 114: {fileID: 789145496}
   m_Layer: 5
   m_Name: Reasoning_Panel
   m_TagString: Untagged
@@ -19437,6 +19478,23 @@ MonoBehaviour:
   mDepth: 4
   mSortingOrder: 0
   mClipOffset: {x: 0, y: 0}
+--- !u!114 &789145496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 789145493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c3834d1636cc94ea4c0553d7fb2d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 789145495}
+  maxAlpha: 1
+  minAlpha: 0
+  closeTime: 0.5
+  openTime: 0.5
+  subPanels: []
 --- !u!1 &790003355
 GameObject:
   m_ObjectHideFlags: 0
@@ -27628,7 +27686,7 @@ Transform:
   - {fileID: 1686036984}
   - {fileID: 436921817}
   m_Father: {fileID: 105908856}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!114 &1182135659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30737,7 +30795,7 @@ Transform:
   - {fileID: 1229515129}
   - {fileID: 15996322}
   m_Father: {fileID: 105908856}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!114 &1293926308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30850,6 +30908,7 @@ MonoBehaviour:
   minAlpha: 0
   closeTime: 0.5
   openTime: 0.5
+  subPanels: []
 --- !u!1 &1306220676
 GameObject:
   m_ObjectHideFlags: 0
@@ -38867,6 +38926,7 @@ GameObject:
   - 114: {fileID: 1759274571}
   - 114: {fileID: 1759274572}
   - 114: {fileID: 1759274573}
+  - 114: {fileID: 1759274574}
   m_Layer: 5
   m_Name: Map_Panel
   m_TagString: Untagged
@@ -38976,6 +39036,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64f76553dca9e84bb54a1cd222c2c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1759274574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1759274568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c3834d1636cc94ea4c0553d7fb2d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1759274569}
+  maxAlpha: 1
+  minAlpha: 0
+  closeTime: 0.5
+  openTime: 0.5
+  subPanels: []
 --- !u!1 &1770297556
 GameObject:
   m_ObjectHideFlags: 0
@@ -40324,6 +40401,12 @@ MonoBehaviour:
   minAlpha: 0
   closeTime: 0.5
   openTime: 0.5
+  subPanels:
+  - {fileID: 1845195914}
+  - {fileID: 1971936374}
+  - {fileID: 789145496}
+  - {fileID: 1889784545}
+  - {fileID: 1936878737}
 --- !u!1 &1819290198
 GameObject:
   m_ObjectHideFlags: 0
@@ -41054,6 +41137,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1845195912}
   - 114: {fileID: 1845195913}
+  - 114: {fileID: 1845195914}
   m_Layer: 5
   m_Name: DialogBox_Panel
   m_TagString: Untagged
@@ -41124,6 +41208,23 @@ MonoBehaviour:
   mDepth: 2
   mSortingOrder: 0
   mClipOffset: {x: 0, y: 0}
+--- !u!114 &1845195914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1845195911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c3834d1636cc94ea4c0553d7fb2d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1845195913}
+  maxAlpha: 1
+  minAlpha: 0
+  closeTime: 0.5
+  openTime: 0.5
+  subPanels: []
 --- !u!1 &1850464838
 GameObject:
   m_ObjectHideFlags: 0
@@ -41871,6 +41972,7 @@ GameObject:
   - 114: {fileID: 1889784542}
   - 114: {fileID: 1889784543}
   - 114: {fileID: 1889784544}
+  - 114: {fileID: 1889784545}
   m_Layer: 5
   m_Name: Enquire_Panel
   m_TagString: Untagged
@@ -41961,6 +42063,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64f76553dca9e84bb54a1cd222c2c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1889784545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1889784540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c3834d1636cc94ea4c0553d7fb2d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1889784542}
+  maxAlpha: 1
+  minAlpha: 0
+  closeTime: 0.5
+  openTime: 0.5
+  subPanels: []
 --- !u!1 &1894991242
 GameObject:
   m_ObjectHideFlags: 0
@@ -43228,6 +43347,7 @@ GameObject:
   - 4: {fileID: 1936878734}
   - 114: {fileID: 1936878735}
   - 114: {fileID: 1936878736}
+  - 114: {fileID: 1936878737}
   m_Layer: 5
   m_Name: Negotiate_Panel
   m_TagString: Untagged
@@ -43306,6 +43426,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64f76553dca9e84bb54a1cd222c2c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1936878737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1936878733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c3834d1636cc94ea4c0553d7fb2d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1936878735}
+  maxAlpha: 1
+  minAlpha: 0
+  closeTime: 0.5
+  openTime: 0.5
+  subPanels: []
 --- !u!1 &1944407051
 GameObject:
   m_ObjectHideFlags: 0
@@ -43907,6 +44044,7 @@ GameObject:
   - 4: {fileID: 1971936371}
   - 114: {fileID: 1971936372}
   - 114: {fileID: 1971936373}
+  - 114: {fileID: 1971936374}
   m_Layer: 5
   m_Name: Invest_Panel
   m_TagString: Untagged
@@ -43987,6 +44125,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f0c16b11a6c534cb06d46c5d193e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1971936374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1971936370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c3834d1636cc94ea4c0553d7fb2d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1971936372}
+  maxAlpha: 1
+  minAlpha: 0
+  closeTime: 0.5
+  openTime: 0.5
+  subPanels: []
 --- !u!1 &1975300128
 GameObject:
   m_ObjectHideFlags: 0

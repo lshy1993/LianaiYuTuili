@@ -16,7 +16,7 @@ namespace Assets.Script.GameStruct
         protected NodeFactory nodeFactory;
         //private AvgPanelSwitch avgps;
         private bool move;
-        private static AvgPanelSwitch AvgPS;
+        //private static AvgPanelSwitch AvgPS;
 
         public TextScript(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) : base(gVars, lVars, root, ps) {
         }
@@ -30,16 +30,17 @@ namespace Assets.Script.GameStruct
             nodeFactory = NodeFactory.GetInstance();
             InitText();
 
-            ps.SwitchTo_IdeaVerify("Avg");
+            //ps.SwitchTo_IdeaVerify("Avg");
+            ps.SwitchTo_VerifyIterative("DialogBox");
             //ps.SwitchTo("Avg");
             //AvgPS.SwitchTo("DialogBox");
             Update();
         }
 
-        public static void SetAvgPanelSwitch(AvgPanelSwitch avgps)
-        {
-            AvgPS = avgps;
-        }
+        //public static void SetAvgPanelSwitch(AvgPanelSwitch avgps)
+        //{
+        //    AvgPS = avgps;
+        //}
 
         public abstract void InitText();
 

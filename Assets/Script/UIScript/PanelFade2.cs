@@ -46,7 +46,6 @@ namespace Assets.Script.UIScript
             if (close)
             {
                 updating = true;
-                //Debug.Log(panel.name);
                 panel.alpha = Mathf.MoveTowards(panel.alpha, 0, fadeSpeed * Time.fixedDeltaTime);
 
                 if (panel.alpha < 0.0000001)

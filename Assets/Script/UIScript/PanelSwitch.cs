@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Assets.Script.UIScript;
 //using Assets.Script.UIScript;
@@ -35,6 +36,8 @@ public class PanelSwitch : MonoBehaviour
 
     Dictionary<string, GameObject> panels;
     private string current;
+    private List<string> currentPanelPath;
+    private FadeTreeIterator iterator;
 
 
     /// <summary>
@@ -44,19 +47,92 @@ public class PanelSwitch : MonoBehaviour
     public void SwitchTo_IdeaVerify(string next)
     {
         // TODO 想办法直接获取相应的符合接口的component
-        PanelFadeInterface currentFade = panels[current].GetComponent<DefaultFade>(),
+        IPanelFade currentFade = panels[current].GetComponent<DefaultFade>(),
             nextFade = panels[next].GetComponent<DefaultFade>();
 
-
         panels[current].GetComponent<UIPanel>().alpha = 1;
-        currentFade.Close(
-            () => {
-                Debug.Log("OnCloseFinished");
-                panels[current].SetActive(false);
-                panels[next].GetComponent<UIPanel>().alpha = 0;
-                panels[next].SetActive(true);
-                nextFade.Open(() => { Debug.Log("OnOpenFinished"); });
+        currentFade.Close(() =>
+        {
+            panels[current].SetActive(false);
+            panels[next].GetComponent<UIPanel>().alpha = 0;
+            panels[next].SetActive(true);
+            nextFade.Open();
+        });
+    }
+
+    public void SwitchTo_VerifyIterative(string next)
+    {
+        Debug.Log("Switch to iterative:" + next);
+        //List<string> 
+        List<string>[] result = GetListIntersectAndDifference(currentPanelPath, iterator.pathTable[next + "_Panel"]);
+        List<string> sameChain = result[0],
+                     closeChain = result[1],
+                     openChain = result[2];
+
+        DefaultFade closeFade = iterator.satellightTable[closeChain[0]];
+        //List<DefaultFade> openFadeChain = new List<DefaultFade>();
+        //foreach(string s in openChain)
+        //{
+
+        //}
+
+        closeFade.Close(() =>
+        {
+            SetActiveChain(false, closeChain);
+            SetActiveChain(true, openChain); //可能需要设置打开时初始条件
+            OpenChain(new Queue<string>(openChain));
+        });
+
+        //string closePath = 
+        //DefaultFade closeFade = root.transform.Find(Conver)
+    }
+
+    private void SetActiveChain(bool v, List<string> openChain)
+    {
+        //throw new NotImplementedException();
+        foreach (string s in openChain)
+        {
+            iterator.satellightTable[s].gameObject.SetActive(v);
+        }
+    }
+
+    private void OpenChain(Queue<string> openQueue)
+    {
+        if (openQueue.Peek() == null)
+        {
+            Debug.Log("Close All");
+            return;
+        }
+        else
+        {
+            string open = openQueue.Dequeue();
+            iterator.satellightTable[open].Open(() =>
+            {
+                OpenChain(openQueue);
             });
+        }
+    }
+
+    private string ConvertToStringPath(List<string> strs)
+    {
+        string path = "";
+        foreach (string str in strs)
+        {
+        }
+
+        return path;
+    }
+
+    private List<string>[] GetListIntersectAndDifference(List<string> fst, List<string> snd)
+    {
+        List<string>[] difference = new List<string>[3];
+
+        difference[0] = fst.Intersect(snd).ToList();
+        difference[1] = fst.Except(snd).ToList();
+        difference[2] = snd.Except(fst).ToList();
+
+        return difference;
+
     }
 
 
@@ -64,6 +140,7 @@ public class PanelSwitch : MonoBehaviour
     public void Init()
     {
         root = GameObject.Find("UI Root");
+        // old
         panels = new Dictionary<string, GameObject>();
         for (int i = 0; i < PANEL_NAMES.Count; i++)
         {
@@ -71,7 +148,17 @@ public class PanelSwitch : MonoBehaviour
             panels.Add(PANEL_NAMES[i], panelObj);
         }
         current = "Title";
+
+        // new
+        currentPanelPath = new List<string>()
+        {
+            "UI Root", "Title"};
+
+        iterator = new FadeTreeIterator(root.GetComponent<DefaultFade>());
+        iterator.Init();
+        iterator.PrintTree();
     }
+
     //开启关闭系统菜单
     public void OpenMenu()
     {

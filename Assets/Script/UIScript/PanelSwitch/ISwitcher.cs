@@ -5,12 +5,11 @@ using System.Text;
 
 namespace Assets.Script.UIScript
 {
-    public delegate void UIAnimationCallback();
-    interface PanelFadeInterface
+    public interface ISwitcher
     {
-        void Open(UIAnimationCallback callback);
         void Open();
-        void Close(UIAnimationCallback callback);
+        void Init();
         void Close();
+
     }
 }
