@@ -17,6 +17,7 @@ namespace Assets.Script.GameStruct.Node
         {
             em = EventManager.GetInstance();
             factory = NodeFactory.GetInstance();
+            Update();
         }
 
         public override void Update()

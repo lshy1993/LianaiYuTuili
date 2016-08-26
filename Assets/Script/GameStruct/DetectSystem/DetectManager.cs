@@ -125,7 +125,7 @@ namespace Assets.Script.GameStruct
                     placeStatus.Add(kv.Value.place, false);
                 }
 
-                lVars.Add("侦探事件未知状态", placeStatus);
+                lVars.Add("侦探事件位置状态", placeStatus);
             }
         }
 
@@ -152,7 +152,9 @@ namespace Assets.Script.GameStruct
 
         public bool IsCurrentEventFinished()
         {
-            return false;
+            foreach (string s in knownInfo) Debug.Log(s);
+            foreach (string s in currentEvent.conditions) Debug.Log(s);
+            return currentEvent.conditions.Except(knownInfo).ToArray().Length == 0; 
         }
     }
 }

@@ -29,9 +29,10 @@ public class DetectUIManager : MonoBehaviour
     private GameObject functionContainer, investContainer, dialogContainer, moveContainer, cancelButton;
 
     //private GameObject currentContainer;
-    private Constants.DETECT_STATUS status;
+    public Constants.DETECT_STATUS status;
     //private GameObject[] invButton, selectButton;//调查点集与对话选项集
     private List<GameObject> investButtons, dialogButtons, moveButtons;
+    public PanelSwitch ps;
 
     void Awake()
     {
@@ -52,8 +53,25 @@ public class DetectUIManager : MonoBehaviour
         dialogButtons = new List<GameObject>();
         moveButtons = new List<GameObject>();
         detectManager = DetectManager.GetInstance();
+        status = Constants.DETECT_STATUS.FREE;
         eventID = -1;
+        
         //Open();
+    }
+
+    internal void ResetAlpha()
+    {
+        //throw new NotImplementedException();
+
+        switch (status)
+        {
+            case Constants.DETECT_STATUS.DIALOG:
+                dialogContainer.SetActive(true);
+                dialogContainer.GetComponent<UIWidget>().alpha = 1;
+                break;
+            default:
+                break;
+        }
     }
 
     internal void CheckEvent(int id)
@@ -83,121 +101,93 @@ public class DetectUIManager : MonoBehaviour
 
     public void SwitchStatus(Constants.DETECT_STATUS nextStatus)
     {
-        CloseContainer(status);
-        OpenContainer(nextStatus);
-        this.status = nextStatus;
-    }
-
-    private void OpenContainer(Constants.DETECT_STATUS status)
-    {
-        switch (status)
+        //CloseContainer(status);
+        //OpenContainer(nextStatus);
+        Debug.Log("next status:" + nextStatus);
+        switch (nextStatus)
         {
             case Constants.DETECT_STATUS.FREE:
-                functionContainer.GetComponent<FreeFade>().Open();
+                //functionContainer.GetComponent<FunctionAnimation>().Open();
+                ps.SwitchTo_VerifyIterative("Function_Container");
                 cancelButton.SetActive(false);
                 break;
             case Constants.DETECT_STATUS.DIALOG:
-                dialogContainer.SetActive(true);
-                dialogContainer.GetComponent<DialogFade>().Open();
+                //dialogContainer.SetActive(true);
+                ps.SwitchTo_VerifyIterative("Dialog_Container");
+                //dialogContainer.GetComponent<DialogAnimation>().Open();
                 cancelButton.SetActive(true);
                 break;
             case Constants.DETECT_STATUS.INVEST:
-                investContainer.SetActive(true);
-                investContainer.GetComponent<InvestFade>().Open();
+                //investContainer.SetActive(true);
+                ps.SwitchTo_VerifyIterative("Invest_Container");
+                //investContainer.GetComponent<InvestFade>().Open();
                 cancelButton.SetActive(true);
                 break;
             case Constants.DETECT_STATUS.MOVE:
-                moveContainer.SetActive(true);
-                moveContainer.GetComponent<MoveFade>().Open();
+                //moveContainer.SetActive(true);
+                ps.SwitchTo_VerifyIterative("Move_Container");
+                //moveContainer.GetComponent<MoveFade>().Open();
                 cancelButton.SetActive(true);
                 break;
             default:
                 break;
-
         }
+        this.status = nextStatus;
     }
 
-    private void CloseContainer(Constants.DETECT_STATUS status)
-    {
-        switch (status)
-        {
-            case Constants.DETECT_STATUS.FREE:
-                functionContainer.GetComponent<FreeFade>().Close();
-                break;
-            case Constants.DETECT_STATUS.DIALOG:
-                dialogContainer.GetComponent<DialogFade>().Close();
-                break;
-            case Constants.DETECT_STATUS.INVEST:
-                investContainer.GetComponent<InvestFade>().Close();
-                break;
-            case Constants.DETECT_STATUS.MOVE:
-                moveContainer.GetComponent<MoveFade>().Close();
-                break;
-            default:
-                break;
-        }
-    }
-
-    //public IEnumerator Open()
+    //private void OpenContainer(Constants.DETECT_STATUS status)
     //{
-    //    yield return StartCoroutine(FadeIn());
-    //    cancelButton.SetActive(false);
-    //}
-
-    //IEnumerator FadeIn()
-    //{
-    //    investObject.SetActive(true);
-    //    float x = 0;
-    //    while (x < 1)
+    //    switch (status)
     //    {
-    //        x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
-    //        investPanel.alpha = x;
-    //        yield return null;
-    //    }
-    //    yield return StartCoroutine(FuncUp());
-    //}
+    //        case Constants.DETECT_STATUS.FREE:
+    //            functionContainer.GetComponent<FunctionAnimation>().Open();
+    //            cancelButton.SetActive(false);
+    //            break;
+    //        case Constants.DETECT_STATUS.DIALOG:
+    //            dialogContainer.SetActive(true);
+    //            dialogContainer.GetComponent<DialogAnimation>().Open();
+    //            cancelButton.SetActive(true);
+    //            break;
+    //        case Constants.DETECT_STATUS.INVEST:
+    //            investContainer.SetActive(true);
+    //            investContainer.GetComponent<InvestFade>().Open();
+    //            cancelButton.SetActive(true);
+    //            break;
+    //        case Constants.DETECT_STATUS.MOVE:
+    //            moveContainer.SetActive(true);
+    //            moveContainer.GetComponent<MoveFade>().Open();
+    //            cancelButton.SetActive(true);
+    //            break;
+    //        default:
+    //            break;
 
-    //IEnumerator FuncUp()
-    //{
-    //    float y = -410;
-    //    while (y < -310)
-    //    {
-    //        y = Mathf.MoveTowards(y, -310, 100 / 0.2f * Time.deltaTime);
-    //        functionContainer.transform.localPosition = new Vector3(-350, y, 0);
-    //        yield return null;
     //    }
     //}
 
-    //IEnumerator FuncDown()
+    //private void CloseContainer(Constants.DETECT_STATUS status)
     //{
-    //    float y = -310;
-    //    while (y > -410)
+    //    switch (status)
     //    {
-    //        y = Mathf.MoveTowards(y, -410, 100 / 0.2f * Time.deltaTime);
-    //        functionContainer.transform.localPosition = new Vector3(-350, y, 0);
-    //        yield return null;
+    //        case Constants.DETECT_STATUS.FREE:
+    //            functionContainer.GetComponent<FunctionAnimation>().Close();
+    //            break;
+    //        case Constants.DETECT_STATUS.DIALOG:
+    //            dialogContainer.GetComponent<DialogAnimation>().Close();
+    //            break;
+    //        case Constants.DETECT_STATUS.INVEST:
+    //            investContainer.GetComponent<InvestFade>().Close();
+    //            break;
+    //        case Constants.DETECT_STATUS.MOVE:
+    //            moveContainer.GetComponent<MoveFade>().Close();
+    //            break;
+    //        default:
+    //            break;
     //    }
-    //}
-
-    //public void OpenInvestButton()
-    //{
-    //    transform.gameObject.SetActive(true);
-    //    SetInvest();
-    //    StartCoroutine(FuncDown());
-    //    cancelButton.SetActive(true);
-    //    investContainer.SetActive(true);
-    //}
-
-    //public void CheckVisible()
-    //{
-
     //}
 
     public void SetInvest()
     {
         investButtons.Clear();
-
-        //investContainer = this.transform.Find("InvestButton_Container").gameObject;
 
         investContainer.transform.DestroyChildren();
 
@@ -256,7 +246,7 @@ public class DetectUIManager : MonoBehaviour
             dialogButtons.Add(dialogBtn);
         }
 
-        dialogContainer.GetComponent<DialogFade>().setDialogBtns(dialogButtons);
+        dialogContainer.GetComponent<DetectDialogAnimation>().setDialogBtns(dialogButtons);
 
     }
 

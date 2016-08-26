@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         }
         if (node == null)
         {
-            // Debug.Log("Game End, node null");
+            //Debug.Log("Game End, node null");
             // 标题画面
             //ps.SwitchTo("Title");
         }
@@ -96,7 +96,9 @@ public class GameManager : MonoBehaviour
 
     private void SwitchNode()
     {
+        Debug.Log("当前node:" + node.ToString());
         this.node = this.node.NextNode();
+        Debug.Log("改变node:" + node.ToString());
     }
 
 

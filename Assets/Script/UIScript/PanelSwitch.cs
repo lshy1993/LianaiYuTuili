@@ -47,8 +47,8 @@ public class PanelSwitch : MonoBehaviour
     public void SwitchTo_IdeaVerify(string next)
     {
         // TODO 想办法直接获取相应的符合接口的component
-        IPanelFade currentFade = panels[current].GetComponent<DefaultFade>(),
-            nextFade = panels[next].GetComponent<DefaultFade>();
+        PanelTreeInterface currentFade = panels[current].GetComponent<PanelTreeInterface>(),
+            nextFade = panels[next].GetComponent<PanelTreeInterface>();
 
         panels[current].GetComponent<UIPanel>().alpha = 1;
         currentFade.Close(() =>
@@ -60,40 +60,53 @@ public class PanelSwitch : MonoBehaviour
         });
     }
 
+
     public void SwitchTo_VerifyIterative(string next)
     {
-        Debug.Log(Time.time + " Switch to iterative:" + next);
+        SwitchTo_VerifyIterative(next, () => { });
+    }
+    public void SwitchTo_VerifyIterative(string next, UIAnimationCallback callback)
+    {
+        //Debug.Log(Time.time + " Switch to iterative:" + next);
 
-        List<string>[] result = GetListIntersectAndDifference(currentPanelPath, iterator.pathTable[next + "_Panel"]);
+        List<string>[] result = GetListIntersectAndDifference(currentPanelPath,
+            iterator.pathTable[next]);
         List<string> sameChain = result[0],
                      closeChain = result[1],
                      openChain = result[2];
+        //Debug.Log("closeChain:" + ConvertToStringPath(closeChain));
+        //Debug.Log("openChain:" + ConvertToStringPath(openChain));
         //自己切换自己
         if (openChain.Count == 0 && closeChain.Count == 0)
         {
-            closeChain = sameChain;
-            openChain = sameChain;
+            closeChain = sameChain.GetRange(sameChain.Count - 1, 1);
+            openChain = sameChain.GetRange(sameChain.Count - 1, 1);
+            //closeChain = sameChain;
+            //openChain = sameChain;
         }
 
         //Debug.Log("currentPath:" + ConvertToStringPath(currentPanelPath));
         //Debug.Log("sameChain:" + ConvertToStringPath(sameChain));
         //Debug.Log("closeChain:" + ConvertToStringPath(closeChain));
         //Debug.Log("openChain:" + ConvertToStringPath(openChain));
-        
-        DefaultFade closeFade = iterator.satellightTable[closeChain[0]];
 
-        closeFade.Close(() =>
+        //PanelTreeInterface closeFade = iterator.satellightTable[closeChain[0]];
+
+        CloseChain(new Stack<string>(closeChain), () =>
         {
             SetActiveChain(false, closeChain);
             SetActiveChain(true, openChain); //可能需要设置打开时初始条件
             OpenChain(new Queue<string>(openChain));
+            callback();
         });
+        //closeFade.Close(() =>
+        //{
+        //});
 
     }
 
     private void SetActiveChain(bool v, List<string> openChain)
     {
-        //throw new NotImplementedException();
         foreach (string s in openChain)
         {
             GameObject go = iterator.satellightTable[s].gameObject;
@@ -106,13 +119,34 @@ public class PanelSwitch : MonoBehaviour
         }
     }
 
+    private void CloseChain(Stack<string> closeStack, UIAnimationCallback closeFinishCallback)
+    {
+        if (closeStack.Count == 0 || closeStack.Peek() == null)
+        {
+            closeFinishCallback();
+            //Debug.Log("Close All");
+            //Debug.Log(Time.time + " Open Finished");
+            return;
+        }
+        else
+        {
+            string open = closeStack.Pop();
+            currentPanelPath = iterator.pathTable[open];
+            iterator.satellightTable[open].Close(() =>
+            {
+                CloseChain(closeStack, closeFinishCallback);
+            });
+        }
+
+    }
+
     private void OpenChain(Queue<string> openQueue)
     {
         ///if (openQueue.Peek() == null)
-        if(openQueue.Count == 0 || openQueue.Peek() == null)
+        if (openQueue.Count == 0 || openQueue.Peek() == null)
         {
             //Debug.Log("Close All");
-            Debug.Log(Time.time + " Open Finished");
+            //Debug.Log(Time.time + " Open Finished");
             return;
         }
         else
@@ -169,9 +203,9 @@ public class PanelSwitch : MonoBehaviour
             "UI Root", "Title_Panel"
         };
 
-        iterator = new FadeTreeIterator(root.GetComponent<DefaultFade>());
+        iterator = new FadeTreeIterator(root.GetComponent<PanelTreeInterface>());
         iterator.Init();
-        //iterator.PrintTree();
+        iterator.PrintTree();
     }
 
     //开启关闭系统菜单

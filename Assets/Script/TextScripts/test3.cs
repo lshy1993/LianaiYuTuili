@@ -17,7 +17,7 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 f.t("对话一","这里是对话一的内容"),
-                f.t("即将返回","对话模式",() => pieces.Count),
+                f.t("即将返回","对话模式"),
             };
         }
 

@@ -17,7 +17,7 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 f.t("测试","即将进入侦探模式"),
-                f.t("测试","json编号detest1",() => pieces.Count),
+                f.t("测试","json编号detest1"),
             };
         }
 

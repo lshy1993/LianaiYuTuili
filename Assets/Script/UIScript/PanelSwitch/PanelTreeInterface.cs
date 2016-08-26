@@ -9,20 +9,19 @@ namespace Assets.Script.UIScript
 {
 
     public delegate void UIAnimationCallback();
-    public class DefaultFade : MonoBehaviour, IPanelFade
+    public class PanelTreeInterface : MonoBehaviour
     {
-        public UIPanel panel;
-        public float maxAlpha, minAlpha;
-        public float closeTime, openTime;
-
-        public DefaultFade[] subPanels;
-        public IPanelFade satellight;
-        public Dictionary<string, DefaultFade> childrenDictionary;
+        public UIRect panel;
+        public PanelTreeInterface[] subPanels;
+        private PanelAnimation satellight;
+        public Dictionary<string, PanelTreeInterface> childrenDictionary;
 
         public void Init()
         {
-            satellight = this;
-            childrenDictionary = new Dictionary<string, DefaultFade>();
+            //satellight = this;
+            satellight = transform.GetComponent<PanelAnimation>();
+            satellight.Init();
+            childrenDictionary = new Dictionary<string, PanelTreeInterface>();
             if (!(subPanels == null  
                 || subPanels.Length == 0 ))
             {
@@ -35,7 +34,7 @@ namespace Assets.Script.UIScript
             }
         }
 
-        public DefaultFade GetChildByKey(string key)
+        public PanelTreeInterface GetChildByKey(string key)
         {
             if (childrenDictionary.ContainsKey(key)) return childrenDictionary[key];
             else return null;
@@ -50,45 +49,14 @@ namespace Assets.Script.UIScript
         public void Close(UIAnimationCallback callback)
         {
             StopAllCoroutines();
-            StartCoroutine(CloseSequence(callback));
+            satellight.BeforeClose();
+            StartCoroutine(satellight.CloseSequence(callback));
         }
 
         public void Open(UIAnimationCallback callback)
         {
             StopAllCoroutines();
-            StartCoroutine(OpenSequence(callback));
-        }
-
-
-        internal virtual IEnumerator CloseSequence(UIAnimationCallback callback)
-        {
-            Debug.Log(Time.time + " Close Panel:" + panel.name);
-
-            panel.alpha = maxAlpha;
-            float fadeSpeed = Math.Abs(maxAlpha - minAlpha) / closeTime;
-            while (panel.alpha > minAlpha)
-            {
-                panel.alpha = Mathf.MoveTowards(panel.alpha, minAlpha, fadeSpeed * Time.fixedDeltaTime);
-
-                yield return null;
-            }
-
-            callback();
-        }
-
-        internal virtual IEnumerator OpenSequence(UIAnimationCallback callback)
-        {
-            Debug.Log(Time.time + " Open Panel:" + panel.name);
-            panel.alpha = minAlpha;
-            float fadeSpeed = Math.Abs(maxAlpha - minAlpha) / openTime;
-            while (panel.alpha < maxAlpha)
-            {
-                panel.alpha = Mathf.MoveTowards(panel.alpha, maxAlpha, fadeSpeed * Time.fixedDeltaTime);
-
-                yield return null;
-            }
-
-            callback();
+            StartCoroutine(satellight.OpenSequence(callback));
         }
 
         public void Open()
@@ -102,14 +70,14 @@ namespace Assets.Script.UIScript
         }
     }
 
-    public delegate void UIFadeIteratorFunc(DefaultFade node);
+    public delegate void UIFadeIteratorFunc(PanelTreeInterface node);
 
     public class FadeTreeIterator
     {
-        private DefaultFade root;
+        private PanelTreeInterface root;
         public Dictionary<string, List<string>> pathTable;
-        public Dictionary<string, DefaultFade> satellightTable;
-        public FadeTreeIterator(DefaultFade root)
+        public Dictionary<string, PanelTreeInterface> satellightTable;
+        public FadeTreeIterator(PanelTreeInterface root)
         {
             this.root = root;
         }
@@ -118,11 +86,11 @@ namespace Assets.Script.UIScript
         {
             RecursiveInit(root);
             pathTable = new Dictionary<string, List<string>>();
-            satellightTable = new Dictionary<string, DefaultFade>();
+            satellightTable = new Dictionary<string, PanelTreeInterface>();
             BuildTreeTable(root, new List<string>());
         }
 
-        public void RecursiveInit(DefaultFade node)
+        public void RecursiveInit(PanelTreeInterface node)
         {
             node.Init();
 
@@ -132,7 +100,7 @@ namespace Assets.Script.UIScript
             }
             else
             {
-                foreach (DefaultFade child in node.childrenDictionary.Values)
+                foreach (PanelTreeInterface child in node.childrenDictionary.Values)
                 {
                     RecursiveInit(child);
                 }
@@ -156,7 +124,7 @@ namespace Assets.Script.UIScript
 
 
 
-        private void BuildTreeTable(DefaultFade node, List<string> pathArr)
+        private void BuildTreeTable(PanelTreeInterface node, List<string> pathArr)
         {
             pathArr.Add(node.name);
 
@@ -167,19 +135,19 @@ namespace Assets.Script.UIScript
             if (node.IsLeaf()) return;
             else
             {
-                foreach (DefaultFade child in node.childrenDictionary.Values)
+                foreach (PanelTreeInterface child in node.childrenDictionary.Values)
                 {
                     BuildTreeTable(child, new List<string>(pathArr));
                 }
             }
         }
 
-        public void RecursiveExecute(DefaultFade node, UIFadeIteratorFunc func)
+        public void RecursiveExecute(PanelTreeInterface node, UIFadeIteratorFunc func)
         {
             RecursiveExecute(node, func, func);
         }
 
-        public void RecursiveExecute(DefaultFade node, UIFadeIteratorFunc nodeFunc, UIFadeIteratorFunc finishFunc)
+        public void RecursiveExecute(PanelTreeInterface node, UIFadeIteratorFunc nodeFunc, UIFadeIteratorFunc finishFunc)
         {
             nodeFunc(node);
             if (node.IsLeaf())
@@ -188,7 +156,7 @@ namespace Assets.Script.UIScript
             }
             else
             {
-                foreach (DefaultFade child in node.childrenDictionary.Values)
+                foreach (PanelTreeInterface child in node.childrenDictionary.Values)
                 {
                     RecursiveExecute(child, nodeFunc, finishFunc);
                 }

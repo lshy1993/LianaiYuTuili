@@ -14,9 +14,7 @@ namespace Assets.Script.GameStruct
         public IList<Piece> pieces;
         protected PieceFactory f;
         protected NodeFactory nodeFactory;
-        //private AvgPanelSwitch avgps;
         private bool move;
-        //private static AvgPanelSwitch AvgPS;
 
         public TextScript(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) : base(gVars, lVars, root, ps) {
         }
@@ -30,27 +28,20 @@ namespace Assets.Script.GameStruct
             nodeFactory = NodeFactory.GetInstance();
             InitText();
 
-            //ps.SwitchTo_IdeaVerify("Avg");
-            ps.SwitchTo_VerifyIterative("DialogBox");
-            //ps.SwitchTo("Avg");
-            //AvgPS.SwitchTo("DialogBox");
-            Update();
+            ps.SwitchTo_VerifyIterative("DialogBox_Panel", Update);
         }
-
-        //public static void SetAvgPanelSwitch(AvgPanelSwitch avgps)
-        //{
-        //    AvgPS = avgps;
-        //}
 
         public abstract void InitText();
 
 
         public override void Update()
         {
+            Debug.Log("Text Update current: " + current);
             if (pieces != null && current >= 0 && current < pieces.Count)
             {
                 pieces[current].Exec();
                 current = pieces[current].Next();
+                //if (current == pieces.Count) end = true;
             }
             else
             {
@@ -63,8 +54,6 @@ namespace Assets.Script.GameStruct
         public override string ToString()
         {
             string str = "";
-
-
             foreach (Piece p in pieces)
             {
                 TextPiece tp = p as TextPiece;
@@ -72,11 +61,8 @@ namespace Assets.Script.GameStruct
                 {
                     str += tp.ToString();
                 }
-
             }
-
             return base.ToString() + str;
         }
-
     }
 }

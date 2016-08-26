@@ -32,12 +32,12 @@ namespace Assets.Script.GameStruct
 
             //打开invest panel
             uiManager = root.transform.Find("Avg_Panel/Invest_Panel").GetComponent<DetectUIManager>();
+
             uiManager.transform.gameObject.SetActive(true);
 
             factory = NodeFactory.GetInstance();
 
             this.detectEvent = detectEvent;
-
 
             uiManager.SetDetectNode(this);
 
@@ -47,7 +47,9 @@ namespace Assets.Script.GameStruct
 
             uiManager.CheckEvent(detectEvent.id);
 
+            //uiManager.ResetAlpha();
 
+            uiManager.SwitchStatus(uiManager.status);
             //uiManager.SwitchStatus(Constants.DETECT_STATUS.FREE);
         }
 
@@ -56,7 +58,6 @@ namespace Assets.Script.GameStruct
 
         public void ChooseNext(string entry)
         {
-            Debug.Log("detect next: " + entry);
             next = factory.FindTextScript(entry);
 
             end = true;

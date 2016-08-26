@@ -20,9 +20,7 @@ namespace Assets.Script.GameStruct
             detectManager = DetectManager.GetInstance();
             LoadEvent(eventName);
             factory = NodeFactory.GetInstance();
-            //this.avgps = avgps;
-            //avgps.SwitchTo("Invest");
-            ps.SwitchTo_VerifyIterative("Invest");
+            ps.SwitchTo_VerifyIterative("Invest_Panel", Update);
         }
 
         public void LoadEvent(string eventName)
@@ -31,12 +29,10 @@ namespace Assets.Script.GameStruct
             detectEvent = detectManager.GetCurrentEvent();
         }
 
-
         public override void Update() { end = true; }
 
         public override GameNode NextNode()
         {
-
             //Debug.Log(string.IsNullOrEmpty(detectEvent.sections.FirstOrDefault().Value.entry));
 
             //Debug.Log(!detectManager.IsEntered(detectEvent.sections.FirstOrDefault().Value.place)
