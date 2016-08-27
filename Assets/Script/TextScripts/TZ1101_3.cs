@@ -34,7 +34,7 @@ namespace Assets.Script.TextScripts
                 f.t("【张傲】", "可以肯定的是，并没有人从碎掉的窗户这里进入。"),
                 //——背景 辩护方侧——
                 //——立绘 李云萧侧面——
-                f.t("【李云萧】", "……",() => pieces.Count),
+                f.t("【李云萧】", "……"),
                 /*
                 这里要跳转【继续询问】
                 */
@@ -45,7 +45,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.FindTextScript("T11002");
+            return nodeFactory.GetEnquireNode("Z1101");
             //return nodeFactory.GetMapNode();
         }
 

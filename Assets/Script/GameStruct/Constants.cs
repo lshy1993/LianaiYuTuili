@@ -37,6 +37,10 @@ namespace Assets.Script.GameStruct
             FREE, DIALOG, INVEST, MOVE
         }
 
+        public enum ENQUIRE_STATUS
+        {
+            PRESS, WRONG, CORRECT, LOOP, GAMEOVER
+        }
 
     }
 

@@ -5,13 +5,14 @@ public class Click_Next : MonoBehaviour {
 
     private GameManager gm;
 
-    void Start()
+    void Awake()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void OnClick()
     {
+        Debug.Log("CLICK");
         gm.GetCurrentNode().Update();
     }
 }

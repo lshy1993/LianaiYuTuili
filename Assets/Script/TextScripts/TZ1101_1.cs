@@ -25,7 +25,7 @@ namespace Assets.Script.TextScripts
                 f.t("【张傲】", "而且，办公室的门没有被撬过的痕迹，除非有钥匙，不然是绝对打不开的。"),
                 //——背景 辩护方侧——
                 //——立绘 李云萧侧面——
-                f.t("【李云萧】", "嗯……（进入办公室的方法，真的只有从门进入吗？）",() => pieces.Count),
+                f.t("【李云萧】", "嗯……（进入办公室的方法，真的只有从门进入吗？）")
                 /*
                 这里要跳转【继续询问】
                 */
@@ -34,10 +34,8 @@ namespace Assets.Script.TextScripts
 
         public override GameNode NextNode()
         {
-            //return base.NextNode();
             Finish();
-            return nodeFactory.FindTextScript("T11002");
-            //return nodeFactory.GetMapNode();
+            return nodeFactory.GetEnquireNode("Z1101");
         }
 
     }

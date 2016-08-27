@@ -25,7 +25,8 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetDetectJudgeNode("detest1");
+            return nodeFactory.GetEnquireNode("Z1101");
+            //return nodeFactory.GetDetectJudgeNode("detest1");
         }
 
     }

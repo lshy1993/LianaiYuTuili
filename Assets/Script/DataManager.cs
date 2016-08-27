@@ -25,6 +25,7 @@ namespace Assets.Script.GameStruct
         private DataPool datapool;
         private EventManager eventManager;
         private DetectManager detectManager;
+        private EnquireManager enquireManager;
         
 
         private DataManager()
@@ -62,6 +63,7 @@ namespace Assets.Script.GameStruct
             InitEvents();
             InitDetects();
             //InitGirls();
+            InitEnquire();
         }
 
         private void InitDetects()
@@ -72,6 +74,16 @@ namespace Assets.Script.GameStruct
             detectManager = DetectManager.GetInstance();
             detectManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
 
+        }
+
+        private void InitEnquire()
+        {
+            //Debug.Log("InitEnquire");
+            Dictionary<string, EnquireEvent> events = EnquireManager.GetStaticEnquireEvents();
+            datapool.WriteStaticVar("询问总表", events);
+
+            enquireManager = EnquireManager.GetInstance();
+            enquireManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
         }
 
         private void InitGirls()

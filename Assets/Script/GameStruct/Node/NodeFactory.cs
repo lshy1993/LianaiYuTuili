@@ -61,6 +61,11 @@ namespace Assets.Script.GameStruct
             return new DetectNode(gVars, lVars, root, ps, detectEvent);
         }
 
+        public GameNode GetEnquireNode(string eventName)
+        {
+            return new EnquireNode(gVars, lVars, root, ps, eventName);
+        }
+
         public TextScript FindTextScript(string name)
         {
             Debug.Log("获取文件脚本:" + name);
