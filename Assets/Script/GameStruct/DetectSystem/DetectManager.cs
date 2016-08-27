@@ -45,6 +45,13 @@ namespace Assets.Script.GameStruct
             this.lVars = lVars;
             this.detectEvents = detectEvents;
         }
+        internal void AddKnownInfo(string info)
+        {
+            //throw new NotImplementedException();
+            if (knownInfo != null) knownInfo.Add(info);
+
+        }
+
 
         public DetectEvent GetCurrentEvent() { return currentEvent; }
 

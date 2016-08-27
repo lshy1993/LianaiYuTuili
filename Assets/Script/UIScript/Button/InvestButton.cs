@@ -18,6 +18,7 @@ public class InvestButton : MonoBehaviour
 
     void OnClick()
     {
+        DetectManager.GetInstance().AddKnownInfo(invest.info);
         detectNode.ChooseNext(invest.entry);
     }
 
