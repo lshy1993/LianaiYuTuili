@@ -32,8 +32,9 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.FindTextScript("T11002");
+            //return nodeFactory.FindTextScript("T11002");
             //return nodeFactory.GetMapNode();
+            return nodeFactory.GetEnquireNode("Z1101");
         }
 
     }

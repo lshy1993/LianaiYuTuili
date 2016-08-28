@@ -15,8 +15,7 @@ public class DialogButton : MonoBehaviour
 
     void OnClick()
     {
-        //Debug.Log(detectNode);
-        DetectManager.GetInstance().AddKnownInfo(dialog.info);
+        Debug.Log(detectNode);
         detectNode.ChooseNext(dialog.entry);
     }
 }

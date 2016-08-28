@@ -63,9 +63,21 @@ public class PanelSwitch : MonoBehaviour
 
     public void SwitchTo_VerifyIterative(string next)
     {
-        SwitchTo_VerifyIterative(next, () => { });
+        SwitchTo_VerifyIterative(next, () => { }, () => { });
     }
-    public void SwitchTo_VerifyIterative(string next, UIAnimationCallback callback)
+
+    public void SwitchTo_VerifyIterative(string next, UIAnimationCallback closeCallback)
+    {
+        SwitchTo_VerifyIterative(next, closeCallback, () => { });
+    }
+    
+    public void SwitchTo_VerifyIterative_WithOpenCallback(string next, UIAnimationCallback openCallback)
+    {
+        SwitchTo_VerifyIterative(next, () => { }, openCallback);
+    }
+
+    public void SwitchTo_VerifyIterative(string next, UIAnimationCallback closeCallback,
+        UIAnimationCallback openCallback)
     {
         //Debug.Log(Time.time + " Switch to iterative:" + next);
 
@@ -96,8 +108,8 @@ public class PanelSwitch : MonoBehaviour
         {
             SetActiveChain(false, closeChain);
             SetActiveChain(true, openChain); //可能需要设置打开时初始条件
-            OpenChain(new Queue<string>(openChain));
-            callback();
+            closeCallback();
+            OpenChain(new Queue<string>(openChain), openCallback);
         });
         //closeFade.Close(() =>
         //{
@@ -140,14 +152,15 @@ public class PanelSwitch : MonoBehaviour
 
     }
 
-    private void OpenChain(Queue<string> openQueue)
+    private void OpenChain(Queue<string> openQueue, UIAnimationCallback openFinishCallback)
     {
         ///if (openQueue.Peek() == null)
         if (openQueue.Count == 0 || openQueue.Peek() == null)
         {
+            openFinishCallback();
             //Debug.Log("Close All");
             //Debug.Log(Time.time + " Open Finished");
-            return;
+            //return;
         }
         else
         {
@@ -155,7 +168,7 @@ public class PanelSwitch : MonoBehaviour
             currentPanelPath = iterator.pathTable[open];
             iterator.satellightTable[open].Open(() =>
             {
-                OpenChain(openQueue);
+                OpenChain(openQueue, openFinishCallback);
             });
         }
     }

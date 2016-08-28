@@ -96,9 +96,9 @@ public class GameManager : MonoBehaviour
 
     private void SwitchNode()
     {
-        Debug.Log("当前node:" + node.ToString());
+        //Debug.Log("当前node:" + node.ToString());
         this.node = this.node.NextNode();
-        Debug.Log("改变node:" + node.ToString());
+        //Debug.Log("改变node:" + node.ToString());
     }
 
 

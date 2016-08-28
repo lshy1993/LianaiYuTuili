@@ -47,10 +47,7 @@ namespace Assets.Script.GameStruct
 
             uiManager.CheckEvent(detectEvent.id);
 
-            //uiManager.ResetAlpha();
-
             uiManager.SwitchStatus(uiManager.status);
-            //uiManager.SwitchStatus(Constants.DETECT_STATUS.FREE);
         }
 
         public override void Update()

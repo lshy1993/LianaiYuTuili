@@ -45,13 +45,6 @@ namespace Assets.Script.GameStruct
             this.lVars = lVars;
             this.detectEvents = detectEvents;
         }
-        internal void AddKnownInfo(string info)
-        {
-            //throw new NotImplementedException();
-            if (knownInfo != null) knownInfo.Add(info);
-
-        }
-
 
         public DetectEvent GetCurrentEvent() { return currentEvent; }
 
@@ -81,15 +74,10 @@ namespace Assets.Script.GameStruct
 
         public void LoadEvent(string key)
         {
-            //Debug.Log(key);
-            //foreach(string de in detectEvents.Keys)
-            //{
-            //    Debug.Log(de);
-            //}
-
-            if (!detectEvents.ContainsKey(key)) throw new Exception();
+            //if (!detectEvents.ContainsKey(key)) throw new Exception();
 
             currentEvent = detectEvents[key];
+            // 将数据存入local variable,并且根据其状态复写数据
             if (lVars.ContainsKey("当前侦探事件"))
             {
                 lVars["当前侦探事件"] = currentEvent;

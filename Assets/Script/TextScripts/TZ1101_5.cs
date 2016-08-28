@@ -45,7 +45,8 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.FindTextScript("T11002");
+            //return nodeFactory.FindTextScript("T11002");
+            return nodeFactory.GetDetectJudgeNode("detest1");
             //return nodeFactory.GetMapNode();
         }
 

@@ -28,7 +28,7 @@ namespace Assets.Script.TextScripts
                 f.t("【李云萧】", "没有被借出么……"),
                 //——背景 证人台侧——
                 //——立绘 张傲——
-                f.t("【张傲】", "所以……",() => pieces.Count)
+                f.t("【张傲】", "所以……")
                 /*
                 这里要跳转【继续询问】
                 */
@@ -39,7 +39,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.FindTextScript("T11002");
+            return nodeFactory.GetEnquireNode("Z1101");
             //return nodeFactory.GetMapNode();
         }
 
