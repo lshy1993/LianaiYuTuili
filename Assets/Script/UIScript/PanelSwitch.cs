@@ -136,8 +136,7 @@ public class PanelSwitch : MonoBehaviour
         if (closeStack.Count == 0 || closeStack.Peek() == null)
         {
             closeFinishCallback();
-            //Debug.Log("Close All");
-            //Debug.Log(Time.time + " Open Finished");
+            Debug.Log(Time.time + " Close Finished");
             return;
         }
         else
@@ -154,12 +153,10 @@ public class PanelSwitch : MonoBehaviour
 
     private void OpenChain(Queue<string> openQueue, UIAnimationCallback openFinishCallback)
     {
-        ///if (openQueue.Peek() == null)
         if (openQueue.Count == 0 || openQueue.Peek() == null)
         {
             openFinishCallback();
-            //Debug.Log("Close All");
-            //Debug.Log(Time.time + " Open Finished");
+            Debug.Log(Time.time + " Open Finished");
             //return;
         }
         else

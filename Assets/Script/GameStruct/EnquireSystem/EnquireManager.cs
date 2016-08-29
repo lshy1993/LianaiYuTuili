@@ -12,7 +12,7 @@ namespace Assets.Script.GameStruct
     public class EnquireManager
     {
         private static EnquireManager instance;
-        private static readonly string ENQUIRE_PATH = "Text/EnquireDebug/";
+        private static readonly string ENQUIRE_PATH = "Text/EnquireConfig/";
         private static readonly string ENQUIRE_DEBUG_PATH = "Text/EnquireDebug/";
 
         private Hashtable gVars, lVars;
@@ -113,12 +113,6 @@ namespace Assets.Script.GameStruct
             }
         }
 
-
-
-
-
-
-
         public static Dictionary<string, EnquireEvent> GetStaticEnquireEvents()
         {
             Dictionary<string, EnquireEvent> events = new Dictionary<string, EnquireEvent>();
@@ -130,7 +124,7 @@ namespace Assets.Script.GameStruct
                 foreach (JsonData jd in jsondata)
                 {
                     EnquireEvent ee = new EnquireEvent(jd);
-                    Debug.Log("读取：" + ee.id);
+                    //Debug.Log("读取：" + ee.id);
                     events.Add(ee.id, ee);
                 }
             }

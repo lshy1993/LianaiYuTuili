@@ -12,12 +12,12 @@ namespace Assets.Script.GameStruct
     public class ReasoningManager
     {
         private static ReasoningManager instance;
-        private static readonly string REASONING_PATH = "Text/ReasoningDebug/";
+        private static readonly string REASONING_PATH = "Text/ReasoningConfig/";
         private static readonly string REASONING_DEBUG_PATH = "Text/ReasoningDebug/";
 
         private Hashtable gVars, lVars;
         private Dictionary<string, ReasoningEvent> reasoningEvents;
-        private EnquireEvent currentEvent;
+        private ReasoningEvent currentEvent;
 
         public static ReasoningManager GetInstance()
         {
@@ -36,23 +36,37 @@ namespace Assets.Script.GameStruct
 
         public ReasoningEvent LoadEvent(string key)
         {
-            if (!reasoningEvents.ContainsKey(key)) throw new Exception();
+            //if (!reasoningEvents.ContainsKey(key)) throw new Exception();
 
-            return reasoningEvents[key];
+            ReasoningEvent e = reasoningEvents[key];
+
+            if (lVars.ContainsKey("自我推理编号"))
+            {
+                if (e.id != (string)lVars["自我推理编号"])
+                {
+                    lVars["自我推理编号"] = e.id;
+                }
+            }
+            else
+            {
+                lVars.Add("自我推理编号", e.id);
+            }
+            currentEvent = e;
+            return currentEvent;
         }
 
-        public static Dictionary<string, EnquireEvent> GetStaticEnquireEvents()
+        public static Dictionary<string, ReasoningEvent> GetStaticEnquireEvents()
         {
-            Dictionary<string, EnquireEvent> events = new Dictionary<string, EnquireEvent>();
+            Dictionary<string, ReasoningEvent> events = new Dictionary<string, ReasoningEvent>();
             string path = Constants.DEBUG ? REASONING_DEBUG_PATH : REASONING_PATH;
+            Debug.Log("读取自我推理表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
                 JsonData jsondata = JsonMapper.ToObject(text.text);
-
                 foreach (JsonData jd in jsondata)
                 {
-                    EnquireEvent ee = new EnquireEvent(jd);
-                    Debug.Log("读取：" + ee.id);
+                    ReasoningEvent ee = new ReasoningEvent(jd);
+                    //Debug.Log("读取：" + ee.id);
                     events.Add(ee.id, ee);
                 }
             }

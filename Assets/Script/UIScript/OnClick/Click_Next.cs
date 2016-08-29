@@ -12,7 +12,7 @@ public class Click_Next : MonoBehaviour {
 
     void OnClick()
     {
-        Debug.Log("CLICK");
+        //Debug.Log("CLICK");
         gm.GetCurrentNode().Update();
     }
 }

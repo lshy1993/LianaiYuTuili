@@ -8,11 +8,11 @@ namespace Assets.Script.GameStruct.Model
 {
     public class ReasoningEvidence
     {
-        public string evidence, curretEntry, wrongEntry;
+        public string name, curretEntry, wrongEntry;
 
         public ReasoningEvidence(JsonData data)
         {
-            evidence = (string)data["证物"];
+            name = (string)data["证物"];
             curretEntry = (string)data["事件入口"];
             wrongEntry = (string)data["错误入口"];
         }

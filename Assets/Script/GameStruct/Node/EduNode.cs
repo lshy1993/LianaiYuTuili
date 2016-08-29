@@ -12,25 +12,52 @@ namespace Assets.Script.GameStruct
     {
         private Player player;
 
+        private EduManager eduManager;
+        private EduUIManager uiManager;
+
+        private List<EduEvent> allEvents;
+        private GameNode next;
+        private NodeFactory factory;
+
         public EduNode(Hashtable gVars, Hashtable lVars,GameObject root, PanelSwitch ps, string type):
             base(gVars, lVars, root, ps)
         {
-            player = (Player)gVars["玩家数据"];
+            Init(type);
+            ps.SwitchTo_VerifyIterative("Edu_Panel");
+            //player = (Player)gVars["玩家数据"];
         }
-        public override void Update(){ /* DO NOTHING */}
 
-        public override void Init()
+        public void Init(string type)
         {
-            base.Init();
+            eduManager = EduManager.GetInstance();
 
-            ps.SwitchTo("Edu");
+            allEvents = EduManager.GetStaticEduEvents();
+            
+            uiManager = root.transform.Find("Edu_Panel").GetComponent<EduUIManager>();
+
+            uiManager.transform.gameObject.SetActive(true);
+
+            uiManager.SetEduNode(this);
+            uiManager.SetEduEvent(allEvents);
+            uiManager.SetEduButton(type);
+
+            factory = NodeFactory.GetInstance();
         }
 
+        public override void Update()
+        { }
+
+        public void EduExit()
+        {
+            DataManager.GetInstance().MoveOneTurn();
+            next = factory.GetEndTurnNode();
+            end = true;
+        }
 
         public override GameNode NextNode()
         {
-            DataManager.GetInstance().MoveOneTurn();
-            return NodeFactory.GetInstance().GetMapNode();
+            return next;
         }
+
     }
 }

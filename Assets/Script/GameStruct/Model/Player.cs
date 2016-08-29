@@ -57,7 +57,8 @@ namespace Assets.Script.GameStruct.Model
 
         public void AddEnergy(int i)
         {
-            EnergyPoint = EnergyPoint + i;
+            //EnergyPoint = EnergyPoint + i;
+            basicStatus["体力"] += i;
         }
 
         private static Player instance = null;
@@ -84,6 +85,7 @@ namespace Assets.Script.GameStruct.Model
             basicStatus["艺术"] = 50;
             basicStatus["体育"] = 50;
             basicStatus["宅力"] = 50;
+            basicStatus["体力"] = 100;
             basicStatus["排名"] = 150000;
             basicStatus["金钱"] = 100;
 

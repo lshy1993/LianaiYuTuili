@@ -208,7 +208,7 @@ MonoBehaviour:
   mWidth: 854
   mHeight: 50
   mDepth: 4
-  autoResizeBoxCollider: 0
+  autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 17.08

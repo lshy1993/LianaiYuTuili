@@ -15,9 +15,6 @@ namespace Assets.Script.GameStruct
         private EnquireEvent enquireEvent;
         private GameNode next;
         private NodeFactory factory;
-        //private int id;
-        //private float x;
-        //private float y;
 
         public EnquireNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, string eventName)
             : base(gVars, lVars, root, ps)
@@ -26,23 +23,17 @@ namespace Assets.Script.GameStruct
             ps.SwitchTo_VerifyIterative_WithOpenCallback("Enquire_Panel", uiManager.WheelStart);
         }
 
-        //public EnquireNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, string eventName, int id, float x, float y) : this(gVars, lVars, root, ps, eventName)
-        //{
-        //    this.id = id;
-        //    this.x = x;
-        //    this.y = y;
-        //}
-
         public void Init(string eventName)
         {
             enquireManager = EnquireManager.GetInstance();
             //获取uimanager
             uiManager = root.transform.Find("Avg_Panel/Enquire_Panel").GetComponent<EnquireUIManager>();
+
             uiManager.transform.gameObject.SetActive(true);
 
             factory = NodeFactory.GetInstance();
 
-            this.enquireEvent = enquireManager.LoadEvent(eventName);;
+            this.enquireEvent = enquireManager.LoadEvent(eventName);
 
             uiManager.SetEnquireEvent(enquireManager.currentEvent,
                 enquireManager.visibleTestimony,
