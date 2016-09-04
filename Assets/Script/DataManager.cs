@@ -108,6 +108,8 @@ namespace Assets.Script.GameStruct
             datapool.WriteStaticVar("人物", characters);
 
             CharacterManager.GetInstance().characterTable = characters;
+        }
+
         private void InitReasoning()
         {
             Dictionary<string, ReasoningEvent> events = ReasoningManager.GetStaticEnquireEvents();
