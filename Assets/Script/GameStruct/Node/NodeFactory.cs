@@ -76,17 +76,17 @@ namespace Assets.Script.GameStruct
             Debug.Log("获取文件脚本:" + name);
             string classStr = SCRIPT_PATH + "." + name;
             TextScript script = null;
-            try
-            {
+            //try
+            //{
                 Type t = Type.GetType(classStr);
                 object[] args = new object[] { gVars, lVars, root, ps };
                 script = (TextScript)Activator.CreateInstance(t, args);
-            }
-            catch(Exception e)
-            {
-                Debug.LogError("文本脚本文件转换错误，请检查名称");
-                Debug.LogError(e.InnerException.Message);
-            }
+            //}
+            //catch(Exception e)
+            //{
+            //    Debug.LogError("文本脚本文件转换错误，请检查名称");
+            //    Debug.LogError(e.InnerException.Message);
+            //}
             return script;
         }
     }

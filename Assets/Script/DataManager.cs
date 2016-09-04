@@ -56,13 +56,13 @@ namespace Assets.Script.GameStruct
         private void InitSystem()
         {
             //throw new NotImplementedException();
-        }
+       }
 
         private void InitStatic()
         {
             InitEvents();
             InitDetects();
-            //InitGirls();
+            InitCharacters();
             InitEnquire();
         }
 
@@ -86,9 +86,13 @@ namespace Assets.Script.GameStruct
             enquireManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
         }
 
-        private void InitGirls()
+        private void InitCharacters()
         {
             //throw new NotImplementedException();
+            Dictionary<string, Character> characters = CharacterManager.GetStaticCharacters();
+            datapool.WriteStaticVar("人物", characters);
+
+            CharacterManager.GetInstance().characterTable = characters;
         }
 
         private void InitEvents()

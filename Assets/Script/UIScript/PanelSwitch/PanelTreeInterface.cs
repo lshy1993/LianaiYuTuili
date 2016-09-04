@@ -20,6 +20,7 @@ namespace Assets.Script.UIScript
         {
             //satellight = this;
             satellight = transform.GetComponent<PanelAnimation>();
+            Debug.Log(satellight.name);
             satellight.Init();
             childrenDictionary = new Dictionary<string, PanelTreeInterface>();
             if (!(subPanels == null  

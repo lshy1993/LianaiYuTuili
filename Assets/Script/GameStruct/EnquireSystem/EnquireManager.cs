@@ -91,9 +91,9 @@ namespace Assets.Script.GameStruct
             visibleTestimony.Clear();
             for (int i = 0; i < currentEvent.testimony.Count; i++)
             {
-                Debug.Log("证词编号：" + currentEvent.id);
-                Debug.Log(currentEvent.testimony[i].text);
-                Debug.Log("PressedID:" + pressedId);
+                //Debug.Log("证词编号：" + currentEvent.id);
+                //Debug.Log(currentEvent.testimony[i].text);
+                //Debug.Log("PressedID:" + pressedId);
                 if (CheckVisible(pressedId, currentEvent.testimony[i].condition))
                 {
                     visibleTestimony.Add(currentEvent.testimony[i].text);

@@ -16,7 +16,8 @@ namespace Assets.Script.GameStruct
         protected NodeFactory nodeFactory;
         private bool move;
 
-        public TextScript(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) : base(gVars, lVars, root, ps) {
+        public TextScript(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) : base(gVars, lVars, root, ps)
+        {
         }
         public override void Init()
         {
@@ -36,12 +37,23 @@ namespace Assets.Script.GameStruct
 
         public override void Update()
         {
-            Debug.Log("Text Update current: " + current);
+            //Debug.Log("Text Update current: " + current);
             if (pieces != null && current >= 0 && current < pieces.Count)
             {
+                if (pieces[current].GetType() == typeof(EffectPiece))
+                {
+                    EffectPiece e = (EffectPiece)pieces[current];
+                    e.callback = new Action(() =>
+                    {
+                        Update();
+                    });
+
+                }
+
                 pieces[current].Exec();
+
                 current = pieces[current].Next();
-                //if (current == pieces.Count) end = true;
+
             }
             else
             {

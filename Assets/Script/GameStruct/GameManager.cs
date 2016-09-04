@@ -138,8 +138,10 @@ public class GameManager : MonoBehaviour
 
         dm = DataManager.GetInstance();
 
+        EffectBuilder.Init(im, sm, CharacterManager.GetInstance()); ;
         nodeFactory = NodeFactory.GetInstance();
         nodeFactory.Init(dm.GetGameVars(), dm.GetInTurnVars(), root, ps);
+
     }
 
 

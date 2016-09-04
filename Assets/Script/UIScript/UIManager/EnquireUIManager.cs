@@ -60,7 +60,7 @@ public class EnquireUIManager : MonoBehaviour
     public void WheelStart()
     {
         //供Animation调用开始运行证词轮盘
-        SetEvidence();//UI初始化;
+        //SetEvidence();//UI初始化;
         currentLabel.alpha = 1;
         StartCoroutine(MainEnquire());
         PlayBGM();
@@ -165,6 +165,7 @@ public class EnquireUIManager : MonoBehaviour
             }
             currentId++;
         }
+        DataPool.GetInstance().WriteInTurnVar("证词序号", 0);
         //loop跳出
         EnquireExit(Constants.ENQUIRE_STATUS.LOOP);
     }

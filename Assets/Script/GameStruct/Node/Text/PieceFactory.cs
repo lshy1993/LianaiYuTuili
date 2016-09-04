@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Assets.Script.UIScript;
+using Assets.Script.UIScript.Effect;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Assets.Script.UIScript.Effect;
 
 namespace Assets.Script.GameStruct
 {
@@ -21,7 +24,7 @@ namespace Assets.Script.GameStruct
             this.lVars = lVars;
             this.root = root;
             nameLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Label_Name").GetComponent<UILabel>();
-            
+
             dialogLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Label_Dialog").GetComponent<UILabel>();
 
             // Fix: 将文本初始设为空，避免重复上一个文本的最后部分
@@ -67,5 +70,43 @@ namespace Assets.Script.GameStruct
         {
             return new ExecPiece(id++, gVars, lVars, setVar);
         }
+
+        public EffectPiece ChangeBackground(string spriteName)
+        {
+            Sprite sprite = Resources.LoadAll<Sprite>("Background/"+ spriteName)[0];
+            return new EffectPiece(id++, AnimationBuilder.ChangeBackground(sprite));
+        }
+        public EffectPiece ChangeBackgroundFade(string spriteName)
+        {
+            Sprite sprite = Resources.LoadAll<Sprite>("Background/"+ spriteName)[0];
+            return new EffectPiece(id++, AnimationBuilder.ChangeBackgroundFade(sprite));
+        }
+
+
+
+
+        //public EffectPiece backgroundSwitchFade(Sprite nextSprite, float fadeout =0.5f, float fadein = 0.5f)
+        //{
+        //    //Queue<ImageEffect> queue = new Queue<ImageEffect>();
+        //    //queue.Add(fadein);
+
+
+        //}
+
+        //public EffectPiece eb(AnimateUpdate update, float time = 0.5f)
+        //{
+        //    //return new EffectPiece(id++, new EffectBuilder().Background()
+        //    //    .Origin(new SpriteState())
+        //    //    .Final(new SpriteState(0, ImageManager.MIDDLE))
+        //    //    .Time(time)
+        //    //    .Animate(update)
+        //    //    .GetProduct());
+
+        //}
+
+        //public EffectPiece e()
+        //{
+        //    return new EffectPiece();
+        //}
     }
 }
