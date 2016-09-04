@@ -26,6 +26,9 @@ namespace Assets.Script.GameStruct
         private EventManager eventManager;
         private DetectManager detectManager;
         private EnquireManager enquireManager;
+        private ReasoningManager reasoningManager;
+        private EduManager eduManager;
+        private GirlManager girlManager;
         
 
         private DataManager()
@@ -63,7 +66,19 @@ namespace Assets.Script.GameStruct
             InitEvents();
             InitDetects();
             InitCharacters();
+            InitGirls();
             InitEnquire();
+            InitReasoning();
+            InitEdu();
+        }
+
+        private void InitEdu()
+        {
+            List<EduEvent> events = EduManager.GetStaticEduEvents();
+            datapool.WriteStaticVar("养成按钮", events);
+
+            eduManager = EduManager.GetInstance();
+            eduManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
         }
 
         private void InitDetects()
@@ -93,6 +108,25 @@ namespace Assets.Script.GameStruct
             datapool.WriteStaticVar("人物", characters);
 
             CharacterManager.GetInstance().characterTable = characters;
+        private void InitReasoning()
+        {
+            Dictionary<string, ReasoningEvent> events = ReasoningManager.GetStaticEnquireEvents();
+            datapool.WriteStaticVar("自我推理总表", events);
+
+            reasoningManager = ReasoningManager.GetInstance();
+            reasoningManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
+        }
+
+        private void InitGirls()
+        {
+            //throw new NotImplementedException();
+            Dictionary<string, Girls> girls = new Dictionary<string, Girls>();
+            girls = GirlManager.GetStaticGirls();
+            datapool.WriteStaticVar("女主角资料表", girls);
+
+            //girlManager = GirlManager.GetInstance();
+            //girlManager.Init(girls, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
+
         }
 
         private void InitEvents()

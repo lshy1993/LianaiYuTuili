@@ -66,10 +66,10 @@ namespace Assets.Script.GameStruct
             return new EnquireNode(gVars, lVars, root, ps, eventName);
         }
 
-        //public GameNode GetEnquireNode(string eventName, int id)
-        //{
-        //   return new EnquireNode(gVars, lVars, root, ps, eventName);
-        //}
+        public GameNode GetReasoningNode(string eventName)
+        {
+            return new ReasoningNode(gVars, lVars, root, ps, eventName);
+        }
 
         public TextScript FindTextScript(string name)
         {

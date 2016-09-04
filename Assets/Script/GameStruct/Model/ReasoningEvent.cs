@@ -21,7 +21,7 @@ namespace Assets.Script.GameStruct.Model
             choice = new List<ReasoningChoice>();
             if (data.Contains("选项") && data["选项"] != null)
             {
-                foreach(JsonData jd in data)
+                foreach(JsonData jd in data["选项"])
                 {
                     choice.Add(new ReasoningChoice(jd));
                 }

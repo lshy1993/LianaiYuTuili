@@ -61,7 +61,7 @@ public class EnquireUIManager : MonoBehaviour
     {
         //供Animation调用开始运行证词轮盘
         //SetEvidence();//UI初始化;
-        currentLabel.alpha = 1;
+        //currentLabel.alpha = 1;
         StartCoroutine(MainEnquire());
         PlayBGM();
     }
@@ -74,13 +74,15 @@ public class EnquireUIManager : MonoBehaviour
     public void EnquirePress()
     {
         //威慑按钮调用
+        this.pressedId.Add(currentId + 1);
+        DataPool.GetInstance().WriteInTurnVar("已威慑证词序号", pressedId);
         EnquireExit(Constants.ENQUIRE_STATUS.PRESS);
     }
 
     public void EnquirePresent(string evidence)
     {
         //指证按钮调用
-        if (evidence == enquireEvent.enquireBreak.evidence && currentId == enquireEvent.enquireBreak.id)
+        if (evidence == enquireEvent.enquireBreak.evidence && currentId + 1 == enquireEvent.enquireBreak.id)
         {
             EnquireExit(Constants.ENQUIRE_STATUS.CORRECT);
         }
@@ -93,7 +95,6 @@ public class EnquireUIManager : MonoBehaviour
     private void EnquireExit(Constants.ENQUIRE_STATUS target)
     {
         exitStatus = target;
-        //供按钮统一调用
         switch (target)
         {
             case Constants.ENQUIRE_STATUS.PRESS:
@@ -107,6 +108,7 @@ public class EnquireUIManager : MonoBehaviour
                 enquireNode.EnquireExit(enquireEvent.wrongExit);
                 break;
             case Constants.ENQUIRE_STATUS.LOOP:
+                StopAllCoroutines();
                 enquireNode.EnquireExit(enquireEvent.loopExit);
                 break;
             case Constants.ENQUIRE_STATUS.CORRECT:
@@ -122,28 +124,26 @@ public class EnquireUIManager : MonoBehaviour
     {
         //将证据栏初始化
         eviButtons.Clear();
-        transform.Find("Scroll View/Grid").DestroyChildren();
+        transform.Find("EvidenceList_Panel/Grid").DestroyChildren();
         for (int i = 0; i < 10; i++)
         {
             GameObject eviBtn = (GameObject)Resources.Load("Prefab/Evidence_Enquire");
             eviBtn = Instantiate(eviBtn) as GameObject;
-
-            eviBtn.transform.parent = transform.Find("Scroll View/Grid").gameObject.transform;
+            eviBtn.transform.parent = transform.Find("EvidenceList_Panel/Grid").gameObject.transform;
 
             UIButton btn = eviBtn.GetComponent<UIButton>();
-
-            EnquireEvidenceButton script = eviBtn.GetComponent<EnquireEvidenceButton>();
-
             btn.normalSprite2D = (Sprite)Resources.Load("661");
             //btn.hoverSprite2D = invest.iconHover;
             //btn.pressedSprite2D = invest.iconHover;
-            eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
 
-
-            script.evidence = "数码相机";
+            EnquireEvidenceButton script = eviBtn.GetComponent<EnquireEvidenceButton>();
+            script.name = "数码相机";
             script.SetUIManager(this);
+
+            eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            eviButtons.Add(eviBtn);
         }
-        transform.Find("Scroll View/Grid").gameObject.GetComponent<UIGrid>().Reposition();
+        transform.Find("EvidenceList_Panel/Grid").gameObject.GetComponent<UIGrid>().Reposition();
     }
 
     private IEnumerator MainEnquire()
@@ -165,8 +165,8 @@ public class EnquireUIManager : MonoBehaviour
             }
             currentId++;
         }
-        DataPool.GetInstance().WriteInTurnVar("证词序号", 0);
         //loop跳出
+        DataPool.GetInstance().WriteInTurnVar("证词序号", 0);
         EnquireExit(Constants.ENQUIRE_STATUS.LOOP);
     }
 

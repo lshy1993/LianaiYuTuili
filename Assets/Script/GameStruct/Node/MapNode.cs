@@ -34,7 +34,8 @@ namespace Assets.Script.GameStruct
 
             // TODO: 检查是否有特殊事件，有则跳转
 
-            ps.SwitchTo("Map");
+            //ps.SwitchTo("Map");
+            ps.SwitchTo_VerifyIterative("Map_Panel");
         }
         public override void Update() { }
 
