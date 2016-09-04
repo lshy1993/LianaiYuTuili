@@ -220,8 +220,8 @@ public class TitleManager : MonoBehaviour
     }
     public void StopMusic()
     {
-        transform.Find("Music_Container/Play_Button").gameObject.SetActive(true);
-        transform.Find("Music_Container/Pause_Button").gameObject.SetActive(false);
+        transform.Find("Music_Container/Control_Container/Play_Button").gameObject.SetActive(true);
+        transform.Find("Music_Container/Control_Container/Pause_Button").gameObject.SetActive(false);
         bgm.Stop();
     }
     #endregion
@@ -254,7 +254,7 @@ public class TitleManager : MonoBehaviour
     #region public按钮Ending操作
     public void ClickAchieveAt(string str)
     {
-        int x = System.Convert.ToInt32(str);
+        //int x = System.Convert.ToInt32(str);
         info.text = "这是第" + str + "个成就！";
     }
     #endregion

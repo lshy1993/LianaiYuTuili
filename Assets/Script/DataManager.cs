@@ -109,6 +109,7 @@ namespace Assets.Script.GameStruct
 
             CharacterManager.GetInstance().characterTable = characters;
         }
+
         private void InitReasoning()
         {
             Dictionary<string, ReasoningEvent> events = ReasoningManager.GetStaticEnquireEvents();
