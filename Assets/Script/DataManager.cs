@@ -28,6 +28,7 @@ namespace Assets.Script.GameStruct
         private EnquireManager enquireManager;
         private ReasoningManager reasoningManager;
         private EduManager eduManager;
+        private GirlManager girlManager;
         
 
         private DataManager()
@@ -64,7 +65,7 @@ namespace Assets.Script.GameStruct
         {
             InitEvents();
             InitDetects();
-            //InitGirls();
+            InitGirls();
             InitEnquire();
             InitReasoning();
             InitEdu();
@@ -111,6 +112,13 @@ namespace Assets.Script.GameStruct
         private void InitGirls()
         {
             //throw new NotImplementedException();
+            Dictionary<string, Girls> girls = new Dictionary<string, Girls>();
+            girls = GirlManager.GetStaticGirls();
+            datapool.WriteStaticVar("女主角资料表", girls);
+
+            //girlManager = GirlManager.GetInstance();
+            //girlManager.Init(girls, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
+
         }
 
         private void InitEvents()

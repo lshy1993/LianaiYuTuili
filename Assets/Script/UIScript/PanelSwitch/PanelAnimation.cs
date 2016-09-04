@@ -22,7 +22,7 @@ namespace Assets.Script.UIScript
 
         public virtual IEnumerator CloseSequence(UIAnimationCallback callback)
         {
-            //Debug.Log(Time.time + " Close Panel:" + panel.name);
+            Debug.Log(Time.time + " Close Panel:" + panel.name);
             panel.alpha = maxAlpha;
             float fadeSpeed = Math.Abs(maxAlpha - minAlpha) / closeTime;
             while (panel.alpha > minAlpha)

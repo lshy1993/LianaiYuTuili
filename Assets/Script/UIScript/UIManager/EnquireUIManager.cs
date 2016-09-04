@@ -137,7 +137,7 @@ public class EnquireUIManager : MonoBehaviour
             //btn.pressedSprite2D = invest.iconHover;
 
             EnquireEvidenceButton script = eviBtn.GetComponent<EnquireEvidenceButton>();
-            script.evidence = "数码相机";
+            script.name = "数码相机";
             script.SetUIManager(this);
 
             eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();

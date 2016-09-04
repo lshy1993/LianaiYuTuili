@@ -221,17 +221,17 @@ public class PanelSwitch : MonoBehaviour
     //开启关闭系统菜单
     public void OpenMenu()
     {
-        if (!panels["Title"].activeSelf)//标题除外
+        if (!panels["Title_Panel"].activeSelf)//标题除外
         {
             //if (panels["SysMenu"].activeSelf)//已经开启的情况
-            if (panels["System"].activeSelf)
+            if (panels["System_Panel"].activeSelf)
             {
-                StartCoroutine(Fadeout(0.5f, panels["System"]));
+                StartCoroutine(Fadeout(0.5f, panels["System_Panel"]));
                 Debug.Log("Close Menu!");
             }
             else//关闭的情况
             {
-                StartCoroutine(Fadein(0.5f, panels["SysMenu"]));
+                StartCoroutine(Fadein(0.5f, panels["System_Panel"]));
                 Debug.Log("Open Menu!");
             }
         }
@@ -280,12 +280,13 @@ public class PanelSwitch : MonoBehaviour
     //打开手机
     public void OpenPhone()
     {
-        StartCoroutine(Fadein(0.2f, panels["Phone"]));
+        Debug.Log("open phone");
+        StartCoroutine(Fadein(0.2f, root.transform.Find("Phone_Panel").gameObject));
     }
 
     public void ClosePhone()
     {
-        StartCoroutine(Fadeout(0.2f, panels["Phone"]));
+        StartCoroutine(Fadeout(0.2f, root.transform.Find("Phone_Panel").gameObject));
     }
 
     IEnumerator Fadein(float time, GameObject target)
