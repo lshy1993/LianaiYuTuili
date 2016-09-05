@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Script.UIScript;
 
 public class Click_Note : MonoBehaviour {
 
-	private GameManager gm;
+	public PhoneAnimation pa;
 
-	void Start () {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-    }
-
-	void OnClick(){
-        gm.OpenPhone();
+	void OnClick()
+    {
+        pa.transform.gameObject.SetActive(true);
+        pa.OpenPhone();
 	}
 }

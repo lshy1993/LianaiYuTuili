@@ -221,17 +221,17 @@ public class PanelSwitch : MonoBehaviour
     //开启关闭系统菜单
     public void OpenMenu()
     {
-        if (!panels["Title_Panel"].activeSelf)//标题除外
+        if (!panels["Title"].activeSelf)//标题除外
         {
             //if (panels["SysMenu"].activeSelf)//已经开启的情况
-            if (panels["System_Panel"].activeSelf)
+            if (panels["System"].activeSelf)
             {
-                StartCoroutine(Fadeout(0.5f, panels["System_Panel"]));
+                StartCoroutine(Fadeout(0.5f, panels["System"]));
                 Debug.Log("Close Menu!");
             }
             else//关闭的情况
             {
-                StartCoroutine(Fadein(0.5f, panels["System_Panel"]));
+                StartCoroutine(Fadein(0.5f, panels["System"]));
                 Debug.Log("Open Menu!");
             }
         }

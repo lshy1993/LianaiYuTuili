@@ -9376,7 +9376,11 @@ MonoBehaviour:
   mValue: 0.8
   mFill: 0
   numberOfSteps: 0
-  onChange: []
+  onChange:
+  - mTarget: {fileID: 393670119}
+    mMethodName: OnValueChange
+    mParameters: []
+    oneShot: 0
   foreground: {fileID: 0}
   rawValue: 1
   direction: 2
@@ -11208,7 +11212,7 @@ GameObject:
   - 114: {fileID: 489220072}
   - 114: {fileID: 489220071}
   m_Layer: 5
-  m_Name: She_Bar
+  m_Name: Energy_Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16285,7 +16289,11 @@ MonoBehaviour:
   mValue: 1
   mFill: 0
   numberOfSteps: 0
-  onChange: []
+  onChange:
+  - mTarget: {fileID: 748158179}
+    mMethodName: OnValueChange
+    mParameters: []
+    oneShot: 0
   foreground: {fileID: 0}
   rawValue: 1
   direction: 2
@@ -18445,6 +18453,7 @@ GameObject:
   - 4: {fileID: 845258999}
   - 114: {fileID: 845259000}
   - 114: {fileID: 845259001}
+  - 61: {fileID: 845259002}
   m_Layer: 5
   m_Name: System_Panel
   m_TagString: Untagged
@@ -18531,6 +18540,20 @@ MonoBehaviour:
   saveloadContainer: {fileID: 1776502316}
   settingContainer: {fileID: 289807850}
   backlogContainer: {fileID: 1787108261}
+--- !u!61 &845259002
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 845258998}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1280, y: 720}
 --- !u!1 &855733757
 GameObject:
   m_ObjectHideFlags: 0
@@ -24489,6 +24512,7 @@ GameObject:
   - 114: {fileID: 1182135659}
   - 61: {fileID: 1182135660}
   - 114: {fileID: 1182135661}
+  - 114: {fileID: 1182135662}
   m_Layer: 5
   m_Name: Phone_Panel
   m_TagString: Untagged
@@ -24581,6 +24605,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 239b3d88dd605d44696687d6fbd93282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1182135662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1182135657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe4382bfeb24df4083708e6403f05e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1183088448
@@ -37037,6 +37072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea7c5ac23c987cb4fb59433110fe6275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pa: {fileID: 1182135662}
 --- !u!1 &1864331373
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public PanelSwitch ps;
 
+
     /// <summary>
     /// ImageManager, 控制图像处理
     /// </summary>
@@ -75,6 +76,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
+        if (Input.GetMouseButtonDown(1)) ps.OpenMenu();
         if (startNewGame == true)
         {
             MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
