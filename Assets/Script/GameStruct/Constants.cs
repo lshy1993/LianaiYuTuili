@@ -42,6 +42,10 @@ namespace Assets.Script.GameStruct
             LOOP, PRESS, WRONG, CORRECT, GAMEOVER
         }
 
+        public enum TITLE_STATUS
+        {
+            TITLE, EXTRA, MUSIC, GALLERY, RECOLL, ENDING
+        }
     }
 
 }

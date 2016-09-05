@@ -13,6 +13,7 @@ public class Click_Next : MonoBehaviour {
     void OnClick()
     {
         //Debug.Log("CLICK");
+        if (Input.GetMouseButtonUp(1)) return;
         gm.GetCurrentNode().Update();
     }
 }
