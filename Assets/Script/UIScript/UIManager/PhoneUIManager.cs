@@ -77,6 +77,8 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         tilb.text = player.GetBasicStatus("体育").ToString();
         yilb.text = player.GetBasicStatus("艺术").ToString();
         zhailb.text = player.GetBasicStatus("宅力").ToString();
+        energylb.text = player.EnergyPoint.ToString();
+
         //ranklb.text = ChineseRank(gm.playerdata.rank);
         ranklb.text = "全省排名: " + player.GetBasicStatus("排名");
         moneylb.text = "存款: " + player.GetBasicStatus("金钱") + " 元";
@@ -91,6 +93,7 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         StartCoroutine(ShowBar(tib, player.GetBasicStatus("体育")));
         StartCoroutine(ShowBar(yib, player.GetBasicStatus("艺术")));
         StartCoroutine(ShowBar(zhaib, player.GetBasicStatus("宅力")));
+        StartCoroutine(ShowBar(energyb, player.EnergyPoint));
     }
 
     public void SetGirlInfo(string str)

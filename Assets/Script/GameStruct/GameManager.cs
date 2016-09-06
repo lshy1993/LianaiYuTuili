@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public PanelSwitch ps;
 
+
     /// <summary>
     /// ImageManager, 控制图像处理
     /// </summary>
@@ -74,7 +75,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) ps.OpenMenu();
+        if (Input.GetKeyDown(KeyCode.Escape)) ps.RightClick();
+        if (Input.GetMouseButtonDown(1)) ps.RightClick();
         if (startNewGame == true)
         {
             MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
@@ -142,18 +144,5 @@ public class GameManager : MonoBehaviour
         nodeFactory = NodeFactory.GetInstance();
         nodeFactory.Init(dm.GetGameVars(), dm.GetInTurnVars(), root, ps);
 
-    }
-
-
-    // 打开phone TODO: 转移到该用的地方
-    public void OpenPhone()
-    {
-        ps.OpenPhone();
-    }
-
-    // 关闭phone TODO: 转移到该用的地方
-    public void ClosePhone()
-    {
-        ps.ClosePhone();
     }
 }

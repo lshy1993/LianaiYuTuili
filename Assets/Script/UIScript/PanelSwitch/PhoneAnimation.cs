@@ -7,11 +7,46 @@ using UnityEngine;
 
 namespace Assets.Script.UIScript
 {
-    class PhoneAnimation : PanelAnimation
+    public class PhoneAnimation : MonoBehaviour
     {
-        public override void Init()
+        //打开手机
+        public void OpenPhone()
         {
-            base.Init();
+            //Debug.Log("open phone");
+            StartCoroutine(Fadein(0.2f));
+        }
+
+        public void ClosePhone()
+        {
+            StartCoroutine(Fadeout(0.2f));
+        }
+
+        private IEnumerator Fadein(float time)
+        {
+            UIPanel panel =transform.GetComponent<UIPanel>();
+            float fmove = time == 0 ? 1 : 0;
+            panel.alpha = fmove;
+            transform.gameObject.SetActive(true);
+            while (fmove < 1f)
+            {
+                fmove = Mathf.MoveTowards(fmove, 1f, Time.deltaTime / time);
+                panel.alpha = fmove;
+                yield return null;
+            }
+        }
+        
+        IEnumerator Fadeout(float time)
+        {
+            UIPanel panel = transform.GetComponent<UIPanel>();
+            float fmove = time == 0 ? 0 : 1;
+            panel.alpha = fmove;
+            while (fmove > 0)
+            {
+                fmove = Mathf.MoveTowards(fmove, 0, Time.deltaTime / time);
+                panel.alpha = fmove;
+                yield return null;
+            }
+            transform.gameObject.SetActive(false);
         }
     }
 }

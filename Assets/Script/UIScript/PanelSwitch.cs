@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Assets.Script.UIScript;
-//using Assets.Script.UIScript;
+using Assets.Script.GameStruct;
 
 /**
  * PanelSwitch: 
@@ -124,7 +124,7 @@ public class PanelSwitch : MonoBehaviour
             GameObject go = iterator.satellightTable[s].gameObject;
             if (v)
             {
-                UIPanel up = go.GetComponent<UIPanel>();
+                UIRect up = go.GetComponent<UIRect>();
                 if (up != null) up.alpha = 0;
             }
             go.SetActive(v);
@@ -135,8 +135,8 @@ public class PanelSwitch : MonoBehaviour
     {
         if (closeStack.Count == 0 || closeStack.Peek() == null)
         {
+            //Debug.Log(Time.time + " Close Finished");
             closeFinishCallback();
-            Debug.Log(Time.time + " Close Finished");
             return;
         }
         else
@@ -155,9 +155,9 @@ public class PanelSwitch : MonoBehaviour
     {
         if (openQueue.Count == 0 || openQueue.Peek() == null)
         {
+            //Debug.Log(Time.time + " Open Finished");
             openFinishCallback();
-            Debug.Log(Time.time + " Open Finished");
-            //return;
+            return;
         }
         else
         {
@@ -218,25 +218,77 @@ public class PanelSwitch : MonoBehaviour
         iterator.PrintTree();
     }
 
-    //开启关闭系统菜单
-    public void OpenMenu()
+    //右键界面操作 全局函数
+    public void RightClick()
     {
-        if (!panels["Title_Panel"].activeSelf)//标题除外
+        if (panels["Title"].activeSelf)
         {
-            //if (panels["SysMenu"].activeSelf)//已经开启的情况
-            if (panels["System_Panel"].activeSelf)
+            //标题画面被打开时
+            TitleManager tm = panels["Title"].GetComponent<TitleManager>();
+            switch (tm.status)
             {
-                StartCoroutine(Fadeout(0.5f, panels["System_Panel"]));
-                Debug.Log("Close Menu!");
+                case Constants.TITLE_STATUS.EXTRA:
+                    tm.RightClickReturn();
+                    break;
+                case Constants.TITLE_STATUS.GALLERY:
+                    if (GameObject.Find("Large_Container") != null && GameObject.Find("Large_Container").activeSelf)
+                    {
+                        tm.ClosePic();
+                    }
+                    else
+                    {
+                        tm.CloseGallery();
+                    }
+                    
+                    break;
+                case Constants.TITLE_STATUS.MUSIC:
+                    tm.CloseMusic();
+                    break;
+                case Constants.TITLE_STATUS.RECOLL:
+                    tm.CloseRecollection();
+                    break;
+                case Constants.TITLE_STATUS.ENDING:
+                    tm.CloseEnding();
+                    break;
+                default:
+                    break;
             }
-            else//关闭的情况
+            
+        }
+
+        if (panels["System"].activeSelf)
+        {
+            //系统菜单打开时
+            GameObject wc = GameObject.Find("Warning_Container");
+            if (wc != null && wc.activeSelf)
             {
-                StartCoroutine(Fadein(0.5f, panels["System_Panel"]));
-                Debug.Log("Open Menu!");
+                //警告窗口开启情形
+                wc.SetActive(false);
+            }
+            else
+            {
+                panels["System"].GetComponent<SystemManager>().Close();
+                //Debug.Log("Close Menu!");
+            }
+        }
+        else
+        {
+            //系统菜单关闭的情形
+            if (panels["Avg"].activeSelf || panels["Map"].activeSelf || panels["Edu"].activeSelf)
+            {
+                if (panels["Phone"].activeSelf)
+                {
+                    panels["Phone"].GetComponent<PhoneAnimation>().ClosePhone();
+                }
+                else
+                {
+                    panels["System"].SetActive(true);
+                    panels["System"].GetComponent<SystemManager>().Open();
+                    //Debug.Log("Open Menu!");
+                }
             }
         }
     }
-
 
     /// <summary>
     /// 切换面板,TODO:可能需要对每个Panel做一个切换特效？
@@ -275,18 +327,6 @@ public class PanelSwitch : MonoBehaviour
         nextPanel.SetActive(true);
         next.Open(fadein);
 
-    }
-
-    //打开手机
-    public void OpenPhone()
-    {
-        Debug.Log("open phone");
-        StartCoroutine(Fadein(0.2f, root.transform.Find("Phone_Panel").gameObject));
-    }
-
-    public void ClosePhone()
-    {
-        StartCoroutine(Fadeout(0.2f, root.transform.Find("Phone_Panel").gameObject));
     }
 
     IEnumerator Fadein(float time, GameObject target)

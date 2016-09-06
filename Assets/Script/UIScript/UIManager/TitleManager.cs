@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Assets.Script.GameStruct;
 
 public class TitleManager : MonoBehaviour 
 {
 
     public GameManager gm;
-
+    public SystemManager sm;
     public UIWidget title, button, music, gallery, recollection, ending;
     public GameObject bg;
     public UILabel info, timelabel;
@@ -15,7 +16,7 @@ public class TitleManager : MonoBehaviour
     public UI2DSprite largepic;
     public AudioSource bgm;
     public UISlider slider;
-    public bool isdrag;
+    public Constants.TITLE_STATUS status;
 
     private Dictionary<int, string> cgInfoTable, endingInfoTable;
     private List<bool> musicTable, cgTabel, endingTable, caseTable;
@@ -24,15 +25,11 @@ public class TitleManager : MonoBehaviour
     {
         //读入二周目数据表
         //musicTable = gVars();
-        isdrag = false;
+        status = Constants.TITLE_STATUS.TITLE;
     }
 
     void Update()
     {
-        if (!isdrag)
-        {
-            slider.value = bgm.time / bgm.clip.length; 
-        }
         int tnow = (int)bgm.time;
         int tall = (int)bgm.clip.length;
         TimeSpan nowts = new TimeSpan(0, 0, tnow);
@@ -112,32 +109,44 @@ public class TitleManager : MonoBehaviour
     public void ClickStart()
     {
         //新游戏start
+        if (Input.GetMouseButtonUp(1)) return;
         gm.NewGame();
     }
 
 	public void ClickExtra()
     {
         //打开extra
+        if (Input.GetMouseButtonUp(1)) return;
+        status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(OpenExtra());
     }
 
     public void RightClickReturn()
     {
+        status = Constants.TITLE_STATUS.TITLE;
         StartCoroutine(CloseExtra());
     }
 
     public void ClickLoad()
     {
-
+        //设计：title不动 sys淡入
+        if (Input.GetMouseButtonUp(1)) return;
+        sm.transform.gameObject.SetActive(true);
+        sm.GetComponent<UIPanel>().alpha = 1;
+        sm.OpenLoad();
     }
 
     public void ClickSetting()
     {
-
+        if (Input.GetMouseButtonUp(1)) return;
+        sm.transform.gameObject.SetActive(true);
+        sm.GetComponent<UIPanel>().alpha = 1;
+        sm.OpenSetting();
     }
 
     public void ClickExit()
     {
+        if (Input.GetMouseButtonUp(1)) return;
         Application.Quit();
     }
     #endregion
@@ -145,41 +154,61 @@ public class TitleManager : MonoBehaviour
     #region public Extra开关
     public void OpenMusic()
     {
-        StartCoroutine(FadeOut(button));
-        StartCoroutine(FadeIn(music));
+        if (Input.GetMouseButtonUp(0))
+        {
+            status = Constants.TITLE_STATUS.MUSIC;
+            StartCoroutine(FadeOut(button));
+            StartCoroutine(FadeIn(music));
+        }
     }
     public void CloseMusic()
     {
+        status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(FadeOut(music));
         StartCoroutine(FadeIn(button));
     }
     public void OpenGallery()
     {
-        StartCoroutine(FadeOut(button));
-        StartCoroutine(FadeIn(gallery));
+        if (Input.GetMouseButtonUp(0))
+        {
+            status = Constants.TITLE_STATUS.GALLERY;
+            StartCoroutine(FadeOut(button));
+            StartCoroutine(FadeIn(gallery));
+        }
     }
     public void CloseGallery()
     {
+        status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(FadeOut(gallery));
         StartCoroutine(FadeIn(button));
     }
     public void OpenRecollection()
     {
-        StartCoroutine(FadeOut(button));
-        StartCoroutine(FadeIn(recollection));
+        if (Input.GetMouseButtonUp(0))
+        {
+            status = Constants.TITLE_STATUS.RECOLL;
+            StartCoroutine(FadeOut(button));
+            StartCoroutine(FadeIn(recollection));
+        }
     }
     public void CloseRecollection()
     {
+        status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(FadeOut(recollection));
         StartCoroutine(FadeIn(button));
     }
     public void OpenEnding()
     {
-        StartCoroutine(FadeOut(button));
-        StartCoroutine(FadeIn(ending));
+        if (Input.GetMouseButtonUp(0))
+        {
+            status = Constants.TITLE_STATUS.ENDING;
+            StartCoroutine(FadeOut(button));
+            StartCoroutine(FadeIn(ending));
+        }
     }
     public void CloseEnding()
     {
+        status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(FadeOut(ending));
         StartCoroutine(FadeIn(button));
     }

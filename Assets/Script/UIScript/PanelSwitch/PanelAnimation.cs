@@ -38,7 +38,7 @@ namespace Assets.Script.UIScript
 
         public virtual IEnumerator OpenSequence(UIAnimationCallback callback)
         {
-            //Debug.Log(Time.time + " Open Panel:" + panel.name);
+            Debug.Log(Time.time + " Open Panel:" + panel.name);
             panel.alpha = minAlpha;
             float fadeSpeed = Math.Abs(maxAlpha - minAlpha) / openTime;
             while (panel.alpha < maxAlpha)
