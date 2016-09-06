@@ -26,11 +26,6 @@ namespace Assets.Script.GameStruct
         }
 
 
-        //public MyEffect GetResult()
-        //{
-
-        //}
-
 
         public static ImageEffect Parallel(List<ImageEffect> effects)
         {
@@ -82,22 +77,6 @@ namespace Assets.Script.GameStruct
             imageEffect.aimUI = sprite;
             return this;
         }
-
-        //public EffectBuilder Background()
-        //{
-        //    imageEffect = new ImageEffect();
-        //    imageEffect.aimUI = backgroundSprite;
-        //    return this;
-        //}
-
-        //public EffectBuilder Frontground(string character)
-        //{
-        //    imageEffect = new ImageEffect();
-
-        //    imageEffect.aimUI = imageManager.GetFront(character);
-
-        //    return this;
-        //}
 
         public EffectBuilder Alpha(float alpha)
         {
@@ -202,7 +181,6 @@ namespace Assets.Script.GameStruct
         public static ImageEffect ChangeSprite(UI2DSprite ui, Sprite sprite)
         {
             EffectBuilder builder = new EffectBuilder();
-            //ImageEffect e = null;
             ImageEffect e = builder.UI(ui)
                 .TotalTime(0)
                 .Init(() => { ui.sprite2D = sprite; })
@@ -222,64 +200,5 @@ namespace Assets.Script.GameStruct
             return e;
         }
 
-        //public EffectBuilder Move()
-
-        //public EffectBuilder Animate()
-        //{
-
-        //}
-
-        ////public EffectBuilder Sprite(Sprite sprite)
-        ////{
-        ////    imageEffect.sprite = sprite;
-
-        ////    return this;
-        ////}
-
-        //public EffectBuilder Origin(SpriteState origin)
-        //{
-        //    imageEffect.origin = origin;
-        //    return this;
-        //}
-
-        //public EffectBuilder Final(SpriteState final)
-        //{
-        //    imageEffect.final = final;
-        //    return this;
-        //}
-
-        //public EffectBuilder Loop(bool loop)
-        //{
-        //    imageEffect.loop = loop;
-        //    return this;
-        //}
-
-        //public EffectBuilder Animate(AnimateUpdate animate)
-        //{
-        //    imageEffect.update = animate;
-        //    return this;
-        //}
-
-        //public EffectBuilder Time(float time)
-        //{
-        //    imageEffect.time = time;
-        //    return this;
-        //}
-
-        //public ImageEffect GetProduct() { return imageEffect; }
-
-
-
-
-
-        //public void Exec()
-        //{
-        //    StopAllCoroutines();
-        //    imageEffect.Init();
-        //    StartCoroutine(imageEffect.animate());
-
-
-        //    //StartCoroutine(imageEffect.animate(imageEffect.aimUI));
-        //}
     }
 }

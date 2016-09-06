@@ -88,7 +88,6 @@ namespace Assets.Script.GameStruct
 
             detectManager = DetectManager.GetInstance();
             detectManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
-
         }
 
         private void InitEnquire()

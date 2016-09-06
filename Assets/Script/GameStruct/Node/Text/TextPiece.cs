@@ -12,6 +12,15 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class TextPiece : Piece
     {
+        public class TextContent
+        {
+            public string name, dialog;
+            public TextContent(string name, string dialog)
+            {
+                this.name = name;
+                this.dialog = dialog;
+            }
+        }
         private string name, dialog;
         private UILabel nameLabel, dialogLabel;
         /// <summary>
@@ -80,6 +89,8 @@ namespace Assets.Script.GameStruct
             this.dialogLabel = dialogLabel;
             this.nameLabel = nameLabel;
         }
+
+        public TextContent GetContent() { return new TextContent(name, dialog); } 
 
         public override string ToString()
         {

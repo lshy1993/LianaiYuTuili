@@ -47,13 +47,16 @@ namespace Assets.Script.GameStruct
                     {
                         Update();
                     });
-
+                }
+                else if (pieces[current].GetType() == typeof(TextPiece))
+                {
+                    //List<TextPiece.TextContent> contents;
+                    //contents.Add(((TextPiece)pieces[current]).GetContent());
                 }
 
                 pieces[current].Exec();
 
                 current = pieces[current].Next();
-
             }
             else
             {

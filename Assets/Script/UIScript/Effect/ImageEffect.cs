@@ -10,25 +10,6 @@ namespace Assets.Script.UIScript
     public class SpriteState
     {
         public float alpha;
-        //{
-        //    set
-        //    {
-        //        if (value < 0)
-        //        {
-        //            alpha = 0;
-        //        }
-        //        else if (value > 1)
-        //        {
-        //            alpha = 1;
-        //        }
-        //        else
-        //        {
-        //            alpha = value;
-        //        }
-        //    }
-
-        //    get { return alpha; }
-        //}
         public Vector3 position;
 
         public SpriteState()
@@ -54,8 +35,6 @@ namespace Assets.Script.UIScript
         public bool end, loop;
         public SingleUpdate update;
         public Action init, finish;
-
-        //public UIAnimationCallback callback;
 
         public ImageEffect()
         {
@@ -100,60 +79,7 @@ namespace Assets.Script.UIScript
             callback();
         }
 
-        //public IEnumerator Run(UIAnimationCallback callback)
-        //{
-        //    //Init();
-        //    //float t = 0;
-        //    //while (true)
-        //    //{
-        //    //    t += Time.fixedDeltaTime;
-        //    //    if (!loop && t > time) break;
-        //    //    yield return update(aimUI, time);
-        //    //}
-        //    //Finish();
-        //    //callback();
-        //}
-
-        //public void Exec(UIAnimationCallback callback)
-        //{
-        //    StartCoroutine(Run(callback));
-        //}
-
-        //public void Exec()
-        //{
-        //    StartCoroutine(Run(() => { }));
-        //}
-
     }
 
     public delegate void SingleUpdate(UI2DSprite sprite, float time, float currentTime);
-
-    public delegate IEnumerator Animate(UI2DSprite sprite, UIAnimationCallback callback);
 }
-//public static IEnumerator FadeIn(UI2DSprite sprite, float time)
-//{
-//    if (sprite.alpha < 1)
-//        sprite.alpha = Mathf.MoveTowards(sprite.alpha, 1, 1 / time * Time.fixedDeltaTime);
-//    yield return null;
-//}
-
-//public static IEnumerator FadeOut(UI2DSprite sprite, float time)
-//{
-//    if (sprite.alpha > 0)
-//        sprite.alpha = Mathf.MoveTowards(sprite.alpha, 0, 1 / time * Time.fixedDeltaTime);
-//    yield return null;
-//}
-
-//public static AnimateUpdate Move(Vector3 move)
-//{
-//    Func<UI2DSprite, float, IEnumerator> func = (sprite, time) =>
-//    {
-//        float deltaRatio = Time.fixedDeltaTime / time;
-//        Vector3 delta = new Vector3(move.x * deltaRatio, move.y * deltaRatio);
-//        sprite.transform.position += delta;
-//        return null;
-//    };
-//    return new AnimateUpdate(func);
-// }
-
-
