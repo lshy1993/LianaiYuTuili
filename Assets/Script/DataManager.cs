@@ -72,6 +72,12 @@ namespace Assets.Script.GameStruct
             InitEdu();
         }
 
+        private void InitEvidence()
+        {
+            Dictionary<string, Evidence> evidecneDic = EvidenceManager.GetStaticEvidenceDic();
+            datapool.WriteStaticVar("证据列表", evidecneDic);
+        }
+
         private void InitEdu()
         {
             List<EduEvent> events = EduManager.GetStaticEduEvents();
@@ -121,14 +127,8 @@ namespace Assets.Script.GameStruct
 
         private void InitGirls()
         {
-            //throw new NotImplementedException();
-            Dictionary<string, Girls> girls = new Dictionary<string, Girls>();
-            girls = GirlManager.GetStaticGirls();
+            Dictionary<string, Girls> girls = GirlManager.GetStaticGirls();
             datapool.WriteStaticVar("女主角资料表", girls);
-
-            //girlManager = GirlManager.GetInstance();
-            //girlManager.Init(girls, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
-
         }
 
         private void InitEvents()
