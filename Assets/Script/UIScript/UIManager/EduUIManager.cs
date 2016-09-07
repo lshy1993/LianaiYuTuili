@@ -18,7 +18,7 @@ public class EduUIManager : MonoBehaviour
     private GameObject eduObject;
     private UIPanel eduPanel;
     private UILabel daylabel, datelabel, moneylabel;
-    private UILabel wenlabel, lilabel, tilabel, yilabel, zhailabel, showlabel;
+    private UILabel wenlabel, lilabel, tilabel, yilabel, zhailabel, showlabel, energylabel;
     private UILabel helplabel, infolabel;
 
     private GameObject spriteContainer, selectionContainer, acgo;
@@ -43,6 +43,7 @@ public class EduUIManager : MonoBehaviour
         tilabel = transform.Find("CharaInfo_Container/Num_Grid/Ti_Label").gameObject.GetComponent<UILabel>();
         yilabel = transform.Find("CharaInfo_Container/Num_Grid/Yi_Label").gameObject.GetComponent<UILabel>();
         zhailabel = transform.Find("CharaInfo_Container/Num_Grid/Zhai_Label").gameObject.GetComponent<UILabel>();
+        energylabel = transform.Find("CharaInfo_Container/Num_Grid/Energy_Label").gameObject.GetComponent<UILabel>();
 
         helplabel = transform.Find("Selection_Container/Left_Container/Help_Label").GetComponent<UILabel>();
         infolabel = transform.Find("Selection_Container/Right_Container/Hint_Label").GetComponent<UILabel>();
@@ -125,6 +126,7 @@ public class EduUIManager : MonoBehaviour
         yilabel.text = player.GetBasicStatus("艺术").ToString();
         tilabel.text = player.GetBasicStatus("体育").ToString();
         zhailabel.text = player.GetBasicStatus("宅力").ToString();
+        energylabel.text = player.EnergyPoint.ToString();
     }
 
     public void Execute(int x)

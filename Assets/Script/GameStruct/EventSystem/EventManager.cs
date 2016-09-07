@@ -147,6 +147,7 @@ namespace Assets.Script.GameStruct.EventSystem
                     && kv.Value.position != null
                     && locationEvents.ContainsKey(kv.Value.position))
                 {
+                    Debug.Log("now available map event" + kv.Key);
                     locationEvents[kv.Value.position].Add(kv.Value);
                 }
             }
@@ -168,8 +169,8 @@ namespace Assets.Script.GameStruct.EventSystem
             if (eventState[e.name] != STATE_NOT_RUNNED) return false;
 
             // 不满足前置日期
-            if (e.conditionTurn.GetMax() < turn &&
-                e.conditionTurn.GetMin() > turn)
+            if (turn > e.conditionTurn.GetMax() ||
+                turn < e.conditionTurn.GetMin())
             {
                 return false;
             }

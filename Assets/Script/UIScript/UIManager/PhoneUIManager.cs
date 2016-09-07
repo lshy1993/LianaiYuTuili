@@ -62,15 +62,15 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         grid = transform.Find("Scroll View/Grid").gameObject;
         qtabGrid = transform.Find("Scroll View/Grid/Love_Container/QTab_Grid").gameObject;
 
-        SetCardInfo();
-        SetGirlInfo("");
+        //SetCardInfo();
+        //SetGirlInfo("");
         SetEvidence();
+        SetQButton();
     }
 
     public void SetCardInfo()
     {
         //[基本信息]设置学生证
-        //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
         Player player = Player.GetInstance();
         wenlb.text = player.GetBasicStatus("文科").ToString();
         lilb.text = player.GetBasicStatus("理科").ToString();
@@ -88,12 +88,12 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         sib.value = player.GetLogicStatus("思维") / 10f;
         guanb.value = player.GetLogicStatus("观察") / 10f;
         //数值条动画
-        StartCoroutine(ShowBar(wenb, player.GetBasicStatus("文科")));
-        StartCoroutine(ShowBar(lib, player.GetBasicStatus("理科")));
-        StartCoroutine(ShowBar(tib, player.GetBasicStatus("体育")));
-        StartCoroutine(ShowBar(yib, player.GetBasicStatus("艺术")));
-        StartCoroutine(ShowBar(zhaib, player.GetBasicStatus("宅力")));
-        StartCoroutine(ShowBar(energyb, player.EnergyPoint));
+        StartCoroutine(ShowBar(wenb, player.GetBasicStatus("文科"), 200));
+        StartCoroutine(ShowBar(lib, player.GetBasicStatus("理科"), 200));
+        StartCoroutine(ShowBar(tib, player.GetBasicStatus("体育"), 200));
+        StartCoroutine(ShowBar(yib, player.GetBasicStatus("艺术"), 200));
+        StartCoroutine(ShowBar(zhaib, player.GetBasicStatus("宅力"), 200));
+        StartCoroutine(ShowBar(energyb, player.EnergyPoint, 100));
     }
 
     public void SetGirlInfo(string str)
@@ -185,6 +185,7 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         }
         if (tabname == "Friend_Button")
         {
+            SetGirlInfo("");
             StartCoroutine(StartMove(700));
         }
         if (tabname == "Case_Button")
@@ -203,13 +204,13 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
             yield return null;
         }
     }
-    IEnumerator ShowBar(UIProgressBar target, int x)
+    IEnumerator ShowBar(UIProgressBar target, int x, int max)
     {
         float value = 0;
-        float t = (x + 1) / 200f;
+        float t = (x + 1) / (float)max;
         while (value < t)
         {
-            value = Mathf.MoveTowards(value, t, t / 0.2f * Time.deltaTime);
+            value = Mathf.MoveTowards(value, t, t / 0.3f * Time.deltaTime);
             target.value = value;
             yield return null;
         }

@@ -164,7 +164,7 @@ namespace Assets.Script.GameStruct
 
         public void MoveOneTurn()
         {
-/*            Debug.Log("MoveOneTurn")*/;
+            Debug.Log("MoveOneTurn");
             int t = (int)datapool.GetGameVar("回合");
             //Debug.Log("回合:" + t);
             DateTime day = (DateTime)datapool.GetGameVar("日期");

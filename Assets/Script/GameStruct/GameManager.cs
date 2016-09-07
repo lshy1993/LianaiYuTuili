@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
         }
         else if (node.end)
         {
+            Debug.Log(node.GetType());
             SwitchNode();
         }
     }

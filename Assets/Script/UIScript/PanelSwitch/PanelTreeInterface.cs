@@ -20,7 +20,7 @@ namespace Assets.Script.UIScript
         {
             //satellight = this;
             satellight = transform.GetComponent<PanelAnimation>();
-            Debug.Log(satellight.name);
+            //Debug.Log(satellight.name);
             satellight.Init();
             childrenDictionary = new Dictionary<string, PanelTreeInterface>();
             if (!(subPanels == null  
@@ -110,6 +110,7 @@ namespace Assets.Script.UIScript
 
         public void PrintTree()
         {
+            return;
             Debug.Log("打印Panel树");
             foreach (KeyValuePair<string, List<string>> kv in pathTable)
             {

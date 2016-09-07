@@ -22,7 +22,8 @@ namespace Assets.Script.GameStruct.EventSystem
         private GameObject mapObject;
         private UIPanel mapPanel;
         private UILabel daylabel, datelabel;
-        private UILabel wenlabel, lilabel, tilabel, yilabel, zhailabel, moneylabel;
+        private UILabel wenlabel, lilabel, tilabel, yilabel, zhailabel;
+        private UILabel energylabel, moneylabel, ranklabel;
 
         void Awake()
         {
@@ -36,6 +37,8 @@ namespace Assets.Script.GameStruct.EventSystem
             tilabel = transform.Find("CharaInfo_Container/Number_Container/Ti_Label").gameObject.GetComponent<UILabel>();
             yilabel = transform.Find("CharaInfo_Container/Number_Container/Yi_Label").gameObject.GetComponent<UILabel>();
             zhailabel = transform.Find("CharaInfo_Container/Number_Container/Zhai_Label").gameObject.GetComponent<UILabel>();
+            energylabel = transform.Find("CharaInfo_Container/Number_Container/Energy_Label").gameObject.GetComponent<UILabel>();
+            ranklabel = transform.Find("CharaInfo_Container/Number_Container/Rank_Label").gameObject.GetComponent<UILabel>();
         }
 
         void OnEnable()
@@ -93,17 +96,15 @@ namespace Assets.Script.GameStruct.EventSystem
             daylabel.text = date.Month + "月" + date.Day + "日";
             datelabel.text = Constants.WEEK_DAYS[Convert.ToInt16(date.DayOfWeek)];
 
-            //datelabel.text = date.DayOfWeek.ToString();
-            //datelabel.text = 
-
-
-
             moneylabel.text = player.GetBasicStatus("金钱").ToString();
             wenlabel.text = player.GetBasicStatus("文科").ToString();
             lilabel.text = player.GetBasicStatus("理科").ToString();
             yilabel.text = player.GetBasicStatus("艺术").ToString();
             tilabel.text = player.GetBasicStatus("体育").ToString();
             zhailabel.text = player.GetBasicStatus("宅力").ToString();
+            energylabel.text = player.EnergyPoint.ToString();
+
+            ranklabel.text = "-";
         }
 
         //public void GoPlace(int placeid)

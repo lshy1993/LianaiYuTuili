@@ -22,9 +22,9 @@ namespace Assets.Script.GameStruct.Node
 
         public override void Update()
         {
-            em.FinishCurrentEvent();
             DataManager.GetInstance().MoveOneTurn();
-
+            em.FinishCurrentEvent();
+            Debug.Log("Endturnnode:" + gVars["回合"]);
             end = true;
         }
 

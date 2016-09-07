@@ -49,7 +49,7 @@ namespace Assets.Script.GameStruct
 
         public void EduExit()
         {
-            DataManager.GetInstance().MoveOneTurn();
+            //DataManager.GetInstance().MoveOneTurn();
             next = factory.GetEndTurnNode();
             end = true;
         }

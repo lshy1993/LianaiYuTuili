@@ -101,7 +101,7 @@ namespace Assets.Script.TextScripts
                 f.t("【喵星人】", "没关系，只要把鼠标放上去，就能看到这个地点的详细介绍。"),
                 f.t("【喵星人】", "讲完了，我们回寝室吧，2号寝室楼，别搞错了。"),
                 
-                f.t("【李云萧】", "……",() => pieces.Count),
+                f.t("【李云萧】", "……")
                 //——背景 消失——
             };
         }
@@ -110,7 +110,8 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetMapNode();
+            return nodeFactory.GetEndTurnNode();
+            //return nodeFactory.GetMapNode();
         }
 
     }

@@ -33,9 +33,11 @@ namespace Assets.Script.GameStruct
         {
             string path = Constants.DEBUG ? DEBUG : PATH;
             Dictionary<string, Character> characters = new Dictionary<string, Character>();
+            Debug.Log("读取角色立绘表");
             foreach(TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
                 Character character = new Character(text.text);
+                Debug.Log("读取：" + character.name);
                 characters.Add(character.name, character);
             }
 

@@ -85,7 +85,7 @@ namespace Assets.Script.GameStruct.Model
             basicStatus["艺术"] = 50;
             basicStatus["体育"] = 50;
             basicStatus["宅力"] = 50;
-            basicStatus["体力"] = 100;
+            basicStatus["体力"] = energyPoint = 100;
             basicStatus["排名"] = 150000;
             basicStatus["金钱"] = 100;
 
