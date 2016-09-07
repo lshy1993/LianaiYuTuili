@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Assets.Script.GameStruct.Model;
 
 namespace Assets.Script.GameStruct
 {
@@ -33,8 +32,6 @@ namespace Assets.Script.GameStruct
             base.Init();
 
             // TODO: 检查是否有特殊事件，有则跳转
-
-            //ps.SwitchTo("Map");
             ps.SwitchTo_VerifyIterative("Map_Panel");
         }
         public override void Update() { }

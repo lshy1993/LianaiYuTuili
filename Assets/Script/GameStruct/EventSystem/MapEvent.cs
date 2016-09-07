@@ -61,7 +61,6 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 是否结束
         /// </summary>
-        //public bool finished;
 
         public MapEvent(string name, string position, string entryNode)
         {
@@ -73,8 +72,7 @@ namespace Assets.Script.GameStruct
             conditionStatus = new Dictionary<string, Range>();
             conditionGirls = new Dictionary<string, Range>();
             conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
-            //finished = false;
-        }
+       }
 
         /// <summary>
         /// 根据事件定义文件来创建一个事件

@@ -85,19 +85,12 @@ namespace Assets.Script.GameStruct.EventSystem
 
         public void UIFresh()
         {
-            //Debug.Log("MapManager UIFresh");
             Player player = Player.GetInstance();
 
             Hashtable gVars = DataManager.GetInstance().GetGameVars();
             DateTime date = (DateTime)gVars["日期"];
             daylabel.text = date.Month + "月" + date.Day + "日";
             datelabel.text = Constants.WEEK_DAYS[Convert.ToInt16(date.DayOfWeek)];
-
-            //datelabel.text = date.DayOfWeek.ToString();
-            //datelabel.text = 
-
-
-
             moneylabel.text = player.GetBasicStatus("金钱").ToString();
             wenlabel.text = player.GetBasicStatus("文科").ToString();
             lilabel.text = player.GetBasicStatus("理科").ToString();
@@ -105,12 +98,5 @@ namespace Assets.Script.GameStruct.EventSystem
             tilabel.text = player.GetBasicStatus("体育").ToString();
             zhailabel.text = player.GetBasicStatus("宅力").ToString();
         }
-
-        //public void GoPlace(int placeid)
-        //{
-        //    //gm.placeid = placeid.ToString();
-        //    //gm.MapEvent();
-        //    //UIFresh();
-        //}
     }
 }

@@ -37,7 +37,6 @@ namespace Assets.Script.GameStruct
 
         public override void Update()
         {
-            //Debug.Log("Text Update current: " + current);
             if (pieces != null && current >= 0 && current < pieces.Count)
             {
                 if (pieces[current].GetType() == typeof(EffectPiece))
