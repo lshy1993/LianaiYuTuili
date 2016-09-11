@@ -110,8 +110,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetEndTurnNode();
-            //return nodeFactory.GetMapNode();
+            return nodeFactory.GetMapNode();
         }
 
     }

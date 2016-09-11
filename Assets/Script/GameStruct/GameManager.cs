@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape)) ps.RightClick();
         if (Input.GetMouseButtonDown(1)) ps.RightClick();
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) ps.MouseUpScroll();
         if (startNewGame == true)
         {
             MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
@@ -110,9 +111,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
-
+        EventManager.GetInstance().UpdateEvent();
         startNewGame = true;
-        //MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
         //EventManager.GetInstance().currentEvent = e;
         //node = nodeFactory.FindTextScript(e.entryNode);
         //node = nodeFactory.GetEndTurnNode();

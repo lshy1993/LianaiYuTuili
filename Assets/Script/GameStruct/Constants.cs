@@ -46,6 +46,11 @@ namespace Assets.Script.GameStruct
         {
             TITLE, EXTRA, MUSIC, GALLERY, RECOLL, ENDING
         }
+
+        public enum APP_STATUS
+        {
+            TOP, CALENDAR, TOUR, HELP
+        }
     }
 
 }

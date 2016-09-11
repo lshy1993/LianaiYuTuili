@@ -16,8 +16,10 @@ namespace Assets.Script.TextScripts
             
             pieces = new List<Piece>()
             {
-                f.t("ceshi0","直接进入map"),
-                f.t("ceshi1","map",() => pieces.Count),
+                f.t("李云萧","今天是第6回合了，进入了强制事件"),
+                f.t("李云萧","接下来的测试中，如果属性达到一定的值"),
+                f.t("李云萧","闲逛进入【一号教学楼】会触发达成事件"),
+                f.t("李云萧","好了，请留意，下一回合")
             };
         }
 

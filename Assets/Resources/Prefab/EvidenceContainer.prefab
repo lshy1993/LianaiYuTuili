@@ -154,7 +154,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mSprite: {fileID: 21300000, guid: 47a58a941de43bd49ba9e787c5304729, type: 3}
+  mSprite: {fileID: 0}
   mMat: {fileID: 0}
   mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
   mBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -201,7 +201,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
   mFont: {fileID: 0}
-  mText: "\u8BC1\u636E\u4E00\u554A\u554A\u554A\u554A"
+  mText: "\u8FD9\u662F\u8BC1\u636E2"
   mFontSize: 28
   mFontStyle: 0
   mAlignment: 0
@@ -256,13 +256,13 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 364
-  mHeight: 64
+  mWidth: 960
+  mHeight: 100
   mDepth: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 5.6875
+  aspectRatio: 9.6
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -291,7 +291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89119945531717a478e074ee1b02d77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
 --- !u!114 &11430908
 MonoBehaviour:
   m_ObjectHideFlags: 1

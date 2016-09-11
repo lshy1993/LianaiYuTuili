@@ -6,7 +6,7 @@ using Assets.Script.GameStruct;
 public class ReasoningEvidenceButton : MonoBehaviour
 {
     private ReasoningUIManager uiManager;
-    public string evidence;
+    public Evidence current;
 
     public void SetUIManager(ReasoningUIManager manager)
     {
@@ -15,13 +15,12 @@ public class ReasoningEvidenceButton : MonoBehaviour
 
     void OnHover()
     {
-        uiManager.HoverEvidence(evidence);
+        uiManager.HoverEvidence(current);
     }
 
     void OnClick()
     {
         Debug.Log("接招!");
-        //Debug.Log(uiManager == null);
-        uiManager.JudgeEvidence(evidence);
+        uiManager.JudgeEvidence(current);
     }
 }

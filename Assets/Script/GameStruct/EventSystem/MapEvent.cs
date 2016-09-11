@@ -57,7 +57,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public Dictionary<string, Range> conditionGirls;
 
-
+        public bool isdefault;
         /// <summary>
         /// 是否结束
         /// </summary>
@@ -73,7 +73,7 @@ namespace Assets.Script.GameStruct
             conditionStatus = new Dictionary<string, Range>();
             conditionGirls = new Dictionary<string, Range>();
             conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
-            //finished = false;
+            isdefault = false;
         }
 
         /// <summary>
@@ -111,6 +111,13 @@ namespace Assets.Script.GameStruct
                     Range range = new Range(min, max);
                     conditionStatus.Add(kv.Key, range);
                 }
+            }
+
+            // 失败事件
+            if (data.Contains("默认"))
+            {
+                isdefault = true;
+                //isdefault = (bool)data[""];
             }
 
             // 回合

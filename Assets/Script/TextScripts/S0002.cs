@@ -92,7 +92,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetEduNode("");
+            return nodeFactory.GetEndTurnNode();
             //return nodeFactory.GetMapNode();
         }
 

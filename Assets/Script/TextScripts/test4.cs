@@ -16,8 +16,7 @@ namespace Assets.Script.TextScripts
             
             pieces = new List<Piece>()
             {
-                f.t("对话二","第二个选项对话"),
-                f.t("即将返回","对话模式",() => pieces.Count),
+                f.t("属性测试","恭喜已经达成：文科【100】理科【100】")
             };
         }
 
@@ -25,7 +24,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetDetectJudgeNode("detest1");
+            return nodeFactory.GetEndTurnNode();
         }
 
     }

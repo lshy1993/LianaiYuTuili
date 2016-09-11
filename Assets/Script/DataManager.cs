@@ -48,6 +48,11 @@ namespace Assets.Script.GameStruct
         private void InitInTurn()
         {
             //throw new NotImplementedException();
+            datapool.WriteGameVar("文字记录", new List<BacklogText>());
+            datapool.WriteGameVar("上午课程", "");
+            datapool.WriteGameVar("下午课程", "");
+            datapool.WriteGameVar("上午指数", 1f);
+            datapool.WriteGameVar("下午指数", 1f);
         }
 
         private void InitGame()
@@ -70,12 +75,19 @@ namespace Assets.Script.GameStruct
             InitEnquire();
             InitReasoning();
             InitEdu();
+            InitEvidence();
         }
 
         private void InitEvidence()
         {
-            Dictionary<string, Evidence> evidecneDic = EvidenceManager.GetStaticEvidenceDic();
-            datapool.WriteStaticVar("证据列表", evidecneDic);
+            Dictionary<string, Evidence> evidenceDic = EvidenceManager.GetStaticEvidenceDic();
+            datapool.WriteStaticVar("证据列表", evidenceDic);
+            List<Evidence> holdEvidence = new List<Evidence>();
+            foreach(KeyValuePair<string,Evidence> kv in evidenceDic)
+            {
+                holdEvidence.Add(kv.Value);
+            }
+            datapool.WriteGameVar("持有证据", holdEvidence);
         }
 
         private void InitEdu()
@@ -137,9 +149,10 @@ namespace Assets.Script.GameStruct
             datapool.WriteStaticVar("事件表", events);
             datapool.WriteGameVar("事件状态", EventManager.LoadEventState(events));
             eventManager = EventManager.GetInstance();
-            eventManager.Init(
-                (Dictionary<string, MapEvent>)datapool.GetStaticVar("事件表"),
-                datapool.GetGameVarTable());
+            //eventManager.Init(
+            //    (Dictionary<string, MapEvent>)datapool.GetStaticVar("事件表"),
+            //    datapool.GetGameVarTable());
+            eventManager.Init(events, datapool.GetGameVarTable());
         }
 
         /// <summary>
@@ -164,13 +177,27 @@ namespace Assets.Script.GameStruct
 
         public void MoveOneTurn()
         {
-            Debug.Log("MoveOneTurn");
             int t = (int)datapool.GetGameVar("回合");
-            //Debug.Log("回合:" + t);
             DateTime day = (DateTime)datapool.GetGameVar("日期");
-            //Debug.Log(day.AddDays(1).ToString());
             datapool.WriteGameVar("回合", t + 1);
             datapool.WriteGameVar("日期", day.AddDays(1));
+
+            Debug.Log("当前回合结束，从" + t + "到" + (t + 1));
+
+            int forenoon = 0, afternoon = 0;
+            while (forenoon == afternoon)
+            {
+                forenoon = UnityEngine.Random.Range(0, 4);
+                afternoon = UnityEngine.Random.Range(0, 4);
+            }
+            datapool.WriteGameVar("上午课程", forenoon);
+            datapool.WriteGameVar("下午课程", afternoon);
+            int foreindex = UnityEngine.Random.Range(1, 3);
+            int afterindex = UnityEngine.Random.Range(1, 3);
+            //int afterindex = 1 + float.Parse(UnityEngine.Random.Range(0f, 1f).ToString("0.0"));
+            datapool.WriteGameVar("上午指数", foreindex);
+            datapool.WriteGameVar("下午指数", afterindex);
+
         }
 
         public Hashtable GetGameVars()

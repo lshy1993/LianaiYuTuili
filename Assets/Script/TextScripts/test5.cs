@@ -16,8 +16,7 @@ namespace Assets.Script.TextScripts
             
             pieces = new List<Piece>()
             {
-                f.t("跳出","对话全部完成"),
-                f.t("测试","结束进入下一回合",() => pieces.Count),
+                f.t("属性测试","恭喜已经达成：艺术【80】")
             };
         }
 

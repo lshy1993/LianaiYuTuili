@@ -10,22 +10,20 @@ using Assets.Script.UIScript;
 public class EnquireUIManager : MonoBehaviour
 {
     private const int TOTAL_DISTANCE = 1280;
-
+    private GameObject evidenceGrid;
     private UILabel currentLabel;//当前的证词
     private UIProgressBar hpBar, mpBar, timeBar;
 
-    private EnquireEvent enquireEvent;
     //private List<float> voiceTime;//飞行时间
-    //private float currentY; // 当前的证词位置
-
     private List<int> pressedId;//已经威慑过证词id
     private List<string> visibleTestimony;//可见证词
     private int currentId;//当前的证词编号
-    //private float currentX, currentY;
+
     private Vector3 currentPosition;
 
-    private List<GameObject> eviButtons;
+    private List<Evidence> eviList;
 
+    private EnquireEvent enquireEvent;
     private EnquireNode enquireNode;
     private Constants.ENQUIRE_STATUS exitStatus;//当前状态
 
@@ -35,11 +33,8 @@ public class EnquireUIManager : MonoBehaviour
         hpBar = this.transform.Find("HPMP_Container/HP_Sprite").GetComponent<UIProgressBar>();
         mpBar = this.transform.Find("HPMP_Container/MP_Sprite").GetComponent<UIProgressBar>();
         timeBar = this.transform.Find("ProgressBack_Sprite").GetComponent<UIProgressBar>();
-
-        //pressedId = new List<int>();
-        //voiceTime = new List<float>();
-        //visibleTestimony = new List<string>();
-        eviButtons = new List<GameObject>();
+        evidenceGrid = this.transform.Find("EvidenceList_Panel/Grid").gameObject;
+        //eviButtons = new List<GameObject>();
     }
 
     public void SetEnquireNode(EnquireNode node)
@@ -54,14 +49,13 @@ public class EnquireUIManager : MonoBehaviour
         this.pressedId = pressedId;
         this.currentId = currentId;
         this.visibleTestimony = visibleTestimony;
+        //this.eviList =
         SetEvidence();//UI初始化;
     }
 
     public void WheelStart()
     {
         //供Animation调用开始运行证词轮盘
-        //SetEvidence();//UI初始化;
-        //currentLabel.alpha = 1;
         StartCoroutine(MainEnquire());
         PlayBGM();
     }
@@ -120,30 +114,29 @@ public class EnquireUIManager : MonoBehaviour
         }
     }
 
-    private void SetEvidence()
+    public void SetEvidence()
     {
         //将证据栏初始化
-        eviButtons.Clear();
-        transform.Find("EvidenceList_Panel/Grid").DestroyChildren();
-        for (int i = 0; i < 10; i++)
+        evidenceGrid.transform.DestroyChildren();
+        foreach(Evidence evi in eviList)
         {
             GameObject eviBtn = (GameObject)Resources.Load("Prefab/Evidence_Enquire");
-            eviBtn = Instantiate(eviBtn) as GameObject;
-            eviBtn.transform.parent = transform.Find("EvidenceList_Panel/Grid").gameObject.transform;
+            eviBtn = NGUITools.AddChild(evidenceGrid, eviBtn);
+
+            //eviBtn = Instantiate(eviBtn) as GameObject;
+            //eviBtn.transform.parent = transform.Find("EvidenceList_Panel/Grid").gameObject.transform;
 
             UIButton btn = eviBtn.GetComponent<UIButton>();
-            btn.normalSprite2D = (Sprite)Resources.Load("661");
-            //btn.hoverSprite2D = invest.iconHover;
-            //btn.pressedSprite2D = invest.iconHover;
+            btn.normalSprite2D = (Sprite)Resources.Load("UI/" + evi.iconPath);
 
             EnquireEvidenceButton script = eviBtn.GetComponent<EnquireEvidenceButton>();
-            script.name = "数码相机";
+            script.evidence = evi.name;
             script.SetUIManager(this);
 
-            eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
-            eviButtons.Add(eviBtn);
+            //eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            //eviButtons.Add(eviBtn);
         }
-        transform.Find("EvidenceList_Panel/Grid").gameObject.GetComponent<UIGrid>().Reposition();
+        evidenceGrid.GetComponent<UIGrid>().Reposition();
     }
 
     private IEnumerator MainEnquire()

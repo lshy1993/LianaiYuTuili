@@ -16,8 +16,7 @@ namespace Assets.Script.TextScripts
             
             pieces = new List<Piece>()
             {
-                f.t("测试","即将进入侦探模式"),
-                f.t("测试","json编号detest1"),
+                f.t("属性测试","恭喜已经达成：文科【60】理科【60】")
             };
         }
 
@@ -25,10 +24,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetEduNode("");
-            //return nodeFactory.GetReasoningNode("Q001");
-            //return nodeFactory.GetEnquireNode("Z1101");
-            //return nodeFactory.GetDetectJudgeNode("detest1");
+            return nodeFactory.GetEndTurnNode();
         }
 
     }

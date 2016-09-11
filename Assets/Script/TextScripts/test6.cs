@@ -16,8 +16,7 @@ namespace Assets.Script.TextScripts
             
             pieces = new List<Piece>()
             {
-                f.t("选项","选项正确"),
-                f.t("自我推理","进入证据选择",() => pieces.Count),
+                f.t("属性测试","恭喜已经达成：艺术【120】")
             };
         }
 
@@ -25,7 +24,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetReasoningNode("Q002");
+            return nodeFactory.GetEndTurnNode();
         }
 
     }

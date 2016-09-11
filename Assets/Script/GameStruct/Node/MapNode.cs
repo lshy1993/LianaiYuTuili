@@ -1,11 +1,11 @@
 ﻿using Assets.Script.GameStruct.Model;
+using Assets.Script.UIScript;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Assets.Script.GameStruct.Model;
 
 namespace Assets.Script.GameStruct
 {
@@ -18,25 +18,24 @@ namespace Assets.Script.GameStruct
 
         private GameNode next = null;
         private Player player;
+        private MapUIManager uiManager;
+
 
         public MapNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):
             base(gVars, lVars, root, ps)
         {
-            this.next = this;
-
-            player = (Player)gVars["玩家数据"];
+            Init();
+            ps.SwitchTo_VerifyIterative("Map_Panel");
         }
-
 
         public override void Init()
         {
             base.Init();
-
-            // TODO: 检查是否有特殊事件，有则跳转
-
-            //ps.SwitchTo("Map");
-            ps.SwitchTo_VerifyIterative("Map_Panel");
+            uiManager = root.transform.Find("Map_Panel").GetComponent<MapUIManager>();
+            uiManager.mapNode = this;
+            //uiManager.GetOut();
         }
+
         public override void Update() { }
 
         public void ChooseNext(GameNode next)
@@ -46,15 +45,23 @@ namespace Assets.Script.GameStruct
             base.end = true;
         }
 
+        public void ChooseEdu()
+        {
+            this.next = NodeFactory.GetInstance().GetEduNode();
+            base.end = true;
+        }
+
         public override GameNode NextNode()
         {
-            GameNode temp = this.next;
+            //GameNode temp = this.next;
 
-            base.end = false;
+            //base.end = false;
 
-            this.next = null;
+            //this.next = null;
 
-            return temp;
+            //return temp;
+
+            return next;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Script.GameStruct.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,11 @@ namespace Assets.Script.GameStruct
         {
             if (name != null && name.Length != 0) nameLabel.text = name;
             if (name != null && dialog.Length != 0) dialogLabel.text = dialog;
+
+            List<BacklogText> blt = (List<BacklogText>)DataPool.GetInstance().GetGameVar("文字记录");
+            blt.Add(new BacklogText(name, dialog));
+            DataPool.GetInstance().WriteGameVar("文字记录", blt);
+
         }
         private void setVars(string name, string dialog, UILabel nameLabel, UILabel dialogLabel)
         {

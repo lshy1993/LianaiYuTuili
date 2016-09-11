@@ -40,7 +40,17 @@ namespace Assets.Script.GameStruct.Node
             }
             else
             {
-                return factory.GetMapNode();
+                DateTime date = (DateTime)gVars["日期"];
+                int week = Convert.ToInt32(date.DayOfWeek);
+                //DOTO : 对节日判断
+                if (week == 6 || week == 7)
+                {
+                    return factory.FindTextScript("S0000");
+                }
+                else
+                {
+                    return factory.GetEduNode();
+                }
             }
         }
 

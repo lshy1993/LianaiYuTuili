@@ -24,6 +24,7 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
     private GameObject grid, qtabGrid;
 
     private Dictionary<string, Girls> girlInfo;
+    private List<Evidence> eviList;
 
     void Awake()
     {
@@ -62,7 +63,7 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         grid = transform.Find("Scroll View/Grid").gameObject;
         qtabGrid = transform.Find("Scroll View/Grid/Love_Container/QTab_Grid").gameObject;
 
-        //SetCardInfo();
+        SetCardInfo();
         //SetGirlInfo("");
         SetEvidence();
         SetQButton();
@@ -137,43 +138,45 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
     private void SetEvidence()
     {
         //初始化[证据]列表
-        GameObject grid = transform.Find("Scroll View/Grid/Evidence_Container/Scroll View/Grid").gameObject;
+        eviList = (List<Evidence>)DataPool.GetInstance().GetGameVar("持有证据");
+        GameObject grid = transform.Find("Scroll View/Grid/Evidence_Container/List_ScrollView/List_Grid").gameObject;
         grid.transform.DestroyChildren();
-        for (int i = 0; i < 10; i++)
+        foreach(Evidence evi in eviList)
         {
+            Debug.Log(evi.name);
             GameObject eviBtn = (GameObject)Resources.Load("Prefab/EvidenceContainer");
-            eviBtn = Instantiate(eviBtn) as GameObject;
-            eviBtn.transform.parent = grid.transform;
+            eviBtn = NGUITools.AddChild(grid, eviBtn);
 
-            UIButton btn = eviBtn.GetComponent<UIButton>();
+            //eviBtn = Instantiate(eviBtn) as GameObject;
+            //eviBtn.transform.parent = grid.transform;
 
             PhoneEvidenceButton script = eviBtn.GetComponent<PhoneEvidenceButton>();
-            script.name = "数码相机" + i;
+            script.current = evi;
             script.SetUIManager(this);
 
             UILabel enl = eviBtn.transform.Find("EvidenceName_Label").GetComponent<UILabel>();
-            enl.text = "数码相机" + i;
+            enl.text = evi.name;
 
             UI2DSprite eis = eviBtn.transform.Find("EvidenceIcon_Sprite").GetComponent<UI2DSprite>();
-            Sprite sp = new Sprite();
-            
-            eis.sprite2D = Resources.LoadAll<Sprite>("UI/evidence3")[0];
-            eis.MakePixelPerfect();
-            //eis.SetRect(-150,0,100,100);
-
-            eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            eis.sprite2D = Resources.LoadAll<Sprite>("UI/" + evi.iconPath)[0];
+            //eis.sprite2D = Resources.LoadAll<Sprite>("UI/evidence3")[0];
+            //eis.MakePixelPerfect();
+            //eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
         }
         grid.GetComponent<UIGrid>().Reposition();
     }
 
-    public void EvidenceInfoFresh(string str)
+    public void EvidenceInfoFresh(Evidence evi)
     {
-        //提供给按钮调用
+        //提供给证据按钮的点击事件调用
         UI2DSprite image = transform.Find("Scroll View/Grid/Evidence_Container/EvidenceImage_Sprite").GetComponent<UI2DSprite>();
-        UILabel info = transform.Find("Scroll View/Grid/Evidence_Container/EvidenceInfo_Label").GetComponent<UILabel>();
-        image.sprite2D = (Sprite)Resources.Load("evidence3");
+        image.sprite2D = (Sprite)Resources.Load(evi.imagePath);
+        //image.sprite2D = (Sprite)Resources.Load("evidence3");
         image.MakePixelPerfect();
-        info.text = "你点击的是证据名称为" + str;
+
+        UILabel intro = transform.Find("Scroll View/Grid/Evidence_Container/EvidenceInfo_Label").GetComponent<UILabel>();
+        intro.text = evi.introduction;
+        //info.text = "你点击的是证据名称为" + str;
     }
 
     public void MoveGrid(string tabname)
@@ -191,6 +194,10 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         if (tabname == "Case_Button")
         {
             StartCoroutine(StartMove(1400));
+        }
+        if(tabname == "App_Button")
+        {
+            StartCoroutine(StartMove(2100));
         }
     }
     IEnumerator StartMove(float final)

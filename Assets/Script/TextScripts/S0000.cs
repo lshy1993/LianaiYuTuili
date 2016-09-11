@@ -15,7 +15,7 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
-                f.t("","即将进入EDU",() => pieces.Count),
+                f.t("李云萧","学校周末不上课，该去哪里呢？")
             };
         }
 
@@ -23,7 +23,7 @@ namespace Assets.Script.TextScripts
         {
             //return base.NextNode();
             Finish();
-            return nodeFactory.GetEduNode("");
+            return nodeFactory.GetMapNode();
         }
 
     }
