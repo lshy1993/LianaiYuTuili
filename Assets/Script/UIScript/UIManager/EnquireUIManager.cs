@@ -10,7 +10,7 @@ using Assets.Script.UIScript;
 public class EnquireUIManager : MonoBehaviour
 {
     private const int TOTAL_DISTANCE = 1280;
-    private GameObject evidenceGrid;
+    private GameObject evidenceGrid, speedDownSprite;
     private UILabel currentLabel;//当前的证词
     private UIProgressBar hpBar, mpBar, timeBar;
 
@@ -27,6 +27,8 @@ public class EnquireUIManager : MonoBehaviour
     private EnquireNode enquireNode;
     private Constants.ENQUIRE_STATUS exitStatus;//当前状态
 
+    private bool cooldown;
+
     void Awake()
     {
         currentLabel = this.transform.Find("CurrentText_Label").GetComponent<UILabel>();
@@ -34,7 +36,37 @@ public class EnquireUIManager : MonoBehaviour
         mpBar = this.transform.Find("HPMP_Container/MP_Sprite").GetComponent<UIProgressBar>();
         timeBar = this.transform.Find("ProgressBack_Sprite").GetComponent<UIProgressBar>();
         evidenceGrid = this.transform.Find("EvidenceList_Panel/Grid").gameObject;
-        //eviButtons = new List<GameObject>();
+        speedDownSprite = transform.Find("SpeedDown_Sprite").gameObject;
+
+        cooldown = true;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Space)) cooldown = true;
+        if (mpBar.value == 0f) cooldown = false;
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (cooldown)
+            {
+                speedDownSprite.SetActive(true);
+                Time.timeScale = 0.4f;
+                mpBar.value -= 0.005f;
+            }
+            else
+            {
+                speedDownSprite.SetActive(false);
+                Time.timeScale = 1f;
+                mpBar.value += 0.01f;
+            }
+        }
+        else
+        {
+            speedDownSprite.SetActive(false);
+            Time.timeScale = 1f;
+            mpBar.value += 0.01f;
+        }
     }
 
     public void SetEnquireNode(EnquireNode node)
@@ -49,7 +81,7 @@ public class EnquireUIManager : MonoBehaviour
         this.pressedId = pressedId;
         this.currentId = currentId;
         this.visibleTestimony = visibleTestimony;
-        //this.eviList =
+        this.eviList = (List<Evidence>)DataPool.GetInstance().GetGameVar("持有证据");
         SetEvidence();//UI初始化;
     }
 
@@ -127,7 +159,7 @@ public class EnquireUIManager : MonoBehaviour
             //eviBtn.transform.parent = transform.Find("EvidenceList_Panel/Grid").gameObject.transform;
 
             UIButton btn = eviBtn.GetComponent<UIButton>();
-            btn.normalSprite2D = (Sprite)Resources.Load("UI/" + evi.iconPath);
+            btn.normalSprite2D = (Sprite)Resources.Load(evi.iconPath);
 
             EnquireEvidenceButton script = eviBtn.GetComponent<EnquireEvidenceButton>();
             script.evidence = evi.name;
