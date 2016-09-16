@@ -10,7 +10,7 @@ namespace Assets.Script.TextScripts
 {
     public class Script_1 : TextScript
     {
-        public Script_1(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
+        public Script_1(DataManager manager, GameObject root, PanelSwitch ps):base(manager, root, ps) { }
         public override void InitText()
         {
             
@@ -20,17 +20,17 @@ namespace Assets.Script.TextScripts
                 f.t("第二句", "22222"),
                 f.t("第三句", "33333"),
                 f.t("第四句", "44444"),
-                f.t("第五句","设置局部变量a为true", ((Hashtable gVar, Hashtable lVar)=> {
-                    if(lVars.ContainsKey("a")) lVars["a"] = false;
-                    else lVar.Add("a", true);
-                    return 5;
-                })),
+                //f.t("第五句","设置局部变量a为true", ((Hashtable gVar, Hashtable lVar)=> {
+                //    if(lVars.ContainsKey("a")) lVars["a"] = false;
+                //    else lVar.Add("a", true);
+                //    return 5;
+                //})),
 
                 f.t("第六句", "55555"),
-                f.t("第七句", "如果变量a为true跳转第九句",(Hashtable gVar, Hashtable lVar)=> {
-                    if((bool)lVar["a"]) return 8;
-                    else return 7;
-                }),
+                //f.t("第七句", "如果变量a为true跳转第九句",(Hashtable gVar, Hashtable lVar)=> {
+                //    if((bool)lVar["a"]) return 8;
+                //    else return 7;
+                //}),
                 f.t("第八句", "如果变量a为true则不显示"),
                 f.t("第九句","9999999"),
                 //f.t("跳转", "简单跳转第二句", ()=> 1)

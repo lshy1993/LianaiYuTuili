@@ -10,15 +10,15 @@ namespace Assets.Script.TextScripts
 {
     public class S0001_2 : TextScript
     {
-        public S0001_2(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
+        public S0001_2(DataManager manager, GameObject root, PanelSwitch ps) : base(manager, root, ps) { }
         public override void InitText()
         {
-            
+
             pieces = new List<Piece>()
             {
                 //——背景：教材领取处——
                 f.t("【李云萧】", "果然还是男生更容易打成一片……"),
-                
+
                 f.t("【李云萧】", "（不过，一路上也被他们问了各种问题……）"),
                 f.t("【喵星人】", "我说过我们班的男生很好说话的，没错吧喵？"),
                 f.t("【李云萧】", "你什么时候说过这句话……"),
@@ -100,7 +100,7 @@ namespace Assets.Script.TextScripts
                 f.t("【李云萧】", "完全记不住……"),
                 f.t("【喵星人】", "没关系，只要把鼠标放上去，就能看到这个地点的详细介绍。"),
                 f.t("【喵星人】", "讲完了，我们回寝室吧，2号寝室楼，别搞错了。"),
-                
+
                 f.t("【李云萧】", "……",() => pieces.Count),
                 //——背景 消失——
             };
@@ -108,7 +108,6 @@ namespace Assets.Script.TextScripts
 
         public override GameNode NextNode()
         {
-            //return base.NextNode();
             Finish();
             return nodeFactory.GetMapNode();
         }

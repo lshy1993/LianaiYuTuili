@@ -19,12 +19,13 @@ namespace Assets.Script.GameStruct
         private GameNode next;
         private NodeFactory factory;
 
-        public EduNode(Hashtable gVars, Hashtable lVars,GameObject root, PanelSwitch ps, string type):
-            base(gVars, lVars, root, ps)
+        public EduNode(DataManager manager, GameObject root, PanelSwitch ps, string type):
+            base(manager, root, ps)
         {
             Init(type);
             ps.SwitchTo_VerifyIterative("Edu_Panel");
             //player = (Player)gVars["玩家数据"];
+            player = manager.GetGameVar<Player>("玩家");
         }
 
         public void Init(string type)
@@ -49,7 +50,7 @@ namespace Assets.Script.GameStruct
 
         public void EduExit()
         {
-            DataManager.GetInstance().MoveOneTurn();
+            //DataManager.GetInstance().MoveOneTurn();
             next = factory.GetEndTurnNode();
             end = true;
         }

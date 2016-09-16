@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using Assets.Script.GameStruct.Model;
+using Assets.Script.GameStruct;
 
 /**
  * PhoneManager: 
@@ -62,7 +63,9 @@ public class PhoneManager : MonoBehaviour, IPanelManager
     public void CardFresh()
     {
         //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
-        Player player = Player.GetInstance();
+/*        Player player = Player.GetInstance()*/;
+        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        //Player player = new Player();
         wenlb.text = player.GetBasicStatus("文科").ToString();
         lilb.text = player.GetBasicStatus("理科").ToString();
         tilb.text = player.GetBasicStatus("体育").ToString();

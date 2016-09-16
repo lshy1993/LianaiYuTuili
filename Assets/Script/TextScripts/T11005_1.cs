@@ -10,7 +10,7 @@ namespace Assets.Script.TextScripts
 {
     public class T11005_1 : TextScript
     {
-        public T11005_1(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
+        public T11005_1(DataManager manager, GameObject root, PanelSwitch ps):base(manager, root, ps) { }
         public override void InitText()
         {
             base.Init();

@@ -15,13 +15,29 @@ namespace Assets.Script.GameStruct
         private static readonly string ENQUIRE_PATH = "Text/EnquireConfig/";
         private static readonly string ENQUIRE_DEBUG_PATH = "Text/EnquireDebug/";
 
-        private Hashtable gVars, lVars;
+        //private Hashtable gVars, lVars;
+        private DataManager manager;
         private Dictionary<string, EnquireEvent> enquireEvents;
         public EnquireEvent currentEvent;
 
         public List<string> visibleTestimony;//可见证词
-        public List<int> pressedId;
-        public int currentId;//当前的证词编号
+        public List<int> pressedId
+        {
+            set { manager.SetInTurnVar("已威慑证词序号", value); }
+            get { return manager.GetGameVar<List<int>>("已威慑证词序号"); }
+        }
+
+        public int currentId//当前的证词编号
+        {
+            set { manager.SetInTurnVar("证词序号", value); }
+            get { return manager.GetInTurnVar<int>("证词序号"); }
+        }
+
+        public string enquireId
+        {
+            set { manager.SetInTurnVar("询问编号", value); }
+            get { return manager.GetInTurnVar<string>("询问编号"); }
+        }
 
         public static EnquireManager GetInstance()
         {
@@ -31,10 +47,11 @@ namespace Assets.Script.GameStruct
 
         private EnquireManager() { }
 
-        public void Init(Dictionary<string, EnquireEvent> enquireEvents, Hashtable gVars, Hashtable lVars)
+        public void Init(Dictionary<string, EnquireEvent> enquireEvents, DataManager manager)
         {
-            this.gVars = gVars;
-            this.lVars = lVars;
+            //this.gVars = gVars;
+            //this.lVars = lVars;
+            this.manager = manager;
             this.enquireEvents = enquireEvents;
             this.visibleTestimony = new List<string>();
             this.pressedId = new List<int>();
@@ -46,41 +63,49 @@ namespace Assets.Script.GameStruct
 
             EnquireEvent e = enquireEvents[key];
 
-            if (lVars.ContainsKey("询问编号"))
-            {
-                if (e.id != (string)lVars["询问编号"])
-                {
-                    lVars["询问编号"] = e.id;
-                    if (lVars.ContainsKey("证词序号")) lVars["证词序号"] = 0;
-                    else lVars.Add("证词序号", 0);
-                    if (lVars.ContainsKey("已威慑证词序号"))
-                    {
-                        lVars["已威慑证词序号"] = new List<int>();
-                    }
-                    else
-                    {
-                        lVars.Add("已威慑证词序号", new List<int>());
-                    }
-                }
-            }
-            else
-            {
-                lVars.Add("询问编号", e.id);
-                if (lVars.ContainsKey("证词序号")) lVars["证词序号"] = 0;
-                else lVars.Add("证词序号", 0);
-                if (lVars.ContainsKey("已威慑证词序号"))
-                {
-                    lVars["已威慑证词序号"] = new List<int>();
-                }
-                else
-                {
-                    lVars.Add("已威慑证词序号", new List<int>());
-                }
+            //if (lVars.ContainsKey("询问编号"))
+            //{
+            //    if (e.id != (string)lVars["询问编号"])
+            //    {
+            //        lVars["询问编号"] = e.id;
+            //        if (lVars.ContainsKey("证词序号")) lVars["证词序号"] = 0;
+            //        else lVars.Add("证词序号", 0);
+            //        if (lVars.ContainsKey("已威慑证词序号"))
+            //        {
+            //            lVars["已威慑证词序号"] = new List<int>();
+            //        }
+            //        else
+            //        {
+            //            lVars.Add("已威慑证词序号", new List<int>());
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    lVars.Add("询问编号", e.id);
+            //    if (lVars.ContainsKey("证词序号")) lVars["证词序号"] = 0;
+            //    else lVars.Add("证词序号", 0);
+            //    if (lVars.ContainsKey("已威慑证词序号"))
+            //    {
+            //        lVars["已威慑证词序号"] = new List<int>();
+            //    }
+            //    else
+            //    {
+            //        lVars.Add("已威慑证词序号", new List<int>());
+            //    }
 
+            //}
+            //currentId = (int)lVars["证词序号"];
+            //pressedId = (List<int>)lVars["已威慑证词序号"];
+            if (!manager.ContainsInTurnVar("询问编号") || e.id != enquireId)
+            {
+                // 需要刷新的情况
+                enquireId = e.id;
+                pressedId = new List<int>();
+                currentId = 0;
             }
             currentEvent = e;
-            currentId = (int)lVars["证词序号"];
-            pressedId = (List<int>)lVars["已威慑证词序号"];
+
             SetTestimony();
             return currentEvent;
         }

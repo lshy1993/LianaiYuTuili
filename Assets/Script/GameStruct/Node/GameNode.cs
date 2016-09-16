@@ -16,20 +16,23 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 存储局部变量
         /// </summary>
-        public Hashtable gVars, lVars;
+        //public Hashtable gVars, lVars;
+        public DataManager manager;
         public GameObject root;
         public bool end { set; get; }
         public PanelSwitch ps;
-        public GameNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) 
+        public GameNode(DataManager manager, GameObject root, PanelSwitch ps) 
         {
-            this.gVars = gVars;
+            //this.gVars = gVars;
+            //this.lVars = lVars;
+            this.manager = manager;
             this.root = root;
             this.ps = ps;
-            this.lVars = lVars;
             end = false;
 
             Init();
         }
+
         /// <summary>
         /// 初始化游戏节点
         /// </summary>

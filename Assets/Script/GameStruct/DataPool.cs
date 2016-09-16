@@ -20,12 +20,15 @@ namespace Assets.Script.GameStruct
                           gameVar,
                           inTurnVar;
 
+        private Dictionary<string, Type> gameVarTypes, inTurnVarTypes;
         private DataPool()
         {
             staticVar = new Hashtable();
             systemVar = new Hashtable();
             gameVar = new Hashtable();
             inTurnVar = new Hashtable();
+            gameVarTypes = new Dictionary<string, Type>();
+            inTurnVarTypes = new Dictionary<string, Type>();
         }
 
 
@@ -125,6 +128,7 @@ namespace Assets.Script.GameStruct
             }
             else
             {
+                //gameVarTypes.Add(key, obj.GetType());
                 gameVar.Add(key, obj);
             }
 
@@ -163,6 +167,7 @@ namespace Assets.Script.GameStruct
             }
             else
             {
+                //inTurnVarTypes.Add(key, obj.GetType());
                 inTurnVar.Add(key, obj);
             }
         }
@@ -171,6 +176,15 @@ namespace Assets.Script.GameStruct
         public Hashtable GetInTurnVarTable()
         {
             return inTurnVar;
+        }
+
+        public Dictionary<string, Type> GetGameVarTypes() { return gameVarTypes; }
+        public Dictionary<string, Type> GetInTurnVarTypes() { return inTurnVarTypes; }
+
+        public void Clear()
+        {
+            gameVar.Clear();
+            inTurnVar.Clear();
         }
 
     }

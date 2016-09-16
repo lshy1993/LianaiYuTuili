@@ -1,19 +1,21 @@
 ﻿using Assets.Script.GameStruct;
+using LitJson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Assets.Script.TextScripts
 {
     public class S0001_1 : TextScript
     {
-        public S0001_1(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
+        public S0001_1(DataManager manager, GameObject root, PanelSwitch ps) : base(manager, root, ps) { }
         public override void InitText()
         {
-            
+
             pieces = new List<Piece>()
             {
                 //——背景 学校正门——
@@ -29,7 +31,19 @@ namespace Assets.Script.TextScripts
                 f.t("【李云萧】", "问了下路上遇到的学生，好像在3楼……"),
                 f.t("【李云萧】", "高二（6），高二（5），高二（4）……到了，高二（3）班！"),
                 //——SE 嘈杂的人声——
-                f.t("【李云萧】", "其他人都已经到了么？该怎么面对新同学呢？"),
+                f.t("【李云萧】", "其他人都已经到了么？该怎么面对新同学呢？",
+                (manager)=> {
+                    string str = manager.Save();
+                    Debug.Log(
+
+            UTF8Encoding.UTF8.GetBytes(LoadSaveTool.GetKey()).Length
+                        );
+
+                    Debug.Log(str == LoadSaveTool.RijndaelDecrypt( LoadSaveTool.RijndaelEncrypt(str, LoadSaveTool.GetKey()), LoadSaveTool.GetKey()));
+                    Debug.Log(Regex.Unescape(str));
+                    manager.Load(str);
+                    Debug.Log(Regex.Unescape(manager.Save()));
+                }),
                 f.t("【李云萧】", "先去见一下班主任吧，接下来的一段时间，都要和她相处了。"),
                 f.t("【李云萧】", "教务处的人说，她的办公室在班级教室的……"),
                 //——背景 办公室外景——
@@ -129,7 +143,7 @@ namespace Assets.Script.TextScripts
                 f.t("【喵星人】","当然！你已经是我们班级的人了，是男的都要去！"),
                 f.t("【李云萧】","知道啦！"),
                 f.t("【李云萧】","（于是，我跟随着喵星人，还有班上的男生，离开了教室……）"),
-                
+
                 f.t("【李云萧】","（可能，我朝着这个新的大家庭，迈出了我的第一步。）",() => pieces.Count),
                 //——背景 消失——
             };
@@ -137,10 +151,8 @@ namespace Assets.Script.TextScripts
 
         public override GameNode NextNode()
         {
-            //return base.NextNode();
             Finish();
             return nodeFactory.FindTextScript("S0001_2");
-            //return nodeFactory.GetMapNode();
         }
 
     }

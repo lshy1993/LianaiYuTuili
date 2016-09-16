@@ -85,10 +85,13 @@ namespace Assets.Script.GameStruct.EventSystem
 
         public void UIFresh()
         {
-            Player player = Player.GetInstance();
+            //Player player = Player.GetInstance();
+            Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
 
             Hashtable gVars = DataManager.GetInstance().GetGameVars();
-            DateTime date = (DateTime)gVars["日期"];
+            //DateTime date = (DateTime)gVars["日期"];
+
+            DateTime date = DataManager.START_DAY.AddDays(DataManager.GetInstance().GetGameVar<int>("回合"));
             daylabel.text = date.Month + "月" + date.Day + "日";
             datelabel.text = Constants.WEEK_DAYS[Convert.ToInt16(date.DayOfWeek)];
             moneylabel.text = player.GetBasicStatus("金钱").ToString();

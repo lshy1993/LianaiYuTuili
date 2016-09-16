@@ -16,8 +16,8 @@ namespace Assets.Script.GameStruct
         private NodeFactory factory;
         private GameNode next;
         
-        public ReasoningNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, string eventName)
-            : base(gVars, lVars, root, ps)
+        public ReasoningNode(DataManager manager, GameObject root, PanelSwitch ps, string eventName)
+            : base(manager, root, ps)
         {
             Init(eventName);
             ps.SwitchTo_VerifyIterative_WithOpenCallback("Reasoning_Panel", uiManager.OpenSelection);

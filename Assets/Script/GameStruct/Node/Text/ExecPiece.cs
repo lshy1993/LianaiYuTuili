@@ -8,20 +8,18 @@ namespace Assets.Script.GameStruct
 {
     public class ExecPiece : Piece
     {
-        public delegate void Execute(Hashtable gVars, Hashtable lVars);
-        private Hashtable gVars, lVars;
+        public delegate void Execute(DataManager manager);
+        private DataManager manager;
 
         private Execute exec;
-        public ExecPiece(int id, Hashtable gVars, Hashtable lVars, Execute exec):base(id)
+        public ExecPiece(int id, DataManager manager, Execute exec):base(id)
         {
-            this.gVars = gVars;
-            this.lVars = lVars;
+            this.manager = manager;
             this.exec = exec;
-
         }
         public override void Exec()
         {
-            exec(gVars, lVars);
+            exec(manager);
         }
    }
 }

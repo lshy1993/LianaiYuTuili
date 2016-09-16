@@ -7,13 +7,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using System.IO;
 
 namespace Assets.Script.GameStruct
 {
     public class DataManager
     {
         private static DataManager instance;
+
+        public static readonly DateTime START_DAY = new DateTime();
 
         public static DataManager GetInstance()
         {
@@ -29,7 +33,7 @@ namespace Assets.Script.GameStruct
         private ReasoningManager reasoningManager;
         private EduManager eduManager;
         private GirlManager girlManager;
-        
+
 
         private DataManager()
         {
@@ -53,13 +57,12 @@ namespace Assets.Script.GameStruct
         private void InitGame()
         {
             InitTurn();
-            datapool.WriteGameVar("玩家", Player.GetInstance());
+            SetGameVar("玩家", new Player());
         }
 
         private void InitSystem()
         {
-            //throw new NotImplementedException();
-       }
+        }
 
         private void InitStatic()
         {
@@ -84,7 +87,7 @@ namespace Assets.Script.GameStruct
             datapool.WriteStaticVar("养成按钮", events);
 
             eduManager = EduManager.GetInstance();
-            eduManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
+            eduManager.Init(events, this);
         }
 
         private void InitDetects()
@@ -93,22 +96,20 @@ namespace Assets.Script.GameStruct
             datapool.WriteStaticVar("侦探事件表", events);
 
             detectManager = DetectManager.GetInstance();
-            detectManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
+            detectManager.Init(events, this);
         }
 
         private void InitEnquire()
         {
-            //Debug.Log("InitEnquire");
             Dictionary<string, EnquireEvent> events = EnquireManager.GetStaticEnquireEvents();
             datapool.WriteStaticVar("询问总表", events);
 
             enquireManager = EnquireManager.GetInstance();
-            enquireManager.Init(events, datapool.GetGameVarTable(), datapool.GetInTurnVarTable());
+            enquireManager.Init(events, this);
         }
 
         private void InitCharacters()
         {
-            //throw new NotImplementedException();
             Dictionary<string, Character> characters = CharacterManager.GetStaticCharacters();
             datapool.WriteStaticVar("人物", characters);
 
@@ -138,7 +139,7 @@ namespace Assets.Script.GameStruct
             eventManager = EventManager.GetInstance();
             eventManager.Init(
                 (Dictionary<string, MapEvent>)datapool.GetStaticVar("事件表"),
-                datapool.GetGameVarTable());
+                this);
         }
 
         /// <summary>
@@ -147,11 +148,11 @@ namespace Assets.Script.GameStruct
         private void InitTurn()
         {
             datapool.WriteGameVar("回合", 0);
-            datapool.WriteGameVar("日期", new DateTime(2014, 8, 31));
+            //datapool.WriteGameVar("日期", new DateTime(2014, 8, 31));
         }
 
 
-        public void printEvents()
+        public void PrintEvents()
         {
             Debug.Log("事件表:");
             foreach (KeyValuePair<string, MapEvent> kv in (Dictionary<string, MapEvent>)datapool.GetStaticVar("事件表"))
@@ -163,15 +164,37 @@ namespace Assets.Script.GameStruct
 
         public void MoveOneTurn()
         {
-/*            Debug.Log("MoveOneTurn")*/;
             int t = (int)datapool.GetGameVar("回合");
-            //Debug.Log("回合:" + t);
-            DateTime day = (DateTime)datapool.GetGameVar("日期");
-            //Debug.Log(day.AddDays(1).ToString());
             datapool.WriteGameVar("回合", t + 1);
-            datapool.WriteGameVar("日期", day.AddDays(1));
+            //DateTime day = (DateTime)datapool.GetGameVar("日期");
+            //datapool.WriteGameVar("日期", day.AddDays(1));
         }
 
+        public void SetGameVar(string key, object value)
+        {
+            datapool.WriteGameVar(key, value);
+        }
+
+        public void SetInTurnVar(string key, object value)
+        {
+            datapool.WriteInTurnVar(key, value);
+        }
+
+        public T GetGameVar<T>(string key)
+        {
+            return (T)datapool.GetGameVar(key);
+        }
+
+        public bool ContainsGameVar(string key) { return datapool.GetGameVarTable().ContainsKey(key); }
+
+        public bool ContainsInTurnVar(string key) { return datapool.GetInTurnVarTable().ContainsKey(key); }
+
+        public T GetInTurnVar<T>(string key)
+        {
+            return (T)datapool.GetInTurnVar(key);
+        }
+
+        DataPool GetDataPool() { return datapool; }
         public Hashtable GetGameVars()
         {
             return datapool.GetGameVarTable();
@@ -181,5 +204,117 @@ namespace Assets.Script.GameStruct
         {
             return datapool.GetInTurnVarTable();
         }
+
+        public string GetAllTypes()
+        {
+            string str = "";
+
+            foreach (KeyValuePair<string, Type> kv in datapool.GetGameVarTypes())
+            {
+                str += (kv.Key + ":" + kv.Value.ToString() + "\n");
+            }
+
+            foreach (KeyValuePair<string, Type> kv in datapool.GetInTurnVarTypes())
+            {
+                str += (kv.Key + ":" + kv.Value.ToString() + "\n");
+            }
+
+            return str;
+        }
+
+        public void AllTypesToJson()
+        {
+            Debug.Log("玩家json: " + Regex.Unescape(GetGameVar<Player>("玩家").ToString()));
+            Debug.Log(Regex.Unescape(JsonMapper.Serialize(datapool.GetGameVarTable())));
+            Debug.Log(Regex.Unescape(JsonMapper.Serialize(datapool.GetInTurnVarTable())));
+        }
+
+
+        public void Save(int i)
+        {
+            string toSave = LoadSaveTool.RijndaelEncrypt(DataToJsonString(), LoadSaveTool.GetKey());
+            string filename = "savedata" + i + ".sav";
+
+            LoadSaveTool.CreateDirectory(LoadSaveTool.SAVE_PATH);
+            LoadSaveTool.CreateFile(LoadSaveTool.SAVE_PATH + "/" + filename, toSave);
+
+        }
+
+        private string DataToJsonString()
+        {
+            Hashtable toSave = new Hashtable();
+            toSave.Add("GameVar", datapool.GetGameVarTable());
+            toSave.Add("InTurnVar", datapool.GetInTurnVarTable());
+            return JsonMapper.Serialize(toSave);
+        }
+
+        public void Load(int i)
+        {
+            string filename = "savedata" + i + ".sav";
+
+            StreamReader savefile = new StreamReader(LoadSaveTool.SAVE_PATH +"/" + filename);
+            string toLoad = savefile.ReadToEnd();
+            LoadDataFromJson(toLoad);
+
+        }
+
+        private void LoadDataFromJson(string str)
+        {
+            JsonData data = JsonMapper.ToObject(str);
+            datapool.Clear();
+
+            JsonData gVars = data["GameVar"];
+
+
+            foreach (KeyValuePair<string, JsonData> kv in gVars)
+            {
+                Debug.Log(kv.Key + ":" + kv.Value);
+            }
+
+            SetGameVar("回合", (int)gVars[Regex.Escape("回合")]);
+            SetGameVar("玩家", new Player((string)gVars[Regex.Escape("玩家")]));
+            JsonData detectPlaceStatus = gVars[Regex.Escape("侦探事件位置状态")];
+            JsonData eventStatus = gVars[Regex.Escape("事件状态")];
+            Dictionary<string, int> eventStatusDict = new Dictionary<string, int>();
+            Dictionary<string, int> placeDict = new Dictionary<string, int>();
+
+            foreach (KeyValuePair<string, JsonData> kv in eventStatus)
+            {
+                eventStatusDict.Add(kv.Key, (int)kv.Value);
+            }
+            SetGameVar("事件状态", eventStatusDict);
+
+            foreach (KeyValuePair<string, JsonData> kv in detectPlaceStatus)
+            {
+                placeDict.Add(kv.Key, (int)kv.Value);
+            }
+
+            SetGameVar("侦探事件位置状态", placeDict);
+
+
+            JsonData lVars = data["InTurnVar"];
+
+
+            SetInTurnVar("文字位置", (int)lVars[Regex.Escape("文字位置")]);
+
+            List<int> pressedId = new List<int>();
+            foreach (JsonData j in lVars[Regex.Escape("已威慑证词序号")])
+            {
+                pressedId.Add((int)j);
+            }
+
+            SetInTurnVar("已威慑证词序号", pressedId);
+
+            List<string> knownInfo = new List<string>();
+
+            foreach (JsonData j in lVars[Regex.Escape("侦探事件已知信息")])
+            {
+                knownInfo.Add((string)j);
+            }
+            SetInTurnVar("侦探事件已知信息", knownInfo);
+
+
+        }
+
     }
 }

@@ -13,7 +13,7 @@ namespace Assets.Script.GameStruct.Node
 
         private EventManager em;
         private NodeFactory factory;
-        public EndTurnNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps) : base(gVars, lVars, root, ps)
+        public EndTurnNode(DataManager manager, GameObject root, PanelSwitch ps) : base(manager, root, ps)
         {
             em = EventManager.GetInstance();
             factory = NodeFactory.GetInstance();
@@ -30,12 +30,9 @@ namespace Assets.Script.GameStruct.Node
 
         public override GameNode NextNode()
         {
-            //MapEvent e = em.GetCurrentForceEvent();
             if (em.GetCurrentForceEvent() != null)
             {
                 //根据强制事件表执行
-                //em.currentEvent = e;
-                //return factory.FindTextScript(e.entryNode);
                 return em.RunForceEvent();
             }
             else

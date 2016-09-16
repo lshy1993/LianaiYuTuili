@@ -3,8 +3,6 @@ using System.Collections;
 using System;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
-using Assets.Script.GameStruct;
-//using Assets.Script.UIScript;
 
 /**
  * EduManager: 
@@ -23,7 +21,7 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     private GameObject qgo, sgo, acgo;
 
-    void Awake()
+    void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
@@ -65,10 +63,13 @@ public class EduManager : MonoBehaviour, IPanelManager
 
     public void UIFresh()
     {
-        //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
-        Player player = Player.GetInstance();
-        Hashtable gVars = DataManager.GetInstance().GetGameVars();
-        DateTime date = (DateTime)gVars["日期"];
+        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        //Player player = Player.GetInstance();
+
+
+        //Hashtable gVars = DataManager.GetInstance().GetGameVars();
+        //DateTime date = (DateTime)gVars["日期"];
+        DateTime date = DataManager.START_DAY.AddDays(DataManager.GetInstance().GetGameVar<int>("回合"));
         daylabel.text = date.Month + "月" + date.Day + "日";
         datelabel.text = date.DayOfWeek.ToString();
         moneylabel.text = "金钱: " + player.GetBasicStatus("金钱");

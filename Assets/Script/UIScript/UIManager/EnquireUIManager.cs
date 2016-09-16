@@ -36,9 +36,6 @@ public class EnquireUIManager : MonoBehaviour
         mpBar = this.transform.Find("HPMP_Container/MP_Sprite").GetComponent<UIProgressBar>();
         timeBar = this.transform.Find("ProgressBack_Sprite").GetComponent<UIProgressBar>();
 
-        //pressedId = new List<int>();
-        //voiceTime = new List<float>();
-        //visibleTestimony = new List<string>();
         eviButtons = new List<GameObject>();
     }
 
@@ -60,8 +57,6 @@ public class EnquireUIManager : MonoBehaviour
     public void WheelStart()
     {
         //供Animation调用开始运行证词轮盘
-        //SetEvidence();//UI初始化;
-        //currentLabel.alpha = 1;
         StartCoroutine(MainEnquire());
         PlayBGM();
     }

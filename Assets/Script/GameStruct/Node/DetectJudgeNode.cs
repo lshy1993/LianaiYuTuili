@@ -14,8 +14,8 @@ namespace Assets.Script.GameStruct
         private DetectEvent detectEvent;
         private NodeFactory factory;
         private AvgPanelSwitch avgps;
-        public DetectJudgeNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, string eventName, AvgPanelSwitch avgps)
-            : base(gVars, lVars, root, ps)
+        public DetectJudgeNode(DataManager manager, GameObject root, PanelSwitch ps, string eventName, AvgPanelSwitch avgps)
+            : base(manager, root, ps)
         {
             detectManager = DetectManager.GetInstance();
             LoadEvent(eventName);

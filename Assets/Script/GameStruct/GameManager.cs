@@ -98,9 +98,7 @@ public class GameManager : MonoBehaviour
 
     private void SwitchNode()
     {
-        //Debug.Log("当前node:" + node.ToString());
         this.node = this.node.NextNode();
-        //Debug.Log("改变node:" + node.ToString());
     }
 
 
@@ -140,9 +138,9 @@ public class GameManager : MonoBehaviour
 
         dm = DataManager.GetInstance();
 
-        EffectBuilder.Init(im, sm, CharacterManager.GetInstance()); ;
+        EffectBuilder.Init(im, sm, CharacterManager.GetInstance());
         nodeFactory = NodeFactory.GetInstance();
-        nodeFactory.Init(dm.GetGameVars(), dm.GetInTurnVars(), root, ps);
+        nodeFactory.Init(dm, root, ps);
 
     }
 }

@@ -12,15 +12,6 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class TextPiece : Piece
     {
-        public class TextContent
-        {
-            public string name, dialog;
-            public TextContent(string name, string dialog)
-            {
-                this.name = name;
-                this.dialog = dialog;
-            }
-        }
         private string name, dialog;
         private UILabel nameLabel, dialogLabel;
         /// <summary>
@@ -58,10 +49,8 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 创建一个拥有复杂逻辑的文字段，可以引用外部变量
         /// </summary>
-        /// <param name="gVars">全局变量</param>
-        /// <param name="lVars">局部变量</param>
         /// <param name="complexLogic">复杂逻辑</param>
-         /// <param name="id">piece id</param>
+        /// <param name="id">piece id</param>
         /// <param name="nameLabel">名字标签</param>
         /// <param name="dialogLabel">对话标签</param>
         /// <param name="name">名字</param>
@@ -69,18 +58,31 @@ namespace Assets.Script.GameStruct
         public TextPiece(int id,
             UILabel nameLabel,
             UILabel dialogLabel,
-            Hashtable gVars, Hashtable lVars,
-            Func<Hashtable, Hashtable, int> complexLogic,
-            string name = "", string dialog = "") : base(id, complexLogic, gVars, lVars)
+            DataManager manager,
+            Func<DataManager, int> complexLogic,
+            string name = "", string dialog = "") : base(id, complexLogic, manager)
         {
             setVars(name, dialog, nameLabel, dialogLabel);
-
         }
+
+        public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, DataManager manager, Action action, string name = "", string dialog = "") : base(id, action, manager)
+        {
+            setVars(name, dialog, nameLabel, dialogLabel);
+        }
+
+        public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, DataManager manager, Action<DataManager> action, string name = "", string dialog = "") : base(id, action, manager)
+        {
+            setVars(name, dialog, nameLabel, dialogLabel);
+        }
+
 
         public override void Exec()
         {
-            if (name != null && name.Length != 0) nameLabel.text = name;
-            if (name != null && dialog.Length != 0) dialogLabel.text = dialog;
+            if (name != null && name.Length != 0)
+                nameLabel.text = name;
+            if (name != null && dialog.Length != 0)
+                dialogLabel.text = dialog;
+
         }
         private void setVars(string name, string dialog, UILabel nameLabel, UILabel dialogLabel)
         {
@@ -90,11 +92,28 @@ namespace Assets.Script.GameStruct
             this.nameLabel = nameLabel;
         }
 
-        public TextContent GetContent() { return new TextContent(name, dialog); } 
+        public TextContent GetContent() { return new TextContent(name, dialog); }
 
         public override string ToString()
         {
-            return base.ToString()+ "name: " + name + "dialog: " + dialog + "\n";
+            return base.ToString() + "name: " + name + "dialog: " + dialog + "\n";
         }
     }
+    public class TextContent
+    {
+        public string name, dialog;
+        public TextContent(string name, string dialog)
+        {
+            this.name = name;
+            this.dialog = dialog;
+        }
+        public Dictionary<string, string> ToDictionary()
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict["名字"] = name;
+            dict["对话"] = dialog;
+            return dict;
+        }
+    }
+
 }

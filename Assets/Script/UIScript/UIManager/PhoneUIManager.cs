@@ -25,7 +25,7 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
 
     private Dictionary<string, Girls> girlInfo;
 
-    void Awake()
+    void Start()
     {
         wenlb = transform.Find("Scroll View/Grid/Info_Container/Num_Grid/Wen_Label").gameObject.GetComponent<UILabel>();
         lilb = transform.Find("Scroll View/Grid/Info_Container/Num_Grid/Li_Label").gameObject.GetComponent<UILabel>();
@@ -70,8 +70,7 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
     public void SetCardInfo()
     {
         //[基本信息]设置学生证
-        //Player player = (Player)GameManager.GetGlobalVars()["玩家数据"];
-        Player player = Player.GetInstance();
+        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
         wenlb.text = player.GetBasicStatus("文科").ToString();
         lilb.text = player.GetBasicStatus("理科").ToString();
         tilb.text = player.GetBasicStatus("体育").ToString();
@@ -79,10 +78,8 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         zhailb.text = player.GetBasicStatus("宅力").ToString();
         energylb.text = player.EnergyPoint.ToString();
 
-        //ranklb.text = ChineseRank(gm.playerdata.rank);
         ranklb.text = "全省排名: " + player.GetBasicStatus("排名");
         moneylb.text = "存款: " + player.GetBasicStatus("金钱") + " 元";
-        //statuslb.text = ChineseStatus(gm.playerdata.status);
         lengb.value = player.GetLogicStatus("冷静") / 10f;
         koub.value = player.GetLogicStatus("口才") / 10f;
         sib.value = player.GetLogicStatus("思维") / 10f;

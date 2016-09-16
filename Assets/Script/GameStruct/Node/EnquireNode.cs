@@ -16,8 +16,8 @@ namespace Assets.Script.GameStruct
         private GameNode next;
         private NodeFactory factory;
 
-        public EnquireNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, string eventName)
-            : base(gVars, lVars, root, ps)
+        public EnquireNode(DataManager manager, GameObject root, PanelSwitch ps, string eventName)
+            : base(manager, root, ps)
         {
             Init(eventName);
             ps.SwitchTo_VerifyIterative_WithOpenCallback("Enquire_Panel", uiManager.WheelStart);

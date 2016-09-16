@@ -15,7 +15,7 @@ namespace Assets.Script.GameStruct
         private static readonly string REASONING_PATH = "Text/ReasoningConfig/";
         private static readonly string REASONING_DEBUG_PATH = "Text/ReasoningDebug/";
 
-        private Hashtable gVars, lVars;
+        //private Hashtable gVars, lVars;
         private Dictionary<string, ReasoningEvent> reasoningEvents;
         private ReasoningEvent currentEvent;
 
@@ -29,8 +29,8 @@ namespace Assets.Script.GameStruct
 
         public void Init(Dictionary<string, ReasoningEvent> reasoningEvents, Hashtable gVars, Hashtable lVars)
         {
-            this.gVars = gVars;
-            this.lVars = lVars;
+            //this.gVars = gVars;
+            //this.lVars = lVars;
             this.reasoningEvents = reasoningEvents;
         }
 
@@ -40,17 +40,17 @@ namespace Assets.Script.GameStruct
 
             ReasoningEvent e = reasoningEvents[key];
 
-            if (lVars.ContainsKey("自我推理编号"))
-            {
-                if (e.id != (string)lVars["自我推理编号"])
-                {
-                    lVars["自我推理编号"] = e.id;
-                }
-            }
-            else
-            {
-                lVars.Add("自我推理编号", e.id);
-            }
+            //if (lVars.ContainsKey("自我推理编号"))
+            //{
+            //    if (e.id != (string)lVars["自我推理编号"])
+            //    {
+            //        lVars["自我推理编号"] = e.id;
+            //    }
+            //}
+            //else
+            //{
+            //    lVars.Add("自我推理编号", e.id);
+            //}
             currentEvent = e;
             return currentEvent;
         }

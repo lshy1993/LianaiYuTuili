@@ -25,7 +25,7 @@ public class EduUIManager : MonoBehaviour
     private GameObject btnTable;
 
     private Player player;
-    private Hashtable gVars;
+    //private Hashtable gVars;
     private DateTime date;
 
     private List<EduEvent> allEvents;
@@ -33,7 +33,7 @@ public class EduUIManager : MonoBehaviour
 
     private EduNode currentNode;
 
-    void Awake()
+    void Start()
     {
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
         datelabel = transform.Find("Time_Container/Date_Label").gameObject.GetComponent<UILabel>();
@@ -67,9 +67,13 @@ public class EduUIManager : MonoBehaviour
     public void SetEduEvent(List<EduEvent> es)
     {
         this.allEvents = es;
-        player = Player.GetInstance();
-        gVars = DataManager.GetInstance().GetGameVars();
-        date = (DateTime)gVars["日期"];
+        //player = Player.GetInstance();
+        player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        //gVars = DataManager.GetInstance().GetGameVars();
+        //date = (DateTime)gVars["日期"];
+        int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+        date = DataManager.START_DAY.AddDays(turn);
+        //date = DataManager.GetInstance().;
         UIFresh();
     }
 
@@ -129,6 +133,7 @@ public class EduUIManager : MonoBehaviour
 
     public void Execute(int x)
     {
+        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
         //执行计算并更改
         Debug.Log("x=" + x);
         float successrate = player.GetBasicStatus("体力") * 0.9f;
@@ -152,9 +157,9 @@ public class EduUIManager : MonoBehaviour
         StartCoroutine(ShowResult(change, energyCost));
         foreach(KeyValuePair<string,int> kv in change)
         {
-            Player.GetInstance().AddBasicStatus(kv.Key, kv.Value);
+            player.AddBasicStatus(kv.Key, kv.Value);
         }
-        Player.GetInstance().AddEnergy(energyCost);
+        player.AddEnergy(energyCost);
         //currentNode.EduExit();
     }
 

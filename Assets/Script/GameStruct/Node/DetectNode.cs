@@ -17,8 +17,8 @@ namespace Assets.Script.GameStruct
         private GameNode next;
         private NodeFactory factory;
 
-        public DetectNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps, DetectEvent detectEvent)
-            : base(gVars, lVars, root, ps)
+        public DetectNode(DataManager manager, GameObject root, PanelSwitch ps, DetectEvent detectEvent)
+            : base(manager, root, ps)
         {
             Init(detectEvent);
         }

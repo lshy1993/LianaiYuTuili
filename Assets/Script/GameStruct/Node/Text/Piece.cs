@@ -9,9 +9,12 @@ namespace Assets.Script.GameStruct
     public abstract class Piece
     {
         private int id;
-        private Func<Hashtable, Hashtable, int> complexLogic;
-        private Hashtable gVar, lVar;
+        private Func<DataManager, int> complexLogic;
+        private DataManager manager;
         private Func<int> simpleLogic;
+        private Action simpleAction;
+        private Action<DataManager> complexAction;
+
 
         /// <summary>
         /// 创建一个基本的Piece对象,默认的下一步返回自增的id
@@ -39,23 +42,34 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="id">PieceID,一般由Factory自动分配,仅关联于该Factor</param>
         /// <param name="complexLogic">可以引用外部变量的复杂逻辑</param>
-        /// <param name="gVar">全局变量</param>
-        /// <param name="lVar">局部变量</param>
-        public Piece(int id, Func<Hashtable, Hashtable, int> complexLogic, 
-            Hashtable gVar = null, Hashtable lVar = null) : this(id)
+        public Piece(int id, Func<DataManager, int> complexLogic, 
+            DataManager manager) : this(id)
         {
             this.complexLogic = complexLogic;
-            this.gVar = gVar;
-            this.lVar = lVar;
+            this.manager = manager;
         }
+
+        public Piece(int id, Action action, DataManager manager) : this(id)
+        {
+            this.simpleAction = action;
+            this.manager = manager;
+        }
+
+        public Piece(int id, Action<DataManager> action, DataManager manager) : this(id)
+        {
+            this.complexAction = action;
+            this.manager = manager;
+        }
+
 
         public abstract void Exec();
 
         public virtual int Next()
         {
-            
             if (simpleLogic == null && complexLogic == null)
             {
+                if (simpleAction != null) { simpleAction(); }
+                else if (complexAction != null) { complexAction(this.manager); }
                 return id + 1;
             }
             else if(simpleLogic != null)
@@ -64,7 +78,7 @@ namespace Assets.Script.GameStruct
             }
             else //if(complexLogic != null)
             {
-                return complexLogic(gVar, lVar);
+                return complexLogic(manager);
             }
         }
     }

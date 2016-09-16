@@ -15,8 +15,9 @@ namespace Assets.Script.GameStruct
         private static readonly string EDU_PATH = "Text/EduConfig/";
         private static readonly string EDU_DEBUG_PATH = "Text/EduDebug/";
 
-        private Hashtable gVars, lVars;
+        //private Hashtable gVars, lVars;
         private List<EduEvent> events;//所有的按钮
+        private DataManager manager;
         //public EduEvent currentEvent;
 
         public static EduManager GetInstance()
@@ -27,10 +28,11 @@ namespace Assets.Script.GameStruct
 
         private EduManager() { }
 
-        public void Init(List<EduEvent> events, Hashtable gVars, Hashtable lVars)
+        public void Init(List<EduEvent> events, DataManager manager)
         {
-            this.gVars = gVars;
-            this.lVars = lVars;
+            //this.gVars = gVars;
+            //this.lVars = lVars;
+            this.manager = manager;
             this.events = events;
         }
 

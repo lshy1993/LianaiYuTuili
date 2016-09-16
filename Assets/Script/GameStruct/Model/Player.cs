@@ -1,7 +1,9 @@
-﻿using System;
+﻿using LitJson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Assets.Script.GameStruct.Model
@@ -17,17 +19,17 @@ namespace Assets.Script.GameStruct.Model
         /// <summary>
         /// 养成属性
         /// </summary>
-        private Dictionary<string, int> basicStatus;
+        public Dictionary<string, int> basicStatus;
 
         /// <summary>
         /// 好感度
         /// </summary>
-        private Dictionary<string, int> girls;
+        public Dictionary<string, int> girls;
 
         /// <summary>
         /// 逻辑属性
         /// </summary>
-        private Dictionary<string, int> logicStatus;
+        public Dictionary<string, int> logicStatus;
 
         /// <summary>
         /// 体力
@@ -36,8 +38,9 @@ namespace Assets.Script.GameStruct.Model
 
         public int EnergyPoint
         {
-            set{
-                if(value > Constants.MOVE_MAX || value < Constants.MOVE_MIN)
+            set
+            {
+                if (value > Constants.MOVE_MAX || value < Constants.MOVE_MIN)
                 {
                     Debug.Log("体力超过上下限");
                 }
@@ -57,29 +60,16 @@ namespace Assets.Script.GameStruct.Model
 
         public void AddEnergy(int i)
         {
-            //EnergyPoint = EnergyPoint + i;
             basicStatus["体力"] += i;
         }
 
-        private static Player instance = null;
 
-        public static Player GetInstance()
-        {
-            if (instance == null) instance = new Player();
-            return instance;
-        }
-
-        private Player()
-        {
-            Init();
-        }
-
-        private void Init()
+        public Player()
         {
             basicStatus = new Dictionary<string, int>();
             girls = new Dictionary<string, int>();
             logicStatus = new Dictionary<string, int>();
-            
+
             basicStatus["文科"] = 50;
             basicStatus["理科"] = 50;
             basicStatus["艺术"] = 50;
@@ -103,15 +93,57 @@ namespace Assets.Script.GameStruct.Model
         }
 
 
-        /// <summary>
-        /// 获取时间
-        /// </summary>
-        /// <param name="s">日， 月， 星期，回合</param>
-        /// <returns></returns>
-        //public int GetTime(string s)
-        //{
-        //    return progress[s];
-        //}
+        public Player(string json)
+        {
+            JsonData data = JsonMapper.ToObject(json);
+
+            foreach(KeyValuePair<string, JsonData> kv in data)
+            {
+                Debug.Log(kv.Key + ":" + kv.Value);
+            }
+
+
+            basicStatus = new Dictionary<string, int>();
+            girls = new Dictionary<string, int>();
+            logicStatus = new Dictionary<string, int>();
+
+            basicStatus["文科"] = (int)data[Regex.Escape("基本属性")][Regex.Escape("文科")];
+            basicStatus["理科"] = (int)data[Regex.Escape("基本属性")][Regex.Escape("理科")];
+            basicStatus["艺术"] = (int)data[Regex.Escape("基本属性")][Regex.Escape("艺术")];
+            basicStatus["体育"] = (int)data[Regex.Escape("基本属性")][Regex.Escape("体育")];
+            basicStatus["宅力"] = (int)data[Regex.Escape("基本属性")][Regex.Escape("宅力")];
+            basicStatus["体力"] = (int)data[Regex.Escape("基本属性")][Regex.Escape("体力")];
+            basicStatus["排名"] = (int)data[Regex.Escape("基本属性")][Regex.Escape("排名")];
+            basicStatus["金钱"] = (int)data[Regex.Escape("基本属性")][Regex.Escape("金钱")];
+
+            girls["苏梦忆"] = (int)data[Regex.Escape("好感度")][Regex.Escape("苏梦忆")];
+            girls["西门吹"] = (int)data[Regex.Escape("好感度")][Regex.Escape("西门吹")];
+            girls["欧阳晓芸"] = (int)data[Regex.Escape("好感度")][Regex.Escape("欧阳晓芸")];
+            girls["车小曼"] = (int)data[Regex.Escape("好感度")][Regex.Escape("车小曼")];
+            girls["陈瑜"] = (int)data[Regex.Escape("好感度")][Regex.Escape("陈瑜")];
+
+            logicStatus["冷静"] = (int)data[Regex.Escape("逻辑属性")][Regex.Escape("冷静")];
+            logicStatus["口才"] = (int)data[Regex.Escape("逻辑属性")][Regex.Escape("口才")];
+            logicStatus["思维"] = (int)data[Regex.Escape("逻辑属性")][Regex.Escape("思维")];
+            logicStatus["观察"] = (int)data[Regex.Escape("逻辑属性")][Regex.Escape("观察")];
+            logicStatus["生命上限"] = (int)data[Regex.Escape("逻辑属性")][Regex.Escape("生命上限")];
+        }
+
+        public override string ToString()
+        {
+            return Regex.Unescape(JsonMapper.Serialize(ToDictionary()));
+        }
+
+        public Dictionary<string, Dictionary<string, int>> ToDictionary()
+        {
+            JsonData data = new JsonData();
+            Dictionary<string, Dictionary<string, int>> player = new Dictionary<string, Dictionary<string, int>>();
+            player.Add("基本属性", basicStatus);
+            player.Add("好感度", girls);
+            player.Add("逻辑属性", logicStatus);
+
+            return player;
+        }
         /// <summary>
         /// 获取基本属性
         /// 文科，理科，艺术，体育，宅力，排名，金钱
@@ -122,6 +154,7 @@ namespace Assets.Script.GameStruct.Model
         {
             return basicStatus[s];
         }
+
         /// <summary>
         /// 检测基本属性
         /// 文科，理科，艺术，体育，宅力，排名，金钱
@@ -132,6 +165,7 @@ namespace Assets.Script.GameStruct.Model
         {
             return basicStatus.ContainsKey(s);
         }
+
         /// <summary>
         /// 基本属性
         /// 文科，理科，艺术，体育，宅力，排名，金钱
@@ -231,42 +265,43 @@ namespace Assets.Script.GameStruct.Model
                 if (logicStatus[s] < Constants.LOGIC_MIN) logicStatus[s] = Constants.LOGIC_MIN;
                 if (logicStatus[s] > Constants.LOGIC_MAX) logicStatus[s] = Constants.LOGIC_MAX;
             }
-
         }
 
 
 
-        public override string ToString()
-        {
-            string str = base.ToString();
-            str += "玩家数据Player:\n";
-            str += "体力： " + energyPoint;
+        //public string ToJsonStr() { }
 
-            //str += "\nprogress: \n";
-            //foreach (var item in progress)
-            //{
-            //    str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
-            //}
+        //public override string ToString()
+        //{
+        //    string str = base.ToString();
+        //    str += "玩家数据Player:\n";
+        //    str += "体力： " + energyPoint;
 
-            str += "\ngirls: \n";
-            foreach (var item in girls)
-            {
-                str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
-            }
+        //    //str += "\nprogress: \n";
+        //    //foreach (var item in progress)
+        //    //{
+        //    //    str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
+        //    //}
 
-            str += "\nbasic status: \n";
-            foreach (var item in basicStatus)
-            {
-                str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
-            }
+        //    str += "\ngirls: \n";
+        //    foreach (var item in girls)
+        //    {
+        //        str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
+        //    }
 
-            str += "\nlogic status: \n";
-            foreach (var item in logicStatus)
-            {
-                str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
-            }
-            return str;
-        }
+        //    str += "\nbasic status: \n";
+        //    foreach (var item in basicStatus)
+        //    {
+        //        str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
+        //    }
+
+        //    str += "\nlogic status: \n";
+        //    foreach (var item in logicStatus)
+        //    {
+        //        str += item.Key.ToString() + ":" + item.Value.ToString() + "\n";
+        //    }
+        //    return str;
+        //}
 
     }
 }

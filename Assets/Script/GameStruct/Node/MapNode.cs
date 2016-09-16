@@ -18,12 +18,13 @@ namespace Assets.Script.GameStruct
         private GameNode next = null;
         private Player player;
 
-        public MapNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):
-            base(gVars, lVars, root, ps)
+        public MapNode(DataManager manager, GameObject root, PanelSwitch ps):
+            base(manager, root, ps)
         {
             this.next = this;
 
-            player = (Player)gVars["玩家数据"];
+            //player = (Player)gVars["玩家数据"];
+            player = manager.GetGameVar<Player>("玩家");
         }
 
 

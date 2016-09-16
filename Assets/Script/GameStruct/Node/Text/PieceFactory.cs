@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Assets.Script.UIScript.Effect;
 
 namespace Assets.Script.GameStruct
 {
@@ -15,13 +14,15 @@ namespace Assets.Script.GameStruct
         private GameObject root;
 
         private UILabel nameLabel, dialogLabel;
-        private Hashtable gVars, lVars;
+        private DataManager manager;
+        //private Hashtable gVars, lVars;
         private int id = 0;
 
-        public PieceFactory(GameObject root, Hashtable gVars, Hashtable lVars)
+        public PieceFactory(GameObject root, DataManager manager)
         {
-            this.gVars = gVars;
-            this.lVars = lVars;
+            //this.gVars = gVars;
+            //this.lVars = lVars;
+            this.manager = manager;
             this.root = root;
             nameLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Label_Name").GetComponent<UILabel>();
 
@@ -61,14 +62,24 @@ namespace Assets.Script.GameStruct
         /// <param name="dialog">内容，空则不改变</param>
         /// <param name="complexLogic">复杂逻辑跳转，是一个形如(Hashtabel gVars, Hashtable lVars)=> {return ... }的lambda表达式</param>
         /// <returns></returns>
-        public TextPiece t(string name, string dialog, Func<Hashtable, Hashtable, int> complexLogic)
+        public TextPiece t(string name, string dialog, Func<DataManager, int> complexLogic)
         {
-            return new TextPiece(id++, nameLabel, dialogLabel, gVars, lVars, complexLogic, name, dialog);
+            return new TextPiece(id++, nameLabel, dialogLabel, manager, complexLogic, name, dialog);
+        }
+
+        public TextPiece t(string name, string dialog, Action action)
+        {
+            return new TextPiece(id++, nameLabel, dialogLabel, manager, action, name, dialog);
+        }
+
+        public TextPiece t(string name, string dialog, Action<DataManager> action)
+        {
+            return new TextPiece(id++, nameLabel, dialogLabel, manager, action, name, dialog);
         }
 
         public ExecPiece s(ExecPiece.Execute setVar)
         {
-            return new ExecPiece(id++, gVars, lVars, setVar);
+            return new ExecPiece(id++, manager, setVar);
         }
 
         public EffectPiece ChangeBackground(string spriteName)
@@ -76,37 +87,11 @@ namespace Assets.Script.GameStruct
             Sprite sprite = Resources.LoadAll<Sprite>("Background/"+ spriteName)[0];
             return new EffectPiece(id++, AnimationBuilder.ChangeBackground(sprite));
         }
+
         public EffectPiece ChangeBackgroundFade(string spriteName)
         {
             Sprite sprite = Resources.LoadAll<Sprite>("Background/"+ spriteName)[0];
             return new EffectPiece(id++, AnimationBuilder.ChangeBackgroundFade(sprite));
         }
-
-
-
-
-        //public EffectPiece backgroundSwitchFade(Sprite nextSprite, float fadeout =0.5f, float fadein = 0.5f)
-        //{
-        //    //Queue<ImageEffect> queue = new Queue<ImageEffect>();
-        //    //queue.Add(fadein);
-
-
-        //}
-
-        //public EffectPiece eb(AnimateUpdate update, float time = 0.5f)
-        //{
-        //    //return new EffectPiece(id++, new EffectBuilder().Background()
-        //    //    .Origin(new SpriteState())
-        //    //    .Final(new SpriteState(0, ImageManager.MIDDLE))
-        //    //    .Time(time)
-        //    //    .Animate(update)
-        //    //    .GetProduct());
-
-        //}
-
-        //public EffectPiece e()
-        //{
-        //    return new EffectPiece();
-        //}
     }
 }
