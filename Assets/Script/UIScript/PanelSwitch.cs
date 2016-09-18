@@ -290,6 +290,19 @@ public class PanelSwitch : MonoBehaviour
         }
     }
 
+    public void MouseUpScroll()
+    {
+        if (panels["Avg"].activeSelf)
+        {
+            if (!panels["System"].activeSelf)
+            {
+                panels["System"].SetActive(true);
+                panels["System"].GetComponent<UIPanel>().alpha = 1;
+                panels["System"].GetComponent<SystemManager>().OpenBacklog();
+            }
+        }
+    }
+
     /// <summary>
     /// 切换面板,TODO:可能需要对每个Panel做一个切换特效？
     /// </summary>

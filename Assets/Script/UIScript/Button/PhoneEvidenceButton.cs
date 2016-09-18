@@ -6,7 +6,7 @@ using Assets.Script.GameStruct;
 public class PhoneEvidenceButton : MonoBehaviour
 {
     private PhoneUIManager uiManager;
-    public string name;
+    public Evidence current;
 
     public void SetUIManager(PhoneUIManager manager)
     {
@@ -15,6 +15,6 @@ public class PhoneEvidenceButton : MonoBehaviour
 
     void OnClick()
     {
-        uiManager.EvidenceInfoFresh(name);
+        uiManager.EvidenceInfoFresh(current);
     }
 }

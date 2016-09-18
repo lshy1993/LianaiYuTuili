@@ -1,21 +1,19 @@
 ﻿using Assets.Script.GameStruct;
-using LitJson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Assets.Script.TextScripts
 {
     public class S0001_1 : TextScript
     {
-        public S0001_1(DataManager manager, GameObject root, PanelSwitch ps) : base(manager, root, ps) { }
+        public S0001_1(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
         public override void InitText()
         {
-
+            
             pieces = new List<Piece>()
             {
                 //——背景 学校正门——
@@ -131,16 +129,18 @@ namespace Assets.Script.TextScripts
                 f.t("【喵星人】","当然！你已经是我们班级的人了，是男的都要去！"),
                 f.t("【李云萧】","知道啦！"),
                 f.t("【李云萧】","（于是，我跟随着喵星人，还有班上的男生，离开了教室……）"),
-
-                f.t("【李云萧】","（可能，我朝着这个新的大家庭，迈出了我的第一步。）",() => pieces.Count),
+                
+                f.t("【李云萧】","（可能，我朝着这个新的大家庭，迈出了我的第一步。）")
                 //——背景 消失——
             };
         }
 
         public override GameNode NextNode()
         {
+            //return base.NextNode();
             Finish();
             return nodeFactory.FindTextScript("S0001_2");
+            //return nodeFactory.GetMapNode();
         }
 
     }

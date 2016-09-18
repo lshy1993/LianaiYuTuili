@@ -19,7 +19,7 @@ namespace Assets.Script.GameStruct.Model
         public Character(string json)
         {
             JsonData data = JsonMapper.ToObject(json);
-            Debug.Log(json);
+            //Debug.Log(json);
 
             name = (string)data["名字"];
             introduction = (string)data["介绍"];
@@ -29,8 +29,8 @@ namespace Assets.Script.GameStruct.Model
 
             foreach (string key in dict.Keys)
             {
-                Debug.Log(key);
-                Debug.Log(dict[key].ToString());
+                //Debug.Log(key);
+                //Debug.Log(dict[key].ToString());
                 //Sprite s = (Sprite)Resources.Load((string)dict[key]);
                 Sprite s = (Sprite)Resources.Load(dict[key].ToString());
 

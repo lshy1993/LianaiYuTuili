@@ -43,10 +43,10 @@ namespace Assets.Script.GameStruct
         {
             return new MapNode(manager, root, ps);
         }
-
-        public EduNode GetEduNode(string type)
+    
+        public EduNode GetEduNode()
         {
-            return new EduNode(manager, root, ps, type);
+            return new EduNode(gVars, lVars, root, ps);
         }
 
         public EndTurnNode GetEndTurnNode()

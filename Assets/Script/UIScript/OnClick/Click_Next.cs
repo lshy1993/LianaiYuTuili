@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Script.GameStruct;
 
 public class Click_Next : MonoBehaviour {
 
@@ -10,10 +11,19 @@ public class Click_Next : MonoBehaviour {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            if (typeof(TextScript).IsInstanceOfType (gm.GetCurrentNode()))
+                gm.GetCurrentNode().Update();
+        }
+    }
+
     void OnClick()
     {
-        //Debug.Log("CLICK");
         if (Input.GetMouseButtonUp(1)) return;
-        gm.GetCurrentNode().Update();
+        if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
+            gm.GetCurrentNode().Update();
     }
 }

@@ -24,8 +24,9 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
     private GameObject grid, qtabGrid;
 
     private Dictionary<string, Girls> girlInfo;
+    private List<Evidence> eviList;
 
-    void Start()
+    void Awake()
     {
         wenlb = transform.Find("Scroll View/Grid/Info_Container/Num_Grid/Wen_Label").gameObject.GetComponent<UILabel>();
         lilb = transform.Find("Scroll View/Grid/Info_Container/Num_Grid/Li_Label").gameObject.GetComponent<UILabel>();
@@ -63,14 +64,15 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         qtabGrid = transform.Find("Scroll View/Grid/Love_Container/QTab_Grid").gameObject;
 
         SetCardInfo();
-        SetGirlInfo("");
+        //SetGirlInfo("");
         SetEvidence();
+        SetQButton();
     }
 
     public void SetCardInfo()
     {
         //[基本信息]设置学生证
-        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        Player player = Player.GetInstance();
         wenlb.text = player.GetBasicStatus("文科").ToString();
         lilb.text = player.GetBasicStatus("理科").ToString();
         tilb.text = player.GetBasicStatus("体育").ToString();
@@ -78,19 +80,21 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         zhailb.text = player.GetBasicStatus("宅力").ToString();
         energylb.text = player.EnergyPoint.ToString();
 
+        //ranklb.text = ChineseRank(gm.playerdata.rank);
         ranklb.text = "全省排名: " + player.GetBasicStatus("排名");
         moneylb.text = "存款: " + player.GetBasicStatus("金钱") + " 元";
+        //statuslb.text = ChineseStatus(gm.playerdata.status);
         lengb.value = player.GetLogicStatus("冷静") / 10f;
         koub.value = player.GetLogicStatus("口才") / 10f;
         sib.value = player.GetLogicStatus("思维") / 10f;
         guanb.value = player.GetLogicStatus("观察") / 10f;
         //数值条动画
-        StartCoroutine(ShowBar(wenb, player.GetBasicStatus("文科")));
-        StartCoroutine(ShowBar(lib, player.GetBasicStatus("理科")));
-        StartCoroutine(ShowBar(tib, player.GetBasicStatus("体育")));
-        StartCoroutine(ShowBar(yib, player.GetBasicStatus("艺术")));
-        StartCoroutine(ShowBar(zhaib, player.GetBasicStatus("宅力")));
-        StartCoroutine(ShowBar(energyb, player.EnergyPoint));
+        StartCoroutine(ShowBar(wenb, player.GetBasicStatus("文科"), 200));
+        StartCoroutine(ShowBar(lib, player.GetBasicStatus("理科"), 200));
+        StartCoroutine(ShowBar(tib, player.GetBasicStatus("体育"), 200));
+        StartCoroutine(ShowBar(yib, player.GetBasicStatus("艺术"), 200));
+        StartCoroutine(ShowBar(zhaib, player.GetBasicStatus("宅力"), 200));
+        StartCoroutine(ShowBar(energyb, player.EnergyPoint, 100));
     }
 
     public void SetGirlInfo(string str)
@@ -134,43 +138,45 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
     private void SetEvidence()
     {
         //初始化[证据]列表
-        GameObject grid = transform.Find("Scroll View/Grid/Evidence_Container/Scroll View/Grid").gameObject;
+        eviList = (List<Evidence>)DataPool.GetInstance().GetGameVar("持有证据");
+        GameObject grid = transform.Find("Scroll View/Grid/Evidence_Container/List_ScrollView/List_Grid").gameObject;
         grid.transform.DestroyChildren();
-        for (int i = 0; i < 10; i++)
+        foreach(Evidence evi in eviList)
         {
+            Debug.Log(evi.name);
             GameObject eviBtn = (GameObject)Resources.Load("Prefab/EvidenceContainer");
-            eviBtn = Instantiate(eviBtn) as GameObject;
-            eviBtn.transform.parent = grid.transform;
+            eviBtn = NGUITools.AddChild(grid, eviBtn);
 
-            UIButton btn = eviBtn.GetComponent<UIButton>();
+            //eviBtn = Instantiate(eviBtn) as GameObject;
+            //eviBtn.transform.parent = grid.transform;
 
             PhoneEvidenceButton script = eviBtn.GetComponent<PhoneEvidenceButton>();
-            script.name = "数码相机" + i;
+            script.current = evi;
             script.SetUIManager(this);
 
             UILabel enl = eviBtn.transform.Find("EvidenceName_Label").GetComponent<UILabel>();
-            enl.text = "数码相机" + i;
+            enl.text = evi.name;
 
             UI2DSprite eis = eviBtn.transform.Find("EvidenceIcon_Sprite").GetComponent<UI2DSprite>();
-            Sprite sp = new Sprite();
-            
-            eis.sprite2D = Resources.LoadAll<Sprite>("UI/evidence3")[0];
-            eis.MakePixelPerfect();
-            //eis.SetRect(-150,0,100,100);
-
-            eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            eis.sprite2D = Resources.LoadAll<Sprite>("UI/" + evi.iconPath)[0];
+            //eis.sprite2D = Resources.LoadAll<Sprite>("UI/evidence3")[0];
+            //eis.MakePixelPerfect();
+            //eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
         }
         grid.GetComponent<UIGrid>().Reposition();
     }
 
-    public void EvidenceInfoFresh(string str)
+    public void EvidenceInfoFresh(Evidence evi)
     {
-        //提供给按钮调用
+        //提供给证据按钮的点击事件调用
         UI2DSprite image = transform.Find("Scroll View/Grid/Evidence_Container/EvidenceImage_Sprite").GetComponent<UI2DSprite>();
-        UILabel info = transform.Find("Scroll View/Grid/Evidence_Container/EvidenceInfo_Label").GetComponent<UILabel>();
-        image.sprite2D = (Sprite)Resources.Load("evidence3");
+        image.sprite2D = (Sprite)Resources.Load(evi.imagePath);
+        //image.sprite2D = (Sprite)Resources.Load("evidence3");
         image.MakePixelPerfect();
-        info.text = "你点击的是证据名称为" + str;
+
+        UILabel intro = transform.Find("Scroll View/Grid/Evidence_Container/EvidenceInfo_Label").GetComponent<UILabel>();
+        intro.text = evi.introduction;
+        //info.text = "你点击的是证据名称为" + str;
     }
 
     public void MoveGrid(string tabname)
@@ -182,11 +188,16 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         }
         if (tabname == "Friend_Button")
         {
+            SetGirlInfo("");
             StartCoroutine(StartMove(700));
         }
         if (tabname == "Case_Button")
         {
             StartCoroutine(StartMove(1400));
+        }
+        if(tabname == "App_Button")
+        {
+            StartCoroutine(StartMove(2100));
         }
     }
     IEnumerator StartMove(float final)
@@ -200,13 +211,13 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
             yield return null;
         }
     }
-    IEnumerator ShowBar(UIProgressBar target, int x)
+    IEnumerator ShowBar(UIProgressBar target, int x, int max)
     {
         float value = 0;
-        float t = (x + 1) / 200f;
+        float t = (x + 1) / (float)max;
         while (value < t)
         {
-            value = Mathf.MoveTowards(value, t, t / 0.2f * Time.deltaTime);
+            value = Mathf.MoveTowards(value, t, t / 0.3f * Time.deltaTime);
             target.value = value;
             yield return null;
         }

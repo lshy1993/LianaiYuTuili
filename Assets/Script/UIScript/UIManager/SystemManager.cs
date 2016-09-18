@@ -10,40 +10,44 @@ public class SystemManager : MonoBehaviour
     #region 打开到but 与 从任意状态关闭
     public void Open()
     {
-        StartCoroutine(FadeInP());
-        StartCoroutine(FadeIn(butContainer));
+        StartCoroutine(FadeInP(0.3f));
+        StartCoroutine(FadeIn(butContainer, 0.3f));
     }
     public void Close()
     {
-        StartCoroutine(FadeOutP());
+        StartCoroutine(FadeOutP(0.3f));
     }
     #endregion
 
     public void OpenSetting()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        StartCoroutine(FadeOut(butContainer));
-        StartCoroutine(FadeIn(settingContainer));
+        butContainer.SetActive(false);
+        //StartCoroutine(FadeOut(butContainer));
+        StartCoroutine(FadeIn(settingContainer, 0.3f));
     }
 
     public void OpenBacklog()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        StartCoroutine(FadeOut(butContainer));
-        StartCoroutine(FadeIn(backlogContainer));
+        butContainer.SetActive(false);
+        //StartCoroutine(FadeOut(butContainer));
+        StartCoroutine(FadeIn(backlogContainer, 0.3f));
     }
 
     public void OpenSave()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        StartCoroutine(FadeOut(butContainer));
-        StartCoroutine(FadeIn(saveloadContainer));
+        butContainer.SetActive(false);
+        //StartCoroutine(FadeOut(butContainer));
+        StartCoroutine(FadeIn(saveloadContainer, 0.3f));
     }
 
     public void OpenLoad()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        StartCoroutine(FadeOut(butContainer));
+        butContainer.SetActive(false);
+        //StartCoroutine(FadeOut(butContainer));
         StartCoroutine(FadeIn(saveloadContainer));
     }
 
@@ -91,6 +95,14 @@ public class SystemManager : MonoBehaviour
             StartCoroutine(FadeOutP());
             ps.SwitchTo_VerifyIterative("Title_Panel");
         }
+        if(str == "读取这个存档吗")
+        {
+
+        }
+        if(str == "覆盖这个存档吗")
+        {
+
+        }
         if(str == "退出游戏吗")
         {
             Application.Quit();
@@ -108,25 +120,24 @@ public class SystemManager : MonoBehaviour
 
     }
 
-
-    private IEnumerator FadeInP()
+    private IEnumerator FadeInP(float time = 0.5f)
     {
         UIPanel panel = transform.GetComponent<UIPanel>();
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.5f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / time * Time.deltaTime);
             panel.alpha = x;
             yield return null;
         }
     }
-    private IEnumerator FadeOutP()
+    private IEnumerator FadeOutP(float time = 0.5f)
     {
         UIPanel panel = transform.GetComponent<UIPanel>();
         float x = 1;
         while (x > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.5f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 0, 1 / time * Time.deltaTime);
             panel.alpha = x;
             yield return null;
         }
@@ -137,30 +148,30 @@ public class SystemManager : MonoBehaviour
         backlogContainer.SetActive(false);
     }
 
-    private IEnumerator FadeIn(GameObject target)
+    private IEnumerator FadeIn(GameObject target, float time = 0.5f)
     {
         target.SetActive(true);
         UIWidget widget = target.GetComponent<UIWidget>();
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.5f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / time * Time.deltaTime);
             widget.alpha = x;
             yield return null;
         }
     }
-    private IEnumerator FadeOut(GameObject target, GameObject final = null)
+    private IEnumerator FadeOut(GameObject target, float time = 0.5f)
     {
         UIWidget widget = target.GetComponent<UIWidget>();
         float x = 1;
         while (x > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.5f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 0, 1 / time * Time.deltaTime);
             widget.alpha = x;
             yield return null;
         }
         target.SetActive(false);
-        if (final != null) final.SetActive(true);
+        //if (final != null) final.SetActive(true);
     }
 
 }

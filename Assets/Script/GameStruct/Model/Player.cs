@@ -76,6 +76,7 @@ namespace Assets.Script.GameStruct.Model
             basicStatus["体育"] = 50;
             basicStatus["宅力"] = 50;
             basicStatus["体力"] = 100;
+
             basicStatus["排名"] = 150000;
             basicStatus["金钱"] = 100;
 
@@ -186,7 +187,6 @@ namespace Assets.Script.GameStruct.Model
                 {
                     if (basicStatus[s] > Constants.MONEY_MAX) basicStatus[s] = Constants.MONEY_MAX;
                     if (basicStatus[s] < Constants.MONEY_MIN) basicStatus[s] = Constants.MONEY_MIN;
-
                 }
                 else
                 {

@@ -128,8 +128,7 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 //Debug.Log(UnityEngine.Random.Range(0, 1));
                 //Debug.Log(locationEvents[location][0].ToString());
-                return locationEvents[location]
-                    [UnityEngine.Random.Range(0, locationEvents[location].Count)];
+                return locationEvents[location][UnityEngine.Random.Range(0, locationEvents[location].Count)];
             }
         }
 
@@ -145,6 +144,7 @@ namespace Assets.Script.GameStruct.EventSystem
                     && kv.Value.position != null
                     && locationEvents.ContainsKey(kv.Value.position))
                 {
+                    Debug.Log("now available map event" + kv.Key);
                     locationEvents[kv.Value.position].Add(kv.Value);
                 }
             }
@@ -165,11 +165,11 @@ namespace Assets.Script.GameStruct.EventSystem
             int turn = dataManager.GetGameVar<int>("回合");
 
             //已经执行过
-            if (eventState[e.name] != STATE_NOT_RUNNED) return false;
+            if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
 
             // 不满足前置日期
-            if (e.conditionTurn.GetMax() < turn &&
-                e.conditionTurn.GetMin() > turn)
+            if (turn > e.conditionTurn.GetMax() ||
+                turn < e.conditionTurn.GetMin())
             {
                 return false;
             }

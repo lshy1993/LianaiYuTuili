@@ -64,7 +64,6 @@ namespace Assets.Script.GameStruct
                 //}
 
                 pieces[current].Exec();
-
                 current = pieces[current].Next();
             }
             else

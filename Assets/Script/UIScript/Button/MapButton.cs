@@ -11,7 +11,7 @@ public class MapButton : MonoBehaviour
     public TextAsset btnDataJSON;
 
     private GameObject root;
-    private MapManager mm;
+    private MapUIManager mm;
     private EventManager em;
     private GameManager gm;
     private static readonly string BACKGROUND_PATH = "Background/";
@@ -31,7 +31,7 @@ public class MapButton : MonoBehaviour
     void Start()
     {
         root = GameObject.Find("UI Root");
-        mm = root.transform.Find("Map_Panel").gameObject.GetComponent<MapManager>();
+        mm = root.transform.Find("Map_Panel").gameObject.GetComponent<MapUIManager>();
         em = EventManager.GetInstance();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         infoContainerObject = root.transform.Find("Map_Panel/PlaceInfo_Container").gameObject;
@@ -79,19 +79,21 @@ public class MapButton : MonoBehaviour
             if (em.GetCurrentEventAt(place) == null)
             {
                 // TODO: 换个图标之类
-                uiLabelInfo.text += "\n\n\n*当前地点没有事件*";
+                uiLabelInfo.text += "\n*当前地点没有事件*";
             }
-            StartCoroutine(MoveIn(transform.position.x > 0));
+            //StartCoroutine(MoveIn(transform.position.x > 0));
         }
         else
         {
-            StartCoroutine(MoveOut(transform.position.x > 0));
+            uiLabelInfo.text = "";
+            uiLabelPlace.text = "";
+            //StartCoroutine(MoveOut(transform.position.x > 0));
         }
     }
 
     void SetText()
     {
-        uiSprite.sprite2D = Resources.Load<Sprite>(BACKGROUND_PATH + background);
+        //uiSprite.sprite2D = Resources.Load<Sprite>(BACKGROUND_PATH + background);
         uiLabelPlace.text = place;
         uiLabelInfo.text = info;
     }
@@ -126,53 +128,53 @@ public class MapButton : MonoBehaviour
         }
     }
 
-    IEnumerator MoveIn(bool isleft)
-    {
-        float x = isleft ? -815 : 815;
-        infoContainerObject.transform.localPosition = new Vector3(x, 0, 0);
-        if (isleft)
-        {
-            while (x < -466)
-            {
-                x = Mathf.MoveTowards(x, -466, 450 / 0.2f * Time.deltaTime);
-                infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
-                yield return null;
-            }
-        }
-        else
-        {
-            while (x > 466)
-            {
-                x = Mathf.MoveTowards(x, 466, 450 / 0.2f * Time.deltaTime);
-                infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
-                yield return null;
-            }
-        }
+    //IEnumerator MoveIn(bool isleft)
+    //{
+    //    float x = isleft ? -815 : 815;
+    //    infoContainerObject.transform.localPosition = new Vector3(x, 0, 0);
+    //    if (isleft)
+    //    {
+    //        while (x < -466)
+    //        {
+    //            x = Mathf.MoveTowards(x, -466, 450 / 0.2f * Time.deltaTime);
+    //            infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
+    //            yield return null;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        while (x > 466)
+    //        {
+    //            x = Mathf.MoveTowards(x, 466, 450 / 0.2f * Time.deltaTime);
+    //            infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
+    //            yield return null;
+    //        }
+    //    }
 
-    }
+    //}
 
-    IEnumerator MoveOut(bool isleft)
-    {
-        float x = isleft ? -466 : 466;
-        infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
-        if (isleft)
-        {
-            while (x > -815)
-            {
-                x = Mathf.MoveTowards(x, -815, 450 / 0.2f * Time.deltaTime);
-                infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
-                yield return null;
-            }
-        }
-        else
-        {
-            while (x < 815)
-            {
-                x = Mathf.MoveTowards(x, 815, 450 / 0.2f * Time.deltaTime);
-                infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
-                yield return null;
-            }
-        }
+    //IEnumerator MoveOut(bool isleft)
+    //{
+    //    float x = isleft ? -466 : 466;
+    //    infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
+    //    if (isleft)
+    //    {
+    //        while (x > -815)
+    //        {
+    //            x = Mathf.MoveTowards(x, -815, 450 / 0.2f * Time.deltaTime);
+    //            infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
+    //            yield return null;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        while (x < 815)
+    //        {
+    //            x = Mathf.MoveTowards(x, 815, 450 / 0.2f * Time.deltaTime);
+    //            infoContainerObject.transform.localPosition = new Vector3(x, -60, 0);
+    //            yield return null;
+    //        }
+    //    }
 
-    }
+    //}
 }

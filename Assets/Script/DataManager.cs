@@ -52,6 +52,11 @@ namespace Assets.Script.GameStruct
         private void InitInTurn()
         {
             //throw new NotImplementedException();
+            datapool.WriteGameVar("文字记录", new List<BacklogText>());
+            datapool.WriteGameVar("上午课程", "");
+            datapool.WriteGameVar("下午课程", "");
+            datapool.WriteGameVar("上午指数", 1f);
+            datapool.WriteGameVar("下午指数", 1f);
         }
 
         private void InitGame()
@@ -73,12 +78,19 @@ namespace Assets.Script.GameStruct
             InitEnquire();
             InitReasoning();
             InitEdu();
+            InitEvidence();
         }
 
         private void InitEvidence()
         {
-            Dictionary<string, Evidence> evidecneDic = EvidenceManager.GetStaticEvidenceDic();
-            datapool.WriteStaticVar("证据列表", evidecneDic);
+            Dictionary<string, Evidence> evidenceDic = EvidenceManager.GetStaticEvidenceDic();
+            datapool.WriteStaticVar("证据列表", evidenceDic);
+            List<Evidence> holdEvidence = new List<Evidence>();
+            foreach(KeyValuePair<string,Evidence> kv in evidenceDic)
+            {
+                holdEvidence.Add(kv.Value);
+            }
+            datapool.WriteGameVar("持有证据", holdEvidence);
         }
 
         private void InitEdu()
@@ -166,8 +178,19 @@ namespace Assets.Script.GameStruct
         {
             int t = (int)datapool.GetGameVar("回合");
             datapool.WriteGameVar("回合", t + 1);
-            //DateTime day = (DateTime)datapool.GetGameVar("日期");
-            //datapool.WriteGameVar("日期", day.AddDays(1));
+
+            while (forenoon == afternoon)
+            {
+                forenoon = UnityEngine.Random.Range(0, 4);
+                afternoon = UnityEngine.Random.Range(0, 4);
+            }
+
+            SetInTurnVar("上午课程", forenoon);
+            SetInTurnVar("下午课程", afternoon);
+            int foreindex = UnityEngine.Random.Range(1, 3),
+                afterindex = UnityEngine.Random.Range(1, 3);
+            SetInTurnVar("上午指数", foreindex);
+            SetInTurnVar("下午指数", afterindex);
         }
 
         public void SetGameVar(string key, object value)
@@ -205,31 +228,6 @@ namespace Assets.Script.GameStruct
             return datapool.GetInTurnVarTable();
         }
 
-        public string GetAllTypes()
-        {
-            string str = "";
-
-            foreach (KeyValuePair<string, Type> kv in datapool.GetGameVarTypes())
-            {
-                str += (kv.Key + ":" + kv.Value.ToString() + "\n");
-            }
-
-            foreach (KeyValuePair<string, Type> kv in datapool.GetInTurnVarTypes())
-            {
-                str += (kv.Key + ":" + kv.Value.ToString() + "\n");
-            }
-
-            return str;
-        }
-
-        public void AllTypesToJson()
-        {
-            Debug.Log("玩家json: " + Regex.Unescape(GetGameVar<Player>("玩家").ToString()));
-            Debug.Log(Regex.Unescape(JsonMapper.Serialize(datapool.GetGameVarTable())));
-            Debug.Log(Regex.Unescape(JsonMapper.Serialize(datapool.GetInTurnVarTable())));
-        }
-
-
         public void Save(int i)
         {
             string toSave = LoadSaveTool.RijndaelEncrypt(DataToJsonString(), LoadSaveTool.GetKey());
@@ -237,7 +235,6 @@ namespace Assets.Script.GameStruct
 
             LoadSaveTool.CreateDirectory(LoadSaveTool.SAVE_PATH);
             LoadSaveTool.CreateFile(LoadSaveTool.SAVE_PATH + "/" + filename, toSave);
-
         }
 
         private string DataToJsonString()
@@ -255,7 +252,6 @@ namespace Assets.Script.GameStruct
             StreamReader savefile = new StreamReader(LoadSaveTool.SAVE_PATH +"/" + filename);
             string toLoad = savefile.ReadToEnd();
             LoadDataFromJson(toLoad);
-
         }
 
         private void LoadDataFromJson(string str)
@@ -264,12 +260,6 @@ namespace Assets.Script.GameStruct
             datapool.Clear();
 
             JsonData gVars = data["GameVar"];
-
-
-            foreach (KeyValuePair<string, JsonData> kv in gVars)
-            {
-                Debug.Log(kv.Key + ":" + kv.Value);
-            }
 
             SetGameVar("回合", (int)gVars[Regex.Escape("回合")]);
             SetGameVar("玩家", new Player((string)gVars[Regex.Escape("玩家")]));
@@ -292,10 +282,17 @@ namespace Assets.Script.GameStruct
             SetGameVar("侦探事件位置状态", placeDict);
 
 
+
+
+
             JsonData lVars = data["InTurnVar"];
 
-
             SetInTurnVar("文字位置", (int)lVars[Regex.Escape("文字位置")]);
+
+            SetInTurnVar("上午课程", (int)lVars[Regex.Escape("上午课程")]);
+            SetInTurnVar("下午课程", (int)lVars[Regex.Escape("下午课程")]);
+            SetInTurnVar("上午指数", (int)lVars[Regex.Escape("上午指数")]);
+            SetInTurnVar("下午指数", (int)lVars[Regex.Escape("下午指数")]);
 
             List<int> pressedId = new List<int>();
             foreach (JsonData j in lVars[Regex.Escape("已威慑证词序号")])
@@ -312,9 +309,6 @@ namespace Assets.Script.GameStruct
                 knownInfo.Add((string)j);
             }
             SetInTurnVar("侦探事件已知信息", knownInfo);
-
-
         }
-
     }
 }

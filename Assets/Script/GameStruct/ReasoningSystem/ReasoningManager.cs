@@ -66,7 +66,7 @@ namespace Assets.Script.GameStruct
                 foreach (JsonData jd in jsondata)
                 {
                     ReasoningEvent ee = new ReasoningEvent(jd);
-                    //Debug.Log("读取：" + ee.id);
+                    Debug.Log("读取：" + ee.id);
                     events.Add(ee.id, ee);
                 }
             }

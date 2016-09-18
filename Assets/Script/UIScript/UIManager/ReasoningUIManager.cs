@@ -11,8 +11,8 @@ public class ReasoningUIManager : MonoBehaviour
     private GameObject buttonGrid, textContainer, evidenceContainer;
     private GameObject questionLabel, infoLabel;
 
-    private List<GameObject> eviButtons;
     private List<GameObject> textChoices;
+    private List<Evidence> eviList;
 
     private ReasoningNode reasoningNode;
     private ReasoningEvent reasoningEvent;
@@ -29,7 +29,7 @@ public class ReasoningUIManager : MonoBehaviour
         textContainer = this.transform.Find("TextSelect_Container").gameObject;
         evidenceContainer = this.transform.Find("EvidenceSelect_Container").gameObject;
 
-        eviButtons = new List<GameObject>();
+        //eviButtons = new List<GameObject>();
         textChoices = new List<GameObject>();
     }
 
@@ -67,10 +67,10 @@ public class ReasoningUIManager : MonoBehaviour
         reasoningNode.ReasoningExit(reasoningEvent.choice[id].entry);
     }
     
-    public void JudgeEvidence(string evidence)
+    public void JudgeEvidence(Evidence evi)
     {
         //判断证据
-        if(evidence == reasoningEvent.evidence.name)
+        if(evi.name == reasoningEvent.evidence.name)
         {
             reasoningNode.ReasoningExit(reasoningEvent.evidence.curretEntry);
         }
@@ -80,61 +80,63 @@ public class ReasoningUIManager : MonoBehaviour
         }
     }
 
-    public void HoverEvidence(string evidence)
+    public void HoverEvidence(Evidence evi)
     {
         //Debug.Log("hover");
-        infoLabel.GetComponent<UILabel>().text = evidence;
+        infoLabel.GetComponent<UILabel>().text = evi.introduction;
     }
 
     private void SetEvidence()
     {
         //将证据栏初始化
-        eviButtons.Clear();
         buttonGrid.transform.DestroyChildren();
-        for (int i = 0; i < 10; i++)
+        foreach(Evidence evi in eviList)
         {
             GameObject eviBtn = (GameObject)Resources.Load("Prefab/Evidence_Reasoning");
-            eviBtn = Instantiate(eviBtn) as GameObject;
-            eviBtn.transform.parent = buttonGrid.transform;
+            eviBtn = NGUITools.AddChild(buttonGrid, eviBtn);
+
+            //eviBtn = Instantiate(eviBtn) as GameObject;
+            //eviBtn.transform.parent = buttonGrid.transform;
 
             UIButton btn = eviBtn.GetComponent<UIButton>();
-            btn.normalSprite2D = (Sprite)Resources.Load("icon1");
-            //btn.hoverSprite2D = invest.iconHover;
-            //btn.pressedSprite2D = invest.iconHover;
+            btn.normalSprite2D = (Sprite)Resources.Load(evi.iconPath);
+            //btn.normalSprite2D = (Sprite)Resources.Load("icon1");
 
-            eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            //eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
 
             ReasoningEvidenceButton script = eviBtn.GetComponent<ReasoningEvidenceButton>();
-            script.evidence = "数码相机";
+            script.current = evi;
+            //script.evidence = "数码相机";
             script.SetUIManager(this);
-
-            eviButtons.Add(eviBtn);
         }
         buttonGrid.GetComponent<UIGrid>().Reposition();
     }
 
     private void SetChoice()
     {
-        textChoices.Clear();
+        //textChoices.Clear();
         textContainer.transform.DestroyChildren();
         int n = reasoningEvent.choice.Count;
         int d = (450 - n * 50) / (n + 1);
         for(int i = 0; i < reasoningEvent.choice.Count; i++)
         {
             GameObject textBtn = (GameObject)Resources.Load("Prefab/Choice_Reasoning");
-            textBtn = Instantiate(textBtn) as GameObject;
-            textBtn.transform.parent = textContainer.transform;
+            NGUITools.AddChild(textContainer, textBtn);
+
+            //textBtn = Instantiate(textBtn) as GameObject;
+            //textBtn.transform.parent = textContainer.transform;
+
             textBtn.transform.localPosition = new Vector3(0, 225 - ((i + 1) * d + i * 50));
 
             textBtn.transform.Find("Label").GetComponent<UILabel>().text = reasoningEvent.choice[i].text;
 
-            textBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            //textBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
 
             ReasoningTextButton rtb = textBtn.transform.GetComponent<ReasoningTextButton>();
             rtb.id = i;
             rtb.SetUIManager(this);
 
-            textChoices.Add(textBtn);
+            //textChoices.Add(textBtn);
         }
     }
 

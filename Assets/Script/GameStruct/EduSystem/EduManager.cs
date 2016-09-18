@@ -43,9 +43,12 @@ namespace Assets.Script.GameStruct
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
                 JsonData jsondata = JsonMapper.ToObject(text.text);
-                EduEvent ee = new EduEvent(jsondata);
-                //Debug.Log("读取：" + ee.name);
-                events.Add(ee);
+                foreach(JsonData data in jsondata)
+                {
+                    EduEvent ee = new EduEvent(data);
+                    //Debug.Log("读取：" + ee.name);
+                    events.Add(ee);
+                }
             }
             return events;
         }

@@ -47,7 +47,7 @@ public class DetectUIManager : MonoBehaviour
 
         moveContainer = this.transform.Find("Move_Container").gameObject;
 
-        cancelButton = transform.Find("But_Cancel").gameObject;
+        cancelButton = this.transform.Find("But_Cancel").gameObject;
 
         investButtons = new List<GameObject>();
         dialogButtons = new List<GameObject>();
@@ -137,14 +137,15 @@ public class DetectUIManager : MonoBehaviour
 
     public void SetInvest()
     {
-        investButtons.Clear();
+        //investButtons.Clear();
         investContainer.transform.DestroyChildren();
         //载入调查点
         foreach (DetectInvest invest in section.invests)
         {
             GameObject investBtn = (GameObject)Resources.Load("Prefab/Invest_Choice");
-            investBtn = Instantiate(investBtn) as GameObject;
-            investBtn.transform.parent = investContainer.transform;
+            investBtn = NGUITools.AddChild(investContainer, investBtn);
+            //investBtn = Instantiate(investBtn) as GameObject;
+            //investBtn.transform.parent = investContainer.transform;
             investBtn.transform.position = invest.coordinate;
             
             UIButton btn = investBtn.GetComponent<UIButton>();
@@ -156,22 +157,22 @@ public class DetectUIManager : MonoBehaviour
             script.invest = invest;
             script.AssignDetectNode(currentDetectNode);
 
-            investBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            //investBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
 
-            investButtons.Add(investBtn);
+            //investButtons.Add(investBtn);
         }
     }
 
     public void SetDialog()
     {
-        dialogButtons.Clear();
+        //dialogButtons.Clear();
         dialogContainer.transform.DestroyChildren();
-
         foreach (DetectDialog dialog in section.dialogs)
         {
             GameObject dialogBtn = (GameObject)Resources.Load("Prefab/Dialog_Choice");
-            dialogBtn = Instantiate(dialogBtn) as GameObject;
-            dialogBtn.transform.parent = dialogContainer.transform;
+            dialogBtn = NGUITools.AddChild(dialogContainer, dialogBtn);
+            //dialogBtn = Instantiate(dialogBtn) as GameObject;
+            //dialogBtn.transform.parent = dialogContainer.transform;
             dialogBtn.transform.Find("Label").GetComponent<UILabel>().text = dialog.dialog;
 
             DialogButton script = dialogBtn.GetComponent<DialogButton>();
@@ -179,28 +180,28 @@ public class DetectUIManager : MonoBehaviour
             //Debug.Log("设置DetectUIManager:" + currentDetectNode);
             script.AssignDetectNode(currentDetectNode);
 
-            dialogBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            //dialogBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
 
-            dialogButtons.Add(dialogBtn);
+            //dialogButtons.Add(dialogBtn);
         }
         dialogContainer.GetComponent<DetectDialogAnimation>().setDialogBtns(dialogButtons);
     }
 
     void SetMove()
     {
-        moveButtons.Clear();
+        //moveButtons.Clear();
         moveContainer.transform.DestroyChildren();
-
         foreach (string move in section.moves)
         {
 
             GameObject moveBtn = (GameObject)Resources.Load("Prefab/Move_Choice");
-            moveBtn = Instantiate(moveBtn) as GameObject;
-            moveBtn.transform.parent = moveContainer.transform;
+            moveBtn = NGUITools.AddChild(moveContainer, moveBtn);
+                //Instantiate(moveBtn) as GameObject;
+            //moveBtn.transform.parent = moveContainer.transform;
             moveBtn.transform.Find("Label").GetComponent<UILabel>().text = move;
 
-            moveBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
-            moveButtons.Add(moveBtn);
+            //moveBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
+            //moveButtons.Add(moveBtn);
         }
 
     }
