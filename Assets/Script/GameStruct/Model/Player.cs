@@ -34,9 +34,8 @@ namespace Assets.Script.GameStruct.Model
         /// <summary>
         /// 体力
         /// </summary>
-        private int energyPoint;
 
-        public int EnergyPoint
+        public int energyPoint
         {
             set
             {
@@ -46,11 +45,12 @@ namespace Assets.Script.GameStruct.Model
                 }
                 else
                 {
-                    this.energyPoint = value;
+                    //this.energyPoint = value;
+                    basicStatus["体力"] = value;
                 }
             }
 
-            get { return energyPoint; }
+            get { return basicStatus["体力"]; }
         }
 
         public void ResetEnergyPoint()

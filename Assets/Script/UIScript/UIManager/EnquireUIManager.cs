@@ -37,8 +37,6 @@ public class EnquireUIManager : MonoBehaviour
         timeBar = this.transform.Find("ProgressBack_Sprite").GetComponent<UIProgressBar>();
         evidenceGrid = this.transform.Find("EvidenceList_Panel/Grid").gameObject;
         speedDownSprite = transform.Find("SpeedDown_Sprite").gameObject;
-
-        cooldown = true;
     }
 
     void Update()

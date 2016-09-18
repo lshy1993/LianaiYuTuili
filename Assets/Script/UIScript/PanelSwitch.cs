@@ -215,7 +215,7 @@ public class PanelSwitch : MonoBehaviour
 
         iterator = new FadeTreeIterator(root.GetComponent<PanelTreeInterface>());
         iterator.Init();
-        iterator.PrintTree();
+        //iterator.PrintTree();
     }
 
     //右键界面操作 全局函数

@@ -17,5 +17,10 @@ namespace Assets.Script.GameStruct.Model
             this.mainContent = mContent;
             this.voicePath = vPath;
         }
+
+        public override string ToString()
+        {
+            return "Name: " + charaName + "\nContent: " + mainContent + "\nVoicePath: " + voicePath; 
+        }
     }
 }

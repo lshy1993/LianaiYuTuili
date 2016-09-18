@@ -21,8 +21,8 @@ namespace Assets.Script.GameStruct
         private MapUIManager uiManager;
 
 
-        public MapNode(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):
-            base(gVars, lVars, root, ps)
+        public MapNode(DataManager manager, GameObject root, PanelSwitch ps):
+            base(manager, root, ps)
         {
             Init();
             ps.SwitchTo_VerifyIterative("Map_Panel");

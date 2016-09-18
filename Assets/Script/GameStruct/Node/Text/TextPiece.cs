@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Script.GameStruct
 {
@@ -61,23 +62,33 @@ namespace Assets.Script.GameStruct
         public TextPiece(int id,
             UILabel nameLabel,
             UILabel dialogLabel,
-            Hashtable gVars, Hashtable lVars,
-            Func<Hashtable, Hashtable, int> complexLogic,
-            string name = "", string dialog = "") : base(id, complexLogic, gVars, lVars)
+            DataManager manager,
+            Func<DataManager, int> complexLogic,
+            string name = "", string dialog = "") : base(id, complexLogic, manager)
         {
             setVars(name, dialog, nameLabel, dialogLabel);
 
         }
 
+        public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, DataManager manager, Action simpleAction, string name ="", string dialog = ""):
+            base(id,simpleAction, manager)
+        {
+            setVars(name, dialog, nameLabel, dialogLabel);
+        }
+
+
+        public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, DataManager manager, Action<DataManager> complexAction, string name ="", string dialog = ""):
+            base(id,complexAction, manager)
+        {
+            setVars(name, dialog, nameLabel, dialogLabel);
+        }
+
+
         public override void Exec()
         {
             if (name != null && name.Length != 0) nameLabel.text = name;
             if (name != null && dialog.Length != 0) dialogLabel.text = dialog;
-
-            List<BacklogText> blt = (List<BacklogText>)DataPool.GetInstance().GetGameVar("文字记录");
-            blt.Add(new BacklogText(name, dialog));
-            DataPool.GetInstance().WriteGameVar("文字记录", blt);
-
+            DataManager.GetInstance().AddHistory(new BacklogText(name, dialog));
         }
         private void setVars(string name, string dialog, UILabel nameLabel, UILabel dialogLabel)
         {

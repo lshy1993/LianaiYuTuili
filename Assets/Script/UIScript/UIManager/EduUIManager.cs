@@ -24,7 +24,7 @@ public class EduUIManager : MonoBehaviour
     private GameObject btnTable;
 
     private Player player;
-    private Hashtable gVars;
+    //private Hashtable gVars;
     private DateTime date;
 
     private List<EduEvent> allEvents;
@@ -33,9 +33,9 @@ public class EduUIManager : MonoBehaviour
 
     private EduNode currentNode;
 
+
     private string[] defaultSchedule = { "文科", "理科", "艺术", "体育" };
 
-    #region 获取原件 初始化
     void Awake()
     {
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
@@ -65,13 +65,15 @@ public class EduUIManager : MonoBehaviour
         SetEduButton();
         //UIFresh();
     }
-    #endregion
 
     void OnEnable()
     {
-        player = Player.GetInstance();
-        gVars = DataManager.GetInstance().GetGameVars();
-        date = (DateTime)gVars["日期"];
+        //player = Player.GetInstance();
+        //gVars = DataManager.GetInstance().GetGameVars();
+        //date = (DateTime)gVars["日期"];
+        player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+        date = DataManager.START_DAY.AddDays(turn);
         //TODO:加上对节日的判断
         if (date.Month == 9 && date.Day == 1)
         {
@@ -90,6 +92,10 @@ public class EduUIManager : MonoBehaviour
     public void SetEduEvent(List<EduEvent> es)
     {
         this.allEvents = es;
+        player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+        date = DataManager.START_DAY.AddDays(turn);
+        UIFresh();
     }
 
     public void SetRandomSchedule()
@@ -154,7 +160,7 @@ public class EduUIManager : MonoBehaviour
         yilabel.text = player.GetBasicStatus("艺术").ToString();
         tilabel.text = player.GetBasicStatus("体育").ToString();
         zhailabel.text = player.GetBasicStatus("宅力").ToString();
-        energylabel.text = player.EnergyPoint.ToString();
+        energylabel.text = player.energyPoint.ToString();
 
         foreindexlabel.text = foreclass + foreindex.ToString();
         afterindexlabel.text = afterclass + afterindex.ToString();
@@ -164,20 +170,22 @@ public class EduUIManager : MonoBehaviour
 
     public void RelaxExecute()
     {
-        float successrate = player.EnergyPoint * 0.9f;
+        float successrate = player.energyPoint * 0.9f;
         float index1 = UnityEngine.Random.Range(0, 1) < successrate ? 1f : 0.5f;
         float delta = UnityEngine.Random.Range(5, 10);
         float final = delta * index1;
         int energyGet = (int)final;
         StartCoroutine(ShowResult(energyGet));
-        Player.GetInstance().AddEnergy(energyGet);
+        //Player.GetInstance().AddEnergy(energyGet);
+        player.AddEnergy(energyGet);
     }
 
     public void Execute(int x)
     {
+        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
         //执行计算并更改
         Debug.Log("你选择了" + allEvents[x].name);
-        float successrate = player.EnergyPoint * 0.9f;
+        float successrate = player.energyPoint * 0.9f;
         if (allEvents[x].name.Contains(foreclass) || allEvents[x].name.Contains(afterclass))
         {
             successrate += 0.1f;
@@ -207,9 +215,9 @@ public class EduUIManager : MonoBehaviour
         StartCoroutine(ShowResult(change, energyCost, index1));
         foreach(KeyValuePair<string,int> kv in change)
         {
-            Player.GetInstance().AddBasicStatus(kv.Key, kv.Value);
+            player.AddBasicStatus(kv.Key, kv.Value);
         }
-        Player.GetInstance().AddEnergy(energyCost);
+        player.AddEnergy(energyCost);
         //currentNode.EduExit();
     }
 

@@ -10,7 +10,7 @@ namespace Assets.Script.GameStruct
     {
         private int id;
         private Func<DataManager, int> complexLogic;
-        private DataManager manager;
+        internal DataManager manager;
         private Func<int> simpleLogic;
         private Action simpleAction;
         private Action<DataManager> complexAction;
@@ -42,7 +42,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="id">PieceID,一般由Factory自动分配,仅关联于该Factor</param>
         /// <param name="complexLogic">可以引用外部变量的复杂逻辑</param>
-        public Piece(int id, Func<DataManager, int> complexLogic, 
+        public Piece(int id, Func<DataManager, int> complexLogic,
             DataManager manager) : this(id)
         {
             this.complexLogic = complexLogic;
@@ -72,7 +72,7 @@ namespace Assets.Script.GameStruct
                 else if (complexAction != null) { complexAction(this.manager); }
                 return id + 1;
             }
-            else if(simpleLogic != null)
+            else if (simpleLogic != null)
             {
                 return simpleLogic();
             }

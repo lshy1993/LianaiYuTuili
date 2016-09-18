@@ -72,13 +72,14 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
     public void SetCardInfo()
     {
         //[基本信息]设置学生证
-        Player player = Player.GetInstance();
+        //Player player = Player.GetInstance();
+        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
         wenlb.text = player.GetBasicStatus("文科").ToString();
         lilb.text = player.GetBasicStatus("理科").ToString();
         tilb.text = player.GetBasicStatus("体育").ToString();
         yilb.text = player.GetBasicStatus("艺术").ToString();
         zhailb.text = player.GetBasicStatus("宅力").ToString();
-        energylb.text = player.EnergyPoint.ToString();
+        energylb.text = player.energyPoint.ToString();
 
         //ranklb.text = ChineseRank(gm.playerdata.rank);
         ranklb.text = "全省排名: " + player.GetBasicStatus("排名");
@@ -94,7 +95,7 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         StartCoroutine(ShowBar(tib, player.GetBasicStatus("体育"), 200));
         StartCoroutine(ShowBar(yib, player.GetBasicStatus("艺术"), 200));
         StartCoroutine(ShowBar(zhaib, player.GetBasicStatus("宅力"), 200));
-        StartCoroutine(ShowBar(energyb, player.EnergyPoint, 100));
+        StartCoroutine(ShowBar(energyb, player.energyPoint, 100));
     }
 
     public void SetGirlInfo(string str)

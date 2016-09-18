@@ -108,21 +108,21 @@ namespace Assets.Script.UIScript
             }
         }
 
-        public void PrintTree()
-        {
-            return;
-            Debug.Log("打印Panel树");
-            foreach (KeyValuePair<string, List<string>> kv in pathTable)
-            {
-                string info = kv.Key;
-                info += ":";
-                foreach (string s in kv.Value)
-                {
-                    info += "/" + s;
-                }
-                Debug.Log(info);
-            }
-        }
+        //public void PrintTree()
+        //{
+        //    return;
+        //    Debug.Log("打印Panel树");
+        //    foreach (KeyValuePair<string, List<string>> kv in pathTable)
+        //    {
+        //        string info = kv.Key;
+        //        info += ":";
+        //        foreach (string s in kv.Value)
+        //        {
+        //            info += "/" + s;
+        //        }
+        //        Debug.Log(info);
+        //    }
+        //}
 
 
 

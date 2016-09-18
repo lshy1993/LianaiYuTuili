@@ -46,7 +46,7 @@ namespace Assets.Script.GameStruct
     
         public EduNode GetEduNode()
         {
-            return new EduNode(gVars, lVars, root, ps);
+            return new EduNode(manager, root, ps);
         }
 
         public EndTurnNode GetEndTurnNode()

@@ -88,19 +88,6 @@ namespace Assets.Script.GameStruct
             return base.ToString() + str;
         }
 
-        public List<TextContent> GetHistory()
-        {
-            List<TextContent> list = new List<TextContent>();
-            for(int i = 0; i < current; i++)
-            {
-                Piece p = pieces[i];
-                if(i.GetType() == typeof(TextPiece))
-                {
-                    list.Add(((TextPiece)p).GetContent());
-                }
-            }
-            return list;
-        }
 
         //public void SetCurrent(int i)
         //{

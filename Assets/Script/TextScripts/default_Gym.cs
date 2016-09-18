@@ -10,7 +10,7 @@ namespace Assets.Script.TextScripts
 {
     public class default_Gym : TextScript
     {
-        public default_Gym(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
+        public default_Gym(DataManager manager, GameObject root, PanelSwitch ps):base(manager, root, ps) { }
         public override void InitText()
         {
             

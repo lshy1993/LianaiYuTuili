@@ -19,15 +19,14 @@ namespace Assets.Script.GameStruct
         private GameNode next;
         private NodeFactory factory;
 
-        public EduNode(Hashtable gVars, Hashtable lVars,GameObject root, PanelSwitch ps):
-            base(gVars, lVars, root, ps)
+        public EduNode(DataManager manager, GameObject root, PanelSwitch ps):
+            base(manager, root, ps)
         {
-            Init();
             ps.SwitchTo_VerifyIterative("Edu_Panel");
             player = manager.GetGameVar<Player>("玩家");
         }
 
-        public void Init()
+        public override void Init()
         {
             allEvents = (List<EduEvent>)DataPool.GetInstance().GetStaticVar("养成按钮");
 

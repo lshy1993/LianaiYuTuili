@@ -10,7 +10,7 @@ namespace Assets.Script.TextScripts
 {
     public class default_DomTwo : TextScript
     {
-        public default_DomTwo(Hashtable gVars, Hashtable lVars, GameObject root, PanelSwitch ps):base(gVars, lVars, root, ps) { }
+        public default_DomTwo(DataManager manager, GameObject root, PanelSwitch ps):base(manager, root, ps) { }
         public override void InitText()
         {
             

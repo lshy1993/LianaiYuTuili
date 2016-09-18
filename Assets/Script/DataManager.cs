@@ -52,11 +52,7 @@ namespace Assets.Script.GameStruct
         private void InitInTurn()
         {
             //throw new NotImplementedException();
-            datapool.WriteGameVar("文字记录", new List<BacklogText>());
-            datapool.WriteGameVar("上午课程", "");
-            datapool.WriteGameVar("下午课程", "");
-            datapool.WriteGameVar("上午指数", 1f);
-            datapool.WriteGameVar("下午指数", 1f);
+            SetInTurnVar("文字记录", new List<BacklogText>());
         }
 
         private void InitGame()
@@ -178,19 +174,30 @@ namespace Assets.Script.GameStruct
         {
             int t = (int)datapool.GetGameVar("回合");
             datapool.WriteGameVar("回合", t + 1);
+            int morningSchedule = 0, afternoonSchedule = 0;
 
-            while (forenoon == afternoon)
+            while (morningSchedule == afternoonSchedule)
             {
-                forenoon = UnityEngine.Random.Range(0, 4);
-                afternoon = UnityEngine.Random.Range(0, 4);
+                morningSchedule = UnityEngine.Random.Range(0, 4);
+                afternoonSchedule = UnityEngine.Random.Range(0, 4);
             }
 
-            SetInTurnVar("上午课程", forenoon);
-            SetInTurnVar("下午课程", afternoon);
-            int foreindex = UnityEngine.Random.Range(1, 3),
-                afterindex = UnityEngine.Random.Range(1, 3);
-            SetInTurnVar("上午指数", foreindex);
-            SetInTurnVar("下午指数", afterindex);
+            SetInTurnVar("上午课程", morningSchedule);
+            SetInTurnVar("下午课程", afternoonSchedule);
+            int morningRate = UnityEngine.Random.Range(1, 3),
+                afternoonRate = UnityEngine.Random.Range(1, 3);
+            SetInTurnVar("上午指数", morningRate);
+            SetInTurnVar("下午指数", afternoonRate);
+        }
+
+        public void AddHistory(BacklogText blt)
+        {
+            List<BacklogText> history = GetInTurnVar<List<BacklogText>>("文字记录");
+            Debug.Log("history == null?" + history == null);
+            history.Add(blt);
+            //blt.Add(new BacklogText(name, dialog));
+            //DataPool.GetInstance().WriteGameVar("文字记录", blt);
+
         }
 
         public void SetGameVar(string key, object value)

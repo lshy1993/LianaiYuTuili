@@ -78,13 +78,10 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) ps.RightClick();
         if (Input.GetMouseButtonDown(1)) ps.RightClick();
         if (Input.GetAxis("Mouse ScrollWheel") > 0) ps.MouseUpScroll();
-        if (startNewGame == true)
-        {
-            MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
-            EventManager.GetInstance().currentEvent = e;
-            node = nodeFactory.FindTextScript(e.entryNode);
-            startNewGame = false;
-        }
+        //if (startNewGame == true)
+        //{
+        //    startNewGame = false;
+        //}
         if (node == null)
         {
             //Debug.Log("Game End, node null");
@@ -110,7 +107,11 @@ public class GameManager : MonoBehaviour
     public void NewGame()
     {
         EventManager.GetInstance().UpdateEvent();
-        startNewGame = true;
+        //startNewGame = true;
+        MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
+        EventManager.GetInstance().currentEvent = e;
+        node = nodeFactory.FindTextScript(e.entryNode);
+
         //EventManager.GetInstance().currentEvent = e;
         //node = nodeFactory.FindTextScript(e.entryNode);
         //node = nodeFactory.GetEndTurnNode();
@@ -142,6 +143,5 @@ public class GameManager : MonoBehaviour
         EffectBuilder.Init(im, sm, CharacterManager.GetInstance());
         nodeFactory = NodeFactory.GetInstance();
         nodeFactory.Init(dm, root, ps);
-
     }
 }

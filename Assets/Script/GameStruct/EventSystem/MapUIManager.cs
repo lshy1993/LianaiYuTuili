@@ -47,10 +47,14 @@ public class MapUIManager : MonoBehaviour
     {
         //transform.Find("PlaceInfo_Container").gameObject.transform.localPosition = new Vector3(-815, 60);
 
-        Player player = Player.GetInstance();
-        Hashtable gVars = DataManager.GetInstance().GetGameVars();
+        //Player player = Player.GetInstance();
+        //Hashtable gVars = DataManager.GetInstance().GetGameVars();
         //Debug.Log(gVars["回合"]);
-        DateTime date = (DateTime)gVars["日期"];
+        //DateTime date = (DateTime)gVars["日期"];
+        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+        DateTime date = DataManager.START_DAY.AddDays(turn);
+
         if (date.Month == 8 && date.Day == 31)
         {
             funContainer.SetActive(false);
@@ -68,7 +72,7 @@ public class MapUIManager : MonoBehaviour
         yilabel.text = player.GetBasicStatus("艺术").ToString();
         tilabel.text = player.GetBasicStatus("体育").ToString();
         zhailabel.text = player.GetBasicStatus("宅力").ToString();
-        energylabel.text = player.EnergyPoint.ToString();
+        energylabel.text = player.energyPoint.ToString();
 
         ranklabel.text = "-";
     }

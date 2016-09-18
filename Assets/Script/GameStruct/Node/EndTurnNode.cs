@@ -24,7 +24,6 @@ namespace Assets.Script.GameStruct.Node
         {
             DataManager.GetInstance().MoveOneTurn();
             em.FinishCurrentEvent();
-            Debug.Log("Endturnnode:" + gVars["回合"]);
             end = true;
         }
 
@@ -37,7 +36,9 @@ namespace Assets.Script.GameStruct.Node
             }
             else
             {
-                DateTime date = (DateTime)gVars["日期"];
+                int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+                DateTime date = DataManager.START_DAY.AddDays(turn);
+
                 int week = Convert.ToInt32(date.DayOfWeek);
                 //DOTO : 对节日判断
                 if (week == 6 || week == 7)

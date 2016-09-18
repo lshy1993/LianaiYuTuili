@@ -16,12 +16,13 @@ public class BacklogManager : MonoBehaviour {
 
     void OnEnable()
     {
-        backlist = (List<BacklogText>)DataPool.GetInstance().GetGameVar("文字记录");
+        backlist = DataManager.GetInstance().GetInTurnVar<List<BacklogText>>("文字记录");
         table.transform.DestroyChildren();
         foreach (BacklogText bt in backlist)
         {
             GameObject go = (GameObject)Resources.Load("Prefab/Backlog");
-            NGUITools.AddChild(table, go);
+            go = NGUITools.AddChild(table, go);
+            Debug.Log(go.transform.name);
 
             go.transform.Find("Name_Label").GetComponent<UILabel>().text = bt.charaName;
             go.transform.Find("Content_Label").GetComponent<UILabel>().text = bt.mainContent;
