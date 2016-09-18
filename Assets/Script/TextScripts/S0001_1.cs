@@ -31,19 +31,7 @@ namespace Assets.Script.TextScripts
                 f.t("【李云萧】", "问了下路上遇到的学生，好像在3楼……"),
                 f.t("【李云萧】", "高二（6），高二（5），高二（4）……到了，高二（3）班！"),
                 //——SE 嘈杂的人声——
-                f.t("【李云萧】", "其他人都已经到了么？该怎么面对新同学呢？",
-                (manager)=> {
-                    string str = manager.Save();
-                    Debug.Log(
-
-            UTF8Encoding.UTF8.GetBytes(LoadSaveTool.GetKey()).Length
-                        );
-
-                    Debug.Log(str == LoadSaveTool.RijndaelDecrypt( LoadSaveTool.RijndaelEncrypt(str, LoadSaveTool.GetKey()), LoadSaveTool.GetKey()));
-                    Debug.Log(Regex.Unescape(str));
-                    manager.Load(str);
-                    Debug.Log(Regex.Unescape(manager.Save()));
-                }),
+                f.t("【李云萧】", "其他人都已经到了么？该怎么面对新同学呢？"),
                 f.t("【李云萧】", "先去见一下班主任吧，接下来的一段时间，都要和她相处了。"),
                 f.t("【李云萧】", "教务处的人说，她的办公室在班级教室的……"),
                 //——背景 办公室外景——
