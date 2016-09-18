@@ -108,6 +108,8 @@ public class EnquireUIManager : MonoBehaviour
     public void EnquirePresent(string evidence)
     {
         //指证按钮调用
+        //TODO：加入动画
+
         if (evidence == enquireEvent.enquireBreak.evidence && currentId + 1 == enquireEvent.enquireBreak.id)
         {
             EnquireExit(Constants.ENQUIRE_STATUS.CORRECT);
@@ -115,6 +117,23 @@ public class EnquireUIManager : MonoBehaviour
         else
         {
             EnquireExit(Constants.ENQUIRE_STATUS.WRONG);
+        }
+    }
+
+    private IEnumerator PresentAnimation(bool isHold)
+    {
+        if (isHold)
+        {
+            //威慑的情况
+        }
+        else
+        {
+            //指证的情况
+        }
+        float x = 0;
+        while (x < 1)
+        {
+            yield return null;
         }
     }
 
