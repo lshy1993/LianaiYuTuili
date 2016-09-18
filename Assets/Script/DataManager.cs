@@ -17,7 +17,7 @@ namespace Assets.Script.GameStruct
     {
         private static DataManager instance;
 
-        public static readonly DateTime START_DAY = new DateTime();
+        public static readonly DateTime START_DAY = new DateTime(2014, 8, 31);
 
         public static DataManager GetInstance()
         {
@@ -193,7 +193,7 @@ namespace Assets.Script.GameStruct
         public void AddHistory(BacklogText blt)
         {
             List<BacklogText> history = GetInTurnVar<List<BacklogText>>("文字记录");
-            Debug.Log("history == null?" + history == null);
+            //Debug.Log("history == null?" + history == null);
             history.Add(blt);
             //blt.Add(new BacklogText(name, dialog));
             //DataPool.GetInstance().WriteGameVar("文字记录", blt);

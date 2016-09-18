@@ -31,9 +31,7 @@ namespace Assets.Script.GameStruct
             allEvents = (List<EduEvent>)DataPool.GetInstance().GetStaticVar("养成按钮");
 
             uiManager = root.transform.Find("Edu_Panel").GetComponent<EduUIManager>();
-            //uiManager.transform.gameObject.SetActive(true);
             uiManager.SetEduNode(this);
-            //uiManager.SetEduButton();
             uiManager.SetRandomSchedule();
             uiManager.SetEduEvent(allEvents);
 

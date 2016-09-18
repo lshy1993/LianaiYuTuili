@@ -93,8 +93,8 @@ namespace Assets.Script.UIScript
         #region 打开时特效
         private IEnumerator ShowOpen()
         {
-            Hashtable gVars = DataManager.GetInstance().GetGameVars();
-            DateTime date = (DateTime)gVars["日期"];
+            int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+            DateTime date = DataManager.START_DAY.AddDays(turn);
             int x = Convert.ToInt32(date.DayOfWeek);
             if (x == 6 || x == 7)
             {

@@ -25,7 +25,12 @@ public class EduUIManager : MonoBehaviour
 
     private Player player;
     //private Hashtable gVars;
-    private DateTime date;
+    private DateTime date {
+        get {
+            int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+            return DataManager.START_DAY.AddDays(turn);
+        }
+    }
 
     private List<EduEvent> allEvents;
     private string foreclass, afterclass;
@@ -63,17 +68,11 @@ public class EduUIManager : MonoBehaviour
 
         btnTable = transform.Find("Selection_Container/Left_Container/Grid").gameObject;
         SetEduButton();
-        //UIFresh();
     }
 
     void OnEnable()
     {
-        //player = Player.GetInstance();
-        //gVars = DataManager.GetInstance().GetGameVars();
-        //date = (DateTime)gVars["日期"];
         player = DataManager.GetInstance().GetGameVar<Player>("玩家");
-        int turn = DataManager.GetInstance().GetGameVar<int>("回合");
-        date = DataManager.START_DAY.AddDays(turn);
         //TODO:加上对节日的判断
         if (date.Month == 9 && date.Day == 1)
         {
@@ -92,21 +91,17 @@ public class EduUIManager : MonoBehaviour
     public void SetEduEvent(List<EduEvent> es)
     {
         this.allEvents = es;
-        player = DataManager.GetInstance().GetGameVar<Player>("玩家");
-        int turn = DataManager.GetInstance().GetGameVar<int>("回合");
-        date = DataManager.START_DAY.AddDays(turn);
-        UIFresh();
     }
 
     public void SetRandomSchedule()
     {
         //随机生成2个课表 显示在UI上 并且随机生成加成值
-        int forenoon = (int)DataPool.GetInstance().GetGameVar("上午课程");
-        int afternoon = (int)DataPool.GetInstance().GetGameVar("下午课程");
+        int forenoon = (int)DataPool.GetInstance().GetInTurnVar("上午课程");
+        int afternoon = (int)DataPool.GetInstance().GetInTurnVar("下午课程");
         foreclass = defaultSchedule[forenoon];
         afterclass = defaultSchedule[afternoon];
-        foreindex = (int)DataPool.GetInstance().GetGameVar("上午指数");
-        afterindex = (int)DataPool.GetInstance().GetGameVar("下午指数");
+        foreindex = (int)DataPool.GetInstance().GetInTurnVar("上午指数");
+        afterindex = (int)DataPool.GetInstance().GetInTurnVar("下午指数");
     }
 
     public void SetEduButton()
@@ -130,7 +125,6 @@ public class EduUIManager : MonoBehaviour
 
             eduBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
         }
-        //Debug.Log("Reposition");
         btnTable.GetComponent<UIGrid>().Reposition();
     }
 
@@ -147,7 +141,6 @@ public class EduUIManager : MonoBehaviour
             result += " 消耗活力：" + -allEvents[x].ap;
         }
         helplabel.text = result;
-        //UIFresh();
     }
 
     private void UIFresh()
@@ -176,7 +169,6 @@ public class EduUIManager : MonoBehaviour
         float final = delta * index1;
         int energyGet = (int)final;
         StartCoroutine(ShowResult(energyGet));
-        //Player.GetInstance().AddEnergy(energyGet);
         player.AddEnergy(energyGet);
     }
 
