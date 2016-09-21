@@ -8,7 +8,7 @@ public class TitleManager : MonoBehaviour
 {
 
     public GameManager gm;
-    public SystemManager sm;
+    public SystemUIManager sm;
     public UIWidget title, button, music, gallery, recollection, ending;
     public GameObject bg;
     public UILabel info, timelabel;
@@ -19,13 +19,16 @@ public class TitleManager : MonoBehaviour
     public Constants.TITLE_STATUS status;
 
     private Dictionary<int, string> cgInfoTable, endingInfoTable;
-    private List<bool> musicTable, cgTabel, endingTable, caseTable;
+    private List<bool> musicTable, cgTable, endingTable, caseTable;
 
     void Awake()
     {
-        //读入二周目数据表
-        //musicTable = gVars();
         status = Constants.TITLE_STATUS.TITLE;
+        //读入二周目数据表
+        musicTable = (List<bool>)DataPool.GetInstance().GetSystemVar("音乐表");
+        cgTable = (List<bool>)DataPool.GetInstance().GetSystemVar("画廊表");
+        endingTable = (List<bool>)DataPool.GetInstance().GetSystemVar("结局表");
+        caseTable = (List<bool>)DataPool.GetInstance().GetSystemVar("案件表");
     }
 
     void Update()
@@ -64,7 +67,7 @@ public class TitleManager : MonoBehaviour
         for(int i = 0; i < 15; i++)
         {
             UIButton btn = grid.transform.Find(i.ToString()).gameObject.GetComponent<UIButton>();
-            if (cgTabel[i])
+            if (cgTable[i])
             {
                 btn.normalSprite2D = (Sprite)Resources.Load("Logo");
             }

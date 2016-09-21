@@ -1,10 +1,11 @@
 ﻿using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.EventSystem;
 using Assets.Script.GameStruct.Model;
-using LitJson;
+//using LitJson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -45,24 +46,105 @@ namespace Assets.Script.GameStruct
         {
             InitStatic();
             InitSystem();
+            InitSaving();
+            InitMultiplay();
             InitGame();
             InitInTurn();
         }
 
         private void InitInTurn()
         {
-            //throw new NotImplementedException();
-            SetInTurnVar("文字记录", new List<BacklogText>());
+            SetInTurnVar("文字记录", new Queue<BacklogText>());
         }
 
         private void InitGame()
         {
-            InitTurn();
+            datapool.WriteGameVar("回合", 0);
             SetGameVar("玩家", new Player());
         }
 
         private void InitSystem()
         {
+
+        }
+
+        private void InitSaving()
+        {
+            Dictionary<int, SavingInfo> list = new Dictionary<int, SavingInfo>();
+            string filename = "datasv.sav";
+            string savepath = LoadSaveTool.SAVE_PATH + "/" + filename;
+            if (LoadSaveTool.IsFileExists(savepath))
+            {
+                //读取存档列表
+                StreamReader savefile = new StreamReader(savepath);
+                //string toLoad = LoadSaveTool.RijndaelDecrypt(savefile.ReadToEnd(), LoadSaveTool.GetKey());
+                string toLoad = savefile.ReadToEnd();
+                //string x = (string)JsonMapper.ToObject(toLoad);
+                list = JsonConvert.DeserializeObject<Dictionary<int, SavingInfo>>(toLoad);
+            }
+            datapool.WriteSystemVar("存档信息", list);
+            //读取存档的图片
+            Dictionary<string, byte[]> savepic = new Dictionary<string, byte[]>();
+            foreach(KeyValuePair<int,SavingInfo> kv in list)
+            {
+                string picpath = LoadSaveTool.SAVE_PATH + "/data" + kv.Key + ".png";
+                FileStream fs = new FileStream(picpath, FileMode.Open, FileAccess.Read);
+                byte[] bytes = new byte[fs.Length];
+                fs.Read(bytes, 0, (int)fs.Length);
+                fs.Close();
+                savepic.Add(kv.Value.picPath, bytes);
+            }
+            datapool.WriteSystemVar("存档缩略图", savepic);
+        }
+
+        private void InitMultiplay()
+        {
+
+            List<bool> musicTable = new List<bool>();
+            List<bool> cgTable = new List<bool>();
+            List<bool> endingTable = new List<bool>();
+            List<bool> caseTable = new List<bool>();
+
+            string filename = "datamp.sav";
+            string savepath = LoadSaveTool.SAVE_PATH + "/" + filename;
+
+            if (!LoadSaveTool.IsFileExists(savepath))
+            {
+                //生成默认的二周目数据表写入文件
+                //Hashtable SysSave = new Hashtable();
+                Dictionary<string, List<bool>> SysSave = new Dictionary<string, List<bool>>(); 
+                //临时测试用
+                musicTable.Add(true);
+                cgTable.Add(true);
+                endingTable.Add(true);
+                caseTable.Add(true);
+
+                SysSave.Add("MusicTable", musicTable);
+                SysSave.Add("CGTable", cgTable);
+                SysSave.Add("EndingTable", endingTable);
+                SysSave.Add("CaseTable", caseTable);
+
+                //string toSave = LoadSaveTool.RijndaelEncrypt(JsonConvert.SerializeObject(SysSave), LoadSaveTool.GetKey());
+                string toSave = JsonConvert.SerializeObject(SysSave);
+                LoadSaveTool.CreateDirectory(LoadSaveTool.SAVE_PATH);
+                LoadSaveTool.CreateFile(savepath, toSave);
+            }
+            else
+            {
+                //存在则读取系统数据
+                StreamReader savefile = new StreamReader(savepath);
+                //string toLoad = LoadSaveTool.RijndaelDecrypt(savefile.ReadToEnd(), LoadSaveTool.GetKey());
+                string toLoad = savefile.ReadToEnd();
+                Dictionary<string, List<bool>> sysSave = JsonConvert.DeserializeObject<Dictionary<string, List<bool>>>(toLoad);
+                musicTable = sysSave["MusicTable"];
+                cgTable = sysSave["CGTable"];
+                endingTable = sysSave["EndingTable"];
+                caseTable = sysSave["CaseTable"];
+            }
+            datapool.WriteSystemVar("音乐表", musicTable);
+            datapool.WriteSystemVar("画廊表", cgTable);
+            datapool.WriteSystemVar("结局表", endingTable);
+            datapool.WriteSystemVar("案件表", caseTable);
         }
 
         private void InitStatic()
@@ -77,6 +159,7 @@ namespace Assets.Script.GameStruct
             InitEvidence();
         }
 
+        #region 静态数据
         private void InitEvidence()
         {
             Dictionary<string, Evidence> evidenceDic = EvidenceManager.GetStaticEvidenceDic();
@@ -149,16 +232,7 @@ namespace Assets.Script.GameStruct
                 (Dictionary<string, MapEvent>)datapool.GetStaticVar("事件表"),
                 this);
         }
-
-        /// <summary>
-        /// 初始化回合
-        /// </summary>
-        private void InitTurn()
-        {
-            datapool.WriteGameVar("回合", 0);
-            //datapool.WriteGameVar("日期", new DateTime(2014, 8, 31));
-        }
-
+        #endregion
 
         public void PrintEvents()
         {
@@ -192,12 +266,12 @@ namespace Assets.Script.GameStruct
 
         public void AddHistory(BacklogText blt)
         {
-            List<BacklogText> history = GetInTurnVar<List<BacklogText>>("文字记录");
-            //Debug.Log("history == null?" + history == null);
-            history.Add(blt);
-            //blt.Add(new BacklogText(name, dialog));
-            //DataPool.GetInstance().WriteGameVar("文字记录", blt);
-
+            Queue<BacklogText> history = GetInTurnVar<Queue<BacklogText>>("文字记录");
+            if (history.Count > 150)
+            {
+                history.Dequeue();
+            }
+            history.Enqueue(blt);
         }
 
         public void SetGameVar(string key, object value)
@@ -237,11 +311,28 @@ namespace Assets.Script.GameStruct
 
         public void Save(int i)
         {
-            string toSave = LoadSaveTool.RijndaelEncrypt(DataToJsonString(), LoadSaveTool.GetKey());
-            string filename = "savedata" + i + ".sav";
-
+            //string toSave = LoadSaveTool.RijndaelEncrypt(DataToJsonString(), LoadSaveTool.GetKey());
+            string toSave = DataToJsonString();
+            string filename = "data" + i + ".sav";
             LoadSaveTool.CreateDirectory(LoadSaveTool.SAVE_PATH);
             LoadSaveTool.CreateFile(LoadSaveTool.SAVE_PATH + "/" + filename, toSave);
+            //储存截图
+            string picname = "data" + i + ".png";
+            File.WriteAllBytes(LoadSaveTool.SAVE_PATH + "/" + picname, (byte[])datapool.GetSystemVar("缩略图"));
+            //更新存档信息
+            Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
+            SavingInfo info = new SavingInfo("Avg", DateTime.Now.ToString("yyyy/MM/dd\nHH:mm"), "存档了！", picname);
+            if (savedic.ContainsKey(i))
+            {
+                savedic[i] = info;
+            }
+            else
+            {
+                savedic.Add(i, info);
+            }
+            //string sysSave = LoadSaveTool.RijndaelEncrypt(JsonMapper.Serialize(savedic), LoadSaveTool.GetKey());
+            string sysSave = JsonConvert.SerializeObject(savedic);
+            LoadSaveTool.CreateFile(LoadSaveTool.SAVE_PATH + "/datasv.sav", sysSave);
         }
 
         private string DataToJsonString()
@@ -249,73 +340,93 @@ namespace Assets.Script.GameStruct
             Hashtable toSave = new Hashtable();
             toSave.Add("GameVar", datapool.GetGameVarTable());
             toSave.Add("InTurnVar", datapool.GetInTurnVarTable());
-            return JsonMapper.Serialize(toSave);
+            Hashtable hst = (Hashtable)toSave["InTurnVar"];
+            hst.Remove("文字记录");
+            return JsonConvert.SerializeObject(toSave);
+                //JsonMapper.Serialize(toSave);
         }
 
         public void Load(int i)
         {
-            string filename = "savedata" + i + ".sav";
-
+            string filename = "data" + i + ".sav";
             StreamReader savefile = new StreamReader(LoadSaveTool.SAVE_PATH +"/" + filename);
             string toLoad = savefile.ReadToEnd();
+            //toLoad = LoadSaveTool.RijndaelDecrypt(toLoad, LoadSaveTool.GetKey());
             LoadDataFromJson(toLoad);
         }
 
         private void LoadDataFromJson(string str)
         {
-            JsonData data = JsonMapper.ToObject(str);
-            datapool.Clear();
+            Hashtable hst = JsonConvert.DeserializeObject<Hashtable>(str);
+            Hashtable gVars = (Hashtable)hst["GameVar"];
+            SetGameVar("回合", (int)gVars["回合"]);
+            Player player = (Player)gVars["玩家"];
+            SetGameVar("玩家", player);
+            Dictionary<string, int> eventStatusDict = (Dictionary<string, int>)gVars["侦探事件位置状态"];
+            Dictionary<string, int> placeDict = (Dictionary<string, int>)gVars["事件状态"];
 
-            JsonData gVars = data["GameVar"];
+            Hashtable lVars = (Hashtable)hst["InTurnVar"];
+            SetInTurnVar("文字位置", (int)lVars["文字位置"]);
+            SetInTurnVar("上午课程", (int)lVars["上午课程"]);
+            SetInTurnVar("下午课程", (int)lVars["下午课程"]);
+            SetInTurnVar("上午指数", (int)lVars["上午指数"]);
+            SetInTurnVar("下午指数", (int)lVars["下午指数"]);
 
-            SetGameVar("回合", (int)gVars[Regex.Escape("回合")]);
-            SetGameVar("玩家", new Player((string)gVars[Regex.Escape("玩家")]));
-            JsonData detectPlaceStatus = gVars[Regex.Escape("侦探事件位置状态")];
-            JsonData eventStatus = gVars[Regex.Escape("事件状态")];
-            Dictionary<string, int> eventStatusDict = new Dictionary<string, int>();
-            Dictionary<string, int> placeDict = new Dictionary<string, int>();
-
-            foreach (KeyValuePair<string, JsonData> kv in eventStatus)
-            {
-                eventStatusDict.Add(kv.Key, (int)kv.Value);
-            }
-            SetGameVar("事件状态", eventStatusDict);
-
-            foreach (KeyValuePair<string, JsonData> kv in detectPlaceStatus)
-            {
-                placeDict.Add(kv.Key, (int)kv.Value);
-            }
-
-            SetGameVar("侦探事件位置状态", placeDict);
-
-
-
-
-
-            JsonData lVars = data["InTurnVar"];
-
-            SetInTurnVar("文字位置", (int)lVars[Regex.Escape("文字位置")]);
-
-            SetInTurnVar("上午课程", (int)lVars[Regex.Escape("上午课程")]);
-            SetInTurnVar("下午课程", (int)lVars[Regex.Escape("下午课程")]);
-            SetInTurnVar("上午指数", (int)lVars[Regex.Escape("上午指数")]);
-            SetInTurnVar("下午指数", (int)lVars[Regex.Escape("下午指数")]);
-
-            List<int> pressedId = new List<int>();
-            foreach (JsonData j in lVars[Regex.Escape("已威慑证词序号")])
-            {
-                pressedId.Add((int)j);
-            }
-
+            List<int> pressedId = (List<int>)lVars["已威慑证词序号"];
             SetInTurnVar("已威慑证词序号", pressedId);
-
-            List<string> knownInfo = new List<string>();
-
-            foreach (JsonData j in lVars[Regex.Escape("侦探事件已知信息")])
-            {
-                knownInfo.Add((string)j);
-            }
+            List<string> knownInfo = (List<string>)lVars["侦探事件已知信息"];
             SetInTurnVar("侦探事件已知信息", knownInfo);
+
+
+            //JsonData data = JsonMapper.ToObject(str);
+            //datapool.Clear();
+
+            //JsonData gVars = data["GameVar"];
+
+            //SetGameVar("回合", (int)gVars[Regex.Escape("回合")]);
+            //SetGameVar("玩家", new Player((string)gVars[Regex.Escape("玩家")]));
+            //JsonData detectPlaceStatus = gVars[Regex.Escape("侦探事件位置状态")];
+            //JsonData eventStatus = gVars[Regex.Escape("事件状态")];
+            //Dictionary<string, int> eventStatusDict = new Dictionary<string, int>();
+            //Dictionary<string, int> placeDict = new Dictionary<string, int>();
+
+            //foreach (KeyValuePair<string, JsonData> kv in eventStatus)
+            //{
+            //    eventStatusDict.Add(kv.Key, (int)kv.Value);
+            //}
+            //SetGameVar("事件状态", eventStatusDict);
+
+            //foreach (KeyValuePair<string, JsonData> kv in detectPlaceStatus)
+            //{
+            //    placeDict.Add(kv.Key, (int)kv.Value);
+            //}
+
+            //SetGameVar("侦探事件位置状态", placeDict);
+
+            //JsonData lVars = data["InTurnVar"];
+
+            //SetInTurnVar("文字位置", (int)lVars[Regex.Escape("文字位置")]);
+
+            //SetInTurnVar("上午课程", (int)lVars[Regex.Escape("上午课程")]);
+            //SetInTurnVar("下午课程", (int)lVars[Regex.Escape("下午课程")]);
+            //SetInTurnVar("上午指数", (int)lVars[Regex.Escape("上午指数")]);
+            //SetInTurnVar("下午指数", (int)lVars[Regex.Escape("下午指数")]);
+
+            //List<int> pressedId = new List<int>();
+            //foreach (JsonData j in lVars[Regex.Escape("已威慑证词序号")])
+            //{
+            //    pressedId.Add((int)j);
+            //}
+
+            //SetInTurnVar("已威慑证词序号", pressedId);
+
+            //List<string> knownInfo = new List<string>();
+
+            //foreach (JsonData j in lVars[Regex.Escape("侦探事件已知信息")])
+            //{
+            //    knownInfo.Add((string)j);
+            //}
+            //SetInTurnVar("侦探事件已知信息", knownInfo);
         }
     }
 }

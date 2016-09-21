@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class BacklogManager : MonoBehaviour {
 
     private GameObject table;
-    private List<BacklogText> backlist;
+    private Queue<BacklogText> backlist;
 
 	void Awake () {
         table = this.transform.Find("Scroll View/BacklogText_Table").gameObject;
@@ -16,7 +16,7 @@ public class BacklogManager : MonoBehaviour {
 
     void OnEnable()
     {
-        backlist = DataManager.GetInstance().GetInTurnVar<List<BacklogText>>("文字记录");
+        backlist = DataManager.GetInstance().GetInTurnVar<Queue<BacklogText>>("文字记录");
         table.transform.DestroyChildren();
         foreach (BacklogText bt in backlist)
         {

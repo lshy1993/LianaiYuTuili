@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SysReturn : MonoBehaviour {
 
-    public SystemManager sm;
+    public SystemUIManager sm;
     //public UILabel helplabel;
 
     void OnClick()

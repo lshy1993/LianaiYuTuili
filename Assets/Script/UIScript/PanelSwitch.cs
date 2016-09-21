@@ -267,7 +267,7 @@ public class PanelSwitch : MonoBehaviour
             }
             else
             {
-                panels["System"].GetComponent<SystemManager>().Close();
+                panels["System"].GetComponent<SystemUIManager>().Close();
                 //Debug.Log("Close Menu!");
             }
         }
@@ -283,7 +283,7 @@ public class PanelSwitch : MonoBehaviour
                 else
                 {
                     panels["System"].SetActive(true);
-                    panels["System"].GetComponent<SystemManager>().Open();
+                    panels["System"].GetComponent<SystemUIManager>().Open();
                     //Debug.Log("Open Menu!");
                 }
             }
@@ -298,7 +298,7 @@ public class PanelSwitch : MonoBehaviour
             {
                 panels["System"].SetActive(true);
                 panels["System"].GetComponent<UIPanel>().alpha = 1;
-                panels["System"].GetComponent<SystemManager>().OpenBacklog();
+                panels["System"].GetComponent<SystemUIManager>().OpenBacklog();
             }
         }
     }

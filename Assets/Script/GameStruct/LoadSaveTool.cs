@@ -37,13 +37,27 @@ namespace Assets.Script.GameStruct
         /// <param name="content">文件内容</param>
         public static void CreateFile(string fileName, string content)
         {
-            // 清空文件
-            FileStream fs = new FileStream("a.txt", FileMode.Open, FileAccess.Write);
-            fs.SetLength(0);
-
-            StreamWriter streamWriter = File.CreateText(fileName);
+            // 若存在则自动清空文件
+            FileStream fs = new FileStream(fileName, FileMode.Create);
+            StreamWriter streamWriter = new StreamWriter(fs);
             streamWriter.Write(content);
             streamWriter.Close();
+
+            //if (IsFileExists(fileName))
+            //{
+            //    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Write);
+            //    fs.SetLength(0);
+            //    StreamWriter streamWriter = File.CreateText(fileName);
+            //    streamWriter.Write(content);
+            //    streamWriter.Close();
+            //}
+            //else
+            //{
+            //    FileStream fs = new FileStream(fileName, FileMode.CreateNew);
+            //    StreamWriter sw = new StreamWriter(fs);
+            //    sw.Write(content);
+            //    sw.Close();
+            //}
         }
 
         /// <summary>
