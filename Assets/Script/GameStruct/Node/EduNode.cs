@@ -32,7 +32,6 @@ namespace Assets.Script.GameStruct
 
             uiManager = root.transform.Find("Edu_Panel").GetComponent<EduUIManager>();
             uiManager.SetEduNode(this);
-            uiManager.SetRandomSchedule();
             uiManager.SetEduEvent(allEvents);
 
             factory = NodeFactory.GetInstance();
@@ -43,7 +42,6 @@ namespace Assets.Script.GameStruct
 
         public void EduExit()
         {
-            //DataManager.GetInstance().MoveOneTurn();
             this.next = factory.GetEndTurnNode();
             base.end = true;
         }

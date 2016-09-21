@@ -38,10 +38,9 @@ namespace Assets.Script.GameStruct.Node
             {
                 int turn = DataManager.GetInstance().GetGameVar<int>("回合");
                 DateTime date = DataManager.START_DAY.AddDays(turn);
-
                 int week = Convert.ToInt32(date.DayOfWeek);
-                //DOTO : 对节日判断
-                if (week == 6 || week == 7)
+                //TODO : 对节日判断
+                if (week == 6 || week == 0)
                 {
                     return factory.FindTextScript("S0000");
                 }

@@ -45,11 +45,9 @@ namespace Assets.Script.GameStruct.Model
                 }
                 else
                 {
-                    //this.energyPoint = value;
                     basicStatus["体力"] = value;
                 }
             }
-
             get { return basicStatus["体力"]; }
         }
 
@@ -98,11 +96,10 @@ namespace Assets.Script.GameStruct.Model
         {
             JsonData data = JsonMapper.ToObject(json);
 
-            foreach(KeyValuePair<string, JsonData> kv in data)
-            {
-                Debug.Log(kv.Key + ":" + kv.Value);
-            }
-
+            //foreach(KeyValuePair<string, JsonData> kv in data)
+            //{
+            //    Debug.Log(kv.Key + ":" + kv.Value);
+            //}
 
             basicStatus = new Dictionary<string, int>();
             girls = new Dictionary<string, int>();
@@ -145,6 +142,26 @@ namespace Assets.Script.GameStruct.Model
 
             return player;
         }
+
+        //用于模拟计算排名
+        //假定750为第一名，幂函数关系 初始四维 200 为150000名
+        //权重关系：文理 35 35 艺体 15 15
+        public void SetRank()
+        {
+            int peopleall = 300000;
+            int maxscore = 750;
+            double score = basicStatus["文科"] * 0.35 + basicStatus["理科"] * 0.35 + basicStatus["艺术"] * 0.15 + basicStatus["体育"] * 0.15;
+            if (Math.Sqrt(score / maxscore * 2) == 1)
+            {
+                basicStatus["排名"] = 1;
+            }
+            else
+            {
+                double rank = peopleall * (1 - Math.Sqrt(score / maxscore * 2));
+                basicStatus["排名"] = (int)rank;
+            }
+        }
+
         /// <summary>
         /// 获取基本属性
         /// 文科，理科，艺术，体育，宅力，排名，金钱

@@ -83,9 +83,15 @@ namespace Assets.Script.GameStruct
                 list = JsonConvert.DeserializeObject<Dictionary<int, SavingInfo>>(toLoad);
             }
             datapool.WriteSystemVar("存档信息", list);
+            RefreshSavePic();
+        }
+
+        public void RefreshSavePic()
+        {
             //读取存档的图片
+            Dictionary<int, SavingInfo> list = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
             Dictionary<string, byte[]> savepic = new Dictionary<string, byte[]>();
-            foreach(KeyValuePair<int,SavingInfo> kv in list)
+            foreach (KeyValuePair<int, SavingInfo> kv in list)
             {
                 string picpath = LoadSaveTool.SAVE_PATH + "/data" + kv.Key + ".png";
                 FileStream fs = new FileStream(picpath, FileMode.Open, FileAccess.Read);
@@ -146,7 +152,8 @@ namespace Assets.Script.GameStruct
             datapool.WriteSystemVar("结局表", endingTable);
             datapool.WriteSystemVar("案件表", caseTable);
         }
-
+        
+        #region 静态数据
         private void InitStatic()
         {
             InitEvents();
@@ -159,7 +166,6 @@ namespace Assets.Script.GameStruct
             InitEvidence();
         }
 
-        #region 静态数据
         private void InitEvidence()
         {
             Dictionary<string, Evidence> evidenceDic = EvidenceManager.GetStaticEvidenceDic();
@@ -248,18 +254,18 @@ namespace Assets.Script.GameStruct
         {
             int t = (int)datapool.GetGameVar("回合");
             datapool.WriteGameVar("回合", t + 1);
+            //随机当日的课表
             int morningSchedule = 0, afternoonSchedule = 0;
-
             while (morningSchedule == afternoonSchedule)
             {
                 morningSchedule = UnityEngine.Random.Range(0, 4);
                 afternoonSchedule = UnityEngine.Random.Range(0, 4);
             }
-
             SetInTurnVar("上午课程", morningSchedule);
             SetInTurnVar("下午课程", afternoonSchedule);
-            int morningRate = UnityEngine.Random.Range(1, 3),
-                afternoonRate = UnityEngine.Random.Range(1, 3);
+            //随机当日的加成系数
+            int morningRate = UnityEngine.Random.Range(2, 3),
+                afternoonRate = UnityEngine.Random.Range(2, 3);
             SetInTurnVar("上午指数", morningRate);
             SetInTurnVar("下午指数", afternoonRate);
         }
@@ -333,6 +339,7 @@ namespace Assets.Script.GameStruct
             //string sysSave = LoadSaveTool.RijndaelEncrypt(JsonMapper.Serialize(savedic), LoadSaveTool.GetKey());
             string sysSave = JsonConvert.SerializeObject(savedic);
             LoadSaveTool.CreateFile(LoadSaveTool.SAVE_PATH + "/datasv.sav", sysSave);
+            RefreshSavePic();
         }
 
         private string DataToJsonString()
@@ -340,8 +347,7 @@ namespace Assets.Script.GameStruct
             Hashtable toSave = new Hashtable();
             toSave.Add("GameVar", datapool.GetGameVarTable());
             toSave.Add("InTurnVar", datapool.GetInTurnVarTable());
-            Hashtable hst = (Hashtable)toSave["InTurnVar"];
-            hst.Remove("文字记录");
+            ((Hashtable)toSave["InTurnVar"]).Remove("文字记录");
             return JsonConvert.SerializeObject(toSave);
                 //JsonMapper.Serialize(toSave);
         }

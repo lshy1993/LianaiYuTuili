@@ -70,10 +70,8 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 if (kv.Value.position == null) forceEventTable.Add(kv.Key, kv.Value);
             }
-            //this.gVars = gVars;
             this.dataManager = manager;
             this.eventState = dataManager.GetGameVar<Dictionary<string, int>>("事件状态");
-                //(Dictionary<string, int>)gVars["事件状态"];
             InitLocation();
         }
 
@@ -127,7 +125,7 @@ namespace Assets.Script.GameStruct.EventSystem
             else
             {
                 //Debug.Log(UnityEngine.Random.Range(0, 1));
-                //Debug.Log(locationEvents[location][0].ToString());
+                //Debug.Log("目前事件数目"+locationEvents[location].Count);
                 return locationEvents[location][UnityEngine.Random.Range(0, locationEvents[location].Count)];
             }
         }
@@ -144,7 +142,7 @@ namespace Assets.Script.GameStruct.EventSystem
                     && kv.Value.position != null
                     && locationEvents.ContainsKey(kv.Value.position))
                 {
-                    Debug.Log("now available map event" + kv.Key);
+                    //Debug.Log("now available map event" + kv.Key);
                     locationEvents[kv.Value.position].Add(kv.Value);
                 }
             }
@@ -159,12 +157,10 @@ namespace Assets.Script.GameStruct.EventSystem
 
         private bool IsAvailableEvent(MapEvent e)
         {
-            //Player player = Player.GetInstance();
             Player player = dataManager.GetGameVar<Player>("玩家");
-            //int turn = (int)gVars["回合"];
             int turn = dataManager.GetGameVar<int>("回合");
 
-            //已经执行过
+            //若是非默认事件  且已经执行过
             if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
 
             // 不满足前置日期

@@ -73,6 +73,12 @@ public class EduUIManager : MonoBehaviour
     void OnEnable()
     {
         player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        int forenoon = (int)DataPool.GetInstance().GetInTurnVar("上午课程");
+        int afternoon = (int)DataPool.GetInstance().GetInTurnVar("下午课程");
+        foreclass = defaultSchedule[forenoon];
+        afterclass = defaultSchedule[afternoon];
+        foreindex = (int)DataPool.GetInstance().GetInTurnVar("上午指数");
+        afterindex = (int)DataPool.GetInstance().GetInTurnVar("下午指数");
         //TODO:加上对节日的判断
         if (date.Month == 9 && date.Day == 1)
         {
@@ -93,16 +99,16 @@ public class EduUIManager : MonoBehaviour
         this.allEvents = es;
     }
 
-    public void SetRandomSchedule()
-    {
-        //随机生成2个课表 显示在UI上 并且随机生成加成值
-        int forenoon = (int)DataPool.GetInstance().GetInTurnVar("上午课程");
-        int afternoon = (int)DataPool.GetInstance().GetInTurnVar("下午课程");
-        foreclass = defaultSchedule[forenoon];
-        afterclass = defaultSchedule[afternoon];
-        foreindex = (int)DataPool.GetInstance().GetInTurnVar("上午指数");
-        afterindex = (int)DataPool.GetInstance().GetInTurnVar("下午指数");
-    }
+    //public void SetRandomSchedule()
+    //{
+    //    //随机生成2个课表 显示在UI上 并且随机生成加成值
+    //    int forenoon = (int)DataPool.GetInstance().GetInTurnVar("上午课程");
+    //    int afternoon = (int)DataPool.GetInstance().GetInTurnVar("下午课程");
+    //    foreclass = defaultSchedule[forenoon];
+    //    afterclass = defaultSchedule[afternoon];
+    //    foreindex = (int)DataPool.GetInstance().GetInTurnVar("上午指数");
+    //    afterindex = (int)DataPool.GetInstance().GetInTurnVar("下午指数");
+    //}
 
     public void SetEduButton()
     {
@@ -145,6 +151,7 @@ public class EduUIManager : MonoBehaviour
 
     private void UIFresh()
     {
+        //属性值显示
         daylabel.text = date.Month + "月" + date.Day + "日";
         datelabel.text = Constants.WEEK_DAYS[Convert.ToInt16(date.DayOfWeek)];
         moneylabel.text = "金钱: " + player.GetBasicStatus("金钱");
@@ -155,8 +162,9 @@ public class EduUIManager : MonoBehaviour
         zhailabel.text = player.GetBasicStatus("宅力").ToString();
         energylabel.text = player.energyPoint.ToString();
 
-        foreindexlabel.text = foreclass + foreindex.ToString();
-        afterindexlabel.text = afterclass + afterindex.ToString();
+        //课表加成的显示
+        foreindexlabel.text = foreclass + "\n加成" + foreindex.ToString("0.0");
+        afterindexlabel.text = afterclass + "\n加成" + afterindex.ToString("0.0");
         //foreicon.sprite2D = (Sprite)Resources.Load("");
         //aftericon.sprite2D = (Sprite)Resources.Load("");
     }
@@ -174,7 +182,7 @@ public class EduUIManager : MonoBehaviour
 
     public void Execute(int x)
     {
-        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        //Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
         //执行计算并更改
         Debug.Log("你选择了" + allEvents[x].name);
         float successrate = player.energyPoint * 0.9f;
@@ -182,29 +190,41 @@ public class EduUIManager : MonoBehaviour
         {
             successrate += 0.1f;
         }
-        //成功则加倍
-        float index1 = UnityEngine.Random.Range(0f, 1f) < successrate ? 2f : 1f;
-        //加成系数
+        //成功则加倍 失败减半
+        float index1 = UnityEngine.Random.Range(0f, 1f) < successrate ? 1.5f : 0.5f;
+        //课表加成系数
         float index2 = 1f;
         if (allEvents[x].name.Contains(foreclass)) index2 = foreindex;
         if (allEvents[x].name.Contains(afterclass)) index2 = afterindex;
+        //执行属性值加倍
         Dictionary<string, int> change = new Dictionary<string, int>();
         foreach (KeyValuePair<string, EduStatistic> kv in allEvents[x].statistic)
         {
             if (kv.Value != null)
             {
                 //区间内随机值
-                float delta = UnityEngine.Random.Range(kv.Value.min, kv.Value.min);
+                float delta = UnityEngine.Random.Range(kv.Value.min, kv.Value.max);
                 float final = delta;
-                //正数值加倍
-                if (delta > 0) final = delta * index1;
-                //课表加成
-                if (kv.Key == foreclass || kv.Key == afterclass) final *= index2;
+                //正数值享受系数
+                if (delta > 0)
+                {
+                    final *= index1;
+                    if (kv.Key == foreclass || kv.Key == afterclass) final *= index2;
+                }
                 change.Add(kv.Key, (int)final);
             }
         }
         int energyCost = allEvents[x].ap;
-        StartCoroutine(ShowResult(change, energyCost, index1));
+        //养成Q版动画显示
+        if(index1 == 0.5f)
+        {
+            StartCoroutine(ShowResult(change, energyCost));
+        }
+        else
+        {
+            StartCoroutine(ShowResult(change, energyCost, true));
+        }
+        //数值更新
         foreach(KeyValuePair<string,int> kv in change)
         {
             player.AddBasicStatus(kv.Key, kv.Value);
@@ -213,7 +233,7 @@ public class EduUIManager : MonoBehaviour
         //currentNode.EduExit();
     }
 
-    private IEnumerator ShowResult(Dictionary<string, int> change, int cost, float xxx)
+    private IEnumerator ShowResult(Dictionary<string, int> change, int cost, bool success = false)
     {
         functionContainer.SetActive(false);
         selectionContainer.SetActive(false);
@@ -229,15 +249,15 @@ public class EduUIManager : MonoBehaviour
         }
         //spriteContainer.SetActive(false);
         acgo.SetActive(true);
-        UIFresh();
         showlabel.text = "结算显示：";
-        if (xxx == 2f) showlabel.text += "大成功！\r\n";
+        showlabel.text += success ? "成功1.5倍！\r\n" : "失败0.5倍！\r\n";
         foreach(KeyValuePair<string,int> kv in change)
         {
             showlabel.text += kv.Key + "：" + kv.Value + "  ";
         }
         showlabel.text += "消耗活力" + (-cost).ToString() + "点";
         showlabel.text += "\r\n请点击任意地方进入下一天";
+        UIFresh();
     }
 
     private IEnumerator ShowResult(int cost)

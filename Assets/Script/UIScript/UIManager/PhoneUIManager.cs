@@ -12,7 +12,7 @@ using Assets.Script.GameStruct;
  * 提供方法供旗下按钮调用，并修改游戏数据
  * 实现与任何其他模块的互动，推动游戏进程
  */
-public class PhoneUIManager : MonoBehaviour, IPanelManager
+public class PhoneUIManager : MonoBehaviour
 {
     //private GameManager gm;
 
@@ -72,7 +72,6 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
     public void SetCardInfo()
     {
         //[基本信息]设置学生证
-        //Player player = Player.GetInstance();
         Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
         wenlb.text = player.GetBasicStatus("文科").ToString();
         lilb.text = player.GetBasicStatus("理科").ToString();
@@ -80,9 +79,14 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
         yilb.text = player.GetBasicStatus("艺术").ToString();
         zhailb.text = player.GetBasicStatus("宅力").ToString();
         energylb.text = player.energyPoint.ToString();
-
-        //ranklb.text = ChineseRank(gm.playerdata.rank);
-        ranklb.text = "全省排名: " + player.GetBasicStatus("排名");
+        if (player.GetBasicStatus("排名") == 0)
+        {
+            ranklb.text = "全省排名: -";
+        }
+        else
+        {
+            ranklb.text = "全省排名: " + player.GetBasicStatus("排名").ToString();
+        }
         moneylb.text = "存款: " + player.GetBasicStatus("金钱") + " 元";
         //statuslb.text = ChineseStatus(gm.playerdata.status);
         lengb.value = player.GetLogicStatus("冷静") / 10f;
@@ -147,9 +151,6 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
             Debug.Log(evi.name);
             GameObject eviBtn = (GameObject)Resources.Load("Prefab/EvidenceContainer");
             eviBtn = NGUITools.AddChild(grid, eviBtn);
-
-            //eviBtn = Instantiate(eviBtn) as GameObject;
-            //eviBtn.transform.parent = grid.transform;
 
             PhoneEvidenceButton script = eviBtn.GetComponent<PhoneEvidenceButton>();
             script.current = evi;
@@ -254,15 +255,5 @@ public class PhoneUIManager : MonoBehaviour, IPanelManager
                 return "";
         }
         return "当前状态：" + result;
-    }
-
-    public IEnumerator Open()
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerator Close()
-    {
-        throw new NotImplementedException();
     }
 }

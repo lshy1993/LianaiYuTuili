@@ -96,7 +96,8 @@ namespace Assets.Script.UIScript
             int turn = DataManager.GetInstance().GetGameVar<int>("回合");
             DateTime date = DataManager.START_DAY.AddDays(turn);
             int x = Convert.ToInt32(date.DayOfWeek);
-            if (x == 6 || x == 7)
+            //TODO : 改成节假日
+            if (turn != 0 && (x == 6 || x == 0))
             {
                 this.isout = true;
             }

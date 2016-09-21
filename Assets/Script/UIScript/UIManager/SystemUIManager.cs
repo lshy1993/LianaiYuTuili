@@ -14,18 +14,29 @@ public class SystemUIManager : MonoBehaviour
     private Dictionary<int, SavingInfo> savedic;
     private Dictionary<string, byte[]> savepic;
 
-
-    #region 打开到but 与 从任意状态关闭
     public void Open()
     {
+        StartCoroutine(ScreenShot());
         StartCoroutine(FadeInP(0.3f));
         StartCoroutine(FadeIn(butContainer, 0.3f));
     }
+
+    private IEnumerator ScreenShot()
+    {
+        //开始截图
+        yield return new WaitForEndOfFrame();
+        Texture2D tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        TextureScale.Bilinear(tex, 240, 135);
+        byte[] imagebytes = tex.EncodeToPNG();
+        DataPool.GetInstance().WriteSystemVar("缩略图", imagebytes);
+        Destroy(tex);
+    }
+
     public void Close()
     {
         StartCoroutine(FadeOutP(0.3f));
     }
-    #endregion
 
     public void OpenSetting()
     {
@@ -44,19 +55,7 @@ public class SystemUIManager : MonoBehaviour
     public void OpenSave()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        //开始截图
-        Texture2D tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-        tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
-        TextureScale.Bilinear(tex, 240, 135);
-        byte[] imagebytes = tex.EncodeToPNG();
-        DataPool.GetInstance().WriteSystemVar("缩略图", imagebytes);
-        Destroy(tex);
-        //结束
-        savedic = (Dictionary<int, SavingInfo>)DataPool.GetInstance().GetSystemVar("存档信息");
-        savepic = (Dictionary<string, byte[]>)DataPool.GetInstance().GetSystemVar("存档缩略图");
-
         saveloadContainer.transform.Find("SL_Label").GetComponent<UILabel>().text = "存档";
-
         butContainer.SetActive(false);
         StartCoroutine(FadeIn(saveloadContainer, 0.3f));
     }
@@ -64,15 +63,12 @@ public class SystemUIManager : MonoBehaviour
     public void OpenLoad()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        savedic = (Dictionary<int, SavingInfo>)DataPool.GetInstance().GetSystemVar("存档信息");
-        savepic = (Dictionary<string, byte[]>)DataPool.GetInstance().GetSystemVar("存档缩略图");
-
         saveloadContainer.transform.Find("SL_Label").GetComponent<UILabel>().text = "读档";
-
         butContainer.SetActive(false);
         StartCoroutine(FadeIn(saveloadContainer));
     }
 
+    //按下存档按钮
     public void SelectSave(int x)
     {
         savenum = x;
@@ -87,6 +83,7 @@ public class SystemUIManager : MonoBehaviour
         }
     }
 
+    //警告按钮
     public void OpenWarning(string str)
     {
         if (Input.GetMouseButtonUp(1)) return;
@@ -121,6 +118,7 @@ public class SystemUIManager : MonoBehaviour
         }
     }
 
+    //警告确认
     public void WarningComfirm(string str)
     {
         if (Input.GetMouseButtonUp(1)) return;
@@ -147,6 +145,7 @@ public class SystemUIManager : MonoBehaviour
         }
     }
 
+    //警告取消
     public void WarningCancel()
     {
         if (Input.GetMouseButtonUp(1)) return;
@@ -162,8 +161,11 @@ public class SystemUIManager : MonoBehaviour
         FreshSaveTable();
     }
 
+    //刷新存档表格
     private void FreshSaveTable()
     {
+        savedic = (Dictionary<int, SavingInfo>)DataPool.GetInstance().GetSystemVar("存档信息");
+        savepic = (Dictionary<string, byte[]>)DataPool.GetInstance().GetSystemVar("存档缩略图");
         for (int i = 1; i <= 6; i++)
         {
             int saveid = groupnum * 6 + i;
@@ -178,11 +180,7 @@ public class SystemUIManager : MonoBehaviour
                 {
                     texture.LoadImage(savepic[savedic[saveid].picPath]);
                     Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-                    go.transform.Find("Save_Sprite").GetComponent<UI2DSprite>().sprite2D = sp;
-                }
-                else
-                {
-                    go.transform.Find("Save_Sprite").GetComponent<UI2DSprite>().sprite2D = null;
+                    go.GetComponent<UIButton>().normalSprite2D = sp;
                 }
             }
             else

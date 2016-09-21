@@ -10,38 +10,15 @@ public class MapButton : MonoBehaviour
 {
     public TextAsset btnDataJSON;
 
-    private GameObject root;
-    private MapUIManager mm;
-    private EventManager em;
-    private GameManager gm;
-    private static readonly string BACKGROUND_PATH = "Background/";
+    private MapUIManager uiManager;
 
     private string place;
     private string background;
     private string info;
-    private GameObject infoContainerObject;
-    private GameObject thumbImgaeObject;
-    private GameObject placeNameObject;
-    private GameObject placeInfoObject;
-    private UI2DSprite uiSprite;
-    private UILabel uiLabelPlace;
-    private UILabel uiLabelInfo;
-    private Sprite[] spr;
 
     void Start()
     {
-        root = GameObject.Find("UI Root");
-        mm = root.transform.Find("Map_Panel").gameObject.GetComponent<MapUIManager>();
-        em = EventManager.GetInstance();
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        infoContainerObject = root.transform.Find("Map_Panel/PlaceInfo_Container").gameObject;
-        thumbImgaeObject = root.transform.Find("Map_Panel/PlaceInfo_Container/ThumbNails_Sprite").gameObject;
-        placeNameObject = root.transform.Find("Map_Panel/PlaceInfo_Container/PlaceName_Text").gameObject;
-        placeInfoObject = root.transform.Find("Map_Panel/PlaceInfo_Container/PlaceInfo_Text").gameObject;
-        uiSprite = thumbImgaeObject.GetComponent<UI2DSprite>();
-        uiLabelPlace = placeNameObject.GetComponent<UILabel>();
-        uiLabelInfo = placeInfoObject.GetComponent<UILabel>();
-        spr = Resources.LoadAll<Sprite>("Background");
+        uiManager = transform.parent.parent.GetComponent<MapUIManager>();
         LoadJson();
     }
 
@@ -70,62 +47,27 @@ public class MapButton : MonoBehaviour
 
     }
 
-
     void OnHover(bool ishover)
     {
         if (ishover)
         {
-            SetText();
-            if (em.GetCurrentEventAt(place) == null)
+            if (EventManager.GetInstance().GetCurrentEventAt(place) == null)
             {
                 // TODO: 换个图标之类
-                uiLabelInfo.text += "\n*当前地点没有事件*";
+                info += "\n*当前地点没有事件*";
             }
-            //StartCoroutine(MoveIn(transform.position.x > 0));
+            uiManager.SetPlaceInfo(place, info);
         }
         else
         {
-            uiLabelInfo.text = "";
-            uiLabelPlace.text = "";
-            //StartCoroutine(MoveOut(transform.position.x > 0));
+            uiManager.SetPlaceInfo();
         }
-    }
-
-    void SetText()
-    {
-        //uiSprite.sprite2D = Resources.Load<Sprite>(BACKGROUND_PATH + background);
-        uiLabelPlace.text = place;
-        uiLabelInfo.text = info;
     }
 
     void OnClick()
     {
-        //Debug.Log("点击地点：" + place);
-        //Debug.Log("点击事件：");
-        //Debug.Log(em.GetCurrentEventAt(place));
-        if (em.GetCurrentEventAt(place) != null)
-        {
-            MapNode mapNode = gm.node as MapNode;
-
-            if (mapNode != null)
-            {
-                GameNode next = em.RunEvent(place);
-
-                if (next != null)
-                {
-                    mapNode.ChooseNext(next);
-                }
-                else
-                {
-                    Debug.LogError("无法运行事件!返回值为空");
-                }
-            }
-            else
-            {
-                Debug.LogError("当前Node不是MapNode");
-            }
-
-        }
+        //Debug.Log("点击事件：" + em.GetCurrentEventAt(place));
+        uiManager.RunPlaceEvent(place);
     }
 
     //IEnumerator MoveIn(bool isleft)

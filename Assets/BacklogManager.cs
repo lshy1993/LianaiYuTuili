@@ -22,7 +22,7 @@ public class BacklogManager : MonoBehaviour {
         {
             GameObject go = (GameObject)Resources.Load("Prefab/Backlog");
             go = NGUITools.AddChild(table, go);
-            Debug.Log(go.transform.name);
+            //Debug.Log(go.transform.name);
 
             go.transform.Find("Name_Label").GetComponent<UILabel>().text = bt.charaName;
             go.transform.Find("Content_Label").GetComponent<UILabel>().text = bt.mainContent;
