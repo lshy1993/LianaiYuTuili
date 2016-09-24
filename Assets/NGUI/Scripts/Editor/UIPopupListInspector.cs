@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 #if !UNITY_3_5 && !UNITY_FLASH
@@ -41,7 +41,7 @@ public class UIPopupListInspector : UIWidgetContainerEditor
 			EditorUtility.SetDirty(mList);
 		}
 
-		if (mList.atlas == null)
+		if (mList.atlas == null && mList.background2DSprite == null && mList.highlight2DSprite == null)
 		{
 			mList.atlas = NGUISettings.atlas;
 			mList.backgroundSprite = NGUISettings.selectedSprite;
@@ -133,6 +133,7 @@ public class UIPopupListInspector : UIWidgetContainerEditor
 		NGUIEditorTools.DrawProperty("Position", serializedObject, "position");
 		NGUIEditorTools.DrawProperty("Alignment", serializedObject, "alignment");
 		NGUIEditorTools.DrawProperty("Open on", serializedObject, "openOn");
+		NGUIEditorTools.DrawProperty("On Top", serializedObject, "separatePanel");
 		NGUIEditorTools.DrawProperty("Localized", serializedObject, "isLocalized");
 
 		DrawAtlas();
@@ -149,21 +150,32 @@ public class UIPopupListInspector : UIWidgetContainerEditor
 		{
 			NGUIEditorTools.BeginContents();
 
+			SerializedProperty atlasSp = null;
+
 			GUILayout.BeginHorizontal();
 			{
 				if (NGUIEditorTools.DrawPrefixButton("Atlas"))
 					ComponentSelector.Show<UIAtlas>(OnSelectAtlas);
-				NGUIEditorTools.DrawProperty("", serializedObject, "atlas");
+				atlasSp = NGUIEditorTools.DrawProperty("", serializedObject, "atlas");
 			}
 			GUILayout.EndHorizontal();
 
-			NGUIEditorTools.DrawPaddedSpriteField("Background", mList.atlas, mList.backgroundSprite, OnBackground);
-			NGUIEditorTools.DrawPaddedSpriteField("Highlight", mList.atlas, mList.highlightSprite, OnHighlight);
+			if (atlasSp != null && atlasSp.objectReferenceValue != null)
+			{
+				NGUIEditorTools.DrawPaddedSpriteField("Background", mList.atlas, mList.backgroundSprite, OnBackground);
+				NGUIEditorTools.DrawPaddedSpriteField("Highlight", mList.atlas, mList.highlightSprite, OnHighlight);
+			}
+			else
+			{
+				serializedObject.DrawProperty("background2DSprite", "Background");
+				serializedObject.DrawProperty("highlight2DSprite", "Highlight");
+			}
 
 			EditorGUILayout.Space();
 
 			NGUIEditorTools.DrawProperty("Background", serializedObject, "backgroundColor");
 			NGUIEditorTools.DrawProperty("Highlight", serializedObject, "highlightColor");
+			NGUIEditorTools.DrawProperty("Overlap", serializedObject, "overlap", GUILayout.Width(110f));
 			NGUIEditorTools.DrawProperty("Animated", serializedObject, "isAnimated");
 			NGUIEditorTools.EndContents();
 		}

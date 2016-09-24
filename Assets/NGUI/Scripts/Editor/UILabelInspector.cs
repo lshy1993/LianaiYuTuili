@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 #if !UNITY_FLASH
@@ -164,7 +164,11 @@ public class UILabelInspector : UIWidgetInspector
 
 				EditorGUI.BeginDisabledGroup(true);
 				if (!serializedObject.isEditingMultipleObjects)
-					GUILayout.Label(" Default: " + mLabel.defaultFontSize);
+				{
+					if (mLabel.overflowMethod == UILabel.Overflow.ShrinkContent)
+						GUILayout.Label(" Actual: " + mLabel.finalFontSize + "/" + mLabel.defaultFontSize);
+					else GUILayout.Label(" Default: " + mLabel.defaultFontSize);
+				}
 				EditorGUI.EndDisabledGroup();
 
 				NGUISettings.fontSize = prop.intValue;
@@ -216,8 +220,20 @@ public class UILabelInspector : UIWidgetInspector
 
 			GUI.skin.textField.wordWrap = ww;
 
+			NGUIEditorTools.DrawPaddedProperty("Modifier", serializedObject, "mModifier");
+
 			SerializedProperty ov = NGUIEditorTools.DrawPaddedProperty("Overflow", serializedObject, "mOverflow");
 			NGUISettings.overflowStyle = (UILabel.Overflow)ov.intValue;
+			if (NGUISettings.overflowStyle == UILabel.Overflow.ClampContent)
+				NGUIEditorTools.DrawProperty("Use Ellipsis", serializedObject, "mOverflowEllipsis", GUILayout.Width(110f));
+
+			if (NGUISettings.overflowStyle == UILabel.Overflow.ResizeFreely)
+			{
+				GUILayout.BeginHorizontal();
+				SerializedProperty s = NGUIEditorTools.DrawPaddedProperty("Max Width", serializedObject, "mOverflowWidth");
+				if (s != null && s.intValue < 1) GUILayout.Label("unlimited");
+				GUILayout.EndHorizontal();
+			}
 
 			NGUIEditorTools.DrawPaddedProperty("Alignment", serializedObject, "mAlignment");
 

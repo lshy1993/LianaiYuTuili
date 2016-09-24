@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -41,6 +41,7 @@ public class UIScrollViewEditor : Editor
 		NGUIEditorTools.DrawProperty("Momentum Amount", serializedObject, "momentumAmount");
 
 		NGUIEditorTools.DrawProperty("Restrict Within Panel", serializedObject, "restrictWithinPanel");
+		NGUIEditorTools.DrawProperty("Constrain On Drag", serializedObject, "constrainOnDrag");
 		NGUIEditorTools.DrawProperty("Cancel Drag If Fits", serializedObject, "disableDragIfFits");
 		NGUIEditorTools.DrawProperty("Smooth Drag Start", serializedObject, "smoothDragStart");
 		NGUIEditorTools.DrawProperty("IOS Drag Emulation", serializedObject, "iOSDragEmulation");

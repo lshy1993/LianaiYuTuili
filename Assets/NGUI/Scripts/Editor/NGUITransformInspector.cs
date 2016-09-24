@@ -1,6 +1,6 @@
 //----------------------------------------------
 //			  NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -20,9 +20,17 @@ public class NGUITransformInspector : Editor
 	{
 		instance = this;
 
-		mPos = serializedObject.FindProperty("m_LocalPosition");
-		mRot = serializedObject.FindProperty("m_LocalRotation");
-		mScale = serializedObject.FindProperty("m_LocalScale");
+		if (this)
+		{
+			try
+			{
+				var so = serializedObject;
+				mPos = so.FindProperty("m_LocalPosition");
+				mRot = so.FindProperty("m_LocalRotation");
+				mScale = so.FindProperty("m_LocalScale");
+			}
+			catch { }
+		}
 	}
 
 	void OnDestroy () { instance = null; }

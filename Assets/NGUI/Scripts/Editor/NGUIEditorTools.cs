@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEditor;
@@ -12,7 +12,7 @@ using System.Reflection;
 /// Tools for the editor
 /// </summary>
 
-public static class NGUIEditorTools
+static public class NGUIEditorTools
 {
 	static Texture2D mBackdropTex;
 	static Texture2D mContrastTex;
@@ -55,7 +55,7 @@ public static class NGUIEditorTools
 		get
 		{
 			if (mContrastTex == null) mContrastTex = CreateCheckerTex(
-				new Color(0f, 0.0f, 0f, 0.5f),
+				new Color(0f, 0f, 0f, 0.5f),
 				new Color(1f, 1f, 1f, 0.5f));
 			return mContrastTex;
 		}
@@ -826,7 +826,7 @@ public static class NGUIEditorTools
 	/// Draw the specified sprite.
 	/// </summary>
 
-	public static void DrawTexture (Texture2D tex, Rect rect, Rect uv, Color color)
+	static public void DrawTexture (Texture2D tex, Rect rect, Rect uv, Color color)
 	{
 		DrawTexture(tex, rect, uv, color, null);
 	}
@@ -835,7 +835,7 @@ public static class NGUIEditorTools
 	/// Draw the specified sprite.
 	/// </summary>
 
-	public static void DrawTexture (Texture2D tex, Rect rect, Rect uv, Color color, Material mat)
+	static public void DrawTexture (Texture2D tex, Rect rect, Rect uv, Color color, Material mat)
 	{
 		int w = Mathf.RoundToInt(tex.width * uv.width);
 		int h = Mathf.RoundToInt(tex.height * uv.height);
@@ -1415,9 +1415,18 @@ public static class NGUIEditorTools
 	/// Helper function that draws a serialized property.
 	/// </summary>
 
-	static public SerializedProperty DrawProperty (SerializedObject serializedObject, string property, params GUILayoutOption[] options)
+	static public SerializedProperty DrawProperty (this SerializedObject serializedObject, string property, params GUILayoutOption[] options)
 	{
 		return DrawProperty(null, serializedObject, property, false, options);
+	}
+
+	/// <summary>
+	/// Helper function that draws a serialized property.
+	/// </summary>
+
+	static public SerializedProperty DrawProperty (this SerializedObject serializedObject, string property, string label, params GUILayoutOption[] options)
+	{
+		return DrawProperty(label, serializedObject, property, false, options);
 	}
 
 	/// <summary>
@@ -1433,7 +1442,7 @@ public static class NGUIEditorTools
 	/// Helper function that draws a serialized property.
 	/// </summary>
 
-	static public SerializedProperty DrawPaddedProperty (SerializedObject serializedObject, string property, params GUILayoutOption[] options)
+	static public SerializedProperty DrawPaddedProperty (this SerializedObject serializedObject, string property, params GUILayoutOption[] options)
 	{
 		return DrawProperty(null, serializedObject, property, true, options);
 	}
@@ -1460,17 +1469,46 @@ public static class NGUIEditorTools
 			if (NGUISettings.minimalisticLook) padding = false;
 
 			if (padding) EditorGUILayout.BeginHorizontal();
-			
-			if (label != null) EditorGUILayout.PropertyField(sp, new GUIContent(label), options);
+
+			if (sp.isArray && sp.type != "string") DrawArray(serializedObject, property, label ?? property);
+			else if (label != null) EditorGUILayout.PropertyField(sp, new GUIContent(label), options);
 			else EditorGUILayout.PropertyField(sp, options);
 
-			if (padding) 
+			if (padding)
 			{
 				NGUIEditorTools.DrawPadding();
 				EditorGUILayout.EndHorizontal();
 			}
 		}
+		else Debug.LogWarning("Unable to find property " + property);
 		return sp;
+	}
+
+	/// <summary>
+	/// Helper function that draws an array property.
+	/// </summary>
+
+	static public void DrawArray (this SerializedObject obj, string property, string title)
+	{
+		SerializedProperty sp = obj.FindProperty(property + ".Array.size");
+
+		if (sp != null && NGUIEditorTools.DrawHeader(title))
+		{
+			NGUIEditorTools.BeginContents();
+			int size = sp.intValue;
+			int newSize = EditorGUILayout.IntField("Size", size);
+			if (newSize != size) obj.FindProperty(property + ".Array.size").intValue = newSize;
+
+			EditorGUI.indentLevel = 1;
+
+			for (int i = 0; i < newSize; i++)
+			{
+				SerializedProperty p = obj.FindProperty(string.Format("{0}.Array.data[{1}]", property, i));
+				if (p != null) EditorGUILayout.PropertyField(p);
+			}
+			EditorGUI.indentLevel = 0;
+			NGUIEditorTools.EndContents();
+		}
 	}
 
 	/// <summary>
@@ -2181,5 +2219,26 @@ public static class NGUIEditorTools
 	{
 		if (!NGUISettings.minimalisticLook)
 			GUILayout.Space(18f);
+	}
+
+	/// <summary>
+	/// Force the texture to be readable. Returns the asset database path to the texture.
+	/// </summary>
+
+	static public string MakeReadable (this Texture2D tex, bool readable = true)
+	{
+		string path = AssetDatabase.GetAssetPath(tex);
+
+		if (!string.IsNullOrEmpty(path))
+		{
+			TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
+
+			if (textureImporter != null && textureImporter.isReadable != readable)
+			{
+				textureImporter.isReadable = readable;
+				AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+			}
+		}
+		return path;
 	}
 }

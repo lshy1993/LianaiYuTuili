@@ -29,7 +29,7 @@ namespace Assets.Script.UIScript
             float x = 1;
             while (x > 0)
             {
-                x = Mathf.MoveTowards(x, 0, 1 / closeTime * Time.deltaTime);
+                x = Mathf.MoveTowards(x, 0, 1 / closeTime * Time.fixedDeltaTime);
                 backgroundContainer.GetComponent<UIWidget>().alpha = x;
                 yield return null;
             }
@@ -45,7 +45,7 @@ namespace Assets.Script.UIScript
             float x = 0;
             while (x < 1)
             {
-                x = Mathf.MoveTowards(x, 1, 1 / openTime * Time.deltaTime);
+                x = Mathf.MoveTowards(x, 1, 1 / openTime * Time.fixedDeltaTime);
                 backgroundContainer.GetComponent<UIWidget>().alpha = x;
                 yield return null;
             }

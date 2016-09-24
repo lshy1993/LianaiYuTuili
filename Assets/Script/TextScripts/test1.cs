@@ -18,7 +18,7 @@ namespace Assets.Script.TextScripts
             {
                 f.t("测试","测试强制事件"),
                 f.t("图片特效", "切换淡出背景"),
-                f.ChangeBackgroundFade("tt"),
+                f.ChangeBackground("tt"),
                 f.t("测试","直接进入map")
                 // f.e(BuildEffect(effect1, effect2...))
                 // f.t("", "", () => { ImageManager.RunEffect(BuildEffect(effect)) }) 

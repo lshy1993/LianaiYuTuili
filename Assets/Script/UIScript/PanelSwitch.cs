@@ -80,7 +80,6 @@ public class PanelSwitch : MonoBehaviour
         UIAnimationCallback openCallback)
     {
         //Debug.Log(Time.time + " Switch to iterative:" + next);
-
         List<string>[] result = GetListIntersectAndDifference(currentPanelPath,
             iterator.pathTable[next]);
         List<string> sameChain = result[0],
@@ -111,10 +110,6 @@ public class PanelSwitch : MonoBehaviour
             closeCallback();
             OpenChain(new Queue<string>(openChain), openCallback);
         });
-        //closeFade.Close(() =>
-        //{
-        //});
-
     }
 
     private void SetActiveChain(bool v, List<string> openChain)

@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using Entry = PropertyReferenceDrawer.Entry;
 
-public static class EventDelegateEditor
+static public class EventDelegateEditor
 {
 	/// <summary>
 	/// Collect a list of usable delegates from the specified target game object.

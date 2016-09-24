@@ -45,7 +45,7 @@ public class LogoUIManager : MonoBehaviour
             logoContainer.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }
-        this.gameObject.SetActive(false);
+        logoContainer.gameObject.SetActive(false);
         root.transform.Find("Title_Panel").gameObject.SetActive(true);
     }
 }

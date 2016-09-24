@@ -14,7 +14,7 @@ namespace Assets.Script.GameStruct
         static SoundManager soundManager;
         static CharacterManager characterManager;
         public static UI2DSprite backgroundSprite;
-        public static GameObject dialog;
+        public static GameObject dialog, charaPanel;
 
         public static void Init(ImageManager im, SoundManager sm, CharacterManager cm)
         {
@@ -22,6 +22,7 @@ namespace Assets.Script.GameStruct
             soundManager = sm;
             characterManager = cm;
             backgroundSprite = GameObject.Find("UI Root").transform.Find("Avg_Panel/Background_Panel/BackGround_Sprite").GetComponent<UI2DSprite>();
+            charaPanel = GameObject.Find("UI Root").transform.Find("Avg_Panel/CharaGraph_Panel").gameObject;
             dialog = GameObject.Find("UI Root").transform.Find("Avg_Panel/DialogBox_Panel").gameObject;
         }
 
@@ -188,6 +189,197 @@ namespace Assets.Script.GameStruct
                 .Get();
             return e;
         }
+
+        #region 新增内容 根据Depth深度变动Sprite
+        public static ImageEffect SetSpriteByDepth(int depth, Sprite sprite)
+        {
+            UI2DSprite ui = null;
+            if (charaPanel.transform.Find("sprite" + depth) != null)
+            {
+                ui = charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
+            }
+            else
+            {
+                GameObject go = (GameObject)Resources.Load("Prefab/Character");
+                go = NGUITools.AddChild(charaPanel, go);
+                go.transform.name = "sprite" + depth;
+                ui = go.GetComponent<UI2DSprite>();
+            }
+            EffectBuilder builder = new EffectBuilder();
+            ImageEffect e = builder.UI(ui)
+                .TotalTime(0)
+                .Init(() =>
+                {
+                    ui.depth = depth;
+                    ui.sprite2D = sprite;
+                    ui.MakePixelPerfect();
+                })
+                .AnimateUpdate((aim, totaltime, nowtime) => { }).Get();
+            return e;
+        }
+
+        public static ImageEffect DeleteSpriteByDepth(int depth)
+        {
+            if (charaPanel.transform.Find("sprite" + depth) == null)
+            {
+                return null;
+            }
+            else
+            {
+                EffectBuilder builder = new EffectBuilder();
+                UI2DSprite ui = charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
+                ImageEffect e = builder.UI(ui)
+                    .TotalTime(0)
+                    .Init(()=> { })
+                    .AnimateUpdate((aim, totaltime, nowtime) => { })
+                    .Finish(() => { GameObject.Destroy(ui.transform.gameObject); })
+                    .Get();
+                return e;
+            }
+        }
+
+        public static ImageEffect FadeInByDepth(int depth, float time)
+        {
+            UI2DSprite ui;
+            if (charaPanel.transform.Find("sprite" + depth) != null)
+            {
+                ui= charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
+            }
+            else
+            {
+                return null;
+            }
+            EffectBuilder builder = new EffectBuilder();
+            ImageEffect e = builder.UI(ui)
+                .TotalTime(time)
+                .Init(()=> { ui.alpha = 0; })
+                .AnimateUpdate((aim, totaltime, nowtime) =>
+                {
+                    if (nowtime < totaltime)
+                    {
+                        aim.alpha = Mathf.MoveTowards(aim.alpha, 1, 1 / totaltime * Time.fixedDeltaTime);
+                    }
+                }).Get();
+
+            return e;
+        }
+
+        public static ImageEffect FadeOutByDepth(int depth, float time)
+        {
+            UI2DSprite ui;
+            if (charaPanel.transform.Find("sprite" + depth) != null)
+            {
+                ui = charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
+            }
+            else
+            {
+                return null;
+            }
+            EffectBuilder builder = new EffectBuilder();
+            ImageEffect e = builder.UI(ui)
+                .TotalTime(time)
+                .Init(()=> { ui.alpha = 1; })
+                .AnimateUpdate((aim, totaltime, nowtime) =>
+                {
+                    if (nowtime < totaltime)
+                    {
+                        aim.alpha = Mathf.MoveTowards(aim.alpha, 0, 1 / totaltime * Time.fixedDeltaTime);
+                    }
+                }).Get();
+
+            return e;
+        }
+
+        public static ImageEffect SetPostionByDepth(int depth, Vector3 position)
+        {
+            UI2DSprite ui = null;
+            if (charaPanel.transform.Find("sprite" + depth) != null)
+            {
+                ui = charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
+            }
+            else
+            {
+                return null;
+            }
+            EffectBuilder builder = new EffectBuilder();
+            ImageEffect e = builder.UI(ui)
+                .TotalTime(0)
+                .Init(() =>
+                {
+                    ui.transform.localPosition = position;
+                })
+                .AnimateUpdate((aim, totaltime, nowtime) => { }).Get();
+            return e;
+        }
+
+        public static ImageEffect SetDefaultPostionByDepth(int depth, string pstr)
+        {
+            UI2DSprite ui = null;
+            if (charaPanel.transform.Find("sprite" + depth) != null)
+            {
+                ui = charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
+            }
+            else
+            {
+                return null;
+            }
+            float x;
+            switch (pstr)
+            {
+                case "left":
+                    x = -320;
+                    break;
+                case "middle":
+                    x = 0;
+                    break;
+                case "right":
+                    x = 320;
+                    break;
+                default:
+                    x = 0;
+                    break;
+            }
+            EffectBuilder builder = new EffectBuilder();
+            ImageEffect e = builder.UI(ui)
+                .TotalTime(0)
+                .Init(() =>
+                {
+                    ui.transform.localPosition = new Vector3(x, -360 + ui.height / 2);
+                })
+                .AnimateUpdate((aim, totaltime, nowtime) => { }).Get();
+            return e;
+        }
+
+        public static ImageEffect MoveByDepth(int depth, Vector3 final, float time)
+        {
+            UI2DSprite ui = null;
+            if (charaPanel.transform.Find("sprite" + depth) != null)
+            {
+                ui = charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
+            }
+            else
+            {
+                return null;
+            }
+            EffectBuilder builder = new EffectBuilder();
+            Vector3 origin = ui.transform.localPosition;
+            ImageEffect e = builder.UI(ui)
+                .TotalTime(time)
+                .Init(() => { })
+                .Finish(() => { })
+                .AnimateUpdate((aim, totaltime, nowtime) =>
+                {
+                    if (nowtime < totaltime)
+                    {
+                        float x = Mathf.MoveTowards(aim.transform.localPosition.x, final.x, Math.Abs(final.x - aim.transform.localPosition.x) / (totaltime - nowtime) * Time.fixedDeltaTime);
+                        float y = Mathf.MoveTowards(aim.transform.localPosition.y, final.y, Math.Abs(final.y - aim.transform.localPosition.y) / (totaltime - nowtime) * Time.fixedDeltaTime);
+                        aim.transform.localPosition = new Vector3(x, y);
+                    }
+                })
+                .Get();
+            return e;
+        }
+        #endregion
 
         public static ImageEffect SetDialog(bool open)
         {
