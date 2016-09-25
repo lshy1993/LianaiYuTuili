@@ -14,7 +14,7 @@ namespace Assets.Script.GameStruct
         static SoundManager soundManager;
         static CharacterManager characterManager;
         public static UI2DSprite backgroundSprite;
-        public static GameObject dialog, charaPanel;
+        public static GameObject dialog, charaPanel, click;
 
         public static void Init(ImageManager im, SoundManager sm, CharacterManager cm)
         {
@@ -23,7 +23,9 @@ namespace Assets.Script.GameStruct
             characterManager = cm;
             backgroundSprite = GameObject.Find("UI Root").transform.Find("Avg_Panel/Background_Panel/BackGround_Sprite").GetComponent<UI2DSprite>();
             charaPanel = GameObject.Find("UI Root").transform.Find("Avg_Panel/CharaGraph_Panel").gameObject;
-            dialog = GameObject.Find("UI Root").transform.Find("Avg_Panel/DialogBox_Panel").gameObject;
+            //dialog = GameObject.Find("UI Root").transform.Find("Avg_Panel/DialogBox_Panel").gameObject;
+            dialog = GameObject.Find("UI Root").transform.Find("Avg_Panel/DialogBox_Panel/Main_Container").gameObject;
+            click = GameObject.Find("UI Root").transform.Find("Avg_Panel/DialogBox_Panel/Click_Container").gameObject;
         }
 
 
@@ -386,11 +388,69 @@ namespace Assets.Script.GameStruct
             EffectBuilder builder = new EffectBuilder();
             ImageEffect e = builder.UI(null)
                 .TotalTime(0)
-                .Init(() => { dialog.SetActive(open); })
+                .Init(() =>
+                {
+                    dialog.SetActive(open);
+                    dialog.GetComponent<UIWidget>().alpha = 0;
+                })
+                .Finish(()=>
+                {
+                    dialog.SetActive(open);
+                    dialog.GetComponent<UIWidget>().alpha = 0;
+                })
                 .AnimateUpdate((aim, totaltime, nowtime) =>{ })
                 .Get();
             return e;
         }
 
+        public static ImageEffect FadeInDialog(float time)
+        {
+            EffectBuilder builder = new EffectBuilder();
+            ImageEffect e = builder.UI(null)
+                .TotalTime(time)
+                .Init(() => { dialog.GetComponent<UIWidget>().alpha = 0; })
+                .Finish(() => { dialog.GetComponent<UIWidget>().alpha = 1; })
+                .AnimateUpdate((aim, totaltime, nowtime) =>
+                {
+                    if (nowtime < totaltime)
+                    {
+                        float t = Mathf.MoveTowards(dialog.GetComponent<UIWidget>().alpha, 1, 1 / totaltime * Time.fixedDeltaTime);
+                        dialog.GetComponent<UIWidget>().alpha = t;
+                    }
+                })
+                .Get();
+            return e;
+        }
+
+        public static ImageEffect FadeOutDialog(float time)
+        {
+            EffectBuilder builder = new EffectBuilder();
+            ImageEffect e = builder.UI(null)
+                .TotalTime(time)
+                .Init(() => { dialog.GetComponent<UIWidget>().alpha = 1; })
+                .Finish(() => { dialog.GetComponent<UIWidget>().alpha = 0; })
+                .AnimateUpdate((aim, totaltime, nowtime) =>
+                {
+                    if (nowtime < totaltime)
+                    {
+                        float t = Mathf.MoveTowards(dialog.GetComponent<UIWidget>().alpha, 0, 1 / totaltime * Time.fixedDeltaTime);
+                        dialog.GetComponent<UIWidget>().alpha = t;
+                    }
+                })
+                .Get();
+            return e;
+        }
+
+        public static ImageEffect BlockClick(bool block)
+        {
+            EffectBuilder builder = new EffectBuilder();
+            ImageEffect e = builder.UI(null)
+                .TotalTime(0)
+                .Init(() => { click.SetActive(block); })
+                .Finish(() => { })
+                .AnimateUpdate((aim, totaltime, nowtime) => { })
+                .Get();
+            return e;
+        }
     }
 }

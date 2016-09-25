@@ -90,6 +90,7 @@ namespace Assets.Script.GameStruct
             if (name != null && dialog.Length != 0) dialogLabel.text = dialog;
             DataManager.GetInstance().AddHistory(new BacklogText(name, dialog));
         }
+
         private void setVars(string name, string dialog, UILabel nameLabel, UILabel dialogLabel)
         {
             this.name = name;

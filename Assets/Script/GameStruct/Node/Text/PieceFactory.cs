@@ -15,19 +15,14 @@ namespace Assets.Script.GameStruct
 
         private UILabel nameLabel, dialogLabel;
         private DataManager manager;
-        //private Hashtable gVars, lVars;
         private int id = 0;
 
         public PieceFactory(GameObject root, DataManager manager)
         {
-            //this.gVars = gVars;
-            //this.lVars = lVars;
             this.manager = manager;
             this.root = root;
-            nameLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Label_Name").GetComponent<UILabel>();
-
-            dialogLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Label_Dialog").GetComponent<UILabel>();
-
+            nameLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Main_Container/Label_Name").GetComponent<UILabel>();
+            dialogLabel = root.transform.Find("Avg_Panel/DialogBox_Panel/Main_Container/Label_Dialog").GetComponent<UILabel>();
             // Fix: 将文本初始设为空，避免重复上一个文本的最后部分
             nameLabel.text = "";
             dialogLabel.text = "";
@@ -100,7 +95,7 @@ namespace Assets.Script.GameStruct
         public EffectPiece ChangeBackground(string spriteName, float fadeout = 0.5f, float fadein = 0.5f)
         {
             Sprite sprite = Resources.LoadAll<Sprite>("Background/"+ spriteName)[0];
-            return new EffectPiece(id++, AnimationBuilder.ChangeBackgroundFade(sprite, fadeout ,fadein));
+            return new EffectPiece(id++, AnimationBuilder.ChangeBackground(sprite, fadeout ,fadein));
         }
 
         /// <summary>
@@ -121,7 +116,7 @@ namespace Assets.Script.GameStruct
         public EffectPiece SetCharacterSprite(int depth, string spriteName, float fadein = 0.5f)
         {
             Sprite sprite = Resources.LoadAll<Sprite>("Character/" + spriteName)[0];
-            return new EffectPiece(id++, AnimationBuilder.SetCharacterSprite(depth, sprite, fadein));
+            return new EffectPiece(id++, AnimationBuilder.SetCharacterSprite(depth, sprite, "middle", fadein));
         }
 
         /// <summary>
@@ -198,6 +193,22 @@ namespace Assets.Script.GameStruct
         public EffectPiece MoveCharacterSprite(int depth, float x_o, float y_o, float x, float y, float time = 0.5f)
         {
             return new EffectPiece(id++, AnimationBuilder.MoveCharacterSpriteFrom(depth, new Vector3(x_o, y_o), new Vector3(x, y), time));
+        }
+        /// <summary>
+        /// 隐去对话框
+        /// </summary>
+        /// <param name="time">淡出的时间，默认0.5s</param>
+        public EffectPiece CloseDialog(float time = 0.5f)
+        {
+            return new EffectPiece(id++, AnimationBuilder.FadeoutDialog(time));
+        }
+        /// <summary>
+        /// 显示对话框
+        /// </summary>
+        /// <param name="time">淡入的时间，默认0.5s</param>
+        public EffectPiece OpenDialog(float time = 0.5f)
+        {
+            return new EffectPiece(id++, AnimationBuilder.FadeinDialog(time));
         }
 
         //立绘震动

@@ -17,22 +17,20 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 //——背景 学校正门——
-                f.ChangeBackground("tt"),
+                f.ChangeBackground("gate"),
+                f.OpenDialog(),
                 f.t("【李云萧】", "呼……终于走到这所学校了……累死我了……"),
                 f.t("【李云萧】", "不愧是重点高中，正门都不一样……"),
-                f.SetCharacterSprite(0, "c02_0", "left"),
-                f.MoveCharacterSprite(0, 120, 240),
                 f.t("【李云萧】", "今天是八月的最后一天，明天就正式开学了。"),
-                //f.SetCharacterSprite(1, "c02_0", "left"),
                 f.t("【李云萧】", "明明应该是件令人期待的事情，为什么有种淡淡的伤感……"),
-                //f.SetCharacterSprite(2, "c02_0", "left"),
                 f.t("【李云萧】", "不管了，还有一大堆手续要办……"),
-                f.ChangeBackground("qs"),
+                f.CloseDialog(),
                 //——背景 走廊——
+                f.ChangeBackground("corridor"),
+                f.OpenDialog(),
                 f.t("", "——半小时后——"),
                 f.t("【李云萧】", "终于把行李放好了，接下来该去教室了吧。"),
                 f.t("【李云萧】", "问了下路上遇到的学生，好像在3楼……"),
-                f.RemoveCharacterSprite(0),
                 f.t("【李云萧】", "高二（6），高二（5），高二（4）……到了，高二（3）班！"),
                 //——SE 嘈杂的人声——
                 f.t("【李云萧】", "其他人都已经到了么？该怎么面对新同学呢？"),
@@ -44,9 +42,12 @@ namespace Assets.Script.TextScripts
                 f.t("【男老师】", "请进。"),
                 //——SE 推门——
                 //——背景 办公室内景——
+                f.ChangeBackground("office"),
                 f.t("【李云萧】", "请问，郭老师是哪位？"),
                 //——立绘 郭老师——
+                f.SetCharacterSprite(0, "c02_0", "middle"),
                 f.t("【郭老师】", "我就是，同学你有什么事情吗？"),
+                f.RemoveCharacterSprite(0),
                 f.t("【李云萧】", "郭老师，我就是新转来的学生，我叫李云萧。"),
                 f.t("【郭老师】", "你就是李云萧啊，我接到学校的通知了！"),
                 f.t("【郭老师】", "我是高二（3）班的班主任，我叫郭珊珊，欢迎你的加入。"),
@@ -72,6 +73,7 @@ namespace Assets.Script.TextScripts
                 f.t("【郭老师】", "也差不多是时候了，你和我一起进去吧。"),
                 f.t("【李云萧】", "好的。"),
                 //——背景 讲台视角的教室——
+                f.ChangeBackground("classroom"),
                 //——无立绘 头像——
                 f.t("【李云萧】","（都是陌生的脸……）"),
                 f.t("【？？？】","大家安静一下——"),

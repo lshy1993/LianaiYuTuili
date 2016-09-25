@@ -14,6 +14,7 @@ namespace Assets.Script.UIScript.Effect
         public AnimationBuilder BeginWith(ImageEffect e)
         {
             animation = new Queue<ImageEffect>();
+            animation.Enqueue(EffectBuilder.BlockClick(false));
             animation.Enqueue(e);
             return this;
         }
@@ -24,7 +25,11 @@ namespace Assets.Script.UIScript.Effect
             return this;
         }
 
-        public Queue<ImageEffect> Get() { return animation; }
+        public Queue<ImageEffect> Get()
+        {
+            animation.Enqueue(EffectBuilder.BlockClick(true));
+            return animation;
+        }
 
         #region 新增加特效
         //设置立绘
@@ -96,6 +101,32 @@ namespace Assets.Script.UIScript.Effect
         public static Queue<ImageEffect> SetBackground(Sprite sprite)
         {
             return ChangeSprite(EffectBuilder.backgroundSprite, sprite);
+        }
+        //改变背景
+        public static Queue<ImageEffect> ChangeBackground(Sprite sprite, float fadeout, float fadein)
+        {
+            AnimationBuilder builder = new AnimationBuilder();
+            UI2DSprite ui = EffectBuilder.backgroundSprite;
+            return builder.BeginWith(EffectBuilder.FadeOut(ui, fadeout))
+                .Then(EffectBuilder.ChangeSprite(ui, sprite))
+                .Then(EffectBuilder.FadeIn(ui, fadein))
+                .Get();
+        }
+        //淡入对话框
+        public static Queue<ImageEffect> FadeinDialog(float fadein)
+        {
+            AnimationBuilder builder = new AnimationBuilder();
+            return builder.BeginWith(EffectBuilder.SetDialog(true))
+                .Then(EffectBuilder.FadeInDialog(fadein))
+                .Get();
+        }
+        //淡出对话框
+        public static Queue<ImageEffect> FadeoutDialog(float fadeout)
+        {
+            AnimationBuilder builder = new AnimationBuilder();
+            return builder.BeginWith(EffectBuilder.FadeOutDialog(fadeout))
+                .Then(EffectBuilder.SetDialog(false))
+                .Get();
         }
         #endregion
 
