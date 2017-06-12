@@ -8,8 +8,8 @@ namespace Assets.Script.GameStruct.Model
 {
     public class Girls
     {
-        public string name, cla, club, horoscope, info;
-        public List<string> like, dislike;
+        public string name, cla, club, horoscope;
+        public List<string> like, dislike, intro;
         public int height, weight, dayOfBirth, monthOfBirth;
 
         public Girls(JsonData data)
@@ -32,10 +32,15 @@ namespace Assets.Script.GameStruct.Model
             dislike = new List<string>();
             foreach (JsonData da in data["讨厌"])
             {
-                like.Add((string)da);
+                dislike.Add((string)da);
             }
 
-            info = (string)data["简介"];
+            intro = new List<string>();
+            foreach (JsonData da in data["简介"])
+            {
+                intro.Add((string)da);
+            }
+
         }
     }
 }

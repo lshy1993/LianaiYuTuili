@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.UIScript;
+using System.Linq;
 
 /// <summary>
 /// 
@@ -18,191 +19,214 @@ using Assets.Script.UIScript;
 /// </summary>
 public class DetectUIManager : MonoBehaviour
 {
-    private GameObject investObject;
-    private UIPanel investPanel;
+    //private GameObject investObject;
+    //private UIPanel investPanel;
 
     private int eventID;
+    private string currentPlace;
     private DetectPlaceSection section;
     private DetectManager detectManager;
     private DetectNode currentDetectNode;
 
+    public GameObject charaContainer;
     private GameObject functionContainer, investContainer, dialogContainer, moveContainer, cancelButton;
+    private UILabel hintinfoLabel;
 
-    //private GameObject currentContainer;
-    public Constants.DETECT_STATUS status;
-    //private GameObject[] invButton, selectButton;//调查点集与对话选项集
-    private List<GameObject> investButtons, dialogButtons, moveButtons;
+    public Constants.DETECT_STATUS status
+    {
+        get { return DataManager.GetInstance().GetInTurnVar<Constants.DETECT_STATUS>("侦探模式"); }
+        set { DataManager.GetInstance().SetInTurnVar("侦探模式", value); }
+    }
+
     public PanelSwitch ps;
+    public ImageManager im;
 
     void Awake()
     {
-        investObject = transform.parent.gameObject;
-        investPanel = investObject.GetComponent<UIPanel>();
+        //investObject = transform.parent.gameObject;
+        //investPanel = investObject.GetComponent<UIPanel>();
 
         dialogContainer = this.transform.Find("Dialog_Container").gameObject;
-
         functionContainer = this.transform.Find("Function_Container").gameObject;
-
         investContainer = this.transform.Find("InvestButton_Container").gameObject;
-
         moveContainer = this.transform.Find("Move_Container").gameObject;
-
         cancelButton = this.transform.Find("But_Cancel").gameObject;
 
-        investButtons = new List<GameObject>();
-        dialogButtons = new List<GameObject>();
-        moveButtons = new List<GameObject>();
+        hintinfoLabel = this.transform.Find("ButtomHelp_Container/Info_Label").GetComponent<UILabel>();
         detectManager = DetectManager.GetInstance();
-        status = Constants.DETECT_STATUS.FREE;
+
+        //status = Constants.DETECT_STATUS.FREE;
         eventID = -1;
-        
-        //Open();
+
     }
 
-    internal void ResetAlpha()
-    {
-        //throw new NotImplementedException();
-
-        switch (status)
-        {
-            case Constants.DETECT_STATUS.DIALOG:
-                dialogContainer.SetActive(true);
-                dialogContainer.GetComponent<UIWidget>().alpha = 1;
-                break;
-            default:
-                break;
-        }
-    }
-
-    internal void CheckEvent(int id)
-    {
-        if (eventID != id)
-        {
-            SwitchStatus(Constants.DETECT_STATUS.FREE);
-            eventID = id;
-        }
-    }
-
-    internal void LoadSection(DetectPlaceSection section)
+    private void LoadSection(DetectPlaceSection section)
     {
         this.section = section;
+        //TODO: 更换背景
+        ChangeBackground(section.imagename);
         SetInvest();
         SetDialog();
         SetMove();
     }
 
-
-
-    public void SetDetectNode(DetectNode node)
+    private void ChangeBackground(string name)
     {
-        Debug.Log("设置当前DetectNode:" + node);
-        this.currentDetectNode = node;
+        im.MoveInit(im.LoadBackground(name));
     }
+
+    #region 数据绑定
+    public void SetDetectNode(DetectNode node, Dictionary<string,DetectPlaceSection> sections, string place ,int id)
+    {
+        currentDetectNode = node;
+        if (eventID != id)
+        {
+            //调查大Node不同
+            Debug.Log("node不同：载入 "+node.ToString());
+            LoadSection(sections.FirstOrDefault().Value);
+            currentPlace = section.place;
+            SwitchStatus(Constants.DETECT_STATUS.FREE);
+            eventID = id;
+        }
+        else if (currentPlace != place)
+        {
+            //地点不同
+            Debug.Log("地点不同！当前：" + currentPlace + "即将进入 " + place);
+            currentPlace = place;
+            LoadSection(sections[currentPlace]);
+            SwitchStatus(Constants.DETECT_STATUS.FREE);
+        }
+        else
+        {
+            LoadSection(sections[currentPlace]);
+            SwitchStatus(status);
+        }
+    }
+
+    private void SetInvest()
+    {
+        investContainer.transform.DestroyChildren();
+        if(section.invests == null || section.invests.Count == 0)
+        {
+            functionContainer.transform.Find("But_Invest").gameObject.SetActive(false);
+            return;
+        }
+        functionContainer.transform.Find("But_Invest").gameObject.SetActive(true);
+        foreach (DetectInvest invest in section.invests)
+        {
+            //载入调查点
+            if (!detectManager.IsVisible(invest)) return;
+            GameObject investBtn = (GameObject)Resources.Load("Prefab/Invest_Choice");
+            investBtn = NGUITools.AddChild(investContainer, investBtn);
+            investBtn.transform.localPosition = invest.coordinate;
+            
+            UIButton btn = investBtn.GetComponent<UIButton>();
+            /*
+             * 测试用删除
+             * btn.normalSprite2D = invest.icon;
+             * btn.hoverSprite2D = invest.iconHover;
+             * btn.pressedSprite2D = invest.iconHover;
+            */
+
+            InvestButton script = investBtn.GetComponent<InvestButton>();
+            script.invest = invest;
+            script.AssignDetectNode(currentDetectNode);
+        }
+    }
+
+    private void SetDialog()
+    {
+        dialogContainer.transform.DestroyChildren();
+        if (section.dialogs == null || section.dialogs.Count == 0)
+        {
+            functionContainer.transform.Find("But_Dialog").gameObject.SetActive(false);
+            return;
+        }
+        functionContainer.transform.Find("But_Dialog").gameObject.SetActive(true);
+        foreach (DetectDialog dialog in section.dialogs)
+        {
+            if (!detectManager.IsVisible(dialog)) return;
+            GameObject dialogBtn = (GameObject)Resources.Load("Prefab/Dialog_Choice");
+            dialogBtn = NGUITools.AddChild(dialogContainer, dialogBtn);
+
+            dialogBtn.transform.Find("Label").GetComponent<UILabel>().text = dialog.dialog;
+            //如果已经阅读过则标识
+            dialogBtn.transform.Find("Readed_Label").gameObject.SetActive(detectManager.IsReaded(dialog));
+
+            DialogButton script = dialogBtn.GetComponent<DialogButton>();
+            script.dialog = dialog;
+            script.AssignDetectNode(currentDetectNode);
+        }
+    }
+
+    private void SetMove()
+    {
+        moveContainer.transform.DestroyChildren();
+        if (section.moves == null || section.moves.Count == 0)
+        {
+            functionContainer.transform.Find("But_Move").gameObject.SetActive(false);
+            return;
+        }
+
+        functionContainer.transform.Find("But_Move").gameObject.SetActive(true);
+        foreach (string move in section.moves)
+        {
+            GameObject moveBtn = (GameObject)Resources.Load("Prefab/Move_Choice");
+            moveBtn = NGUITools.AddChild(moveContainer, moveBtn);
+
+            moveBtn.transform.Find("Label").GetComponent<UILabel>().text = move;
+            moveBtn.GetComponent<MoveButton>().AssignUIManager(this);
+            moveBtn.GetComponent<MoveButton>().place = move;
+        }
+    }
+    #endregion
 
     public void SwitchStatus(Constants.DETECT_STATUS nextStatus)
     {
-        //CloseContainer(status);
-        //OpenContainer(nextStatus);
         Debug.Log("next status:" + nextStatus);
         switch (nextStatus)
         {
             case Constants.DETECT_STATUS.FREE:
-                //functionContainer.GetComponent<FunctionAnimation>().Open();
                 ps.SwitchTo_VerifyIterative("Function_Container");
+                charaContainer.SetActive(true);
                 cancelButton.SetActive(false);
                 break;
             case Constants.DETECT_STATUS.DIALOG:
-                //dialogContainer.SetActive(true);
                 ps.SwitchTo_VerifyIterative("Dialog_Container");
-                //dialogContainer.GetComponent<DialogAnimation>().Open();
+                charaContainer.SetActive(false);
                 cancelButton.SetActive(true);
                 break;
             case Constants.DETECT_STATUS.INVEST:
-                //investContainer.SetActive(true);
-                ps.SwitchTo_VerifyIterative("Invest_Container");
-                //investContainer.GetComponent<InvestFade>().Open();
+                ps.SwitchTo_VerifyIterative("InvestButton_Container");
+                charaContainer.SetActive(false);
                 cancelButton.SetActive(true);
                 break;
             case Constants.DETECT_STATUS.MOVE:
-                //moveContainer.SetActive(true);
                 ps.SwitchTo_VerifyIterative("Move_Container");
-                //moveContainer.GetComponent<MoveFade>().Open();
+                charaContainer.SetActive(false);
                 cancelButton.SetActive(true);
                 break;
             default:
                 break;
         }
         this.status = nextStatus;
+        DataManager.GetInstance().SetInTurnVar("侦探模式", nextStatus);
     }
 
-    public void SetInvest()
+    public void ShowCharaContainer()
     {
-        //investButtons.Clear();
-        investContainer.transform.DestroyChildren();
-        //载入调查点
-        foreach (DetectInvest invest in section.invests)
-        {
-            GameObject investBtn = (GameObject)Resources.Load("Prefab/Invest_Choice");
-            investBtn = NGUITools.AddChild(investContainer, investBtn);
-            //investBtn = Instantiate(investBtn) as GameObject;
-            //investBtn.transform.parent = investContainer.transform;
-            investBtn.transform.position = invest.coordinate;
-            
-            UIButton btn = investBtn.GetComponent<UIButton>();
-            btn.normalSprite2D = invest.icon;
-            btn.hoverSprite2D = invest.iconHover;
-            btn.pressedSprite2D = invest.iconHover;
-
-            InvestButton script = investBtn.GetComponent<InvestButton>();
-            script.invest = invest;
-            script.AssignDetectNode(currentDetectNode);
-
-            //investBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
-
-            //investButtons.Add(investBtn);
-        }
+        charaContainer.SetActive(true);
     }
 
-    public void SetDialog()
+    public void SetHint(string str)
     {
-        //dialogButtons.Clear();
-        dialogContainer.transform.DestroyChildren();
-        foreach (DetectDialog dialog in section.dialogs)
-        {
-            GameObject dialogBtn = (GameObject)Resources.Load("Prefab/Dialog_Choice");
-            dialogBtn = NGUITools.AddChild(dialogContainer, dialogBtn);
-            //dialogBtn = Instantiate(dialogBtn) as GameObject;
-            //dialogBtn.transform.parent = dialogContainer.transform;
-            dialogBtn.transform.Find("Label").GetComponent<UILabel>().text = dialog.dialog;
-
-            DialogButton script = dialogBtn.GetComponent<DialogButton>();
-            script.dialog = dialog;
-            //Debug.Log("设置DetectUIManager:" + currentDetectNode);
-            script.AssignDetectNode(currentDetectNode);
-
-            //dialogBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
-
-            //dialogButtons.Add(dialogBtn);
-        }
-        dialogContainer.GetComponent<DetectDialogAnimation>().setDialogBtns(dialogButtons);
+        hintinfoLabel.text = str;
     }
 
-    void SetMove()
+    public void MovePlace(string place)
     {
-        //moveButtons.Clear();
-        moveContainer.transform.DestroyChildren();
-        foreach (string move in section.moves)
-        {
-
-            GameObject moveBtn = (GameObject)Resources.Load("Prefab/Move_Choice");
-            moveBtn = NGUITools.AddChild(moveContainer, moveBtn);
-                //Instantiate(moveBtn) as GameObject;
-            //moveBtn.transform.parent = moveContainer.transform;
-            moveBtn.transform.Find("Label").GetComponent<UILabel>().text = move;
-
-            //moveBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
-            //moveButtons.Add(moveBtn);
-        }
-
+        Debug.Log("移动至地点：" + place);
+        currentDetectNode.MoveTo(place);
     }
+
 }

@@ -15,7 +15,6 @@ public class ReasoningTextButton : MonoBehaviour
 
     void OnClick()
     {
-        Debug.Log("选项!");
         uiManager.JudgeText(id);
     }
 }

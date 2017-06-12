@@ -10,7 +10,13 @@ using Assets.Script.GameStruct;
  * PanelSwitch: 
  * 整个游戏只允许一个，作为GameManager的组件，不能删除
  * 保存其他模块间切换函数，供其他Manager调用
- * 修改相应参数即修改显示效果
+ * 组件示意：
+ * Avg_Panel 文字模式大块
+ * Title_Panel 开始界面大块
+ * System_Panel 系统大块
+ * Map_Panel 地图模式大块
+ * Edu_Panel 养成模式大块
+ * Phone_Panel 电子手册大块
  */
 public class PanelSwitch : MonoBehaviour
 {
@@ -24,14 +30,11 @@ public class PanelSwitch : MonoBehaviour
     {
         "Avg",
         "Title",
-        //"Invest",
-        //"Detect",
         "System",
-        //"Enquire",
-        //"Negotiate",
         "Map",
         "Edu",
-        "Phone"
+        "Phone",
+        "Fin"
     };
 
     Dictionary<string, GameObject> panels;
@@ -39,6 +42,10 @@ public class PanelSwitch : MonoBehaviour
     private List<string> currentPanelPath;
     private FadeTreeIterator iterator;
 
+    public void HidePanel(string name)
+    {
+        panels[name].GetComponent<UIPanel>().alpha = 0;
+    }
 
     /// <summary>
     ///  用于验证新的PanelSwitch想法的函数
@@ -60,7 +67,6 @@ public class PanelSwitch : MonoBehaviour
         });
     }
 
-
     public void SwitchTo_VerifyIterative(string next)
     {
         SwitchTo_VerifyIterative(next, () => { }, () => { });
@@ -79,29 +85,22 @@ public class PanelSwitch : MonoBehaviour
     public void SwitchTo_VerifyIterative(string next, UIAnimationCallback closeCallback,
         UIAnimationCallback openCallback)
     {
-        //Debug.Log(Time.time + " Switch to iterative:" + next);
-        List<string>[] result = GetListIntersectAndDifference(currentPanelPath,
-            iterator.pathTable[next]);
-        List<string> sameChain = result[0],
-                     closeChain = result[1],
-                     openChain = result[2];
-        //Debug.Log("closeChain:" + ConvertToStringPath(closeChain));
-        //Debug.Log("openChain:" + ConvertToStringPath(openChain));
-        //自己切换自己
+        //计算板块链：共有链，关闭链，开启链
+        //例：Avg切换到Enqurie：关闭DialogBox 打开Enquire 共有Avg
+        List<string>[] result = GetListIntersectAndDifference(currentPanelPath, iterator.pathTable[next]);
+        List<string> sameChain = result[0], closeChain = result[1], openChain = result[2];
+
+        //自己切换自己的情形
         if (openChain.Count == 0 && closeChain.Count == 0)
         {
             closeChain = sameChain.GetRange(sameChain.Count - 1, 1);
             openChain = sameChain.GetRange(sameChain.Count - 1, 1);
-            //closeChain = sameChain;
-            //openChain = sameChain;
         }
 
         //Debug.Log("currentPath:" + ConvertToStringPath(currentPanelPath));
         //Debug.Log("sameChain:" + ConvertToStringPath(sameChain));
         //Debug.Log("closeChain:" + ConvertToStringPath(closeChain));
         //Debug.Log("openChain:" + ConvertToStringPath(openChain));
-
-        //PanelTreeInterface closeFade = iterator.satellightTable[closeChain[0]];
 
         CloseChain(new Stack<string>(closeChain), () =>
         {
@@ -112,17 +111,18 @@ public class PanelSwitch : MonoBehaviour
         });
     }
 
-    private void SetActiveChain(bool v, List<string> openChain)
+    private void SetActiveChain(bool isOpne, List<string> chain)
     {
-        foreach (string s in openChain)
+        //按照开启链，打开/关闭GameObject，开启时设置alpha为0
+        foreach (string s in chain)
         {
             GameObject go = iterator.satellightTable[s].gameObject;
-            if (v)
+            if (isOpne)
             {
                 UIRect up = go.GetComponent<UIRect>();
                 if (up != null) up.alpha = 0;
             }
-            go.SetActive(v);
+            go.SetActive(isOpne);
         }
     }
 
@@ -130,15 +130,16 @@ public class PanelSwitch : MonoBehaviour
     {
         if (closeStack.Count == 0 || closeStack.Peek() == null)
         {
-            //Debug.Log(Time.time + " Close Finished");
+            //已将所有面板关闭
             closeFinishCallback();
             return;
         }
         else
         {
-            string open = closeStack.Pop();
-            currentPanelPath = iterator.pathTable[open];
-            iterator.satellightTable[open].Close(() =>
+            string close = closeStack.Pop();
+            currentPanelPath.Remove(close);
+            //Debug.Log("path update:" + ConvertToStringPath(currentPanelPath));
+            iterator.satellightTable[close].Close(() =>
             {
                 CloseChain(closeStack, closeFinishCallback);
             });
@@ -150,14 +151,15 @@ public class PanelSwitch : MonoBehaviour
     {
         if (openQueue.Count == 0 || openQueue.Peek() == null)
         {
-            //Debug.Log(Time.time + " Open Finished");
+            //已将所有面板开启
             openFinishCallback();
             return;
         }
         else
         {
             string open = openQueue.Dequeue();
-            currentPanelPath = iterator.pathTable[open];
+            currentPanelPath.Add(open);
+            //Debug.Log("path update:" + ConvertToStringPath(currentPanelPath));
             iterator.satellightTable[open].Open(() =>
             {
                 OpenChain(openQueue, openFinishCallback);
@@ -184,7 +186,6 @@ public class PanelSwitch : MonoBehaviour
         difference[2] = snd.Except(fst).ToList();
 
         return difference;
-
     }
 
 
@@ -192,20 +193,19 @@ public class PanelSwitch : MonoBehaviour
     public void Init()
     {
         root = GameObject.Find("UI Root");
-        // old
+        //搜索到所有的Panel原件
         panels = new Dictionary<string, GameObject>();
         for (int i = 0; i < PANEL_NAMES.Count; i++)
         {
             GameObject panelObj = root.transform.Find(PANEL_NAMES[i] + "_Panel").gameObject;
             panels.Add(PANEL_NAMES[i], panelObj);
         }
+        //游戏初始界面打开情况
         current = "Title";
-
-        // new
         currentPanelPath = new List<string>()
         {
-            //"UI Root", "Title"
-            "UI Root", "Title_Panel"
+            //"UI Root", "Title_Panel"
+            "UI Root"
         };
 
         iterator = new FadeTreeIterator(root.GetComponent<PanelTreeInterface>());
@@ -219,7 +219,7 @@ public class PanelSwitch : MonoBehaviour
         if (panels["Title"].activeSelf)
         {
             //标题画面被打开时
-            TitleManager tm = panels["Title"].GetComponent<TitleManager>();
+            TitleUIManager tm = panels["Title"].GetComponent<TitleUIManager>();
             switch (tm.status)
             {
                 case Constants.TITLE_STATUS.EXTRA:
@@ -228,13 +228,12 @@ public class PanelSwitch : MonoBehaviour
                 case Constants.TITLE_STATUS.GALLERY:
                     if (GameObject.Find("Large_Container") != null && GameObject.Find("Large_Container").activeSelf)
                     {
-                        tm.ClosePic();
+                        //tm.ClosePic();
                     }
                     else
                     {
                         tm.CloseGallery();
                     }
-                    
                     break;
                 case Constants.TITLE_STATUS.MUSIC:
                     tm.CloseMusic();
@@ -248,56 +247,97 @@ public class PanelSwitch : MonoBehaviour
                 default:
                     break;
             }
-            
         }
 
         if (panels["System"].activeSelf)
         {
             //系统菜单打开时
-            GameObject wc = GameObject.Find("Warning_Container");
+            GameObject wc = panels["System"].transform.Find("Warning_Container").gameObject;
             if (wc != null && wc.activeSelf)
             {
-                //警告窗口开启情形
+                //警告窗口开启 则关闭
                 wc.SetActive(false);
             }
             else
             {
+                //否则关闭菜单
                 panels["System"].GetComponent<SystemUIManager>().Close();
-                //Debug.Log("Close Menu!");
             }
         }
         else
         {
-            //系统菜单关闭的情形
+            //其他情形
             if (panels["Avg"].activeSelf || panels["Map"].activeSelf || panels["Edu"].activeSelf)
             {
                 if (panels["Phone"].activeSelf)
                 {
-                    panels["Phone"].GetComponent<PhoneAnimation>().ClosePhone();
+                    panels["Phone"].GetComponent<NoteUIManager>().ReturnIndex();
                 }
                 else
                 {
+                    //Debug.Log("Open Menu!");
                     panels["System"].SetActive(true);
                     panels["System"].GetComponent<SystemUIManager>().Open();
-                    //Debug.Log("Open Menu!");
                 }
             }
         }
+
     }
 
-    public void MouseUpScroll()
+    //滚轮向上操作
+    public void MouseUpScroll(float delta)
     {
-        if (panels["Avg"].activeSelf)
+        //仅纯avg状态下可以打开BackLog
+        if (panels["Avg"].activeSelf && !panels["Phone"].activeSelf)
         {
-            if (!panels["System"].activeSelf)
+            GameObject backCon = panels["System"].transform.Find("Backlog_Container").gameObject;
+            //Backlog关闭 才能打开
+            if (!backCon.activeSelf && !DataManager.GetInstance().blockBacklog)
             {
                 panels["System"].SetActive(true);
                 panels["System"].GetComponent<UIPanel>().alpha = 1;
                 panels["System"].GetComponent<SystemUIManager>().OpenBacklog();
             }
+            else
+            {
+                //如果已经打开了Backlog 则向上滚动条
+                backCon.transform.Find("Scroll View").GetComponent<UIScrollView>().Scroll(delta * 10);
+            }
         }
     }
 
+    //滚轮朝下操作
+    public void MouseDownScroll(float delta)
+    {
+        //仅当avg开启时有效
+        if (panels["Avg"].activeSelf && !panels["Phone"].activeSelf)
+        {
+            GameObject backCon = panels["System"].transform.Find("Backlog_Container").gameObject;
+            //当Backlog打开 则滚动条向下
+            if (backCon.activeSelf)
+            {
+                float value = backCon.transform.Find("ScrollBar").GetComponent<UIScrollBar>().value;
+                if(value >= 1)
+                {
+                    //当滚动条到底时 关闭backlog
+                    panels["System"].GetComponent<SystemUIManager>().Close();
+                }
+                else
+                {
+                    backCon.transform.Find("Scroll View").GetComponent<UIScrollView>().Scroll(delta * 10);
+                }
+            }
+            else
+            {
+                //否则 相当于左键
+                GameObject clickCon = panels["Avg"].transform.Find("DialogBox_Panel/Click_Container").gameObject;
+                clickCon.GetComponent<Click_Next>().ClickE();
+            }
+
+        }
+    }
+
+    ///--------------------以下是旧函数----------------------------------
     /// <summary>
     /// 切换面板,TODO:可能需要对每个Panel做一个切换特效？
     /// </summary>

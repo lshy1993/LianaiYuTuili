@@ -13,9 +13,17 @@ public class ReasoningEvidenceButton : MonoBehaviour
         this.uiManager = manager;
     }
 
-    void OnHover()
+    void OnHover(bool ishover)
     {
-        uiManager.HoverEvidence(current);
+        if (ishover)
+        {
+            uiManager.HoverEvidence(current.introduction);
+        }
+        else
+        {
+            uiManager.HoverEvidence("");
+        }
+        
     }
 
     void OnClick()

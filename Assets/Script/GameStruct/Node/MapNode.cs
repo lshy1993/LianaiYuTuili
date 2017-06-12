@@ -30,10 +30,9 @@ namespace Assets.Script.GameStruct
 
         public override void Init()
         {
-            base.Init();
+            //base.Init();
             uiManager = root.transform.Find("Map_Panel").GetComponent<MapUIManager>();
             uiManager.mapNode = this;
-            //uiManager.GetOut();
         }
 
         public override void Update() { }
@@ -41,7 +40,6 @@ namespace Assets.Script.GameStruct
         public void ChooseNext(GameNode next)
         {
             this.next = next;
-
             base.end = true;
         }
 
@@ -53,14 +51,6 @@ namespace Assets.Script.GameStruct
 
         public override GameNode NextNode()
         {
-            //GameNode temp = this.next;
-
-            //base.end = false;
-
-            //this.next = null;
-
-            //return temp;
-
             return next;
         }
 

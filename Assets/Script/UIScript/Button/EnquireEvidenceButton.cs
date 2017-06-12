@@ -7,12 +7,17 @@ public class EnquireEvidenceButton : MonoBehaviour
 {
     private EnquireUIManager uiManager;
 
-    public string evidence;
+    public Evidence evidence;
     //private DetectNode detectNode;
 
     public void SetUIManager(EnquireUIManager manager)
     {
         this.uiManager = manager;
+    }
+
+    void OnHover(bool ishover)
+    {
+        uiManager.SetHint(ishover, evidence);
     }
 
     void OnClick()

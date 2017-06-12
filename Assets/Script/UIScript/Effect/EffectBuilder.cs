@@ -7,27 +7,34 @@ using UnityEngine;
 
 namespace Assets.Script.GameStruct
 {
-
+    /// <summary>
+    /// 用于控制 gameObject 的【特效
+    /// 例如 位置移动 透明度 等变化
+    /// 提供最【基本】的变化方式
+    /// 复杂的【特效】由 AnimationBuilder 组合
+    /// </summary>
     public class EffectBuilder
     {
         static ImageManager imageManager;
         static SoundManager soundManager;
         static CharacterManager characterManager;
         public static UI2DSprite backgroundSprite;
-        public static GameObject dialog, charaPanel, click;
+        public static GameObject dialog, click, charaPanel;
+        private static UILabel dialoglabel, namelabel;
 
         public static void Init(ImageManager im, SoundManager sm, CharacterManager cm)
         {
             imageManager = im;
             soundManager = sm;
             characterManager = cm;
-            backgroundSprite = GameObject.Find("UI Root").transform.Find("Avg_Panel/Background_Panel/BackGround_Sprite").GetComponent<UI2DSprite>();
-            charaPanel = GameObject.Find("UI Root").transform.Find("Avg_Panel/CharaGraph_Panel").gameObject;
-            //dialog = GameObject.Find("UI Root").transform.Find("Avg_Panel/DialogBox_Panel").gameObject;
-            dialog = GameObject.Find("UI Root").transform.Find("Avg_Panel/DialogBox_Panel/Main_Container").gameObject;
-            click = GameObject.Find("UI Root").transform.Find("Avg_Panel/DialogBox_Panel/Click_Container").gameObject;
+            //获取由ImageManager找到的组件
+            backgroundSprite = im.bgSprite;
+            //click = im.clickContainer;
+            //charaPanel = im.fgPanel.gameObject;
+            //dialog = im.dialogContainer;
+            //dialoglabel = im.dialogLabel;
+            //namelabel = im.nameLabel;
         }
-
 
 
         public static ImageEffect Parallel(List<ImageEffect> effects)
@@ -85,7 +92,7 @@ namespace Assets.Script.GameStruct
         {
             if (imageEffect.origin == null)
             {
-                imageEffect.origin = new SpriteState();
+                imageEffect.origin = new SpriteStatus();
             }
 
             imageEffect.origin.alpha = alpha;
@@ -96,7 +103,7 @@ namespace Assets.Script.GameStruct
         {
             if (imageEffect.origin == null)
             {
-                imageEffect.origin = new SpriteState();
+                imageEffect.origin = new SpriteStatus();
             }
 
             imageEffect.origin.position = position;
@@ -192,7 +199,36 @@ namespace Assets.Script.GameStruct
             return e;
         }
 
+        public static ImageEffect RemoveSprite(UI2DSprite sprite)
+        {
+            return ChangeSprite(sprite, null);
+            //EffectBuilder builder = new EffectBuilder();
+            //ImageEffect e = builder.UI(sprite)
+            //    .TotalTime(0)
+            //    .Init(() => { sprite.sprite2D = null; })
+            //    .AnimateUpdate((aim, totaltime, nowtime) => { })
+            //    .Get();
+            //return e;
+        }
+
+        #region 新增内容2 查询已有图片
+        public static List<int> GetDepthNum()
+        {
+            List<int> nums = new List<int>();
+            foreach(Transform child in charaPanel.transform)
+            {
+                int x = Convert.ToInt32(child.name.Remove(0, 6));
+                nums.Add(x);
+            }
+            return nums;
+        }
+        #endregion
+
         #region 新增内容 根据Depth深度变动Sprite
+        /* 采用了krkr的图像处理方式
+         * Depth为图像的唯一编号
+         * 表示了深度，数字越大越靠前
+        */
         public static ImageEffect SetSpriteByDepth(int depth, Sprite sprite)
         {
             UI2DSprite ui = null;
@@ -212,6 +248,7 @@ namespace Assets.Script.GameStruct
                 .TotalTime(0)
                 .Init(() =>
                 {
+                    ui.alpha = 0;
                     ui.depth = depth;
                     ui.sprite2D = sprite;
                     ui.MakePixelPerfect();
@@ -232,9 +269,38 @@ namespace Assets.Script.GameStruct
                 UI2DSprite ui = charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
                 ImageEffect e = builder.UI(ui)
                     .TotalTime(0)
-                    .Init(()=> { })
+                    .Init(()=> {
+                        //if (charaPanel.transform.Find("sprite" + depth) != null)
+                        //if(ui!=null)
+                        // GameObject.Destroy(ui.transform.gameObject);
+                        ui.sprite2D = null;
+                    })
                     .AnimateUpdate((aim, totaltime, nowtime) => { })
-                    .Finish(() => { GameObject.Destroy(ui.transform.gameObject); })
+                    .Finish(() => {  })
+                    .Get();
+                return e;
+            }
+        }
+
+        public static ImageEffect ChangeByDepth(int depth, Sprite sprite)
+        {
+            if (charaPanel.transform.Find("sprite" + depth) == null)
+            {
+                return null;
+            }
+            else
+            {
+                EffectBuilder builder = new EffectBuilder();
+                UI2DSprite ui = charaPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
+                ImageEffect e = builder.UI(ui)
+                    .TotalTime(0)
+                    .Init(() =>
+                    {
+                        ui.sprite2D = sprite;
+                        ui.MakePixelPerfect();
+                    })
+                    .AnimateUpdate((aim, totaltime, nowtime) => { })
+                    .Finish(() => { })
                     .Get();
                 return e;
             }
@@ -254,14 +320,15 @@ namespace Assets.Script.GameStruct
             EffectBuilder builder = new EffectBuilder();
             ImageEffect e = builder.UI(ui)
                 .TotalTime(time)
-                .Init(()=> { ui.alpha = 0; })
+                .Init(() => { ui.alpha = 0; })
                 .AnimateUpdate((aim, totaltime, nowtime) =>
                 {
                     if (nowtime < totaltime)
                     {
                         aim.alpha = Mathf.MoveTowards(aim.alpha, 1, 1 / totaltime * Time.fixedDeltaTime);
                     }
-                }).Get();
+                })
+                .Finish(() => { ui.alpha = 1; }).Get();
 
             return e;
         }
@@ -287,7 +354,9 @@ namespace Assets.Script.GameStruct
                     {
                         aim.alpha = Mathf.MoveTowards(aim.alpha, 0, 1 / totaltime * Time.fixedDeltaTime);
                     }
-                }).Get();
+                })
+                .Finish(()=> { ui.alpha = 0; })
+                .Get();
 
             return e;
         }
@@ -368,7 +437,6 @@ namespace Assets.Script.GameStruct
             ImageEffect e = builder.UI(ui)
                 .TotalTime(time)
                 .Init(() => { })
-                .Finish(() => { })
                 .AnimateUpdate((aim, totaltime, nowtime) =>
                 {
                     if (nowtime < totaltime)
@@ -378,6 +446,7 @@ namespace Assets.Script.GameStruct
                         aim.transform.localPosition = new Vector3(x, y);
                     }
                 })
+                .Finish(() => { })
                 .Get();
             return e;
         }
@@ -392,13 +461,12 @@ namespace Assets.Script.GameStruct
                 {
                     dialog.SetActive(open);
                     dialog.GetComponent<UIWidget>().alpha = 0;
-                })
-                .Finish(()=>
-                {
-                    dialog.SetActive(open);
-                    dialog.GetComponent<UIWidget>().alpha = 0;
+                    //namelabel.text = "";
+                    //dialoglabel.text = "";
+                    //dialog.transform.Find("NextIcon_Sprite").gameObject.SetActive(false);
                 })
                 .AnimateUpdate((aim, totaltime, nowtime) =>{ })
+                .Finish(() => { })
                 .Get();
             return e;
         }
@@ -408,8 +476,7 @@ namespace Assets.Script.GameStruct
             EffectBuilder builder = new EffectBuilder();
             ImageEffect e = builder.UI(null)
                 .TotalTime(time)
-                .Init(() => { dialog.GetComponent<UIWidget>().alpha = 0; })
-                .Finish(() => { dialog.GetComponent<UIWidget>().alpha = 1; })
+                .Init(() => { })
                 .AnimateUpdate((aim, totaltime, nowtime) =>
                 {
                     if (nowtime < totaltime)
@@ -417,6 +484,10 @@ namespace Assets.Script.GameStruct
                         float t = Mathf.MoveTowards(dialog.GetComponent<UIWidget>().alpha, 1, 1 / totaltime * Time.fixedDeltaTime);
                         dialog.GetComponent<UIWidget>().alpha = t;
                     }
+                })
+                .Finish(() =>
+                {
+                    dialog.GetComponent<UIWidget>().alpha = 1;
                 })
                 .Get();
             return e;
@@ -427,8 +498,10 @@ namespace Assets.Script.GameStruct
             EffectBuilder builder = new EffectBuilder();
             ImageEffect e = builder.UI(null)
                 .TotalTime(time)
-                .Init(() => { dialog.GetComponent<UIWidget>().alpha = 1; })
-                .Finish(() => { dialog.GetComponent<UIWidget>().alpha = 0; })
+                .Init(() =>
+                {
+                    dialog.GetComponent<UIWidget>().alpha = 1;
+                })
                 .AnimateUpdate((aim, totaltime, nowtime) =>
                 {
                     if (nowtime < totaltime)
@@ -436,6 +509,12 @@ namespace Assets.Script.GameStruct
                         float t = Mathf.MoveTowards(dialog.GetComponent<UIWidget>().alpha, 0, 1 / totaltime * Time.fixedDeltaTime);
                         dialog.GetComponent<UIWidget>().alpha = t;
                     }
+                })
+                .Finish(() =>
+                {
+                    dialog.GetComponent<UIWidget>().alpha = 0;
+                    //dialoglabel.text = "";
+                    //namelabel.text = "";
                 })
                 .Get();
             return e;

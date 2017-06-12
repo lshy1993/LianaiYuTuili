@@ -15,10 +15,7 @@ namespace Assets.Script.GameStruct
             return instance;
         }
 
-        private Hashtable staticVar,
-                          systemVar,
-                          gameVar,
-                          inTurnVar;
+        private Hashtable staticVar, systemVar, gameVar, inTurnVar, tempVar;
 
         private Dictionary<string, Type> gameVarTypes, inTurnVarTypes;
         private DataPool()
@@ -27,6 +24,7 @@ namespace Assets.Script.GameStruct
             systemVar = new Hashtable();
             gameVar = new Hashtable();
             inTurnVar = new Hashtable();
+            tempVar = new Hashtable();
             gameVarTypes = new Dictionary<string, Type>();
             inTurnVarTypes = new Dictionary<string, Type>();
         }
@@ -62,7 +60,12 @@ namespace Assets.Script.GameStruct
                 staticVar.Add(key, obj);
             }
         }
-        
+
+        public Hashtable GetStaticTable()
+        {
+            return staticVar;
+        }
+
         /// <summary>
         /// 获取系统数据
         /// </summary>
@@ -92,7 +95,6 @@ namespace Assets.Script.GameStruct
             {
                 systemVar.Add(key, obj);
             }
-            
         }
 
         public Hashtable GetSystemTable()
@@ -100,6 +102,36 @@ namespace Assets.Script.GameStruct
             return systemVar;
         }
 
+        /// <summary>
+        /// 获取临时数据
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public object GetTempVar(string key)
+        {
+            if (tempVar.ContainsKey(key))
+            {
+                return tempVar[key];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 写入临时数据
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="obj"></param>
+        public void WriteTempVar(string key, object obj)
+        {
+            if (tempVar.ContainsKey(key))
+            {
+                tempVar[key] = obj;
+            }
+            else
+            {
+                tempVar.Add(key, obj);
+            }
+        }
 
         /// <summary>
         /// 获取游戏数据

@@ -1,20 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Script.GameStruct.Model;
-using Assets.Script.GameStruct;
 
 public class PhoneEvidenceButton : MonoBehaviour
 {
-    private PhoneUIManager uiManager;
-    public Evidence current;
-
-    public void SetUIManager(PhoneUIManager manager)
-    {
-        this.uiManager = manager;
-    }
-
+    public NoteUIManager uiManager;
+    
     void OnClick()
     {
-        uiManager.EvidenceInfoFresh(current);
+        uiManager.OpenEvidence();
+    }
+
+    void OnHover(bool ishover)
+    {
+        if (ishover)
+        {
+            uiManager.SetHelpInfo("打开事件簿界面");
+        }
+        else
+        {
+            uiManager.SetHelpInfo("");
+        }
     }
 }

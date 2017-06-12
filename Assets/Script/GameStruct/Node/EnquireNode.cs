@@ -12,7 +12,7 @@ namespace Assets.Script.GameStruct
     {
         private EnquireManager enquireManager;
         private EnquireUIManager uiManager;
-        private EnquireEvent enquireEvent;
+        //private  enquireEvent;
         private GameNode next;
         private NodeFactory factory;
 
@@ -20,7 +20,7 @@ namespace Assets.Script.GameStruct
             : base(manager, root, ps)
         {
             Init(eventName);
-            ps.SwitchTo_VerifyIterative_WithOpenCallback("Enquire_Panel", uiManager.WheelStart);
+            ps.SwitchTo_VerifyIterative("Avg_Panel", uiManager.WheelStart);
         }
 
         public void Init(string eventName)
@@ -28,18 +28,11 @@ namespace Assets.Script.GameStruct
             enquireManager = EnquireManager.GetInstance();
             //获取uimanager
             uiManager = root.transform.Find("Avg_Panel/Enquire_Panel").GetComponent<EnquireUIManager>();
-
             uiManager.transform.gameObject.SetActive(true);
-
             factory = NodeFactory.GetInstance();
-
-            this.enquireEvent = enquireManager.LoadEvent(eventName);
-
-            uiManager.SetEnquireEvent(enquireManager.currentEvent,
-                enquireManager.visibleTestimony,
-                enquireManager.pressedId,
-                enquireManager.currentId);
-
+            EnquireEvent enquireEvent = enquireManager.LoadEvent(eventName);
+            List<string> visibleTestimony = enquireManager.LoadTestimony();
+            uiManager.SetEnquireEvent(enquireEvent, visibleTestimony);
             uiManager.SetEnquireNode(this);
         }
 
@@ -48,6 +41,7 @@ namespace Assets.Script.GameStruct
 
         public void EnquireExit(string entry)
         {
+            uiManager.gameObject.SetActive(false);
             next = factory.FindTextScript(entry);
             end = true;
         }

@@ -14,89 +14,153 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class TextPiece : Piece
     {
-        private string name, dialog;
+        private string name, dialog, avatar;
+
+        private GameObject diabox;
+
         private UILabel nameLabel, dialogLabel;
+        private UI2DSprite avatarSprite;
+
+        public bool finish = false;
+
         /// <summary>
         /// 最基本的文字段
         /// </summary>
         /// <param name="id">piece id</param>
+        /// <param name="diabox">对话框元件</param>
         /// <param name="name">名字</param>
-        /// <param name="nameLabel">名字标签</param>
-        /// <param name="dialogLabel">对话标签</param>
         /// <param name="dialog">对话内容</param>
-        public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, string name = "", string dialog = "") : base(id)
+        /// <param name="avatar">头像图片名</param>
+        public TextPiece(int id, GameObject diabox, string name = "", string dialog = "", string avatar ="") : base(id)
         {
-            setVars(name, dialog, nameLabel, dialogLabel);
+            this.diabox = diabox;
+            setVars(name, dialog, avatar);
         }
 
         /// <summary>
         /// 带复杂逻辑的文字段
         /// </summary>
         /// <param name="id">piece id</param>
-        /// <param name="simpleLogic">简单逻辑，可以用lambda表示</param>
-        /// <param name="nameLabel">名字标签</param>
-        /// <param name="dialogLabel">对话标签</param>
+        /// <param name="diabox">对话框元件</param>
         /// <param name="name">名字</param>
         /// <param name="dialog">对话内容</param>
-        public TextPiece(int id,
-               UILabel nameLabel,
-               UILabel dialogLabel,
-               string name, string dialog,
-               Func<int> simpleLogic
-            ) : base(id, simpleLogic)
+        /// <param name="avatar">头像图片名</param>
+        /// <param name="simpleLogic">简单逻辑，可以用lambda表示</param>
+        public TextPiece(int id, GameObject diabox, string name, string dialog, string avatar, Func<int> simpleLogic) : base(id, simpleLogic)
         {
-            setVars(name, dialog, nameLabel, dialogLabel);
+            setVars(name, dialog, avatar);
         }
 
         /// <summary>
         /// 创建一个拥有复杂逻辑的文字段，可以引用外部变量
         /// </summary>
-        /// <param name="gVars">全局变量</param>
-        /// <param name="lVars">局部变量</param>
+        /// <param name="id">piece id</param>
+        /// <param name="diabox">对话框元件</param>
+        /// <param name="manager">数据库</param>
         /// <param name="complexLogic">复杂逻辑</param>
-         /// <param name="id">piece id</param>
-        /// <param name="nameLabel">名字标签</param>
-        /// <param name="dialogLabel">对话标签</param>
         /// <param name="name">名字</param>
         /// <param name="dialog">对话内容</param>
-        public TextPiece(int id,
-            UILabel nameLabel,
-            UILabel dialogLabel,
-            DataManager manager,
-            Func<DataManager, int> complexLogic,
-            string name = "", string dialog = "") : base(id, complexLogic, manager)
+        /// <param name="avatar">头像图片名</param>
+        public TextPiece(int id,GameObject diabox, DataManager manager, Func<DataManager, int> complexLogic, string name = "", string dialog = "", string avatar = "") : base(id, complexLogic, manager)
         {
-            setVars(name, dialog, nameLabel, dialogLabel);
-
+            setVars(name, dialog, avatar);
+        }
+        public TextPiece(int id, GameObject diabox, DataManager manager, Action simpleAction, string name = "", string dialog = "", string avatar = "") :
+            base(id, simpleAction, manager)
+        {
+            setVars(name, dialog, avatar);
+        }
+        public TextPiece(int id, GameObject diabox, DataManager manager, Action<DataManager> complexAction, string name = "", string dialog = "", string avatar = "") :
+            base(id, complexAction, manager)
+        {
+            setVars(name, dialog, avatar);
         }
 
-        public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, DataManager manager, Action simpleAction, string name ="", string dialog = ""):
-            base(id,simpleAction, manager)
-        {
-            setVars(name, dialog, nameLabel, dialogLabel);
-        }
+        #region 废弃旧代码
+        /// <param name="nameLabel">名字标签</param>
+        /// <param name="dialogLabel">对话标签</param>
+        /// <param name="avatarSprite">头像</param>
+        //public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, UI2DSprite avatarSprite, string name = "", string dialog = "", string avatar ="") : base(id)
+        //{
+        //    setVars(name, dialog, avatar, nameLabel, dialogLabel, avatarSprite);
+        //}
 
 
-        public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, DataManager manager, Action<DataManager> complexAction, string name ="", string dialog = ""):
-            base(id,complexAction, manager)
-        {
-            setVars(name, dialog, nameLabel, dialogLabel);
-        }
+        /// <param name="nameLabel">名字标签</param>
+        /// <param name="dialogLabel">对话标签</param>
+        /// <param name="avatarSprite">头像</param>
+        //public TextPiece(int id,
+        //           UILabel nameLabel,
+        //           UILabel dialogLabel,
+        //           UI2DSprite avatarSprite,
+        //           string name, string dialog, string avatar,
+        //           Func<int> simpleLogic
+        //        ) : base(id, simpleLogic)
+        //    {
+        //        setVars(name, dialog, avatar, nameLabel, dialogLabel, avatarSprite);
+        //    }
 
+        /// <param name="nameLabel">名字标签</param>
+        /// <param name="dialogLabel">对话标签</param>
+        /// <param name="avatarSprite">头像</param>
+        //    public TextPiece(int id,
+        //UILabel nameLabel,
+        //UILabel dialogLabel,
+        //UI2DSprite avatarSprite,
+        //DataManager manager,
+        //Func<DataManager, int> complexLogic,
+        //string name = "", string dialog = "", string avatar = "") : base(id, complexLogic, manager)
+        //    {
+        //        setVars(name, dialog, avatar, nameLabel, dialogLabel, avatarSprite);
+
+        //    }
+
+
+        //public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, UI2DSprite avatarSprite, DataManager manager, Action simpleAction, string name ="", string dialog = "", string avatar = ""):
+        //    base(id,simpleAction, manager)
+        //{
+        //    setVars(name, dialog, avatar, nameLabel, dialogLabel, avatarSprite);
+        //}
+
+
+        //public TextPiece(int id, UILabel nameLabel, UILabel dialogLabel, UI2DSprite avatarSprite, DataManager manager, Action<DataManager> complexAction, string name ="", string dialog = "", string avatar = ""):
+        //    base(id,complexAction, manager)
+        //{
+        //    setVars(name, dialog, avatar, nameLabel, dialogLabel, avatarSprite);
+        //}
+        #endregion
 
         public override void Exec()
         {
-            if (name != null && name.Length != 0) nameLabel.text = name;
-            if (name != null && dialog.Length != 0) dialogLabel.text = dialog;
-            DataManager.GetInstance().AddHistory(new BacklogText(name, dialog));
+            DialogBoxUIManager uiManager = diabox.GetComponent<DialogBoxUIManager>();
+            //判断是否在打字途中点击第二下
+            if (uiManager.IsTyping())
+            {
+                //通过UIManager执行打字结束操作
+                uiManager.FinishType();
+                //当前模块结束
+                finish = true;
+            }
+            else
+            {
+                //通过UIManager设置文字，并开启打字机
+                uiManager.SetText(this, name, dialog);
+                finish = false;
+            }
+
         }
 
-        private void setVars(string name, string dialog, UILabel nameLabel, UILabel dialogLabel)
+        public void HideIcon()
+        {
+            DialogBoxUIManager uiManager = diabox.GetComponent<DialogBoxUIManager>();
+            uiManager.HideNextIcon();
+        }
+
+        private void setVars(string name, string dialog, string avatar)
         {
             this.name = name;
             this.dialog = dialog;
-            this.dialogLabel = dialogLabel;
-            this.nameLabel = nameLabel;
+            this.avatar = avatar;
         }
 
         public override string ToString()

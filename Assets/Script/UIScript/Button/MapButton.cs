@@ -16,7 +16,9 @@ public class MapButton : MonoBehaviour
     private string background;
     private string info;
 
-    void Start()
+    private bool hasEvent;
+
+    void Awake()
     {
         uiManager = transform.parent.parent.GetComponent<MapUIManager>();
         LoadJson();
@@ -47,16 +49,21 @@ public class MapButton : MonoBehaviour
 
     }
 
+    public void ShowNew()
+    {
+        if (string.IsNullOrEmpty(place)) return;
+        hasEvent = EventManager.GetInstance().GetCurrentEventAt(place) != null;
+        //Debug.Log(hasEvent);
+        this.transform.Find("Label").gameObject.SetActive(hasEvent);
+    }
+
     void OnHover(bool ishover)
     {
         if (ishover)
         {
-            if (EventManager.GetInstance().GetCurrentEventAt(place) == null)
-            {
-                // TODO: 换个图标之类
-                info += "\n*当前地点没有事件*";
-            }
-            uiManager.SetPlaceInfo(place, info);
+            string str = hasEvent ? info : info + "\n*当前地点没有事件*";
+            // TODO: 换个图标之类
+            uiManager.SetPlaceInfo(place, str);
         }
         else
         {

@@ -20,8 +20,8 @@ public class UIPopupList : UIWidgetContainer
 	/// </summary>
 
 	static public UIPopupList current;
-	static GameObject mChild;
-	static float mFadeOutComplete = 0f;
+	static protected GameObject mChild;
+	static protected float mFadeOutComplete = 0f;
 
 	const float animSpeed = 0.15f;
 
@@ -217,6 +217,12 @@ public class UIPopupList : UIWidgetContainer
 	[HideInInspector][SerializeField] protected List<UILabel> mLabelList = new List<UILabel>();
 	[HideInInspector][SerializeField] protected float mBgBorder = 0f;
 
+	[Tooltip("Whether the selection will be persistent even after the popup list is closed. By default the selection is " +
+		"cleared when the popup is closed so that the same selection can be chosen again the next time the popup list is opened. " +
+		"If enabled, the selection will persist, but selecting the same choice in succession will not result in the onChange " +
+		"notification being triggered more than once.")]
+	public bool keepValue = false;
+
 	[System.NonSerialized] protected GameObject mSelection;
 	[System.NonSerialized] protected int mOpenFrame = 0;
 
@@ -288,19 +294,19 @@ public class UIPopupList : UIWidgetContainer
 	/// Whether the popup list is actually usable.
 	/// </summary>
 
-	bool isValid { get { return bitmapFont != null || trueTypeFont != null; } }
+	protected bool isValid { get { return bitmapFont != null || trueTypeFont != null; } }
 
 	/// <summary>
 	/// Active font size.
 	/// </summary>
 
-	int activeFontSize { get { return (trueTypeFont != null || bitmapFont == null) ? fontSize : bitmapFont.defaultSize; } }
+	protected int activeFontSize { get { return (trueTypeFont != null || bitmapFont == null) ? fontSize : bitmapFont.defaultSize; } }
 
 	/// <summary>
 	/// Font scale applied to the popup list's text.
 	/// </summary>
 
-	float activeFontScale { get { return (trueTypeFont != null || bitmapFont == null) ? 1f : (float)fontSize / bitmapFont.defaultSize; } }
+	protected float activeFontScale { get { return (trueTypeFont != null || bitmapFont == null) ? 1f : (float)fontSize / bitmapFont.defaultSize; } }
 
 	/// <summary>
 	/// Set the current selection.
@@ -318,7 +324,7 @@ public class UIPopupList : UIWidgetContainer
 			if (notify && mSelectedItem != null)
 				TriggerCallbacks();
 
-			mSelectedItem = null;
+			if (!keepValue) mSelectedItem = null;
 		}
 	}
 
@@ -506,6 +512,14 @@ public class UIPopupList : UIWidgetContainer
 	{
 		if (mStarted) return;
 		mStarted = true;
+
+		if (keepValue)
+		{
+			var sel = mSelectedItem;
+			mSelectedItem = null;
+			value = sel;
+		}
+		else mSelectedItem = null;
 
 		// Auto-upgrade legacy functionality
 		if (textLabel != null)
@@ -802,7 +816,7 @@ public class UIPopupList : UIWidgetContainer
 	/// Helper function used to animate widgets.
 	/// </summary>
 
-	void Animate (UIWidget widget, bool placeAbove, float bottom)
+	protected void Animate (UIWidget widget, bool placeAbove, float bottom)
 	{
 		AnimateColor(widget);
 		AnimatePosition(widget, placeAbove, bottom);
@@ -905,7 +919,10 @@ public class UIPopupList : UIWidgetContainer
 					Rigidbody2D rb = mChild.AddComponent<Rigidbody2D>();
 					rb.isKinematic = true;
 				}
-				mChild.AddComponent<UIPanel>().depth = 1000000;
+				
+				var panel = mChild.AddComponent<UIPanel>();
+				panel.depth = 1000000;
+				panel.sortingOrder = mPanel.sortingOrder;
 			}
 			current = this;
 

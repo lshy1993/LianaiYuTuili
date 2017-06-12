@@ -59,62 +59,31 @@ namespace Assets.Script.UIScript
         {
             float timex, timey, charay, funcx;
             float t = 1;
+            GameObject target = isout ? outterbtnContainer : placebtnContainer;
             while (t > 0)
             {
                 t = Mathf.MoveTowards(t, 0, 1 / closeTime * Time.deltaTime);
                 timex = -820 + 180 * t;
                 timey = 540 - 180 * t;
-                charay = 410 - 100 * t;
-                funcx = -690 + 100 * t;
+                charay = 420 - 110 * t;
+                funcx = -700 + 110 * t;
                 timeContainer.transform.localPosition = new Vector3(timex, timey);
                 charaContainer.transform.localPosition = new Vector3(160, charay);
                 functonContainer.transform.localPosition = new Vector3(funcx, 0);
-                if (isout)
-                {
-                    outterbtnContainer.GetComponent<UIWidget>().alpha = t;
-                }
-                else
-                {
-                    placebtnContainer.GetComponent<UIWidget>().alpha = t;
-                }
+                target.GetComponent<UIWidget>().alpha = t;
                 yield return null;
             }
-            if (isout)
-            {
-                outterbtnContainer.SetActive(false);
-            }
-            else
-            {
-                placebtnContainer.SetActive(false);
-            }
+            target.SetActive(false);
         }
         #endregion
 
         #region 打开时特效
         private IEnumerator ShowOpen()
         {
-            int turn = DataManager.GetInstance().GetGameVar<int>("回合");
-            DateTime date = DataManager.START_DAY.AddDays(turn);
-            int x = Convert.ToInt32(date.DayOfWeek);
-            //TODO : 改成节假日
-            if (turn != 0 && (x == 6 || x == 0))
-            {
-                this.isout = true;
-            }
-            else
-            {
-                this.isout = false;
-            }
-            if (isout)
-            {
-                outterbtnContainer.SetActive(true);
-                outterbtnContainer.GetComponent<UIWidget>().alpha = 0;
-            }
-            else
-            {
-                placebtnContainer.SetActive(true);
-                placebtnContainer.GetComponent<UIWidget>().alpha = 0;
-            }
+            isout = DataManager.GetInstance().IsHoliday();
+            GameObject target = isout ? outterbtnContainer : placebtnContainer;
+            target.SetActive(true);
+            target.GetComponent<UIWidget>().alpha = 0;
             float timex, timey, charay, funcx;
             float t = 0;
             while (t < 1)
@@ -122,19 +91,12 @@ namespace Assets.Script.UIScript
                 t = Mathf.MoveTowards(t, 1, 1 / openTime * Time.deltaTime);
                 timex = -820 + 180 * t;
                 timey = 540 - 180 * t;
-                charay = 410 - 100 * t;
-                funcx = -690 + 100 * t;
+                charay = 420 - 110 * t;
+                funcx = -700 + 110 * t;
                 timeContainer.transform.localPosition = new Vector3(timex, timey);
                 charaContainer.transform.localPosition = new Vector3(160, charay);
                 functonContainer.transform.localPosition = new Vector3(funcx, 0);
-                if (isout)
-                {
-                    outterbtnContainer.GetComponent<UIWidget>().alpha = t;
-                }
-                else
-                {
-                    placebtnContainer.GetComponent<UIWidget>().alpha = t;
-                }
+                target.GetComponent<UIWidget>().alpha = t;
                 yield return null;
             }
         }

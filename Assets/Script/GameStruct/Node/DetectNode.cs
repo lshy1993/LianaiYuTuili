@@ -26,28 +26,13 @@ namespace Assets.Script.GameStruct
         public void Init(DetectEvent detectEvent)
         {
             detectManager = DetectManager.GetInstance();
-
-            //关闭对话box
-            root.transform.Find("Avg_Panel/DialogBox_Panel").gameObject.SetActive(false);
-
-            //打开invest panel
             uiManager = root.transform.Find("Avg_Panel/Invest_Panel").GetComponent<DetectUIManager>();
 
-            uiManager.transform.gameObject.SetActive(true);
-
             factory = NodeFactory.GetInstance();
-
             this.detectEvent = detectEvent;
 
-            uiManager.SetDetectNode(this);
-
-            section = detectEvent.sections.FirstOrDefault().Value;
-
-            uiManager.LoadSection(section);
-
-            uiManager.CheckEvent(detectEvent.id);
-
-            uiManager.SwitchStatus(uiManager.status);
+            //Debug.Log(detectManager.CurrentPlace());
+            uiManager.SetDetectNode(this, detectEvent.sections, detectManager.CurrentPlace(), detectEvent.id);
         }
 
         public override void Update()
@@ -56,19 +41,33 @@ namespace Assets.Script.GameStruct
         public void ChooseNext(string entry)
         {
             next = factory.FindTextScript(entry);
-
             end = true;
         }
 
         public void MoveTo(string place)
         {
-            next = this;
+            //移动操作
+            if (!string.IsNullOrEmpty(detectEvent.sections[place].entry) && !detectManager.IsEntered(place))
+            {
+                //首次进入则触发
+                detectManager.EnterPlace(place);
+                ChooseNext(detectEvent.sections[place].entry);
+            }
+            else
+            {
+                //普通移动
+                detectManager.EnterPlace(place);
+                uiManager.SetDetectNode(this, detectEvent.sections, place, detectEvent.id);
+                uiManager.ShowCharaContainer();
+            }
+            //section = detectEvent.sections[place];
+            //uiManager.LoadSection(section);
+            //uiManager.SwitchStatus(Constants.DETECT_STATUS.FREE);
+        }
 
-            section = detectEvent.sections[place];
-
-            uiManager.LoadSection(section);
-
-            end = true;
+        public void SetKnown(string name)
+        {
+            detectManager.AddToKnown(name);
         }
 
         public override GameNode NextNode()
@@ -76,5 +75,9 @@ namespace Assets.Script.GameStruct
             return next;
         }
 
+        public override string ToString()
+        {
+            return detectEvent.id.ToString();
+        }
     }
 }

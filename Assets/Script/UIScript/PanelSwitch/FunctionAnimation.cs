@@ -9,6 +9,17 @@ namespace Assets.Script.UIScript
 {
     public class FunctionAnimation : PanelAnimation
     {
+        private int origin = -385;
+        private int final = -335;
+
+        public UIButton move, dialog, invest;
+
+        public override void BeforeClose()
+        {
+            move.enabled = false;
+            dialog.enabled = false;
+            invest.enabled = false;
+        }
 
         public override IEnumerator CloseSequence(UIAnimationCallback callback)
         {
@@ -17,30 +28,32 @@ namespace Assets.Script.UIScript
             //return base.CloseSequence(callback);
             panel.alpha = 1;
             float y = transform.localPosition.y;
-
-            while (y > -410)
+            float x = transform.localPosition.x;
+            while (y > origin)
             {
-                y = Mathf.MoveTowards(y, -410, 100 / closeTime * Time.fixedDeltaTime);
-                this.transform.localPosition = new Vector3(-350, y);
+                y = Mathf.MoveTowards(y, origin, Math.Abs(origin - final) / closeTime * Time.fixedDeltaTime);
+                this.transform.localPosition = new Vector3(x, y);
                 yield return null;
             }
             callback();
-
         }
 
         public override IEnumerator OpenSequence(UIAnimationCallback callback)
         {
             //Debug.Log("panel == null?" + panel == null + "alpha?" + panel.alpha);
             //UIWidget wi = (UIWidget)panel;
-
             panel.alpha = 1;
             float y = transform.localPosition.y;
-            while (y < -310)
+            float x = transform.localPosition.x;
+            while (y < final)
             {
-                y = Mathf.MoveTowards(y, -310, 100 / openTime * Time.fixedDeltaTime);
-                this.transform.localPosition = new Vector3(-350, y);
+                y = Mathf.MoveTowards(y, final, Math.Abs(origin - final) / openTime * Time.fixedDeltaTime);
+                this.transform.localPosition = new Vector3(x, y);
                 yield return null;
             }
+            move.enabled = true;
+            dialog.enabled = true;
+            invest.enabled = true;
             callback();
         }
         //private float y;

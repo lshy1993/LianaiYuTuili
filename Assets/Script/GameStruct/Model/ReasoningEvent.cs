@@ -10,6 +10,7 @@ namespace Assets.Script.GameStruct.Model
     {
         public string id;
         public string question;
+        public string exit;
         public List<ReasoningChoice> choice;
         public ReasoningEvidence evidence;
 
@@ -17,6 +18,8 @@ namespace Assets.Script.GameStruct.Model
         {
             id = (string)data["ID"];
             question = (string)data["问题"];
+
+            exit = data.Contains("出口") ? (string)data["出口"] : "";
 
             choice = new List<ReasoningChoice>();
             if (data.Contains("选项") && data["选项"] != null)

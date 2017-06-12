@@ -8,52 +8,84 @@ using Assets.Script.UIScript;
 
 public class ReasoningUIManager : MonoBehaviour
 {
-    private GameObject buttonGrid, textContainer, evidenceContainer;
-    private GameObject questionLabel, infoLabel;
+    public SoundManager sm;
+    public HPMPUIManager hpmpManager;
+
+    private GameObject backContainer, startContainer, breakContainer, questionContainer, textContainer, evidenceContainer;
+    private GameObject startBackSprite, startLabel, breakBackSprite, breakLabel, QLabel;
+    private GameObject buttonGrid, questionLabel, infoLabel;
 
     private List<GameObject> textChoices;
-    private List<Evidence> eviList;
+
+    private Dictionary<string, Evidence> eviDic
+    {
+        get { return reasoningManager.eviDic; }
+    }
+
+    private List<string> eviNameList
+    {
+        get { return reasoningManager.eviNameList; }
+    }
 
     private ReasoningNode reasoningNode;
     private ReasoningEvent reasoningEvent;
+    private ReasoningManager reasoningManager;
 
-    private bool ifevi;
+    private bool ifevi, isnew, isend;
 
     void Awake()
     {
-        buttonGrid = this.transform.Find("EvidenceSelect_Container/List_Panel/Grid").gameObject;
-        textContainer = this.transform.Find("TextSelect_Container").gameObject;
-        infoLabel = this.transform.Find("EvidenceSelect_Container/Info_Label").gameObject;
-        questionLabel = this.transform.Find("Question_Container/Question_Label").gameObject;
+        reasoningManager = ReasoningManager.GetInstance();
 
-        textContainer = this.transform.Find("TextSelect_Container").gameObject;
+        backContainer = this.transform.Find("BackGround_Container").gameObject;
+        startContainer = this.transform.Find("Start_Container").gameObject;
+        breakContainer = this.transform.Find("Break_Container").gameObject;
+        questionContainer = this.transform.Find("Question_Container").gameObject;
         evidenceContainer = this.transform.Find("EvidenceSelect_Container").gameObject;
+        textContainer = this.transform.Find("TextSelect_Container").gameObject;
 
-        //eviButtons = new List<GameObject>();
+        startBackSprite = startContainer.transform.Find("BackLine_Sprite").gameObject;
+        startLabel = startContainer.transform.Find("Label").gameObject;
+
+        breakBackSprite = breakContainer.transform.Find("Break_Sprite").gameObject;
+        breakLabel = breakContainer.transform.Find("Label").gameObject;
+
+        questionLabel = questionContainer.transform.Find("Question_Label").gameObject;
+        QLabel = questionContainer.transform.Find("Q_Label").gameObject;
+
+        buttonGrid = this.transform.Find("EvidenceSelect_Container/List_Panel/Grid").gameObject;
+        infoLabel = this.transform.Find("EvidenceSelect_Container/Hint_Container/Info_Label").gameObject;
+
+        textContainer = this.transform.Find("TextSelect_Container").gameObject;
+        
         textChoices = new List<GameObject>();
     }
 
+    #region 数据绑定
     public void SetReasoningEvent(ReasoningEvent rEvent)
     {
-        this.reasoningEvent = rEvent;
-        questionLabel.GetComponent<UILabel>().text = reasoningEvent.question;
+        reasoningEvent = rEvent;
+        questionLabel.GetComponent<UILabel>().text = "";
         if (reasoningEvent.choice.Count == 0 || reasoningEvent.choice == null)
         {
-            SetEvidence();
+            EvidenceButtonInit();
             ifevi = true;
         }
         else
         {
-            SetChoice();
+            ChoiceButtonInit();
             ifevi = false;
         }
     }
 
-    public void OpenSelection()
+    public void SetIsNew(bool isnew)
     {
-        //供打字机OnFinish调用
-        //Debug.Log(ifevi + "finished");
-        StartCoroutine(ifevi ? ShowEvidence() : ShowChoice());
+        this.isnew = isnew;
+    }
+
+    public void SetIsEnd(bool isend)
+    {
+        this.isend = isend;
     }
 
     public void SetReasoningNode(ReasoningNode node)
@@ -61,85 +93,207 @@ public class ReasoningUIManager : MonoBehaviour
         this.reasoningNode = node;
     }
 
-    public void JudgeText(int id)
-    {
-        //判定文字选项
-        reasoningNode.ReasoningExit(reasoningEvent.choice[id].entry);
-    }
-    
-    public void JudgeEvidence(Evidence evi)
-    {
-        //判断证据
-        if(evi.name == reasoningEvent.evidence.name)
-        {
-            reasoningNode.ReasoningExit(reasoningEvent.evidence.curretEntry);
-        }
-
-        {
-            reasoningNode.ReasoningExit(reasoningEvent.evidence.wrongEntry);
-        }
-    }
-
-    public void HoverEvidence(Evidence evi)
-    {
-        //Debug.Log("hover");
-        infoLabel.GetComponent<UILabel>().text = evi.introduction;
-    }
-
-    private void SetEvidence()
+    private void EvidenceButtonInit()
     {
         //将证据栏初始化
         buttonGrid.transform.DestroyChildren();
-        foreach(Evidence evi in eviList)
+        foreach(string eviName in eviNameList)
         {
+            if (!eviDic.ContainsKey(eviName)) return;
+            Evidence evi = eviDic[eviName];
             GameObject eviBtn = (GameObject)Resources.Load("Prefab/Evidence_Reasoning");
             eviBtn = NGUITools.AddChild(buttonGrid, eviBtn);
 
-            //eviBtn = Instantiate(eviBtn) as GameObject;
-            //eviBtn.transform.parent = buttonGrid.transform;
-
             UIButton btn = eviBtn.GetComponent<UIButton>();
-            btn.normalSprite2D = (Sprite)Resources.Load(evi.iconPath);
-            //btn.normalSprite2D = (Sprite)Resources.Load("icon1");
-
-            //eviBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
-
+            btn.normalSprite2D = Resources.Load<Sprite>(evi.iconPath);
+            btn.enabled = false;
             ReasoningEvidenceButton script = eviBtn.GetComponent<ReasoningEvidenceButton>();
             script.current = evi;
-            //script.evidence = "数码相机";
             script.SetUIManager(this);
         }
         buttonGrid.GetComponent<UIGrid>().Reposition();
     }
 
-    private void SetChoice()
+    private void ChoiceButtonInit()
     {
-        //textChoices.Clear();
+        //文字选项初始化
         textContainer.transform.DestroyChildren();
         int n = reasoningEvent.choice.Count;
-        int d = (450 - n * 50) / (n + 1);
-        for(int i = 0; i < reasoningEvent.choice.Count; i++)
+        int d = (300 - n * 50) / (n - 1);
+        for (int i = 0; i < reasoningEvent.choice.Count; i++)
         {
             GameObject textBtn = (GameObject)Resources.Load("Prefab/Choice_Reasoning");
-            NGUITools.AddChild(textContainer, textBtn);
-
-            //textBtn = Instantiate(textBtn) as GameObject;
-            //textBtn.transform.parent = textContainer.transform;
-
-            textBtn.transform.localPosition = new Vector3(0, 225 - ((i + 1) * d + i * 50));
-
+            textBtn = NGUITools.AddChild(textContainer, textBtn);
+            textBtn.transform.localPosition = new Vector3(0, 125 - i * (50 + d));
+            textBtn.GetComponent<UIButton>().enabled = false;
             textBtn.transform.Find("Label").GetComponent<UILabel>().text = reasoningEvent.choice[i].text;
-
-            //textBtn.GetComponent<UI2DSprite>().MakePixelPerfect();
-
             ReasoningTextButton rtb = textBtn.transform.GetComponent<ReasoningTextButton>();
             rtb.id = i;
             rtb.SetUIManager(this);
+        }
+    }
+    #endregion
 
-            //textChoices.Add(textBtn);
+    #region public方法 供按钮调用
+    public void OpenSelection()
+    {
+        if (isnew)
+        {
+            //若从其他模式进入则从头开始
+            StartCoroutine(OpenUI());
+        }
+        else if (isend)
+        {
+            //结束该模式
+            StartCoroutine(CloseUI());
+        }
+        else
+        {
+            //打错或者换问题
+            StartCoroutine(OpenQuestion());
         }
     }
 
+    public void JudgeText(int id)
+    {
+        //判定文字选项
+        if (reasoningEvent.choice[id].correct)
+        {
+            Debug.Log("Correct");
+            StartCoroutine(CloseChoice());
+            StartCoroutine(ShowCorrect(reasoningEvent.choice[id].entry));
+        }
+        else
+        {
+            StartCoroutine(CloseChoice());
+            reasoningNode.ReasoningExit(reasoningEvent.choice[id].entry);
+        }
+    }
+
+    public void JudgeEvidence(Evidence evi)
+    {
+        //判断证据
+        if(evi.name == reasoningEvent.evidence.name)
+        {
+            StartCoroutine(CloseEvidence());
+            StartCoroutine(ShowCorrect(reasoningEvent.evidence.curretEntry));
+            //reasoningNode.ReasoningExit();
+        }
+        else
+        {
+            StartCoroutine(CloseEvidence());
+            reasoningNode.ReasoningExit(reasoningEvent.evidence.wrongEntry);
+        }
+    }
+
+    public void HoverEvidence(string evi)
+    {
+        //Debug.Log("hover");
+        infoLabel.GetComponent<UILabel>().text = evi;
+    }
+    #endregion
+
+    #region UI动画 开始自我推理
+    private IEnumerator OpenUI()
+    {
+        //1.自我推理 开始
+        startContainer.SetActive(true);
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.5f * Time.fixedDeltaTime);
+            float scale = 0.5f + t / 2;
+            startBackSprite.transform.localScale = new Vector3(scale, 1, 1);
+            startContainer.GetComponent<UIWidget>().alpha = scale;
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f);
+        //消除字同时打开背景
+        backContainer.SetActive(true);
+        while (t > 0)
+        {
+            t = Mathf.MoveTowards(t, 0, 1 / 0.8f * Time.fixedDeltaTime);
+            //alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.5f * Time.fixedDeltaTime);
+            float scale = 1 + (1 - t) * 0.2f;
+            float alpha = 1 - t;
+            startBackSprite.transform.localScale = new Vector3(1, scale, 1);
+            startContainer.GetComponent<UIWidget>().alpha = t;
+            backContainer.GetComponent<UIWidget>().alpha = alpha;
+            yield return null;
+        }
+        startContainer.SetActive(false);
+        ///TODO: 可以考虑开启复杂的粒子效果
+        StartCoroutine(OpenQuestion());
+    }
+    #endregion
+
+    #region UI动画 显示关闭 问题
+    private IEnumerator OpenQuestion()
+    {
+        //3 Question框打开
+        questionContainer.SetActive(true);
+        float t = 0, alpha = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.5f * Time.fixedDeltaTime);
+            float scale = 2 - t;
+            if (t < 0.5) alpha = t * 2;
+            questionContainer.transform.localScale = new Vector3(scale, scale, 1);
+            questionContainer.GetComponent<UIWidget>().alpha = alpha;
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.2f);
+        //显示question 并闪烁
+        QLabel.SetActive(true);
+        for (int i=0; i < 4; i++)
+        {
+            QLabel.GetComponent<UILabel>().color = Color.gray;
+            yield return new WaitForSeconds(0.1f);
+            QLabel.GetComponent<UILabel>().color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+        }
+        //移动Qustion到指定位置
+        float x = 0;
+        while (x > -225)
+        {
+            x = Mathf.MoveTowards(x, -225, 225 / 0.2f * Time.fixedDeltaTime);
+            QLabel.transform.localPosition = new Vector3(x, QLabel.transform.localPosition.y);
+            yield return null;
+        }
+        //4 题目显示
+        questionLabel.GetComponent<UILabel>().text = reasoningEvent.question;
+        questionLabel.SetActive(true);
+        TypewriterEffect te = questionLabel.GetComponent<TypewriterEffect>();
+        while (te.isActive)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f);
+        //5 选项依次显示
+        StartCoroutine(ifevi ? ShowEvidence() : ShowChoice());
+        //6 *血条展示
+        hpmpManager.ShowBar();
+    }
+
+    private IEnumerator CloseQuestion()
+    {
+        //淡出
+        float alpha = 1;
+        while(alpha > 0)
+        {
+            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            questionContainer.GetComponent<UIWidget>().alpha = alpha;
+            yield return null;
+        }
+        //复原其他状态
+        QLabel.transform.localPosition = Vector3.zero;
+        QLabel.SetActive(true);
+        questionContainer.transform.localScale = new Vector3(2, 2, 1);
+        questionContainer.SetActive(false);
+    }
+    #endregion
+
+    #region 显示 关闭 证据列表
     private IEnumerator ShowEvidence()
     {
         evidenceContainer.SetActive(true);
@@ -147,13 +301,34 @@ public class ReasoningUIManager : MonoBehaviour
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.fixedDeltaTime);
             evidenceContainer.GetComponent<UIWidget>().alpha = x;
             yield return null;
         }
-        
+        foreach (Transform child in buttonGrid.transform)
+        {
+            child.GetComponent<UIButton>().enabled = true;
+        }
     }
 
+    private IEnumerator CloseEvidence()
+    {
+        foreach (Transform child in buttonGrid.transform)
+        {
+            child.GetComponent<UIButton>().enabled = false;
+        }
+        float x = 1;
+        while (x >0)
+        {
+            x = Mathf.MoveTowards(x, 0, 1 / 0.2f * Time.fixedDeltaTime);
+            evidenceContainer.GetComponent<UIWidget>().alpha = x;
+            yield return null;
+        }
+        evidenceContainer.SetActive(false);
+    }
+    #endregion
+
+    #region 显示 关闭 文字选项
     private IEnumerator ShowChoice()
     {
         textContainer.SetActive(true);
@@ -161,10 +336,94 @@ public class ReasoningUIManager : MonoBehaviour
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.fixedDeltaTime);
             textContainer.GetComponent<UIWidget>().alpha = x;
             yield return null;
         }
-        
+        foreach(Transform child in textContainer.transform)
+        {
+            child.GetComponent<UIButton>().enabled = true;
+        }
     }
+ 
+    private IEnumerator CloseChoice()
+    {
+        foreach (Transform child in textContainer.transform)
+        {
+            child.GetComponent<UIButton>().enabled = false;
+        }
+        float alpha = 1;
+        while(alpha > 0)
+        {
+            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.2f * Time.fixedDeltaTime);
+            
+            textContainer.GetComponent<UIWidget>().alpha = 0;
+            yield return null;
+        }
+        textContainer.SetActive(false);
+    }
+    #endregion
+
+    #region UI动画 正解
+    private IEnumerator ShowCorrect(string entry)
+    {
+        //打开break
+        breakContainer.SetActive(true);
+        //纵向展开
+        float y = 0;
+        while(y < 1)
+        {
+            y = Mathf.MoveTowards(y, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            breakBackSprite.transform.localScale = new Vector3(1, y, 1);
+            yield return null;
+        }
+        //且解字显示
+        float alpha = 0;
+        while (alpha < 1)
+        {
+            alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            breakLabel.GetComponent<UIRect>().alpha = alpha;
+            yield return null;
+        }
+        float scale = 1;
+        while(scale < 1.1)
+        {
+            scale = Mathf.MoveTowards(scale, 1.1f, 0.1f / 0.8f * Time.fixedDeltaTime);
+            breakLabel.transform.localScale = new Vector3(scale, scale, 1);
+            yield return null;
+        }
+        //同步消除 血条 问题
+        hpmpManager.HideBar();
+        StartCoroutine(CloseQuestion());
+        while (alpha > 0)
+        {
+            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            breakLabel.GetComponent<UIRect>().alpha = alpha;
+            breakBackSprite.transform.localScale = new Vector3(1, alpha, 1);
+            yield return null;
+        }
+        //复原状态
+        breakLabel.transform.localScale = new Vector3(1, 1, 1);
+        breakContainer.SetActive(false);
+        reasoningNode.ReasoningExit(entry);
+    }
+    #endregion
+
+    #region 关闭全部
+    private IEnumerator CloseUI()
+    {
+        float alpha = 1;
+        while(alpha > 0)
+        {
+            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            backContainer.GetComponent<UIWidget>().alpha = alpha;
+            yield return null;
+        }
+        backContainer.SetActive(false);
+        questionContainer.SetActive(false);
+        this.gameObject.SetActive(false);
+        reasoningNode.ReasoningExit(reasoningEvent.exit);
+    }
+    #endregion
+
 }

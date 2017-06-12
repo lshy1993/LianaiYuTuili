@@ -7,6 +7,12 @@ using UnityEngine;
 
 namespace Assets.Script.UIScript.Effect
 {
+    /// <summary>
+    /// 用于【组合】基本的底层特效，返回一个Queue
+    /// 在这设置每一个【组合】的所有需求参数，供PieceFactory调用
+    /// PieceFactory 会提供默认参数
+    /// 详细基层变化请参看【EffectBuilder】
+    /// </summary>
     public class AnimationBuilder
     {
         public Queue<ImageEffect> animation;
@@ -31,8 +37,13 @@ namespace Assets.Script.UIScript.Effect
             return animation;
         }
 
-        #region 新增加特效
-        //设置立绘
+        #region 新增加特效 立绘部分
+        /// <summary>
+        /// 设置并淡入立绘
+        /// </summary>
+        /// <param name="depth">图像层数</param>
+        /// <param name="sprite">图像名</param>
+        /// <param name="time">淡入时间</param>
         public static Queue<ImageEffect> SetCharacterSprite(int depth, Sprite sprite, float time)
         {
             AnimationBuilder builder = new AnimationBuilder();
@@ -40,7 +51,14 @@ namespace Assets.Script.UIScript.Effect
                 .Then(EffectBuilder.FadeInByDepth(depth,time))
                 .Get();
         }
-        //设置预设位置的立绘
+
+        /// <summary>
+        /// 设置并淡入立绘（预设位置）
+        /// </summary>
+        /// <param name="depth">图像层数</param>
+        /// <param name="sprite">图像名</param>
+        /// <param name="pstr">位置名称</param>
+        /// <param name="time">淡入时间</param>
         public static Queue<ImageEffect> SetCharacterSprite(int depth, Sprite sprite, string pstr, float time)
         {
             AnimationBuilder builder = new AnimationBuilder();
@@ -49,7 +67,14 @@ namespace Assets.Script.UIScript.Effect
                 .Then(EffectBuilder.FadeInByDepth(depth, time))
                 .Get();
         }
-        //带坐标的立绘
+
+        /// <summary>
+        /// 设置并淡入立绘（带坐标）
+        /// </summary>
+        /// <param name="depth">图像层数</param>
+        /// <param name="sprite">图像名</param>
+        /// <param name="position">位置</param>
+        /// <param name="time">淡入时间</param>
         public static Queue<ImageEffect> SetCharacterSprite(int depth, Sprite sprite, Vector3 position, float time)
         {
             AnimationBuilder builder = new AnimationBuilder();
@@ -58,32 +83,66 @@ namespace Assets.Script.UIScript.Effect
                 .Then(EffectBuilder.FadeInByDepth(depth, time))
                 .Get();
         }
-        
-        //改变立绘
+
+        /// <summary>
+        /// 改变原有立绘（淡出淡入）
+        /// </summary>
+        /// <param name="depth">图像层数</param>
+        /// <param name="sprite">图像名</param>
+        /// <param name="fadeout">原图淡出时间</param>
+        /// <param name="fadein">淡入时间</param>
         public static Queue<ImageEffect> ChangeCharacterSprite(int depth, Sprite sprite, float fadeout, float fadein)
         {
             AnimationBuilder builder = new AnimationBuilder();
-            return builder.BeginWith(EffectBuilder.FadeOutByDepth(depth, fadeout))
-                .Then(EffectBuilder.SetSpriteByDepth(depth, sprite))
-                .Then(EffectBuilder.FadeInByDepth(depth, fadein))
-                .Get();
+            if(fadeout == 0)
+            {
+                builder.BeginWith(EffectBuilder.ChangeByDepth(depth, sprite));
+            }
+            else
+            {
+                builder.BeginWith(EffectBuilder.FadeOutByDepth(depth, fadeout))
+                .Then(EffectBuilder.SetSpriteByDepth(depth, sprite));
+            }
+            if(fadein != 0)
+            {
+                return builder.Then(EffectBuilder.FadeInByDepth(depth, fadein)).Get();
+            }
+            return builder.Get();
         }
-        //移除立绘
-        public static Queue<ImageEffect> RemoveCharacterSprite(int depth, float fadeout)
+
+        /// <summary>
+        /// 淡出并移除立绘
+        /// </summary>
+        /// <param name="depth">图像层数</param>
+        /// <param name="time">淡出时间</param>
+        public static Queue<ImageEffect> RemoveCharacterSprite(int depth, float time)
         {
             AnimationBuilder builder = new AnimationBuilder();
-            return builder.BeginWith(EffectBuilder.FadeOutByDepth(depth, fadeout))
+            return builder.BeginWith(EffectBuilder.FadeOutByDepth(depth, time))
                 .Then(EffectBuilder.DeleteSpriteByDepth(depth))
                 .Get();
         }
-        //向目标坐标移动
+
+        /// <summary>
+        /// 从当前位置向某一位置移动
+        /// </summary>
+        /// <param name="depth">图像层数</param>
+        /// <param name="target">目标位置</param>
+        /// <param name="time">移动时间</param>
         public static Queue<ImageEffect> MoveCharacterSprite(int depth, Vector3 target, float time)
         {
             AnimationBuilder builder = new AnimationBuilder();
             return builder.BeginWith(EffectBuilder.MoveByDepth(depth, target, time))
                 .Get();
         }
-        //带初始值的移动
+
+        /// <summary>
+        /// 从初始值开始的移动
+        /// </summary>
+        /// <param name="depth">图像层数</param>
+        /// <param name="origin">起始位置</param>
+        /// <param name="target">目标位置</param>
+        /// <param name="time">移动时间</param>
         public static Queue<ImageEffect> MoveCharacterSpriteFrom(int depth, Vector3 origin, Vector3 target, float time)
         {
             AnimationBuilder builder = new AnimationBuilder();
@@ -91,18 +150,61 @@ namespace Assets.Script.UIScript.Effect
                 .Then(EffectBuilder.MoveByDepth(depth, target, time))
                 .Get();
         }
-        //移除背景
-        public static Queue<ImageEffect> RemoveBackground(float time)
-        {
-            AnimationBuilder builder = new AnimationBuilder();
-            return builder.BeginWith(EffectBuilder.FadeOut(EffectBuilder.backgroundSprite, time)).Get();
-        }
-        //设置背景
+        #endregion
+
+        #region 新增加特效 背景部分
+        /// <summary>
+        /// 设置背景
+        /// </summary>
+        /// <param name="sprite">图像名</param>
         public static Queue<ImageEffect> SetBackground(Sprite sprite)
         {
-            return ChangeSprite(EffectBuilder.backgroundSprite, sprite);
+            AnimationBuilder builder = new AnimationBuilder();
+            UI2DSprite ui = EffectBuilder.backgroundSprite;
+            return builder.BeginWith(EffectBuilder.ChangeSprite(ui, sprite)).Get();
         }
-        //改变背景
+
+        /// <summary>
+        /// 设置并淡入背景
+        /// </summary>
+        /// <param name="sprite">图像名</param>
+        /// <param name="time">淡入时间</param>
+        public static Queue<ImageEffect> FadeInBackground(Sprite sprite, float time)
+        {
+            AnimationBuilder builder = new AnimationBuilder();
+            UI2DSprite ui = EffectBuilder.backgroundSprite;
+            return builder.BeginWith(EffectBuilder.ChangeSprite(ui, sprite))
+                .Then(EffectBuilder.FadeIn(ui, time))
+                .Get();
+        }
+
+        /// <summary>
+        /// 移除背景
+        /// </summary>
+        public static Queue<ImageEffect> RemoveBackground()
+        {
+            AnimationBuilder builder = new AnimationBuilder();
+            UI2DSprite ui = EffectBuilder.backgroundSprite;
+            return builder.BeginWith(EffectBuilder.ChangeSprite(ui, null)).Get();
+        }
+
+        /// <summary>
+        /// 淡出并移除背景
+        /// </summary>
+        /// <param name="time">淡出时间</param>
+        public static Queue<ImageEffect> FadeOutBackground(float time)
+        {
+            AnimationBuilder builder = new AnimationBuilder();
+            UI2DSprite ui = EffectBuilder.backgroundSprite;
+            return builder.BeginWith(EffectBuilder.FadeOut(ui, time)).Then(EffectBuilder.RemoveSprite(ui)).Get();
+        }
+
+        /// <summary>
+        /// 更换背景（含淡入淡出）
+        /// </summary>
+        /// <param name="sprite">图像名</param>
+        /// <param name="fadeout">原图淡出时间</param>
+        /// <param name="fadein">淡入时间</param>
         public static Queue<ImageEffect> ChangeBackground(Sprite sprite, float fadeout, float fadein)
         {
             AnimationBuilder builder = new AnimationBuilder();
@@ -112,21 +214,135 @@ namespace Assets.Script.UIScript.Effect
                 .Then(EffectBuilder.FadeIn(ui, fadein))
                 .Get();
         }
-        //淡入对话框
-        public static Queue<ImageEffect> FadeinDialog(float fadein)
+        #endregion
+
+        #region 废弃
+        /// <summary>
+        /// 淡出所有立绘
+        /// </summary>
+        /// <param name="time">淡出时间</param>
+        //public static Queue<ImageEffect> FadeOutAllChara(float time)
+        //{
+        //    AnimationBuilder builder = new AnimationBuilder();
+        //    List<int> charanums = EffectBuilder.GetDepthNum();
+        //    Queue<ImageEffect> animation = new Queue<ImageEffect>();
+        //    animation.Enqueue(EffectBuilder.BlockClick(false));
+        //    foreach (int x in charanums)
+        //    {
+        //        animation.Enqueue(EffectBuilder.FadeOutByDepth(x, time));
+        //    }
+        //    return animation;
+        //}
+
+        ///// <summary>
+        ///// 移除所有立绘
+        ///// </summary>
+        //public static Queue<ImageEffect> RemoveAllChara()
+        //{
+        //    AnimationBuilder builder = new AnimationBuilder();
+        //    List<int> charanums = EffectBuilder.GetDepthNum();
+        //    Queue<ImageEffect> animation = new Queue<ImageEffect>();
+        //    animation.Enqueue(EffectBuilder.BlockClick(false));
+        //    foreach (int x in charanums)
+        //    {
+        //        animation.Enqueue(EffectBuilder.DeleteSpriteByDepth(x));
+        //    }
+        //    animation.Enqueue(EffectBuilder.BlockClick(true));
+        //    return animation;
+        //}
+
+        ///// <summary>
+        ///// 淡出所有图片（包括背景）
+        ///// </summary>
+        ///// <param name="time">淡出时间</param>
+        //public static Queue<ImageEffect> FadeOutAllPic(float time)
+        //{
+        //    AnimationBuilder builder = new AnimationBuilder();
+        //    List<int> charanums = EffectBuilder.GetDepthNum();
+        //    Queue<ImageEffect> animation = new Queue<ImageEffect>();
+        //    animation.Enqueue(EffectBuilder.BlockClick(false));
+        //    foreach (int x in charanums)
+        //    {
+        //        animation.Enqueue(EffectBuilder.FadeOutByDepth(x, time));
+        //    }
+        //    animation.Enqueue(EffectBuilder.FadeOut(EffectBuilder.backgroundSprite, time));
+        //    return animation;
+        //}
+        #endregion
+
+        #region 新增同步特效 所有图片
+        /// <summary>
+        /// 淡出所有
+        /// </summary>
+        /// <param name="back">是否包含背景</param>
+        /// <param name="dialog">是否包含对话框</param>
+        /// <param name="time">淡出时间</param>
+        public static Queue<ImageEffect>FadeOutAll(bool back, bool dialog, float time)
+        {
+            List<int> charanums = EffectBuilder.GetDepthNum();
+            Queue<ImageEffect> animation = new Queue<ImageEffect>();
+            animation.Enqueue(EffectBuilder.BlockClick(false));
+            if (dialog) animation.Enqueue(EffectBuilder.FadeOutDialog(time));
+            foreach (int x in charanums)
+            {
+                animation.Enqueue(EffectBuilder.FadeOutByDepth(x, time));
+            }
+            if (back) animation.Enqueue(EffectBuilder.FadeOut(EffectBuilder.backgroundSprite, time));
+            return animation;
+        }
+
+        /// <summary>
+        /// 删除所有
+        /// </summary>
+        /// <param name="back">是否包含背景</param>
+        public static Queue<ImageEffect> RemoveAll(bool back)
+        {
+            List<int> charanums = EffectBuilder.GetDepthNum();
+            Queue<ImageEffect> animation = new Queue<ImageEffect>();
+            animation.Enqueue(EffectBuilder.BlockClick(false));
+            foreach(int x in charanums)
+            {
+                //Debug.Log(x);
+                animation.Enqueue(EffectBuilder.DeleteSpriteByDepth(x));
+            }
+            //if (back) animation.Enqueue(EffectBuilder.RemoveSprite(EffectBuilder.backgroundSprite));
+            animation.Enqueue(EffectBuilder.BlockClick(true));
+            return animation;
+        }
+        #endregion
+
+        #region 新增特效 对话框
+        /// <summary>
+        /// 显示对话框
+        /// </summary>
+        /// <param name="fadein">淡入时间</param>
+        public static Queue<ImageEffect> FadeInDialog(float fadein)
         {
             AnimationBuilder builder = new AnimationBuilder();
             return builder.BeginWith(EffectBuilder.SetDialog(true))
                 .Then(EffectBuilder.FadeInDialog(fadein))
                 .Get();
         }
-        //淡出对话框
-        public static Queue<ImageEffect> FadeoutDialog(float fadeout)
+
+        /// <summary>
+        /// 消除对话框
+        /// </summary>
+        /// <param name="fadeout">淡出时间</param>
+        public static Queue<ImageEffect> FadeOutDialog(float fadeout)
         {
             AnimationBuilder builder = new AnimationBuilder();
             return builder.BeginWith(EffectBuilder.FadeOutDialog(fadeout))
                 .Then(EffectBuilder.SetDialog(false))
                 .Get();
+        }
+
+        /// <summary>
+        /// 暂时消去文字
+        /// </summary>
+        /// <returns></returns>
+        public static Queue<ImageEffect> RemoveDialogText()
+        {
+            return null;
         }
         #endregion
 
@@ -137,11 +353,11 @@ namespace Assets.Script.UIScript.Effect
                 )).Get();
         }
 
-        public static Queue<ImageEffect> ChangeFront(string character, Sprite sprite)
-        {
-            ImageManager im = GameObject.Find("GameManager").GetComponent<ImageManager>();
-            return ChangeSprite(im.GetFront(character), sprite);
-        }
+        //public static Queue<ImageEffect> ChangeFront(string character, Sprite sprite)
+        //{
+        //    ImageManager im = GameObject.Find("GameManager").GetComponent<ImageManager>();
+        //    return ChangeSprite(im.GetFront(character), sprite);
+        //}
 
         public static Queue<ImageEffect> ChangeSpriteFade(UI2DSprite ui, Sprite sprite, float fadeout, float fadein)
         {
@@ -157,11 +373,11 @@ namespace Assets.Script.UIScript.Effect
             return ChangeSpriteFade(EffectBuilder.backgroundSprite, sprite, fadeout, fadein);
         }
 
-        public static Queue<ImageEffect> ChangeFront(string character, Sprite sprite, float fadeout = 0.5f, float fadein = 0.5f)
-        {
-            ImageManager im = GameObject.Find("GameManager").GetComponent<ImageManager>();
-            return ChangeSpriteFade(im.GetFront(character), sprite, fadeout, fadein);
-        }
+        //public static Queue<ImageEffect> ChangeFront(string character, Sprite sprite, float fadeout = 0.5f, float fadein = 0.5f)
+        //{
+        //    ImageManager im = GameObject.Find("GameManager").GetComponent<ImageManager>();
+        //    return ChangeSpriteFade(im.GetFront(character), sprite, fadeout, fadein);
+        //}
 
     }
 }

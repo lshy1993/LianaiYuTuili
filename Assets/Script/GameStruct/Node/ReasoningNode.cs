@@ -15,13 +15,16 @@ namespace Assets.Script.GameStruct
         private ReasoningEvent reasoningEvent;
         private NodeFactory factory;
         private GameNode next;
-        
-        public ReasoningNode(DataManager manager, GameObject root, PanelSwitch ps, string eventName)
+
+        private bool isnew, isend;
+
+        public ReasoningNode(DataManager manager, GameObject root, PanelSwitch ps, string eventName, string status)
             : base(manager, root, ps)
         {
+            isnew = status == "NEW";
+            isend = status == "END";
             Init(eventName);
-            ps.SwitchTo_VerifyIterative_WithOpenCallback("Reasoning_Panel", uiManager.OpenSelection);
-            //ps.SwitchTo_VerifyIterative("");
+            ps.SwitchTo_VerifyIterative("Avg_Panel", uiManager.OpenSelection);
         }
 
         public void Init(string eventName)
@@ -29,13 +32,13 @@ namespace Assets.Script.GameStruct
             reasoningManager = ReasoningManager.GetInstance();
             //获取uimanager
             uiManager = root.transform.Find("Avg_Panel/Reasoning_Panel").GetComponent<ReasoningUIManager>();
-
             uiManager.transform.gameObject.SetActive(true);
 
             factory = NodeFactory.GetInstance();
+            uiManager.SetIsNew(isnew);
+            uiManager.SetIsEnd(isend);
 
-            this.reasoningEvent = reasoningManager.LoadEvent(eventName); ;
-
+            reasoningEvent = reasoningManager.LoadEvent(eventName);
             uiManager.SetReasoningEvent(reasoningEvent);
             uiManager.SetReasoningNode(this);
         }

@@ -71,7 +71,7 @@ namespace Assets.Script.GameStruct.EventSystem
                 if (kv.Value.position == null) forceEventTable.Add(kv.Key, kv.Value);
             }
             this.dataManager = manager;
-            this.eventState = dataManager.GetGameVar<Dictionary<string, int>>("事件状态");
+            this.eventState = dataManager.GetGameVar<Dictionary<string, int>>("事件状态表");
             InitLocation();
         }
 
@@ -105,7 +105,7 @@ namespace Assets.Script.GameStruct.EventSystem
                 //Debug.Log("强制事件遍历"+kv.Key + " 状态" + IsAvailableEvent(kv.Value));
                 if (IsAvailableEvent(kv.Value))
                 {
-                    Debug.Log("选取强制事件:" + kv.Value.name);
+                    //Debug.Log("选取强制事件:" + kv.Value.name);
                     return kv.Value;
                 }
             }
@@ -126,7 +126,8 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 //Debug.Log(UnityEngine.Random.Range(0, 1));
                 //Debug.Log("目前事件数目"+locationEvents[location].Count);
-                return locationEvents[location][UnityEngine.Random.Range(0, locationEvents[location].Count)];
+                int ranNum = UnityEngine.Random.Range(0, locationEvents[location].Count);
+                return locationEvents[location][ranNum];
             }
         }
 
@@ -150,8 +151,10 @@ namespace Assets.Script.GameStruct.EventSystem
 
         public void FinishCurrentEvent()
         {
-            eventState[currentEvent.name] = STATE_RUNNED;
             //Debug.Log("当前事件:" + currentEvent.name + "状态：" + eventState[currentEvent.name]);
+            string currentName = dataManager.GetGameVar<string>("当前事件名");
+            //eventState[currentEvent.name] = STATE_RUNNED;
+            eventState[currentName] = STATE_RUNNED;
             UpdateEvent();
         }
 
@@ -218,6 +221,7 @@ namespace Assets.Script.GameStruct.EventSystem
             MapEvent e = GetCurrentEventAt(place);
 
             currentEvent = e;
+            dataManager.SetGameVar("当前事件名", e.name);
 
             GameNode node = NodeFactory.GetInstance().FindTextScript(e.entryNode);
             return node;
@@ -226,18 +230,26 @@ namespace Assets.Script.GameStruct.EventSystem
         /// <summary>
         /// 运行强制事件
         /// </summary>
-        /// <param name="place"></param>
-        /// <returns></returns>
         public GameNode RunForceEvent()
         {
             MapEvent e = GetCurrentForceEvent();
 
             currentEvent = e;
+            dataManager.SetGameVar("当前事件名", e.name);
 
             GameNode node = NodeFactory.GetInstance().FindTextScript(e.entryNode);
             return node;
         }
 
+        /// <summary>
+        /// 运行结局事件
+        /// </summary>
+        public GameNode RunFinEvent()
+        {
+            //TODO结局判断
+            GameNode node = NodeFactory.GetInstance().FindTextScript("demofin");
+            return node;
+        }
 
         /// <summary>
         /// 读取事件表, 注意具体事件逻辑在LoadStaticEventLogic中读取完毕

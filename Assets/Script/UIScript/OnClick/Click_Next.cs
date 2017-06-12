@@ -15,14 +15,19 @@ public class Click_Next : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            if (typeof(TextScript).IsInstanceOfType (gm.GetCurrentNode()))
-                gm.GetCurrentNode().Update();
+            ClickE();
         }
     }
 
     void OnClick()
     {
         if (Input.GetMouseButtonUp(1)) return;
+        ClickE();
+    }
+
+    public void ClickE()
+    {
+        if (gm.dm.blockClick) return;
         if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
             gm.GetCurrentNode().Update();
     }

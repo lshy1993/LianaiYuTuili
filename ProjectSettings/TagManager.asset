@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Character
   - BackGround
+  - Delete
   layers:
   - Default
   - TransparentFX

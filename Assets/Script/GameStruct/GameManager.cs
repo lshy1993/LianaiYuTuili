@@ -19,14 +19,12 @@ using Assets.Script.GameStruct.EventSystem;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-
     private GameObject root;
 
     /// <summary>
     /// PanelSwitch，控制面板切换
     /// </summary>
     public PanelSwitch ps;
-
 
     /// <summary>
     /// ImageManager, 控制图像处理
@@ -41,52 +39,58 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 事件管理器
     /// </summary>
-    //public EventManager em;
+    public EventManager em;
 
     /// <summary>
     /// 创建Node的工厂
     /// </summary>
     public NodeFactory nodeFactory;
 
-
     /// <summary>
     /// 当前游戏节点
     /// </summary>
     public GameNode node;
-
 
     /// <summary>
     /// 数据管理
     /// </summary>
     public DataManager dm;
 
-
     //test for the init node
     private bool startNewGame = false;
-
 
     void Awake()
     {
         InitSystem();
-        //InitGlobalGameData();
-        //InitSource();
-        //InitEvents();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) ps.RightClick();
-        if (Input.GetMouseButtonDown(1)) ps.RightClick();
-        if (Input.GetAxis("Mouse ScrollWheel") > 0) ps.MouseUpScroll();
-        //if (startNewGame == true)
-        //{
-        //    startNewGame = false;
-        //}
+        //右键事件绑定
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (dm.effecting || dm.blockRightClick)
+                return;
+            else
+                ps.RightClick();
+        }
+        //Esc 充当右键功能
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (dm.effecting || dm.blockRightClick)
+                return;
+            else
+                ps.RightClick();
+        }
+        //滚轮作用绑定事件
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) ps.MouseUpScroll(Input.GetAxis("Mouse ScrollWheel"));
+        if (Input.GetAxis("Mouse ScrollWheel") < 0) ps.MouseDownScroll(Input.GetAxis("Mouse ScrollWheel"));
+
         if (node == null)
         {
+            // 游戏结束返回标题画面
             //Debug.Log("Game End, node null");
-            // 标题画面
-            //ps.SwitchTo("Title");
+            //ps.SwitchTo_VerifyIterative("Title_Panel");
         }
         else if (node.end)
         {
@@ -102,24 +106,17 @@ public class GameManager : MonoBehaviour
 
 
     /// <summary>
-    /// 新游戏
+    /// 新游戏入口
     /// </summary>
     public void NewGame()
     {
-        EventManager.GetInstance().UpdateEvent();
-        //startNewGame = true;
-        MapEvent e = EventManager.GetInstance().GetCurrentForceEvent();
-        EventManager.GetInstance().currentEvent = e;
+        //1 刷新事件
+        em.UpdateEvent();
+        //获取强制事件
+        MapEvent e = em.GetCurrentForceEvent();
+        em.currentEvent = e;
+        dm.SetGameVar("当前事件名", e.name);
         node = nodeFactory.FindTextScript(e.entryNode);
-
-        //EventManager.GetInstance().currentEvent = e;
-        //node = nodeFactory.FindTextScript(e.entryNode);
-        //node = nodeFactory.GetEndTurnNode();
-        //node.Update();
-
-        //node = nodeFactory.FindTextScript("S0001_1");此为真的初始
-        //node = nodeFactory.FindTextScript(Constants.DEBUG ?
-        //    "test0" : "S0001_1");
     }
 
     public GameNode GetCurrentNode()
@@ -133,14 +130,18 @@ public class GameManager : MonoBehaviour
     private void InitSystem()
     {
         root = GameObject.Find("UI Root");
+        //ps初始化
         if (ps == null) ps = transform.GetComponent<PanelSwitch>();
         ps.Init();
-
+        //im初始化
         if (im == null) im = transform.GetComponent<ImageManager>();
-
+        //dm初始化
         dm = DataManager.GetInstance();
-
+        //em初始化
+        em = EventManager.GetInstance();
+        //eb初始化
         EffectBuilder.Init(im, sm, CharacterManager.GetInstance());
+        //nf初始化
         nodeFactory = NodeFactory.GetInstance();
         nodeFactory.Init(dm, root, ps);
     }

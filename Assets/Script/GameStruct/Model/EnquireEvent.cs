@@ -12,13 +12,14 @@ namespace Assets.Script.GameStruct.Model
 
         public List<EnquireTestimony> testimony;
         public EnquireBreak enquireBreak;
-        public string id;
+        public string id, music;
 
         public string loopExit, wrongExit;
 
         public EnquireEvent(JsonData data)
         {
             id = (string)data["编号"];
+            music = (string)data["音乐"];
             loopExit = (string)data["循环"];
             wrongExit = (string)data["错误"];
 

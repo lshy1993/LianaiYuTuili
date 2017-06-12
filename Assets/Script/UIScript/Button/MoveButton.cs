@@ -5,26 +5,16 @@ using Assets.Script.GameStruct;
 public class MoveButton : MonoBehaviour
 {
     public string place;
-    private DetectNode detectNode;
+    private DetectUIManager uiManager;
 
-    public void AssignDetectNode(DetectNode detectNode)
+    public void AssignUIManager(DetectUIManager uiManager)
     {
-        this.detectNode = detectNode;
+        this.uiManager = uiManager;
     }
 
     void OnClick()
     {
-        DetectManager dm = DetectManager.GetInstance();
-        if (dm.IsEntered(place))
-        {
-            detectNode.ChooseNext(dm.GetCurrentEvent().sections[place].entry);
-        }
-        else
-        {
-            detectNode.MoveTo(place);
-        }
+        uiManager.MovePlace(place);
     }
-
-
 
 }

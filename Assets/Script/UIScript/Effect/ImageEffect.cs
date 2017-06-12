@@ -7,18 +7,18 @@ using UnityEngine;
 
 namespace Assets.Script.UIScript
 {
-    public class SpriteState
+    public class SpriteStatus
     {
         public float alpha;
         public Vector3 position;
 
-        public SpriteState()
+        public SpriteStatus()
         {
             alpha = 1;
             position = ImageManager.MIDDLE;
         }
 
-        public SpriteState(float alpha, Vector3 position)
+        public SpriteStatus(float alpha, Vector3 position)
         {
             this.alpha = alpha;
             this.position = position;
@@ -30,7 +30,7 @@ namespace Assets.Script.UIScript
     {
         public static bool fast = false;
         public UI2DSprite aimUI;
-        public SpriteState origin, final;
+        public SpriteStatus origin, final;
         public float time;
         public bool end, loop;
         public SingleUpdate update;
@@ -66,6 +66,7 @@ namespace Assets.Script.UIScript
         public IEnumerator Run(Action callback)
         {
             init();
+            yield return null;
             float actualTime = fast ? 0.1f : time;
             if (time > 0)
             {

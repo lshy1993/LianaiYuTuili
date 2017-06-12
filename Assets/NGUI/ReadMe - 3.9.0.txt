@@ -1,7 +1,7 @@
 ----------------------------------------------
             NGUI: Next-Gen UI kit
  Copyright © 2011-2016 Tasharen Entertainment
-            Version 3.10.1
+            Version 3.11.1
     http://www.tasharen.com/?page_id=197
             support@tasharen.com
 ----------------------------------------------
@@ -54,6 +54,37 @@ and it will not be included in the build of your game. It's only used in the edi
 -----------------
  Version History
 -----------------
+
+3.11.1
+- NEW: Added a 'keep value' option to the popup list that will make popup values persist even after it disappears, like it used to work before the change many versions back.
+- FIX: Popup list with values defined at edit time no longer has an initial value (unless the new 'keep value' is checked).
+- FIX: Capitalized versions of bbcode keywords like [B] will now work in addition to lowercase.
+- FIX: Backwards compatibility fixes with Unity 5.3.
+
+3.11.0
+- NEW: It's now possible to specify a custom material on regular NGUI sprites and labels.
+- NEW: Added UV2 support, specified on the panels. Secondary UVs can be easily used to add multi-texturing effects such as blended tiled backgrounds or simply detail textures, enhancing your UI's look.
+- NEW: Draw call now uses a material property block to specify the main texture as it works better at edit time.
+- NEW: UIGeometry now has a onCustomWrite delegate that can be used to modify the generated geometry as you see fit.
+- NEW: Added camera.FitOnScreen(transform) to simplify adjusting some group of widget's position to be within screen bounds.
+- NEW: Tweens can now be set to use FixedUpdate for their animation.
+- NEW: Added UIDrawCall.onCreateDrawCall that's called every time a new draw call gets created.
+- NEW: Added UIDrawCall.shadowMode that can be used to change the shadow casting mode.
+- FIX: NGUI's geometry should now work with one-sided shaders.
+- NEW: Added UICamera.lastWorldRay to hold the last ray used to cast into the world.
+- NEW: Added UICamera.mouse0, mouse1, mouse2 to access the mouse directly.
+- NEW: UICamera.uiHasFocus to return 'true' when there is an active UI interaction happening.
+- NEW: NGUI raycasts into the world will now automatically ignore triggers if the event type is set to World_3D.
+- FIX: Popup list's panel now keeps the sorting order of its parent panel.
+- FIX: Tweener.Begin now always clears the onFinished callback list.
+- FIX: Eliminated GC allocations from raycasts.
+
+3.10.2
+- NEW: Added UIDrawCall.MoveToScene for Unity 5.4+ to make it easier to move the UI to another scene.
+- FIX: Fixed an issue with Unity 5.4.1 in regards to the NGUI menu.
+- FIX: DragDropItem will now inverse transform the delta, so it should theoretically work even with rotated panels.
+- FIX: DragDropItem now again clears the scroll view reference after the drag operation completes.
+- FIX: Unity 5.4 DX9 bug work-around (no longer marking VBOs as dynamic).
 
 3.10.1
 - NEW: Added UICamera.ignoreAllEvents to easily disable all NGUI events.

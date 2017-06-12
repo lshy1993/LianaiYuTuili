@@ -12,59 +12,126 @@ namespace Assets.Script.GameStruct
     {
         private int current
         {
-            set { manager.SetInTurnVar("文字位置", value); }
-            get { return manager.GetInTurnVar<int>("文字位置"); }
+            set { manager.SetGameVar("文字位置", value); }
+            get { return manager.GetGameVar<int>("文字位置"); }
         }
-
-        //private List<TextContent> history
-        //{
-        //    set { manager.SetInTurnVar("文字历史", value); }
-        //    get { return manager.GetInTurnVar<List<TextContent>>("文字历史"); }
-        //}
 
         public IList<Piece> pieces;
         protected PieceFactory f;
         protected NodeFactory nodeFactory;
-        private bool move;
 
         public TextScript(DataManager manager, GameObject root, PanelSwitch ps) : base(manager, root, ps)
         {
         }
+
         public override void Init()
         {
             base.Init();
-            current = 0;
-            move = false;
             pieces = null;
             f = new PieceFactory(root, manager);
             nodeFactory = NodeFactory.GetInstance();
-            //history = new List<TextContent>();
             InitText();
             ps.SwitchTo_VerifyIterative("DialogBox_Panel", Update);
         }
 
         public abstract void InitText();
 
-
         public override void Update()
         {
+            if (manager.effecting)
+            {
+                //Debug.Log("Effects Running Throw Click Event!");
+                return;
+            }
             if (pieces != null && current >= 0 && current < pieces.Count)
             {
                 if (pieces[current].GetType() == typeof(EffectPiece))
                 {
-                    EffectPiece e = (EffectPiece)pieces[current];
-                    e.callback = new Action(() =>
-                    {
-                        Update();
-                    });
+                    //图像效果处理块
+                    manager.effecting = true;
+                    EffectPiece ep = (EffectPiece)pieces[current];
+                    ep.ExecAuto(new Action(() => { manager.effecting = false; current = ep.Next(); Update(); }));
                 }
-                //else if (pieces[current].GetType() == typeof(TextPiece))
-                //{
-                //    history.Add(((TextPiece)pieces[current]).GetContent());
-                //}
-
-                pieces[current].Exec();
-                current = pieces[current].Next();
+                else if ( pieces[current].GetType() == typeof(SoundPiece))
+                {
+                    //声音处理块
+                    manager.effecting = true;
+                    SoundPiece sp = (SoundPiece)pieces[current];
+                    sp.ExecAuto(new Action(() => { manager.effecting = false; current = sp.Next(); Update(); }));
+                }
+                else if (pieces[current].GetType() == typeof(TimePiece))
+                {
+                    //地点时间切换模块
+                    manager.blockRightClick = true;
+                    TimePiece tp = (TimePiece)pieces[current];
+                    tp.Exec();
+                    if (tp.finished)
+                    {
+                        current = tp.Next();
+                        manager.blockRightClick = false;
+                        Update();
+                    }
+                }
+                else if( pieces[current].GetType() == typeof(EviPiece))
+                {
+                    //证据显示处理块
+                    manager.blockRightClick = true;
+                    EviPiece ev = (EviPiece)pieces[current];
+                    ev.Exec();
+                    if (ev.finished)
+                    {
+                        current = ev.Next();
+                        manager.blockRightClick = false;
+                        Update();
+                    }
+                }
+                else if (pieces[current].GetType() == typeof(HPPiece))
+                {
+                    //扣血模块
+                    manager.blockRightClick = true;
+                    HPPiece hp = (HPPiece)pieces[current];
+                    hp.Exec();
+                    if (hp.finished)
+                    {
+                        current = hp.Next();
+                        manager.blockRightClick = false;
+                        Update();
+                    }
+                }
+                else if (pieces[current].GetType() == typeof(DiaboxPiece))
+                {
+                    //对话框控制模块
+                    manager.effecting = true;
+                    manager.blockRightClick = true;
+                    DiaboxPiece dp = (DiaboxPiece)pieces[current];
+                    dp.ExecAuto(new Action(() => { manager.effecting = false; manager.blockRightClick = false; Update(); }));
+                    current = dp.Next();
+                }
+                else if (pieces[current].GetType() == typeof(InputPiece))
+                {
+                    //姓名输入模块
+                    manager.effecting = true;
+                    manager.blockRightClick = true;
+                    InputPiece ip = (InputPiece)pieces[current];
+                    ip.ExecAuto(new Action(() => { manager.effecting = false; manager.blockRightClick = false; Update(); }));
+                    current = ip.Next();
+                }
+                else
+                {
+                    //文字块需等待点击
+                    TextPiece t = (TextPiece)pieces[current];
+                    if (t.finish)
+                    {
+                        t.HideIcon();
+                        current = t.Next();
+                        Update();
+                    }
+                    else
+                    {
+                        //Debug.Log("文字块启用");
+                        t.Exec();
+                    }
+                }
             }
             else
             {
@@ -88,29 +155,5 @@ namespace Assets.Script.GameStruct
             return base.ToString() + str;
         }
 
-
-        //public void SetCurrent(int i)
-        //{
-        //    if (!lVars.ContainsKey("文字脚本位置"))
-        //    {
-        //        lVars.Add("文字脚本位置", i);
-        //    }
-        //    else
-        //    {
-        //        lVars["文字脚本位置"] = i;
-        //    }
-        //}
-
-        //public int GetCurrent() { return (int)lVars["文字脚本位置"]; }
-
-        //public void AddHistory(TextPiece.TextContent content)
-        //{
-        //    if (!lVars.ContainsKey("历史"))
-        //    {
-        //        lVars.Add("历史", new List<TextPiece.TextContent>());
-        //    }
-        //    ((List<TextPiece.TextContent>)lVars["历史"]).Add(content);
-
-        //}
     }
 }

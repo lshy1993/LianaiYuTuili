@@ -9,7 +9,6 @@ namespace Assets.Script.UIScript
 {
     public class DetectDialogAnimation : PanelAnimation
     {
-        private List<GameObject> dialogButtons;
         private int[] destinations;
 
         public override void Init()
@@ -17,30 +16,15 @@ namespace Assets.Script.UIScript
             base.Init();
         }
 
-        //private bool animate = false;
-
-        public void setDialogBtns(List<GameObject> dialogButtons)
-        {
-            this.dialogButtons = dialogButtons;
-        }
-
-        //    public override void Open(float fadein = 0.3f)
-        //    {
-        //        base.Open(fadein);
-        //        InitPosition();
-        //        animate = true;
-        //    }
-
         private void InitPosition()
         {
-            foreach (GameObject btn in dialogButtons)
+            foreach (Transform child in this.transform)
             {
-                btn.transform.localPosition = new Vector3(0, 410);
+                child.localPosition = new Vector3(0, 410);
             }
-
-            int n = dialogButtons.Count;
+            int n = this.transform.childCount;
             int d = (670 - 50 * n) / (n + 1);
-            destinations = new int[dialogButtons.Count];
+            destinations = new int[n];
             for (int i = 0; i < destinations.Length; i++)
             {
                 destinations[i] = 360 - ((i + 1) * d + i * 50);
@@ -51,17 +35,13 @@ namespace Assets.Script.UIScript
         {
             panel.alpha = 1;
             InitPosition();
-            //foreach (GameObject obj in dialogButtons)
-            //{
-            //    obj.GetComponent<UI2DSprite>().alpha = 1;
-            //}
             float showtime = 0.2f;
             while (!AllAriveFinialDest())
             {
-                for (int i = 0; i < dialogButtons.Count; i++)
+                for (int i = 0; i < transform.childCount; i++)
                 {
-                    float y = Mathf.MoveTowards(dialogButtons[i].transform.localPosition.y, destinations[i], (360 - destinations[i]) / showtime * Time.fixedDeltaTime);
-                    dialogButtons[i].transform.localPosition = new Vector3(0, y);
+                    float y = Mathf.MoveTowards(transform.GetChild(i).localPosition.y, destinations[i], (360 - destinations[i]) / showtime * Time.fixedDeltaTime);
+                    transform.GetChild(i).localPosition = new Vector3(0, y);
                 }
                 yield return null;
             }
@@ -70,27 +50,9 @@ namespace Assets.Script.UIScript
 
         private bool AllAriveFinialDest()
         {
-            //for (int i = 0; i < dialogButtons.Count; i++)
-            //{
-                if ((int)dialogButtons[dialogButtons.Count - 1].transform.localPosition.y == (int)destinations[dialogButtons.Count - 1]) return true;
-            //}
-
-            return false;
+            int n = transform.childCount - 1;
+            return this.transform.GetChild(n).localPosition.y == destinations[n];
         }
-
-        //    new void FixedUpdate()
-        //    {
-        //        base.FixedUpdate();
-        //        if (animate)
-        //        {
-        //            for (int i = 0; i < dialogButtons.Count; i++)
-        //            {
-        //                float y = Mathf.MoveTowards(dialogButtons[i].transform.localPosition.y, destinations[i], (360 - destinations[i]) / 0.3f * Time.fixedDeltaTime);
-        //                dialogButtons[i].transform.localPosition = new Vector3(0, y);
-        //            }
-        //        }
-
-        //    }
 
     }
 }

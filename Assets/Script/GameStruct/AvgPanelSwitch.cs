@@ -6,6 +6,25 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+/**
+ * AvgPanelSwitch: 
+ * 整个游戏只允许一个，作为AvgPanel的挂件，不能删除
+ * 用于控制AvgPanel下没个模块间切换
+ * 组件示意：
+ * Background_Panel 用于背景图片的显示（可以有多层）
+ * Character_Panel 用于角色立绘的显示（若干层）
+ * DialogBox_Panel 对话框的显示
+ *   --Main_Container 主体部分
+ *      --Avatar 头像
+ *      --Name 姓名框与文字
+ *      --Dialog 对话框与文字
+ *      --Quick 快捷菜单
+ *   --Click_Container 全屏左键下一句判定
+ * Invest_Panel 调查
+ * Reasoning 推理
+ * Enquire 询问
+ * Negotiate 对峙
+ */
 namespace Assets.Script.GameStruct
 {
     public class AvgPanelSwitch : MonoBehaviour

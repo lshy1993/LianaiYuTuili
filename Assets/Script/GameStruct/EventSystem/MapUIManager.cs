@@ -15,8 +15,19 @@ public class MapUIManager : MonoBehaviour
     private GameObject funContainer;
     private UILabel uiLabelPlace, uiLabelInfo;
 
+    public SoundManager sm;
+
     public MapNode mapNode;
     private bool isout;
+
+    private DateTime date
+    {
+        get
+        {
+            int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+            return DataManager.START_DAY.AddDays(turn);
+        }
+    }
 
     void Awake()
     {
@@ -40,7 +51,23 @@ public class MapUIManager : MonoBehaviour
 
     void OnEnable()
     {
+        SetBGM();
         UIFresh();
+    }
+
+    private void SetBGM()
+    {
+        //TODO: 根据判断背景音乐
+        int week = Convert.ToInt32(date.DayOfWeek);
+        if (week == 6 || week == 0) 
+        {
+            //Debug.Log("play music");
+            sm.SetBGM("Map");
+        }
+        else
+        {
+            Debug.Log("not play music");
+        }
     }
 
     public void SetPlaceInfo(string place = "", string info = "")
@@ -56,31 +83,15 @@ public class MapUIManager : MonoBehaviour
             GameNode next = EventManager.GetInstance().RunEvent(place);
             if (next != null)
             {
+                sm.StopBGM();
                 mapNode.ChooseNext(next);
             }
-            else
-            {
-                Debug.LogError("无法运行事件!返回值为空");
-            }
-
-            //MapNode mapNode = gm.node as MapNode;
-            //if (mapNode != null)
-            //{
-            //    //GameNode next = em.RunEvent(place);
-            //    if (next != null)
-            //    {
-            //        mapNode.ChooseNext(next);
-            //    }
-            //    else
-            //    {
-            //        Debug.LogError("无法运行事件!返回值为空");
-            //    }
-            //}
-            //else
-            //{
-            //    Debug.LogError("当前Node不是MapNode");
-            //}
         }
+        else
+        {
+            Debug.LogError("没有获取到事件！返回值为空");
+        }
+
     }
 
     public void ChooseEdu()
@@ -92,8 +103,6 @@ public class MapUIManager : MonoBehaviour
     {
         //transform.Find("PlaceInfo_Container").gameObject.transform.localPosition = new Vector3(-815, 60);
         Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
-        int turn = DataManager.GetInstance().GetGameVar<int>("回合");
-        DateTime date = DataManager.START_DAY.AddDays(turn);
 
         if (date.Month == 8 && date.Day == 31)
         {

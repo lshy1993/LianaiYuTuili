@@ -15,6 +15,14 @@ namespace Assets.Script.GameStruct
         public static readonly string SAVE_PATH = Application.persistentDataPath + "/Save";
 
         /// <summary>
+        /// 生成全路径
+        /// </summary>
+        public static string GetSavePath(string fileName)
+        {
+            return SAVE_PATH + "/" + fileName;
+        }
+
+        /// <summary>
         /// 判断文件是否存在
         /// </summary>
         public static bool IsFileExists(string fileName)
@@ -29,6 +37,30 @@ namespace Assets.Script.GameStruct
         {
             return Directory.Exists(fileName);
         }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="fileName">文件路径</param>
+        public static void DeleteFile(string fileName)
+        {
+            if (IsFileExists(fileName))
+            {
+                //如果存在则删除
+                File.Delete(fileName);
+            }
+        }
+
+        /// <summary>
+        /// 创建一个二进制文件
+        /// </summary>
+        /// <param name="fileName">文件路径</param>
+        /// <param name="data">文件内容</param>
+        public static void CreatByteFile(string fileName, byte[] data)
+        {
+            File.WriteAllBytes(fileName, data);
+        }
+
 
         /// <summary>
         /// 创建一个文本文件    
@@ -69,6 +101,19 @@ namespace Assets.Script.GameStruct
             if (IsDirectoryExists(fileName))
                 return;
             Directory.CreateDirectory(fileName);
+        }
+
+        /// <summary>
+        /// 删除指定的文件夹
+        /// </summary>
+        /// <param name="fileName"></param>
+        public static void DeleteDirectory(string fileName)
+        {
+            //文件夹存在则删除
+            if (IsDirectoryExists(fileName))
+            {
+                Directory.Delete(fileName);
+            }
         }
 
         /// <summary>

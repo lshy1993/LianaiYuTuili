@@ -5,10 +5,11 @@ using Assets.Script.GameStruct;
 
 public class GirlQButton : MonoBehaviour 
 {
-    public PhoneUIManager uiManager;
+    public LoveUIManager uiManager;
     public string girlname;
+
     void OnClick()
     {
-        uiManager.SetGirlInfo(girlname);
+        uiManager.ShowGirl(girlname);
     }
 }

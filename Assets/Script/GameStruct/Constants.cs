@@ -51,6 +51,16 @@ namespace Assets.Script.GameStruct
         {
             TOP, CALENDAR, TOUR, HELP
         }
+
+        public enum NOTE_STATUS
+        {
+            INDEX, SELF, LOVE, EVIDENCE, APP
+        }
+
+        public enum Setting_Mode
+        {
+            Graphic, Sound, Text, Operate
+        }
     }
 
 }

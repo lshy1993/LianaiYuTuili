@@ -42,10 +42,24 @@ public class UIPanel : UIRect
 	public bool showInPanelTool = true;
 
 	/// <summary>
-	/// Whether normals and tangents will be generated for all meshes
+	/// Whether normals and tangents will be generated for all meshes.
 	/// </summary>
 	
 	public bool generateNormals = false;
+
+	/// <summary>
+	/// Whether secondary UV coordinates will be generated for all meshes.
+	/// </summary>
+
+	public bool generateUV2 = false;
+
+#if !UNITY_4_7
+	/// <summary>
+	/// Whether generated geometry will cast shadows.
+	/// </summary>
+
+	public UIDrawCall.ShadowMode shadowMode = UIDrawCall.ShadowMode.None;
+#endif
 
 	/// <summary>
 	/// Whether widgets drawn by this panel are static (won't move). This will improve performance.
@@ -113,7 +127,7 @@ public class UIPanel : UIRect
 #if UNITY_EDITOR
 				NGUITools.SetDirty(this);
 #endif
-				UpdateDrawCalls();
+				UpdateDrawCalls(list.IndexOf(this));
 			}
 		}
 	}
@@ -154,6 +168,20 @@ public class UIPanel : UIRect
 
 	public OnClippingMoved onClipMove;
 
+	/// <summary>
+	/// There may be cases where you will want to create a custom material per-widget in order to have unique draw calls.
+	/// If that's the case, set this delegate and return your newly created material. Note that it's up to you to cache this material for the next call.
+	/// </summary>
+
+	public OnCreateMaterial onCreateMaterial;
+	public delegate Material OnCreateMaterial (UIWidget widget, Material mat);
+
+	/// <summary>
+	/// Event callback that's triggered whenever the panel creates a new draw call.
+	/// </summary>
+
+	public UIDrawCall.OnCreateDrawCall onCreateDrawCall;
+
 	// Clip texture feature contributed by the community: http://www.tasharen.com/forum/index.php?topic=9268.0
 	[HideInInspector][SerializeField] Texture2D mClipTexture = null;
 
@@ -182,7 +210,9 @@ public class UIPanel : UIRect
 	static float[] mTemp = new float[4];
 	Vector2 mMin = Vector2.zero;
 	Vector2 mMax = Vector2.zero;
+#if !UNITY_5_5_OR_NEWER
 	bool mHalfPixelOffset = false;
+#endif
 	bool mSortWidgets = false;
 	bool mUpdateScroll = false;
 
@@ -275,7 +305,7 @@ public class UIPanel : UIRect
 #if UNITY_EDITOR
 				NGUITools.SetDirty(this);
 #endif
-				UpdateDrawCalls();
+				UpdateDrawCalls(list.IndexOf(this));
 			}
 		}
 	}
@@ -311,7 +341,17 @@ public class UIPanel : UIRect
 	/// Whether the panel's drawn geometry needs to be offset by a half-pixel.
 	/// </summary>
 
-	public bool halfPixelOffset { get { return mHalfPixelOffset; } }
+	public bool halfPixelOffset
+	{
+		get
+		{
+#if UNITY_5_5_OR_NEWER
+			return false;
+#else
+			return mHalfPixelOffset;
+#endif
+		}
+	}
 
 	/// <summary>
 	/// Whether the camera is used to draw UI geometry.
@@ -341,9 +381,11 @@ public class UIPanel : UIRect
 				float pixelSize = (root != null) ? root.pixelSizeAdjustment : 1f;
 				float mod = (pixelSize / size.y) / mCam.orthographicSize;
 
-				bool x = mHalfPixelOffset;
-				bool y = mHalfPixelOffset;
-
+#if UNITY_5_5_OR_NEWER
+				bool x = false, y = false;
+#else
+				bool x = mHalfPixelOffset, y = mHalfPixelOffset;
+#endif
 				if ((Mathf.RoundToInt(size.x) & 1) == 1) x = !x;
 				if ((Mathf.RoundToInt(size.y) & 1) == 1) y = !y;
 
@@ -371,7 +413,7 @@ public class UIPanel : UIRect
 				mClipping = value;
 				mMatrixFrame = -1;
 #if UNITY_EDITOR
-				if (!Application.isPlaying) UpdateDrawCalls();
+				if (!Application.isPlaying) UpdateDrawCalls(list.IndexOf(this));
 #endif
 			}
 		}
@@ -443,7 +485,7 @@ public class UIPanel : UIRect
 				// Call the event delegate
 				if (onClipMove != null) onClipMove(this);
 #if UNITY_EDITOR
-				if (!Application.isPlaying) UpdateDrawCalls();
+				if (!Application.isPlaying) UpdateDrawCalls(list.IndexOf(this));
 #endif
 			}
 		}
@@ -482,7 +524,7 @@ public class UIPanel : UIRect
 			{
 				mClipTexture = value;
 #if UNITY_EDITOR
-				if (!Application.isPlaying) UpdateDrawCalls();
+				if (!Application.isPlaying) UpdateDrawCalls(list.IndexOf(this));
 #endif
 			}
 		}
@@ -532,7 +574,7 @@ public class UIPanel : UIRect
 				if (sv != null) sv.UpdatePosition();
 				if (onClipMove != null) onClipMove(this);
 #if UNITY_EDITOR
-				if (!Application.isPlaying) UpdateDrawCalls();
+				if (!Application.isPlaying) UpdateDrawCalls(list.IndexOf(this));
 #endif
 			}
 		}
@@ -572,7 +614,7 @@ public class UIPanel : UIRect
 			{
 				mClipSoftness = value;
 #if UNITY_EDITOR
-				if (!Application.isPlaying) UpdateDrawCalls();
+				if (!Application.isPlaying) UpdateDrawCalls(list.IndexOf(this));
 #endif
 			}
 		}
@@ -925,14 +967,15 @@ public class UIPanel : UIRect
 	{
 		base.Awake();
 
+#if !UNITY_5_5_OR_NEWER
 		mHalfPixelOffset = (Application.platform == RuntimePlatform.WindowsPlayer ||
-			Application.platform == RuntimePlatform.XBOX360 ||
-#if UNITY_4_7 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2 || UNITY_5_3
+ #if !UNITY_5_4
 			Application.platform == RuntimePlatform.WindowsWebPlayer ||
-#endif
+ #endif
 			Application.platform == RuntimePlatform.WindowsEditor) &&
 			SystemInfo.graphicsDeviceVersion.Contains("Direct3D") &&
 			SystemInfo.graphicsShaderLevel < 40;
+#endif
 	}
 
 	/// <summary>
@@ -1234,18 +1277,18 @@ public class UIPanel : UIRect
 				if (p.renderQueue == RenderQueue.Automatic)
 				{
 					p.startingRenderQueue = rq;
-					p.UpdateDrawCalls();
+					p.UpdateDrawCalls(i);
 					rq += p.drawCalls.Count;
 				}
 				else if (p.renderQueue == RenderQueue.StartAt)
 				{
-					p.UpdateDrawCalls();
+					p.UpdateDrawCalls(i);
 					if (p.drawCalls.Count != 0)
 						rq = Mathf.Max(rq, p.startingRenderQueue + p.drawCalls.Count);
 				}
 				else // Explicit
 				{
-					p.UpdateDrawCalls();
+					p.UpdateDrawCalls(i);
 					if (p.drawCalls.Count != 0)
 						rq = Mathf.Max(rq, p.startingRenderQueue + 1);
 				}
@@ -1338,12 +1381,15 @@ public class UIPanel : UIRect
 			if (w.isVisible && w.hasVertices)
 			{
 				Material mt = w.material;
+				
+				if (onCreateMaterial != null) mt = onCreateMaterial(w, mt);
+
 				Texture tx = w.mainTexture;
 				Shader sd = w.shader;
 
 				if (mat != mt || tex != tx || sdr != sd)
 				{
-					if (dc != null && dc.verts.size != 0)
+					if (dc != null && dc.verts.Count != 0)
 					{
 						drawCalls.Add(dc);
 						dc.UpdateGeometry(count);
@@ -1366,6 +1412,7 @@ public class UIPanel : UIRect
 						dc.depthStart = w.depth;
 						dc.depthEnd = dc.depthStart;
 						dc.panel = this;
+						dc.onCreateDrawCall = onCreateDrawCall;
 					}
 					else
 					{
@@ -1377,8 +1424,8 @@ public class UIPanel : UIRect
 					w.drawCall = dc;
 
 					++count;
-					if (generateNormals) w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, dc.norms, dc.tans);
-					else w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, null, null);
+					if (generateNormals) w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, dc.norms, dc.tans, generateUV2 ? dc.uv2 : null);
+					else w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, null, null, generateUV2 ? dc.uv2 : null);
 
 					if (w.mOnRender != null)
 					{
@@ -1390,7 +1437,7 @@ public class UIPanel : UIRect
 			else w.drawCall = null;
 		}
 
-		if (dc != null && dc.verts.size != 0)
+		if (dc != null && dc.verts.Count != 0)
 		{
 			drawCalls.Add(dc);
 			dc.UpdateGeometry(count);
@@ -1431,8 +1478,8 @@ public class UIPanel : UIRect
 					{
 						++count;
 						
-						if (generateNormals) w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, dc.norms, dc.tans);
-						else w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, null, null);
+						if (generateNormals) w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, dc.norms, dc.tans, generateUV2 ? dc.uv2 : null);
+						else w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, null, null, generateUV2 ? dc.uv2 : null);
 
 						if (w.mOnRender != null)
 						{
@@ -1445,7 +1492,7 @@ public class UIPanel : UIRect
 				++i;
 			}
 
-			if (dc.verts.size != 0)
+			if (dc.verts.Count != 0)
 			{
 				dc.UpdateGeometry(count);
 				dc.onRender = mOnRender;
@@ -1460,7 +1507,7 @@ public class UIPanel : UIRect
 	/// Update all draw calls associated with the panel.
 	/// </summary>
 
-	void UpdateDrawCalls ()
+	void UpdateDrawCalls (int sortOrder)
 	{
 		Transform trans = cachedTransform;
 		bool isUI = usedForUI;
@@ -1520,9 +1567,12 @@ public class UIPanel : UIRect
 			dc.renderQueue = (renderQueue == RenderQueue.Explicit) ? startingRenderQueue : startingRenderQueue + i;
 			dc.alwaysOnScreen = alwaysOnScreen &&
 				(mClipping == UIDrawCall.Clipping.None || mClipping == UIDrawCall.Clipping.ConstrainButDontClip);
-			dc.sortingOrder = mSortingOrder;
+			dc.sortingOrder = (mSortingOrder == 0) ? sortOrder : mSortingOrder;
 			dc.sortingLayerName = mSortingLayerName;
 			dc.clipTexture = mClipTexture;
+#if !UNITY_4_7
+			dc.shadowMode = shadowMode;
+#endif
 		}
 	}
 

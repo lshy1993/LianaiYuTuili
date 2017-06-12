@@ -5,13 +5,13 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 439900}
-  - 61: {fileID: 6143410}
-  - 114: {fileID: 11463676}
-  - 114: {fileID: 11435098}
-  - 114: {fileID: 11489948}
+  - component: {fileID: 439900}
+  - component: {fileID: 6143410}
+  - component: {fileID: 11463676}
+  - component: {fileID: 11435098}
+  - component: {fileID: 11489948}
   m_Layer: 5
   m_Name: Move_Choice
   m_TagString: Untagged
@@ -24,10 +24,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 403136}
-  - 114: {fileID: 11470194}
+  - component: {fileID: 403136}
+  - component: {fileID: 11470194}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -47,6 +47,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 439900}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &439900
 Transform:
   m_ObjectHideFlags: 1
@@ -60,6 +61,7 @@ Transform:
   - {fileID: 403136}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &6143410
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -73,7 +75,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 854, y: 50}
+  m_Size: {x: 800, y: 50}
 --- !u!114 &11435098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,12 +91,12 @@ MonoBehaviour:
   hover: {r: 0.88235295, g: 0.78431374, b: 0.5882353, a: 1}
   pressed: {r: 0.7176471, g: 0.6392157, b: 0.48235294, a: 1}
   disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  duration: 0.2
+  duration: 0
   dragHighlight: 0
   hoverSprite: 
   pressedSprite: 
   disabledSprite: 
-  hoverSprite2D: {fileID: 0}
+  hoverSprite2D: {fileID: 21300000, guid: 84a976763e8fca744a8465237d2624c7, type: 3}
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
@@ -129,25 +131,28 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 854
+  mWidth: 800
   mHeight: 50
   mDepth: 4
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 17.08
+  aspectRatio: 16
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mSprite: {fileID: 21300000, guid: 22ac011ccf05780428c45992fca5ca6a, type: 3}
-  mMat: {fileID: 0}
+  mSprite: {fileID: 21300000, guid: 3dca1230f1868984784007a9f0bc4e3a, type: 3}
   mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
   mBorder: {x: 0, y: 0, z: 0, w: 0}
   mFixedAspect: 0
@@ -167,29 +172,30 @@ MonoBehaviour:
   leftAnchor:
     target: {fileID: 439900}
     relative: 0
-    absolute: 30
+    absolute: -400
   rightAnchor:
     target: {fileID: 439900}
     relative: 1
-    absolute: -30
+    absolute: 400
   bottomAnchor:
     target: {fileID: 439900}
     relative: 0
-    absolute: 5
+    absolute: -20
   topAnchor:
     target: {fileID: 439900}
     relative: 1
-    absolute: -5
+    absolute: 20
   updateAnchors: 1
-  mColor: {r: 0, g: 0, b: 0, a: 1}
+  mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 794
+  mWidth: 800
   mHeight: 40
   mDepth: 5
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 19.85
+  aspectRatio: 20
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
   mFont: {fileID: 0}
@@ -204,7 +210,6 @@ MonoBehaviour:
   mSymbols: 1
   mEffectDistance: {x: 1, y: 1}
   mOverflow: 1
-  mMaterial: {fileID: 0}
   mApplyGradient: 0
   mGradientTop: {r: 1, g: 1, b: 1, a: 1}
   mGradientBottom: {r: 0.7, g: 0.7, b: 0.7, a: 1}
@@ -213,6 +218,9 @@ MonoBehaviour:
   mUseFloatSpacing: 0
   mFloatSpacingX: 0
   mFloatSpacingY: 0
+  mOverflowEllipsis: 0
+  mOverflowWidth: 0
+  mModifier: 0
   mShrinkToFit: 0
   mMaxLineWidth: 0
   mMaxLineHeight: 0
@@ -229,6 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d421872dfba71154c80603b32d9bc134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  place: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

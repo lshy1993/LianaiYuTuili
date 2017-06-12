@@ -10,9 +10,6 @@ namespace Assets.Script.GameStruct
 {
     public class EduNode : GameNode
     {
-        private Player player;
-
-        private EduManager eduManager;
         private EduUIManager uiManager;
 
         private List<EduEvent> allEvents;
@@ -23,7 +20,6 @@ namespace Assets.Script.GameStruct
             base(manager, root, ps)
         {
             ps.SwitchTo_VerifyIterative("Edu_Panel");
-            player = manager.GetGameVar<Player>("玩家");
         }
 
         public override void Init()

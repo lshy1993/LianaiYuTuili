@@ -9,17 +9,22 @@ namespace Assets.Script.UIScript
 {
     class EduAnimation : PanelAnimation
     {
-        private GameObject backgroundContainer, timeContainer, charaContainer, selectionContainer, functionContainer;
-        private UIWidget selectionWidget;
+        private GameObject backgroundContainer, timeContainer, charaContainer, selectionContainer, scheduleContainer;
+        //private UIWidget selectionWidget;
 
         public override void Init()
         {
             backgroundContainer = this.transform.Find("BackGround_Container").gameObject;
             timeContainer = this.transform.Find("Time_Container").gameObject;
-            charaContainer = this.transform.Find("CharaInfo_Container").gameObject;
-            selectionContainer = this.transform.Find("Selection_Container").gameObject;
-            functionContainer = this.transform.Find("Function_Container").gameObject;
-            selectionWidget = selectionContainer.GetComponent<UIWidget>();
+
+            //charaContainer = this.transform.Find("CharaInfo_Container").gameObject;
+            //selectionContainer = this.transform.Find("Selection_Container").gameObject;
+
+            charaContainer = this.transform.Find("NewCharaInfo_Container").gameObject;
+            selectionContainer = this.transform.Find("NewSelection_Container").gameObject;
+            scheduleContainer = this.transform.Find("Schedule_Container").gameObject;
+
+            //selectionWidget = selectionContainer.GetComponent<UIWidget>();
             base.Init();
         }
 
@@ -60,13 +65,15 @@ namespace Assets.Script.UIScript
             while (x > 0)
             {
                 x = Mathf.MoveTowards(x, 0, 1 / closeTime * Time.deltaTime);
-                timey = 390 - 60 * x;
-                charay = -435 + 150 * x;
-                funx = -690 + 100 * x;
+                timey = 400 - 70 * x;
+                charay = -445 + 160 * x;
+                funx = -700 + 110 * x;
                 timeContainer.transform.localPosition = new Vector3(160, timey);
-                charaContainer.transform.localPosition = new Vector3(0, charay);
-                functionContainer.transform.localPosition = new Vector3(funx, 0);
-                selectionWidget.alpha = x;
+                //charaContainer.transform.localPosition = new Vector3(0, charay);
+                //functionContainer.transform.localPosition = new Vector3(funx, 0);
+                scheduleContainer.GetComponent<UIWidget>().alpha = x;
+                charaContainer.GetComponent<UIWidget>().alpha = x;
+                selectionContainer.GetComponent<UIWidget>().alpha = x;
                 yield return null;
             }
             selectionContainer.SetActive(false);
@@ -74,20 +81,26 @@ namespace Assets.Script.UIScript
 
         private IEnumerator ShowOpen()
         {
+            scheduleContainer.SetActive(true);
+            charaContainer.SetActive(true);
             selectionContainer.SetActive(true);
-            selectionWidget.alpha = 0;
+            scheduleContainer.GetComponent<UIWidget>().alpha = 0;
+            charaContainer.GetComponent<UIWidget>().alpha = 0;
+            selectionContainer.GetComponent<UIWidget>().alpha = 0;
             float timey, charay, funx;
             float x = 0;
             while (x < 1)
             {
                 x = Mathf.MoveTowards(x, 1, 1 / openTime * Time.deltaTime);
-                timey = 390 - 60 * x;
-                charay = -435 + 150 * x;
-                funx = -690 + 100 * x;
+                timey = 400 - 70 * x;
+                charay = -445 + 160 * x;
+                funx = -700 + 110 * x;
                 timeContainer.transform.localPosition = new Vector3(160, timey);
-                charaContainer.transform.localPosition = new Vector3(0, charay);
-                functionContainer.transform.localPosition = new Vector3(funx, 0);
-                selectionWidget.alpha = x;
+                //charaContainer.transform.localPosition = new Vector3(0, charay);
+                //functionContainer.transform.localPosition = new Vector3(funx, 0);
+                scheduleContainer.GetComponent<UIWidget>().alpha = x;
+                charaContainer.GetComponent<UIWidget>().alpha = x;
+                selectionContainer.GetComponent<UIWidget>().alpha = x;
                 yield return null;
             }
         }

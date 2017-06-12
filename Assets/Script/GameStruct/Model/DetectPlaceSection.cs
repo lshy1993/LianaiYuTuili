@@ -10,6 +10,7 @@ namespace Assets.Script.GameStruct.Model
     {
         public string place;
         public string entry;
+        public string imagename;
         public List<DetectInvest> invests;
         public List<DetectDialog> dialogs;
         public List<string> moves;
@@ -17,7 +18,9 @@ namespace Assets.Script.GameStruct.Model
         public DetectPlaceSection(JsonData data)
         {
             place = (string)data["地点"];
-            entry = (string)data["进入事件"];
+            imagename = (string)data["背景图片"];
+            if (data.Contains("进入事件")) entry = (string)data["进入事件"];
+            
             dialogs = new List<DetectDialog>();
             invests = new List<DetectInvest>();
             moves = new List<string>();

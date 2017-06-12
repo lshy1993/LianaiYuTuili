@@ -3,26 +3,20 @@ using System.Collections;
 
 public class Slider_SE : MonoBehaviour {
 
-    public AudioSource se;
+    //AudioSource bgm
+    public SoundManager sm;
     public UISlider slider;
     public UILabel numlabel, helplabel;
 
     public void OnValueChange()
     {
-        se.volume = slider.value;
+        sm.userSeVolume = slider.value;
         numlabel.text = slider.value.ToString("00%");
     }
 
     void OnHover(bool ishover)
     {
-        if (ishover)
-        {
-            helplabel.text = "设置效果音的大小";
-        }
-        else
-        {
-            helplabel.text = string.Empty;
-        }
+        helplabel.text = ishover ? "设置效果音的大小" : string.Empty;
     }
 
 }

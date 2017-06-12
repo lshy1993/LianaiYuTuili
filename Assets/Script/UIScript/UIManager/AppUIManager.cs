@@ -18,6 +18,12 @@ public class AppUIManager : MonoBehaviour
         helpContainer = this.transform.Find("Help_Container").gameObject;
     }
 
+    private void OnEnable()
+    {
+        //自动切换至首页
+        SwitchTo("AppTop_Button");
+    }
+
     public void SwitchTo(string name)
     {
         switch (status)
@@ -37,25 +43,24 @@ public class AppUIManager : MonoBehaviour
             default:
                 break;
         }
-        if(name == "AppTop_Button")
+        switch (name)
         {
-            StartCoroutine(FadeIn(topContainer));
-            status = Constants.APP_STATUS.TOP;
-        }
-        if(name == "AppCalendar_Button")
-        {
-            StartCoroutine(FadeIn(calContainer));
-            status = Constants.APP_STATUS.CALENDAR;
-        }
-        if (name == "AppTour_Button")
-        {
-            StartCoroutine(FadeIn(tourContainer));
-            status = Constants.APP_STATUS.TOUR;
-        }
-        if (name == "AppHelp_Button")
-        {
-            StartCoroutine(FadeIn(helpContainer));
-            status = Constants.APP_STATUS.HELP;
+            case "AppTop_Button":
+                StartCoroutine(FadeIn(topContainer));
+                status = Constants.APP_STATUS.TOP;
+                break;
+            case "AppCalendar_Button":
+                StartCoroutine(FadeIn(calContainer));
+                status = Constants.APP_STATUS.CALENDAR;
+                break;
+            case "AppTour_Button":
+                StartCoroutine(FadeIn(tourContainer));
+                status = Constants.APP_STATUS.TOUR;
+                break;
+            case "AppHelp_Button":
+                StartCoroutine(FadeIn(helpContainer));
+                status = Constants.APP_STATUS.HELP;
+                break;
         }
     }
 

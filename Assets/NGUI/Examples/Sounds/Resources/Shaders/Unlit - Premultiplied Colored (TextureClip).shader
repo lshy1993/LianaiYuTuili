@@ -15,6 +15,7 @@ Shader "Hidden/Unlit/Premultiplied Colored (TextureClip)"
 			"Queue" = "Transparent"
 			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
+			"DisableBatching" = "True"
 		}
 		
 		Pass
@@ -25,7 +26,7 @@ Shader "Hidden/Unlit/Premultiplied Colored (TextureClip)"
 			AlphaTest Off
 			Fog { Mode Off }
 			Offset -1, -1
-			ColorMask RGB
+			//ColorMask RGB
 			Blend One OneMinusSrcAlpha
 
 			CGPROGRAM
@@ -46,7 +47,7 @@ Shader "Hidden/Unlit/Premultiplied Colored (TextureClip)"
 
 			struct v2f
 			{
-				float4 vertex : POSITION;
+				float4 vertex : SV_POSITION;
 				float2 texcoord : TEXCOORD0;
 				float2 clipUV : TEXCOORD1;
 				half4 color : COLOR;
@@ -62,7 +63,7 @@ Shader "Hidden/Unlit/Premultiplied Colored (TextureClip)"
 				return o;
 			}
 
-			half4 frag (v2f IN) : COLOR
+			half4 frag (v2f IN) : SV_Target
 			{
 				half alpha = tex2D(_ClipTex, IN.clipUV).a;
 				half4 col = tex2D(_MainTex, IN.texcoord) * IN.color;

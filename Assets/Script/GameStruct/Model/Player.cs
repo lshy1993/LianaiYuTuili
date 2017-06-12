@@ -134,7 +134,7 @@ namespace Assets.Script.GameStruct.Model
 
         public Dictionary<string, Dictionary<string, int>> ToDictionary()
         {
-            JsonData data = new JsonData();
+            //JsonData data = new JsonData();
             Dictionary<string, Dictionary<string, int>> player = new Dictionary<string, Dictionary<string, int>>();
             player.Add("基本属性", basicStatus);
             player.Add("好感度", girls);

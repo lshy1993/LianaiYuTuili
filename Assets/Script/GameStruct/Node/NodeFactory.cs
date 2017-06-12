@@ -20,8 +20,6 @@ namespace Assets.Script.GameStruct
             return instance;
 
         }
-        //private Hashtable gVars;
-        //private Hashtable lVars;
         private DataManager manager;
         private GameObject root;
         private PanelSwitch ps;
@@ -31,21 +29,20 @@ namespace Assets.Script.GameStruct
 
         public void Init(DataManager manager, GameObject root, PanelSwitch ps)
         {
-            //this.gVars = gVars;
-            //this.lVars = lVars;
             this.manager = manager;
             this.root = root;
             this.ps = ps;
-            //TextScript.SetAvgPanelSwitch(avgPanelSwitch);
         }
 
         public MapNode GetMapNode()
         {
+            manager.SetGameVar("MODE", "大地图模式");
             return new MapNode(manager, root, ps);
         }
     
         public EduNode GetEduNode()
         {
+            manager.SetGameVar("MODE", "养成模式");
             return new EduNode(manager, root, ps);
         }
 
@@ -53,6 +50,7 @@ namespace Assets.Script.GameStruct
         {
             return new EndTurnNode(manager, root, ps);
         }
+
         public GameNode GetDetectJudgeNode(string eventName)
         {
             return new DetectJudgeNode(manager, root, ps, eventName, avgPanelSwitch);
@@ -60,6 +58,7 @@ namespace Assets.Script.GameStruct
 
         public GameNode GetDetectNode(DetectEvent detectEvent)
         {
+            manager.SetGameVar("MODE", "侦探模式");
             return new DetectNode(manager, root, ps, detectEvent);
         }
 
@@ -68,29 +67,38 @@ namespace Assets.Script.GameStruct
             return new EnquireNode(manager, root, ps, eventName);
         }
 
-        public GameNode GetReasoningNode(string eventName)
+        public GameNode GetReasoningNode(string eventName, string status = "")
         {
-            return new ReasoningNode(manager, root, ps, eventName);
+            return new ReasoningNode(manager, root, ps, eventName, status);
+        }
+
+        public GameNode GetNegotiateNode(string eventName)
+        {
+            return new NegotiateNode(manager, root, ps, eventName);
+        }
+
+        public GameNode GetFinNode()
+        {
+            return new FinNode(manager, root, ps);
         }
 
         public TextScript FindTextScript(string name)
         {
-            Debug.Log("获取文件脚本:" + name);
+            manager.SetGameVar("文字位置", 0);
+            return FindTextScriptNoneInit(name);
+        }
+
+        public TextScript FindTextScriptNoneInit(string name)
+        {
+            manager.SetGameVar("当前脚本名", name);
+            manager.SetGameVar("MODE", "Avg模式");
+
             string classStr = SCRIPT_PATH + "." + name;
-            TextScript script = null;
             Type t = Type.GetType(classStr);
             object[] args = new object[] { manager, root, ps };
-            script = (TextScript)Activator.CreateInstance(t, args);
-
-            //try
-            //{
-            //}
-            //catch(Exception e)
-            //{
-            //    Debug.LogError("文本脚本文件转换错误，请检查名称");
-            //    Debug.LogError(e.InnerException.Message);
-            //}
+            TextScript script = (TextScript)Activator.CreateInstance(t, args);
             return script;
         }
+
     }
 }
