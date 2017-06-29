@@ -10,25 +10,52 @@ public class TextSettingUIManager : MonoBehaviour
 {
     ///用于控制对话框的文字设置
 
-    private bool flag = false;
     public UISlider diaBoxAlpha;
     public UILabel previewLabel, textLabel;
     public UI2DSprite previewBack, diaBack;
 
+    private bool previewFlag = false;
+    private bool aniFlag = false;
+    private float currentTime = 0f;
+    private float waitTime;
+
+    private void Update()
+    {
+        if (aniFlag)
+        {
+            //等待计时器
+            if (currentTime < waitTime)
+            {
+                currentTime += Time.deltaTime;
+                //Debug.Log(currentTime);
+            }
+            else
+            {
+                //计时器关闭且重置
+                currentTime = 0f;
+                aniFlag = false;
+                previewFlag = !previewFlag;
+                ResetTypewriter();
+            }
+        }
+
+    }
+
     private void OnEnable()
     {
-        //初始化 获取已经设置的速度
-        //float textSpeed = DataManager.GetInstance().textSpeed;
-        //previewLabel.GetComponent<TypeWriter>().charsPerSecond = textSpeed;
-        //previewLabel.GetComponent<TypeWriter>().ResetToBeginning();
+        aniFlag = false;
+        previewFlag = false;
+        //初始化
         ResetText();
+        ResetSpeed();
+        //设置对话框透明度
         SetAlpha();
     }
 
-    private void OnDisable()
+    private void ResetTypewriter()
     {
-        //Debug.Log("disable");
-        StopAllCoroutines();
+        previewLabel.text = previewFlag ? "请调节合适的文字显示速度\r\n请调节合适的自动等待时间" : "恋爱与推理\r\nXianZhuo Soft ©COPYRIGHT";
+        previewLabel.GetComponent<TypeWriter>().ResetToBeginning();
     }
 
     public void SetAlpha()
@@ -40,27 +67,25 @@ public class TextSettingUIManager : MonoBehaviour
 
     public void ResetText()
     {
-        StopAllCoroutines();
+        //设置文字速度
         float textSpeed = DataManager.GetInstance().GetSystemVar<float>("textSpeed");
-        previewLabel.text = flag ? "请调节合适的文字显示速度\r\n请调节合适的自动等待时间" : "恋爱与推理\r\nXianZhuo Soft ©COPYRIGHT";
         previewLabel.GetComponent<TypeWriter>().charsPerSecond = textSpeed;
-        previewLabel.GetComponent<TypeWriter>().ResetToBeginning();
         textLabel.GetComponent<TypeWriter>().charsPerSecond = textSpeed;
+        //重置打字机文字
+        ResetTypewriter();
     }
 
-    private IEnumerator WaitAndSwitch()
+    public void ResetSpeed()
     {
-        float waitTime = DataManager.GetInstance().GetSystemVar<float>("waitTime");
-        yield return new WaitForSeconds(waitTime);
-        flag = !flag;
-        previewLabel.text = flag ? "请调节合适的文字显示速度\r\n请调节合适的自动等待时间" : "恋爱与推理\r\nXianZhuo Soft ©COPYRIGHT";
-        previewLabel.GetComponent<TypeWriter>().ResetToBeginning();
+        waitTime = DataManager.GetInstance().GetSystemVar<float>("waitTime");
+        //重置打字机文字
+        ResetTypewriter();
     }
 
+    //打字机完成后调用重置定时器
     public void SwitchText()
     {
-        StopAllCoroutines();
-        StartCoroutine(WaitAndSwitch());
+        aniFlag = true;
     }
 
 }

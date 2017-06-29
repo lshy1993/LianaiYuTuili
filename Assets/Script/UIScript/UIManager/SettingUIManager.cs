@@ -7,6 +7,9 @@ using Assets.Script.GameStruct;
 
 public class SettingUIManager : MonoBehaviour
 {
+    /// <summary>
+    /// 用于控制 和切换旗下的4个设置模块
+    /// </summary>
     public GameObject graphicCon, soundCon, textCon, sysCon;
     public GameObject graphicBtn, soundBtn, textBtn, sysBtn;
 
@@ -15,14 +18,17 @@ public class SettingUIManager : MonoBehaviour
         get { return DataManager.GetInstance().GetSystemVar<Constants.Setting_Mode>("settingMode"); }
         set { DataManager.GetInstance().SetSystemVar("settingMode", (int)value); }
     }
-
+    
     private void OnEnable()
     {
+        //打开时自动切换至图像？
+        //TODO 考虑存档记忆
         SwitchTab("Graphic_Button");
     }
 
     public void SwitchTab(string target)
     {
+        //原状态按钮开启
         switch (settingMode)
         {
             case Constants.Setting_Mode.Graphic:
@@ -50,6 +56,7 @@ public class SettingUIManager : MonoBehaviour
         if (target == "Sound_Button") settingMode = Constants.Setting_Mode.Sound;
         if (target == "Text_Button") settingMode = Constants.Setting_Mode.Text;
         if (target == "Operate_Button") settingMode = Constants.Setting_Mode.Operate;
+        //新状态按钮不可用
         switch (settingMode)
         {
             case Constants.Setting_Mode.Graphic:

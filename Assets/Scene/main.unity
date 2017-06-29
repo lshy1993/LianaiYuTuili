@@ -18261,7 +18261,11 @@ MonoBehaviour:
   pressedSprite2D: {fileID: 21300000, guid: de3e770ef716fbc4ab32356c9e49f11c, type: 3}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick: []
+  onClick:
+  - mTarget: {fileID: 1845195916}
+    mMethodName: HideWindow
+    mParameters: []
+    oneShot: 0
 --- !u!61 &363603029
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -75040,6 +75044,7 @@ MonoBehaviour:
   slider: {fileID: 1709182395}
   numlabel: {fileID: 1761414732}
   helplabel: {fileID: 781443385}
+  uiManager: {fileID: 1128860428}
 --- !u!1 &1711749172
 GameObject:
   m_ObjectHideFlags: 0

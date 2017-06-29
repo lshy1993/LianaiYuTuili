@@ -156,7 +156,7 @@ namespace Assets.Script.GameStruct
         {
             foreach(string key in hst.Keys)
             {
-                Debug.Log(key+":" + hst[key].GetType() +":::"+ hst[key].ToString());
+                //Debug.Log(key+":" + hst[key].GetType() +":::"+ hst[key].ToString());
                 if(key == "textSpeed")
                 {
                     string json = hst[key].ToString();

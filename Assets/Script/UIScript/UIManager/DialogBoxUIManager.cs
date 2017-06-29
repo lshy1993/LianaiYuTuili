@@ -20,8 +20,8 @@ public class DialogBoxUIManager : MonoBehaviour
     public GameObject table;
 
     private string xing, ming;
-
     private bool typewriting = false;
+    private bool closedbox = false;
 
     void Awake()
     {
@@ -45,6 +45,7 @@ public class DialogBoxUIManager : MonoBehaviour
         ming = DataManager.GetInstance().GetGameVar<string>("名");
     }
 
+    //将文字数据应用到UI上
     public void SetText(TextPiece currentPiece, string name, string dialog, string avatar = "")
     {
         this.currentPiece = currentPiece;
@@ -53,11 +54,12 @@ public class DialogBoxUIManager : MonoBehaviour
         //TODO : 头像
         te.ResetToBeginning();
         typewriting = true;
-        //刷新界面？
+        //添加文字记录且刷新文字记录界面
         AddToTable(new BacklogText(name, dialog));
        // DataManager.GetInstance().AddHistory(new BacklogText(name, dialog));
     }
 
+    //加入文字履历
     private void AddToTable(BacklogText bt)
     {
         GameObject go = (GameObject)Resources.Load("Prefab/Backlog");
@@ -80,16 +82,29 @@ public class DialogBoxUIManager : MonoBehaviour
         DataManager.GetInstance().AddHistory(bt);
     }
 
+    //瞬间完成打字
     public void FinishType()
     {
         te.Finish();
     }
 
+    //隐藏对话框
+    public void HideWindow()
+    {
+        mainContainer.SetActive(false);
+        closedbox = true;
+    }
+    public void ShowWindow()
+    {
+        mainContainer.SetActive(true);
+        closedbox = false;
+    }
+
+    //隐藏/显示下一页图标
     public void HideNextIcon()
     {
         nextIcon.SetActive(false);
     }
-
     public void ShowNextIcon()
     {
         if (string.IsNullOrEmpty(dialogLabel.text) && string.IsNullOrEmpty(nameLabel.text)) return;
@@ -98,9 +113,14 @@ public class DialogBoxUIManager : MonoBehaviour
         if (currentPiece != null) currentPiece.finish = true;
     }
 
+    //public 属性获取方法
     public bool IsTyping()
     {
         return typewriting;
+    }
+    public bool IsBoxClosed()
+    {
+        return closedbox;
     }
 
     public void Open(float time, Action callback)

@@ -7,6 +7,9 @@ public class Slider_AutoSpeed : MonoBehaviour
 {
     public UISlider slider;
     public UILabel numlabel, helplabel;
+    public TextSettingUIManager uiManager;
+
+    private bool clicked = false;
 
     public void OnValueChange()
     {
@@ -15,6 +18,16 @@ public class Slider_AutoSpeed : MonoBehaviour
         speed = (float)(i * 1.0) / 100;
         numlabel.text = (slider.value * 100).ToString();
         DataManager.GetInstance().SetSystemVar("waitTime", speed);
+        clicked = true;
+    }
+
+    private void Update()
+    {
+        if (clicked && Input.GetMouseButtonUp(0))
+        {
+            uiManager.ResetSpeed();
+            clicked = false;
+        }
     }
 
     void OnHover(bool ishover)
