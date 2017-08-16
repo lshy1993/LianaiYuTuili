@@ -42,7 +42,7 @@ namespace Assets.Script.GameStruct
 
         public Dictionary<string,Evidence> eviDic
         {
-            get { return (Dictionary<string, Evidence>)DataPool.GetInstance().GetStaticVar("证据列表"); }
+            get { return DataPool.GetInstance().GetStaticVar("证据列表") as Dictionary<string, Evidence>; }
         }
 
         public List<string> eviNameList

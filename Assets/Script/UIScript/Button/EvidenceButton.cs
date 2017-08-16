@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
+using Assets.Script.GameStruct.Model;
+
 
 public class EvidenceButton : MonoBehaviour
 {

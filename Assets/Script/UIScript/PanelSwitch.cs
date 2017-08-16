@@ -301,7 +301,12 @@ public class PanelSwitch : MonoBehaviour
             else
             {
                 //如果已经打开了Backlog 则向上滚动条
-                backCon.transform.Find("Scroll View").GetComponent<UIScrollView>().Scroll(delta * 10);
+                if (backCon.GetComponent<BacklogUIManager>().IsEnoughRow())
+                {
+                    UIScrollView scroll = backCon.transform.Find("Scroll View").GetComponent<UIScrollView>();
+                    scroll.Scroll(delta * 10);
+                }
+               
             }
         }
     }
@@ -316,10 +321,11 @@ public class PanelSwitch : MonoBehaviour
             //当Backlog打开 则滚动条向下
             if (backCon.activeSelf)
             {
+                BacklogUIManager uim = backCon.GetComponent<BacklogUIManager>();
                 float value = backCon.transform.Find("ScrollBar").GetComponent<UIScrollBar>().value;
-                if(value >= 1)
+                if(!uim.IsEnoughRow() || value >= 1)
                 {
-                    //当滚动条到底时 关闭backlog
+                    //当文本不足 或 滚动条到底时 关闭backlog
                     panels["System"].GetComponent<SystemUIManager>().Close();
                 }
                 else

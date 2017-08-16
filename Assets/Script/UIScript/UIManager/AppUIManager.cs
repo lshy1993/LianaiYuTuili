@@ -8,7 +8,7 @@ using Assets.Script.GameStruct;
 public class AppUIManager : MonoBehaviour
 {
     private GameObject topContainer, calContainer, tourContainer, helpContainer;
-    private Constants.APP_STATUS status;
+    private Constants.APP_STATUS status = Constants.APP_STATUS.TOP;
 
     void Awake()
     {
@@ -22,6 +22,8 @@ public class AppUIManager : MonoBehaviour
     {
         //自动切换至首页
         SwitchTo("AppTop_Button");
+        //StartCoroutine(FadeIn(topContainer));
+        //status = Constants.APP_STATUS.TOP;
     }
 
     public void SwitchTo(string name)
@@ -29,15 +31,19 @@ public class AppUIManager : MonoBehaviour
         switch (status)
         {
             case Constants.APP_STATUS.TOP:
+                if (name == "AppTop_Button") return;
                 StartCoroutine(FadeOut(topContainer));
                 break;
             case Constants.APP_STATUS.CALENDAR:
+                if (name == "AppCalendar_Button") return;
                 StartCoroutine(FadeOut(calContainer));
                 break;
             case Constants.APP_STATUS.TOUR:
+                if (name == "AppTour_Button") return;
                 StartCoroutine(FadeOut(tourContainer));
                 break;
             case Constants.APP_STATUS.HELP:
+                if (name == "AppHelp_Button") return;
                 StartCoroutine(FadeOut(helpContainer));
                 break;
             default:

@@ -11,11 +11,11 @@ namespace Assets.Script.GameStruct.Model
         public string mainContent;
         public string voicePath;
 
-        public BacklogText(string cName, string mContent, string vPath = "")
+        public BacklogText(string cName, string mContent, string vFile = "")
         {
             this.charaName = cName;
             this.mainContent = mContent;
-            this.voicePath = vPath;
+            this.voicePath = vFile;
         }
 
         public override string ToString()

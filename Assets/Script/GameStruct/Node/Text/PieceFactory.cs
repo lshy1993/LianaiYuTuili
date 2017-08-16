@@ -45,10 +45,10 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="name">名字,设为空则不改变</param>
         /// <param name="dialog">内容，空则不改变</param>
-        public TextPiece t(string name = "", string dialog = "", string avatar= "")
+        public TextPiece t(string name = "", string dialog = "", string avatar = "", string voice = "")
         {
             //return new TextPiece(id++, nameLabel, dialogLabel, avatarSprite, name, dialog, avatar);
-            return new TextPiece(id++, diaboxpanel, name, dialog, avatar);
+            return new TextPiece(id++, diaboxpanel, name, dialog, avatar, voice);
         }
 
         /// <summary>
@@ -57,10 +57,10 @@ namespace Assets.Script.GameStruct
         /// <param name="name">名字，空则不改变</param>
         /// <param name="dialog">内容，空则不改变</param>
         /// <param name="simpleLogic">简单逻辑跳转,是一个返回int值的lambda表达式</param>
-        public TextPiece t(string name, string dialog, string avatar, Func<int> simpleLogic)
+        public TextPiece t(string name, string dialog, string avatar, string voice, Func<int> simpleLogic)
         {
             //return new TextPiece(id++, nameLabel, dialogLabel, avatarSprite, name, dialog, avatar, simpleLogic);
-            return new TextPiece(id++, diaboxpanel, name, dialog, avatar, simpleLogic);
+            return new TextPiece(id++, diaboxpanel, name, dialog, avatar, voice, simpleLogic);
         }
 
         /// <summary>
@@ -69,22 +69,22 @@ namespace Assets.Script.GameStruct
         /// <param name="name">名字，空则不改变</param>
         /// <param name="dialog">内容，空则不改变</param>
         /// <param name="complexLogic">复杂逻辑跳转，是一个形如(Hashtabel gVars, Hashtable lVars)=> {return ... }的lambda表达式</param>
-        public TextPiece t(string name, string dialog, string avatar, Func<DataManager, int> complexLogic)
+        public TextPiece t(string name, string dialog, string avatar, string voice, Func<DataManager, int> complexLogic)
         {
             //return new TextPiece(id++, nameLabel, dialogLabel, avatarSprite, manager, complexLogic, name, dialog, avatar);
-            return new TextPiece(id++, diaboxpanel, manager, complexLogic, name, dialog, avatar);
+            return new TextPiece(id++, diaboxpanel, manager, complexLogic, name, dialog, avatar, voice);
         }
 
-        public TextPiece t(string name, string dialog, string avatar, Action action)
+        public TextPiece t(string name, string dialog, string avatar, string voice, Action action)
         {
             //return new TextPiece(id++, nameLabel, dialogLabel, avatarSprite, manager, action, name, dialog, avatar);
-            return new TextPiece(id++, diaboxpanel, manager, action, name, dialog, avatar);
+            return new TextPiece(id++, diaboxpanel, manager, action, name, dialog, avatar, voice);
         }
 
-        public TextPiece t(string name, string dialog, string avatar, Action<DataManager> action)
+        public TextPiece t(string name, string dialog, string avatar, string voice, Action<DataManager> action)
         {
             // return new TextPiece(id++, nameLabel, dialogLabel, avatarSprite, manager, action, name, dialog, avatar);
-            return new TextPiece(id++, diaboxpanel, manager, action, name, dialog, avatar);
+            return new TextPiece(id++, diaboxpanel, manager, action, name, dialog, avatar, voice);
         }
 
         public ExecPiece s(ExecPiece.Execute setVar)

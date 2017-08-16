@@ -28,40 +28,26 @@ namespace Assets.Script.GameStruct
         }
 
         private DataPool datapool;
+        //各类数据管理器
         private EventManager eventManager;
         private DetectManager detectManager;
         private EnquireManager enquireManager;
         private ReasoningManager reasoningManager;
         private EduManager eduManager;
-        private GirlManager girlManager;
+        private AppManager appManager;
 
+        //是否自动模式
+        public bool isAuto;
         //正在进行图形特效
-        public bool effecting = false;
+        public bool isEffecting = false;
         //禁用右键菜单：在询问时，地点转换？
         public bool blockRightClick = false;
         //禁用快进
         public bool blockClick = false;
         //禁用BackLog：在打开菜单，询问时
-        public bool blockBacklog = false;
-        
+        public bool blockBacklog = false;      
         //禁用存读档：询问时
         public bool blockSaveLoad = false;
-
-        ////以下是游戏设定数据
-        //public Constants.Setting_Mode settingMode;
-        //public float textSpeed = 60;
-        //public float waitTime = 1f;
-        //public int BGMTime = 3;
-        //public int chapterTime = 3;
-        //public bool fadingSwitch = true;
-        //public bool animateSwitch = true;
-        //public bool avatarSwitch = true;
-        //public int diaboxAlpha = 75;
-
-        ////角色音量
-        //public float[] charaVoiceVolume = { 1, 1, 1, 1, 1, 1 };
-        //public bool[] charaVoice = { true, true, true, true, true, true };
-        //public int defaultCharaNum = 0;
 
         private DataManager()
         {
@@ -106,6 +92,7 @@ namespace Assets.Script.GameStruct
             RandomCourse();
         }
 
+        #region 系统设置类初始化
         private void InitSystem()
         {
             Hashtable sysConfig = new Hashtable();
@@ -143,7 +130,7 @@ namespace Assets.Script.GameStruct
             datapool.WriteSystemVar("BGMTime", 3);
             datapool.WriteSystemVar("chapterTime", 3);
             datapool.WriteSystemVar("textSpeed", 60f);
-            datapool.WriteSystemVar("waitTime", 1f);
+            datapool.WriteSystemVar("waitTime", 1.5f);
             datapool.WriteSystemVar("diaboxAlpha", 75);
             datapool.WriteSystemVar("defaultCharaNum", 0);
             float[] charaVolume = { 1, 1, 1, 1, 1, 1 };
@@ -185,10 +172,14 @@ namespace Assets.Script.GameStruct
                     datapool.WriteSystemVar(key, hst[key]);
             }
         }
+        #endregion
 
+        #region 存档类初始化
+        /// <summary>
+        /// 初始化存档
+        /// </summary>
         private void InitSaving()
         {
-            // 初始化存档
             Dictionary<int, SavingInfo> list = new Dictionary<int, SavingInfo>();
             string filename = "datasv.sav";
             string savepath = LoadSaveTool.GetSavePath(filename);
@@ -224,6 +215,7 @@ namespace Assets.Script.GameStruct
             }
             datapool.WriteSystemVar("存档缩略图", savepic);
         }
+        #endregion
 
         /// <summary>
         /// 初始化多周目数据
@@ -286,19 +278,46 @@ namespace Assets.Script.GameStruct
 
         }
 
-        #region 游戏相关的静态数据
+        #region 游戏静态数据初始化
         private void InitStatic()
         {
             InitEvents();
             InitDetects();
             InitCharacters();
-            InitGirls();
             InitEnquire();
             InitReasoning();
             InitEdu();
             InitEvidence();
+            InitApp();
         }
 
+        /// <summary>
+        /// 初始化电子学生手册
+        /// </summary>
+        private void InitApp()
+        {
+            Dictionary<string, Girl> girls = AppManager.GetStaticGirls();
+            datapool.WriteStaticVar("女主角资料表", girls);
+            Dictionary<string, Tour> tours = AppManager.GetStaticTours();
+            datapool.WriteStaticVar("旅游资讯表", tours);
+            Dictionary<string, Keyword> keywords = AppManager.GetStaticKeywords();
+            datapool.WriteStaticVar("帮助词条表", keywords);
+            Dictionary<int, Routine> routines = AppManager.GetStaticRoutines();
+            datapool.WriteStaticVar("日程表", routines);
+        }
+
+        private void InitCharacters()
+        {
+            Dictionary<string, Character> characters = CharacterManager.GetStaticCharacters();
+            datapool.WriteStaticVar("人物", characters);
+
+            CharacterManager.GetInstance().characterTable = characters;
+        }
+
+
+        /// <summary>
+        /// 初始化证据信息
+        /// </summary>
         private void InitEvidence()
         {
             Dictionary<string, Evidence> evidenceDic = EvidenceManager.GetStaticEvidenceDic();
@@ -315,6 +334,9 @@ namespace Assets.Script.GameStruct
 
         }
 
+        /// <summary>
+        /// 初始化【养成模式】数据
+        /// </summary>
         private void InitEdu()
         {
             List<EduEvent> events = EduManager.GetStaticEduEvents();
@@ -324,6 +346,9 @@ namespace Assets.Script.GameStruct
             eduManager.Init(events, this);
         }
 
+        /// <summary>
+        /// 初始化【侦探模式】数据
+        /// </summary>
         private void InitDetects()
         {
             Dictionary<string, DetectEvent> events = DetectManager.GetStaticDetectEvents();
@@ -333,6 +358,9 @@ namespace Assets.Script.GameStruct
             detectManager.Init(events, this);
         }
 
+        /// <summary>
+        /// 初始化【询问模式】数据
+        /// </summary>
         private void InitEnquire()
         {
             Dictionary<string, EnquireEvent> events = EnquireManager.GetStaticEnquireEvents();
@@ -342,14 +370,9 @@ namespace Assets.Script.GameStruct
             enquireManager.Init(events, this);
         }
 
-        private void InitCharacters()
-        {
-            Dictionary<string, Character> characters = CharacterManager.GetStaticCharacters();
-            datapool.WriteStaticVar("人物", characters);
-
-            CharacterManager.GetInstance().characterTable = characters;
-        }
-
+        /// <summary>
+        /// 初始化【询问模式】数据
+        /// </summary>
         private void InitReasoning()
         {
             Dictionary<string, ReasoningEvent> events = ReasoningManager.GetStaticEnquireEvents();
@@ -359,12 +382,9 @@ namespace Assets.Script.GameStruct
             reasoningManager.Init(events);
         }
 
-        private void InitGirls()
-        {
-            Dictionary<string, Girls> girls = GirlManager.GetStaticGirls();
-            datapool.WriteStaticVar("女主角资料表", girls);
-        }
-
+        /// <summary>
+        /// 初始化【事件】数据
+        /// </summary>
         private void InitEvents()
         {
             Dictionary<string, MapEvent> events = EventManager.GetStaticEvent();
@@ -437,9 +457,27 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
+        /// 获取当前回合对应日期
+        /// </summary>
+        public DateTime GetToday()
+        {
+            int turn = GetGameVar<int>("回合");
+            return START_DAY.AddDays(turn);
+        }
+
+
+        /// <summary>
+        /// 清空文字记录
+        /// </summary>
+        public void ClearHistory()
+        {
+            GetTempVar<Queue<BacklogText>>("文字记录").Clear();
+        }
+
+        /// <summary>
         /// 添加文字记录
         /// </summary>
-        /// <param name="blt"></param>
+        /// <param name="blt">文本记录块</param>
         public void AddHistory(BacklogText blt)
         {
             Queue<BacklogText> history = GetTempVar<Queue<BacklogText>>("文字记录");
@@ -448,6 +486,11 @@ namespace Assets.Script.GameStruct
                 history.Dequeue();
             }
             history.Enqueue(blt);
+        }
+
+        public Queue<BacklogText> GetHistory()
+        {
+            return GetTempVar<Queue<BacklogText>>("文字记录");
         }
 
         #region Get / Set 方法

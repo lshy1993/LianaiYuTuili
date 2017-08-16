@@ -4,18 +4,22 @@ using Assets.Script.GameStruct;
 
 public class Click_Next : MonoBehaviour {
 
-    private GameManager gm;
-    private DialogBoxUIManager uiManger;
+    public GameManager gm;
+    public DialogBoxUIManager uiManger;
+    public ToggleAuto ta;
 
-    void Awake()
+    private bool blockClick
     {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        uiManger = transform.parent.GetComponent<DialogBoxUIManager>();
+        get { return DataManager.GetInstance().blockClick; }
+    }
+    private bool isAuto
+    {
+        get { return DataManager.GetInstance().isAuto; }
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
             ClickE();
         }
@@ -30,7 +34,12 @@ public class Click_Next : MonoBehaviour {
     public void ClickE()
     {
         //如果锁定点击 则直接返回
-        if (gm.dm.blockClick) return;
+        if (blockClick) return;
+        //如果auto模式开启 则重置计时器
+        if (isAuto)
+        {
+            ta.ResetTimer();
+        }
         //如果对话框被隐藏
         if (uiManger.IsBoxClosed())
         {

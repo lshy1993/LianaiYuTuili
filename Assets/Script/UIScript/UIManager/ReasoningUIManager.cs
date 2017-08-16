@@ -101,7 +101,7 @@ public class ReasoningUIManager : MonoBehaviour
         {
             if (!eviDic.ContainsKey(eviName)) return;
             Evidence evi = eviDic[eviName];
-            GameObject eviBtn = (GameObject)Resources.Load("Prefab/Evidence_Reasoning");
+            GameObject eviBtn = Resources.Load("Prefab/Evidence_Reasoning") as GameObject;
             eviBtn = NGUITools.AddChild(buttonGrid, eviBtn);
 
             UIButton btn = eviBtn.GetComponent<UIButton>();
@@ -122,7 +122,7 @@ public class ReasoningUIManager : MonoBehaviour
         int d = (300 - n * 50) / (n - 1);
         for (int i = 0; i < reasoningEvent.choice.Count; i++)
         {
-            GameObject textBtn = (GameObject)Resources.Load("Prefab/Choice_Reasoning");
+            GameObject textBtn = Resources.Load("Prefab/Choice_Reasoning") as GameObject;
             textBtn = NGUITools.AddChild(textContainer, textBtn);
             textBtn.transform.localPosition = new Vector3(0, 125 - i * (50 + d));
             textBtn.GetComponent<UIButton>().enabled = false;

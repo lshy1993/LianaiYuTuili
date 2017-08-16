@@ -23,7 +23,7 @@ public class Slider_TextSpeed : MonoBehaviour
     {
         if (clicked && Input.GetMouseButtonUp(0))
         {
-            uiManager.ResetText();
+            uiManager.SetTextSpeed();
             clicked = false;
         }
     }

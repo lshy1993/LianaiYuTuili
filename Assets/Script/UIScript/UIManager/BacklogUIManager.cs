@@ -8,10 +8,12 @@ using System.Collections.Generic;
 public class BacklogUIManager : MonoBehaviour {
 
     private GameObject table;
+    private UIScrollBar bar;
 
 	void Awake ()
     {
         table = this.transform.Find("Scroll View/BacklogText_Table").gameObject;
+        bar = this.transform.Find("ScrollBar").GetComponent<UIScrollBar>();
     }
 
     void OnEnable()
@@ -19,7 +21,11 @@ public class BacklogUIManager : MonoBehaviour {
         //刷新位置
         table.GetComponent<UITable>().Reposition();
         transform.Find("Scroll View").GetComponent<UIScrollView>().ResetPosition();
-        transform.Find("Scroll View").GetComponent<UIScrollView>().UpdatePosition();
+        if (table.transform.childCount > 6) bar.value = 1;
     }
 
+    public bool IsEnoughRow()
+    {
+        return table.transform.childCount > 6;
+    }
 }

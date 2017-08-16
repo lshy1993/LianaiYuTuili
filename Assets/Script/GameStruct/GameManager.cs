@@ -1,11 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using Assets.Script.GameStruct;
-using Assets.Script;
-using Assets.Script.GameStruct.Model;
 using System;
 using Assets.Script.TextScripts;
 using Assets.Script.GameStruct.EventSystem;
+
 
 /// <summary>
 /// GameManager: 
@@ -61,6 +60,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        //初始化整个游戏系统
         InitSystem();
     }
 
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         //右键事件绑定
         if (Input.GetMouseButtonDown(1))
         {
-            if (dm.effecting || dm.blockRightClick)
+            if (dm.isEffecting || dm.blockRightClick)
                 return;
             else
                 ps.RightClick();
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         //Esc 充当右键功能
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (dm.effecting || dm.blockRightClick)
+            if (dm.isEffecting || dm.blockRightClick)
                 return;
             else
                 ps.RightClick();
@@ -117,6 +117,8 @@ public class GameManager : MonoBehaviour
         em.currentEvent = e;
         dm.SetGameVar("当前事件名", e.name);
         node = nodeFactory.FindTextScript(e.entryNode);
+        //清空文字记录
+        dm.ClearHistory();
     }
 
     public GameNode GetCurrentNode()

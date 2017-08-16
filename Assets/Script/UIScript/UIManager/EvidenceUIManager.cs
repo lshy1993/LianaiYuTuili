@@ -20,7 +20,7 @@ public class EvidenceUIManager : MonoBehaviour
         evidenceImage = transform.Find("EvidenceImage_Sprite").GetComponent<UI2DSprite>();
         introductionText = transform.Find("LabelBack_Sprite/EvidenceInfo_Label").GetComponent<UILabel>();
 
-        eviDic = (Dictionary<string, Evidence>)DataPool.GetInstance().GetStaticVar("证据列表");
+        eviDic = DataPool.GetInstance().GetStaticVar("证据列表") as Dictionary<string, Evidence>;
     }
 
     private void OnEnable()
@@ -39,7 +39,7 @@ public class EvidenceUIManager : MonoBehaviour
         {
             if (!eviDic.ContainsKey(eviName)) return;
             Evidence evi = eviDic[eviName];
-            GameObject eviBtn = (GameObject)Resources.Load("Prefab/EvidenceContainer");
+            GameObject eviBtn = Resources.Load("Prefab/EvidenceContainer") as GameObject;
             eviBtn = NGUITools.AddChild(eviGrid, eviBtn);
 
             EvidenceButton script = eviBtn.GetComponent<EvidenceButton>();

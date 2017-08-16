@@ -16,6 +16,7 @@ public class DialogBoxUIManager : MonoBehaviour
     private UILabel dialogLabel, nameLabel;
     private GameObject nextIcon;
     private TextPiece currentPiece;
+    private ToggleAuto toggleAuto;
 
     public GameObject table;
 
@@ -34,6 +35,7 @@ public class DialogBoxUIManager : MonoBehaviour
 
         //te = mainContainer.transform.Find("Dialog_Label").GetComponent<TypewriterEffect>();
         te = mainContainer.transform.Find("Dialog_Label").GetComponent<TypeWriter>();
+        toggleAuto = mainContainer.transform.Find("Quick_Container/Auto_Toggle").GetComponent<ToggleAuto>();
 
         table.transform.DestroyChildren();
         SetHeroName();
@@ -46,7 +48,7 @@ public class DialogBoxUIManager : MonoBehaviour
     }
 
     //将文字数据应用到UI上
-    public void SetText(TextPiece currentPiece, string name, string dialog, string avatar = "")
+    public void SetText(TextPiece currentPiece, string name, string dialog, string voice, string avatar = "")
     {
         this.currentPiece = currentPiece;
         nameLabel.text = AddColor(name);
@@ -54,15 +56,18 @@ public class DialogBoxUIManager : MonoBehaviour
         //TODO : 头像
         te.ResetToBeginning();
         typewriting = true;
-        //添加文字记录且刷新文字记录界面
-        AddToTable(new BacklogText(name, dialog));
-       // DataManager.GetInstance().AddHistory(new BacklogText(name, dialog));
+        //添加文字记录
+        AddToTable(new BacklogText(name, dialog, voice));
     }
 
     //加入文字履历
     private void AddToTable(BacklogText bt)
     {
-        GameObject go = (GameObject)Resources.Load("Prefab/Backlog");
+        //获取系统数据储存的数目
+        Queue<BacklogText> history = DataManager.GetInstance().GetHistory();
+        if (history.Count == 0) table.transform.DestroyChildren();
+        //刷新UI界面
+        GameObject go = Resources.Load("Prefab/Backlog") as GameObject;
         go = NGUITools.AddChild(table, go);
         //绑定数据
         go.transform.Find("Avatar_Sprite").GetComponent<UI2DSprite>().sprite2D = null;
@@ -91,6 +96,11 @@ public class DialogBoxUIManager : MonoBehaviour
     //隐藏对话框
     public void HideWindow()
     {
+        if (DataManager.GetInstance().isAuto)
+        {
+            toggleAuto.CancelAuto();
+            return;
+        }
         mainContainer.SetActive(false);
         closedbox = true;
     }
@@ -105,6 +115,8 @@ public class DialogBoxUIManager : MonoBehaviour
     {
         nextIcon.SetActive(false);
     }
+
+    //打字机完成后 调用此函数
     public void ShowNextIcon()
     {
         if (string.IsNullOrEmpty(dialogLabel.text) && string.IsNullOrEmpty(nameLabel.text)) return;

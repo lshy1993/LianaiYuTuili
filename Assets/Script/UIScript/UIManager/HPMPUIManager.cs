@@ -67,7 +67,7 @@ public class HPMPUIManager : MonoBehaviour
 
     private IEnumerator Minus()
     {
-        DataManager.GetInstance().effecting = true;
+        DataManager.GetInstance().isEffecting = true;
         //判断是否需要首先打开界面
         if (!opened) yield return StartCoroutine(OpenUI());
         //扣血
@@ -81,7 +81,7 @@ public class HPMPUIManager : MonoBehaviour
             //Debug.Log(hpBar.value);
             yield return null;
         }
-        DataManager.GetInstance().effecting = false;
+        DataManager.GetInstance().isEffecting = false;
         finished = true;
         //TODO:游戏失败情况
         //考虑在侦探json里面，设定失败时跳转的脚本名

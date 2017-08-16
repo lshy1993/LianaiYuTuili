@@ -7,6 +7,7 @@ public class PhoneEvidenceButton : MonoBehaviour
     
     void OnClick()
     {
+        if (Input.GetMouseButtonUp(1)) return;
         uiManager.OpenEvidence();
     }
 

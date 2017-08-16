@@ -86,6 +86,12 @@ public class EnquireUIManager : MonoBehaviour
         DataManager.GetInstance().blockClick = true;
     }
 
+    private void OnDisable()
+    {
+        DataManager.GetInstance().blockRightClick = false;
+        DataManager.GetInstance().blockClick = false;
+    }
+
     void Update()
     {
         //如果抬起空格则进入冷却
@@ -145,7 +151,7 @@ public class EnquireUIManager : MonoBehaviour
         {
             if (!eviDic.ContainsKey(eviName)) return;
             Evidence evi = eviDic[eviName];
-            GameObject eviBtn = (GameObject)Resources.Load("Prefab/Evidence_Enquire");
+            GameObject eviBtn = Resources.Load("Prefab/Evidence_Enquire") as GameObject;
             eviBtn = NGUITools.AddChild(evidenceGrid, eviBtn);
             UIButton btn = eviBtn.GetComponent<UIButton>();
             btn.enabled = false;

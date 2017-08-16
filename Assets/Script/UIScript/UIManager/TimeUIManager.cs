@@ -42,7 +42,7 @@ public class TimeUIManager : MonoBehaviour
 
     private IEnumerator OpenMain()
     {
-        DataManager.GetInstance().effecting = true;
+        DataManager.GetInstance().isEffecting = true;
         mainCon.SetActive(true);
         //1背景淡入
         float x = 0;
@@ -68,7 +68,7 @@ public class TimeUIManager : MonoBehaviour
         {
             yield return null;
         }
-        DataManager.GetInstance().effecting = false;
+        DataManager.GetInstance().isEffecting = false;
         finished = true;
         //开启点击部分
         clickCon.SetActive(true);

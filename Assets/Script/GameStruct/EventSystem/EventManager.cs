@@ -26,25 +26,27 @@ namespace Assets.Script.GameStruct.EventSystem
 
         /// <summary>
         /// 事件表
+        /// 《事件名，事件》
         /// </summary>
         private Dictionary<string, MapEvent> eventTable;
 
-
         /// <summary>
         /// 强制事件表，是事件表的子集
+        /// 《事件名，事件》
         /// </summary>
         private Dictionary<string, MapEvent> forceEventTable;
 
         /// <summary>
         /// 事件状态
+        /// 《事件名，状态编号》
         /// </summary>
         private Dictionary<string, int> eventState;
 
         /// <summary>
         /// 当前地点的可用事件表
+        /// 《地点名，事件列表》
         /// </summary>
         private Dictionary<string, List<MapEvent>> locationEvents;
-
 
         private DataManager dataManager;
 
@@ -78,6 +80,7 @@ namespace Assets.Script.GameStruct.EventSystem
         private void InitLocation()
         {
             locationEvents = new Dictionary<string, List<MapEvent>>();
+            //遍历所有的地点
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(LOCATION_PATH))
             {
                 JsonData data = JsonMapper.ToObject(text.text);
@@ -114,10 +117,11 @@ namespace Assets.Script.GameStruct.EventSystem
 
 
         /// <summary>
-        /// 获取当前地点的事件，没有返回null
+        /// 获取当前地点的事件，没有则返回null
         /// </summary>
         public MapEvent GetCurrentEventAt(string location)
         {
+            //Debug.Log("检测的地点名：" + location);
             if (locationEvents[location].Count == 0)
             {
                 return null;
@@ -126,6 +130,10 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 //Debug.Log(UnityEngine.Random.Range(0, 1));
                 //Debug.Log("目前事件数目"+locationEvents[location].Count);
+
+                //TODO:重复事件不参与随机抽取？
+                //没有单次事件时，才给重复？
+
                 int ranNum = UnityEngine.Random.Range(0, locationEvents[location].Count);
                 return locationEvents[location][ranNum];
             }
@@ -163,7 +171,7 @@ namespace Assets.Script.GameStruct.EventSystem
             Player player = dataManager.GetGameVar<Player>("玩家");
             int turn = dataManager.GetGameVar<int>("回合");
 
-            //若是非默认事件  且已经执行过
+            //若是不可重复事件  且 已经执行过
             if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
 
             // 不满足前置日期
@@ -252,9 +260,9 @@ namespace Assets.Script.GameStruct.EventSystem
         }
 
         /// <summary>
-        /// 读取事件表, 注意具体事件逻辑在LoadStaticEventLogic中读取完毕
+        /// 读取事件表 json文件
+        /// 【注意】具体事件逻辑在LoadStaticEventLogic中读取完毕
         /// </summary>
-        /// <returns></returns>
         public static Dictionary<string, MapEvent> GetStaticEvent()
         {
             string path = (Constants.DEBUG ? DEBUG_PATH : DEFAULT_PATH) + "Events/";

@@ -11,7 +11,7 @@ public class RecollectionUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        caseTable = (List<bool>)DataPool.GetInstance().GetSystemVar("案件表");
+        caseTable = DataPool.GetInstance().GetSystemVar("案件表") as List<bool>;
         SetRecollection();
     }
 

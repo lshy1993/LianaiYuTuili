@@ -116,7 +116,7 @@ public class DetectUIManager : MonoBehaviour
         {
             //载入调查点
             if (!detectManager.IsVisible(invest)) return;
-            GameObject investBtn = (GameObject)Resources.Load("Prefab/Invest_Choice");
+            GameObject investBtn = Resources.Load("Prefab/Invest_Choice") as GameObject;
             investBtn = NGUITools.AddChild(investContainer, investBtn);
             investBtn.transform.localPosition = invest.coordinate;
             
@@ -146,7 +146,7 @@ public class DetectUIManager : MonoBehaviour
         foreach (DetectDialog dialog in section.dialogs)
         {
             if (!detectManager.IsVisible(dialog)) return;
-            GameObject dialogBtn = (GameObject)Resources.Load("Prefab/Dialog_Choice");
+            GameObject dialogBtn = Resources.Load("Prefab/Dialog_Choice") as GameObject;
             dialogBtn = NGUITools.AddChild(dialogContainer, dialogBtn);
 
             dialogBtn.transform.Find("Label").GetComponent<UILabel>().text = dialog.dialog;
@@ -171,7 +171,7 @@ public class DetectUIManager : MonoBehaviour
         functionContainer.transform.Find("But_Move").gameObject.SetActive(true);
         foreach (string move in section.moves)
         {
-            GameObject moveBtn = (GameObject)Resources.Load("Prefab/Move_Choice");
+            GameObject moveBtn = Resources.Load("Prefab/Move_Choice") as GameObject;
             moveBtn = NGUITools.AddChild(moveContainer, moveBtn);
 
             moveBtn.transform.Find("Label").GetComponent<UILabel>().text = move;

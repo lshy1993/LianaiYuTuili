@@ -14,6 +14,11 @@ namespace Assets.Script.GameStruct
         private UILabel dialogLabel;
         private string eviStr;
 
+        private Dictionary<string, Evidence> evidic
+        {
+            get { return DataPool.GetInstance().GetStaticVar("证据列表") as Dictionary<string, Evidence>; }
+        }
+
         public bool finished;
 
         public EviPiece(int id, GameObject evipanel, string eviname) : base(id)
@@ -35,7 +40,6 @@ namespace Assets.Script.GameStruct
                 return;
             }
             //添加证据 且打开UI
-            Dictionary<string, Evidence> evidic = (Dictionary<string, Evidence>)DataPool.GetInstance().GetStaticVar("证据列表");
             Evidence getevi = evidic[eviStr];
             EviGetUIManager uimanager = eviPanel.GetComponent<EviGetUIManager>();
             if (uimanager.finished)

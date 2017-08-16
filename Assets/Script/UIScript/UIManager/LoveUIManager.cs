@@ -11,7 +11,7 @@ public class LoveUIManager : MonoBehaviour
     private UILabel namelb, classlb, clublb, hlb, wlb, birthlb, starlb, rlb, likelb, dislb, infolb;
     private GameObject introCon, qtabGrid, infoNumGrid;
     private Player player { get { return DataManager.GetInstance().GetGameVar<Player>("玩家"); } }
-    private Dictionary<string, Girls> dic;
+    private Dictionary<string, Girl> dic;
     private List<string> girlInfo;
 
     private void Awake()
@@ -35,7 +35,7 @@ public class LoveUIManager : MonoBehaviour
 
         infoNumGrid = introCon.transform.Find("NumTab_Grid").gameObject;
 
-        dic = DataPool.GetInstance().GetStaticVar("女主角资料表") as Dictionary<string, Girls>;
+        dic = DataPool.GetInstance().GetStaticVar("女主角资料表") as Dictionary<string, Girl>;
     }
 
     private void OnEnable()

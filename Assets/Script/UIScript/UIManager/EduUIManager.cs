@@ -152,7 +152,7 @@ public class EduUIManager : MonoBehaviour
         //btnTable.transform.DestroyChildren();
         for (int i = 0; i < 5; i++)
         {
-            //GameObject eduBtn = (GameObject)Resources.Load("Prefab/Edu_Choice");
+            //GameObject eduBtn = Resources.Load("Prefab/Edu_Choice") as GameObject;
             //eduBtn = NGUITools.AddChild(btnTable, eduBtn);
 
             //UIButton btn = eduBtn.GetComponent<UIButton>();

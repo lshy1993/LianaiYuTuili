@@ -17,7 +17,7 @@ public class MusicUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        musicTable = (List<bool>)DataPool.GetInstance().GetSystemVar("音乐表");
+        musicTable = DataPool.GetInstance().GetSystemVar("音乐表") as List<bool>;
     }
 
     private void Update()

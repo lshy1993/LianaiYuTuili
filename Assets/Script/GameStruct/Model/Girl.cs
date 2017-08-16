@@ -6,13 +6,13 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
-    public class Girls
+    public class Girl
     {
         public string name, cla, club, horoscope;
         public List<string> like, dislike, intro;
         public int height, weight, dayOfBirth, monthOfBirth;
 
-        public Girls(JsonData data)
+        public Girl(JsonData data)
         {
             name = (string)data["姓名"];
             cla = (string)data["班级"];

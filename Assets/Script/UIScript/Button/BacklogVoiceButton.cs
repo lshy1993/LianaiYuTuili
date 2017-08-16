@@ -7,8 +7,9 @@ public class BacklogVoiceButton : MonoBehaviour {
 
     void OnClick()
     {
-        Debug.Log("Repeat Voice");
+        Debug.Log("Repeat Voice" + path);
         //TODO: 语音重现
+        GameObject.Find("GameManager").GetComponent<SoundManager>().SetVoice(path);
     }
 
 }

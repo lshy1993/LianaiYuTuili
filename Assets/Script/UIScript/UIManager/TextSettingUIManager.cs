@@ -6,18 +6,36 @@ using System.Text;
 using UnityEngine;
 using Assets.Script.GameStruct;
 
+///用于控制对话框的文字设置
 public class TextSettingUIManager : MonoBehaviour
 {
-    ///用于控制对话框的文字设置
-
-    public UISlider diaBoxAlpha;
+    public UISlider diaBoxAlpha, textSpeed, autoSpeed;
     public UILabel previewLabel, textLabel;
     public UI2DSprite previewBack, diaBack;
 
     private bool previewFlag = false;
     private bool aniFlag = false;
     private float currentTime = 0f;
-    private float waitTime;
+
+    private int alpha
+    {
+        get { return DataManager.GetInstance().GetSystemVar<int>("diaboxAlpha"); }
+    }
+    private float tsp
+    {
+        get { return DataManager.GetInstance().GetSystemVar<float>("textSpeed"); }
+    }
+    private float waitTime
+    {
+        get { return DataManager.GetInstance().GetSystemVar<float>("waitTime"); }
+    }
+
+    private void Awake()
+    {
+        ResetTextSpeed();
+        ResetAutoSpeed();
+        ResetAlpha();
+    }
 
     private void Update()
     {
@@ -41,14 +59,13 @@ public class TextSettingUIManager : MonoBehaviour
 
     }
 
+    //打开此界面时的初始化
     private void OnEnable()
     {
         aniFlag = false;
         previewFlag = false;
-        //初始化
-        ResetText();
-        ResetSpeed();
-        //设置对话框透明度
+        SetTextSpeed();
+        SetAutoSpeed();
         SetAlpha();
     }
 
@@ -58,27 +75,41 @@ public class TextSettingUIManager : MonoBehaviour
         previewLabel.GetComponent<TypeWriter>().ResetToBeginning();
     }
 
+    private void ResetAlpha()
+    {
+        diaBoxAlpha.value = (float)alpha / 100;
+    }
+
+    private void ResetTextSpeed()
+    {
+        textSpeed.value = (tsp - 20) / 50;
+    }
+
+    private void ResetAutoSpeed()
+    {
+        autoSpeed.value = (5 - waitTime) / 5;
+    }
+
+    //##################以下为public方法#####################
+
+    //设置【对话框】透明度
     public void SetAlpha()
     {
-        int alpha = DataManager.GetInstance().GetSystemVar<int>("diaboxAlpha");
         previewBack.alpha = alpha / 100f;
         diaBack.alpha = alpha / 100f;
     }
 
-    public void ResetText()
+    //设置【预览框/对话框】的文字显示速度
+    public void SetTextSpeed()
     {
-        //设置文字速度
-        float textSpeed = DataManager.GetInstance().GetSystemVar<float>("textSpeed");
-        previewLabel.GetComponent<TypeWriter>().charsPerSecond = textSpeed;
-        textLabel.GetComponent<TypeWriter>().charsPerSecond = textSpeed;
-        //重置打字机文字
+        previewLabel.GetComponent<TypeWriter>().charsPerSecond = tsp;
+        textLabel.GetComponent<TypeWriter>().charsPerSecond = tsp;
         ResetTypewriter();
     }
 
-    public void ResetSpeed()
+    //设置【预览框】切换速度
+    public void SetAutoSpeed()
     {
-        waitTime = DataManager.GetInstance().GetSystemVar<float>("waitTime");
-        //重置打字机文字
         ResetTypewriter();
     }
 

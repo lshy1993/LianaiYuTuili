@@ -36,8 +36,8 @@ namespace Assets.Script.GameStruct
             Debug.Log("读取角色立绘表");
             foreach(TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
+                Debug.Log("读取：" + text.name);
                 Character character = new Character(text.text);
-                Debug.Log("读取：" + character.name);
                 characters.Add(character.name, character);
             }
 

@@ -57,6 +57,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public Dictionary<string, Range> conditionGirls;
 
+        //是否是默认地点事件（可重复）
         public bool isdefault;
         /// <summary>
         /// 是否结束
@@ -112,7 +113,7 @@ namespace Assets.Script.GameStruct
                 }
             }
 
-            // 失败事件
+            // 可重复事件：例如 蹲点失败，加属性事件
             if (data.Contains("默认"))
             {
                 isdefault = true;

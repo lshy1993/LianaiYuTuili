@@ -94,6 +94,7 @@ public class SoundManager : MonoBehaviour
     }
     public void SetSE(string fileName, bool loop = false)
     {
+        if (string.IsNullOrEmpty(fileName)) return;
         AudioClip ac = Resources.Load<AudioClip>("Audio/" + fileName);
         currentSE.clip = ac;
         currentSE.loop = loop;
@@ -105,6 +106,7 @@ public class SoundManager : MonoBehaviour
     }
     public void SetVoice(string fileName)
     {
+        if (string.IsNullOrEmpty(fileName)) return;
         AudioClip ac = Resources.Load<AudioClip>("Voice/" + fileName);
         currentVoice.clip = ac;
         currentVoice.Play();

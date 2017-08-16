@@ -90,7 +90,7 @@ public class ImageManager : MonoBehaviour
         }
         else
         {
-            GameObject go = (GameObject)Resources.Load("Prefab/Character");
+            GameObject go = Resources.Load("Prefab/Character") as GameObject;
             go = NGUITools.AddChild(fgPanel.gameObject, go);
             go.transform.name = "sprite" + depth;
             ui = go.GetComponent<UI2DSprite>();
@@ -251,7 +251,7 @@ public class ImageManager : MonoBehaviour
             UI2DSprite ui;
             if(fgPanel.transform.Find("sprite" + child.Key) == null)
             {
-                GameObject go = (GameObject)Resources.Load("Prefab/Character");
+                GameObject go = Resources.Load("Prefab/Character") as GameObject;
                 go = NGUITools.AddChild(fgPanel.gameObject, go);
                 go.transform.name = "sprite" + child.Key;
                 ui = go.GetComponent<UI2DSprite>();

@@ -296,8 +296,8 @@ public class SystemUIManager : MonoBehaviour
     private void FreshSaveTable()
     {
         saveloadContainer.transform.Find("SL_Label").GetComponent<UILabel>().text = SaveMode ? "存档" : "读档";
-        savedic = (Dictionary<int, SavingInfo>)DataPool.GetInstance().GetSystemVar("存档信息");
-        savepic = (Dictionary<string, byte[]>)DataPool.GetInstance().GetSystemVar("存档缩略图");
+        savedic = DataPool.GetInstance().GetSystemVar("存档信息") as Dictionary<int, SavingInfo>;
+        savepic = DataPool.GetInstance().GetSystemVar("存档缩略图") as Dictionary<string, byte[]>;
         for (int i = 1; i <= 6; i++)
         {
             int saveid = groupnum * 6 + i;

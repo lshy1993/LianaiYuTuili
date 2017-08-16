@@ -18,8 +18,8 @@ public class GalleryUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        cgInfoTable = (Dictionary<int, string>)DataPool.GetInstance().GetSystemVar("CG信息表");
-        cgTable = (List<bool>)DataPool.GetInstance().GetSystemVar("画廊表");
+        cgInfoTable = DataPool.GetInstance().GetSystemVar("CG信息表") as Dictionary<int, string>;
+        cgTable = DataPool.GetInstance().GetSystemVar("画廊表") as List<bool>;
         SetGallery();
     }
 

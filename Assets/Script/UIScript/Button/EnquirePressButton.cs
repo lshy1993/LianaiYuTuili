@@ -6,15 +6,10 @@ using Assets.Script.GameStruct;
 public class EnquirePressButton : MonoBehaviour
 {
     public EnquireUIManager uiManager;
-    //private EnquireNode detectNode;
-
-    //public void AssignUIManager(EnquireUIManager uiManager)
-    //{
-    //    this.uiManager = uiManager;
-    //}
 
     void OnClick()
     {
+        if (Input.GetMouseButtonUp(1)) return;
         Debug.Log("Matta!");
         uiManager.EnquirePress();
     }

@@ -14,6 +14,7 @@ public class Slider_AutoSpeed : MonoBehaviour
     public void OnValueChange()
     {
         float speed = 5 - slider.value * 5;
+        Debug.Log(speed);
         int i = (int)(speed * 100);
         speed = (float)(i * 1.0) / 100;
         numlabel.text = (slider.value * 100).ToString();
@@ -25,7 +26,7 @@ public class Slider_AutoSpeed : MonoBehaviour
     {
         if (clicked && Input.GetMouseButtonUp(0))
         {
-            uiManager.ResetSpeed();
+            uiManager.SetAutoSpeed();
             clicked = false;
         }
     }

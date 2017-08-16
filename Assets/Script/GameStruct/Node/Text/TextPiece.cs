@@ -14,7 +14,7 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class TextPiece : Piece
     {
-        private string name, dialog, avatar;
+        private string name, dialog, avatar, voice;
 
         private GameObject diabox;
 
@@ -31,10 +31,10 @@ namespace Assets.Script.GameStruct
         /// <param name="name">名字</param>
         /// <param name="dialog">对话内容</param>
         /// <param name="avatar">头像图片名</param>
-        public TextPiece(int id, GameObject diabox, string name = "", string dialog = "", string avatar ="") : base(id)
+        public TextPiece(int id, GameObject diabox, string name = "", string dialog = "", string avatar = "", string voice = "") : base(id)
         {
             this.diabox = diabox;
-            setVars(name, dialog, avatar);
+            setVars(name, dialog, avatar, voice);
         }
 
         /// <summary>
@@ -46,9 +46,10 @@ namespace Assets.Script.GameStruct
         /// <param name="dialog">对话内容</param>
         /// <param name="avatar">头像图片名</param>
         /// <param name="simpleLogic">简单逻辑，可以用lambda表示</param>
-        public TextPiece(int id, GameObject diabox, string name, string dialog, string avatar, Func<int> simpleLogic) : base(id, simpleLogic)
+        public TextPiece(int id, GameObject diabox, string name, string dialog, string avatar, string voice, Func<int> simpleLogic) : base(id, simpleLogic)
         {
-            setVars(name, dialog, avatar);
+            this.diabox = diabox;
+            setVars(name, dialog, avatar, voice);
         }
 
         /// <summary>
@@ -61,19 +62,19 @@ namespace Assets.Script.GameStruct
         /// <param name="name">名字</param>
         /// <param name="dialog">对话内容</param>
         /// <param name="avatar">头像图片名</param>
-        public TextPiece(int id,GameObject diabox, DataManager manager, Func<DataManager, int> complexLogic, string name = "", string dialog = "", string avatar = "") : base(id, complexLogic, manager)
+        public TextPiece(int id,GameObject diabox, DataManager manager, Func<DataManager, int> complexLogic, string name = "", string dialog = "", string avatar = "", string voice = "") : base(id, complexLogic, manager)
         {
-            setVars(name, dialog, avatar);
+            setVars(name, dialog, avatar, voice);
         }
-        public TextPiece(int id, GameObject diabox, DataManager manager, Action simpleAction, string name = "", string dialog = "", string avatar = "") :
+        public TextPiece(int id, GameObject diabox, DataManager manager, Action simpleAction, string name = "", string dialog = "", string avatar = "", string voice = "") :
             base(id, simpleAction, manager)
         {
-            setVars(name, dialog, avatar);
+            setVars(name, dialog, avatar, voice);
         }
-        public TextPiece(int id, GameObject diabox, DataManager manager, Action<DataManager> complexAction, string name = "", string dialog = "", string avatar = "") :
+        public TextPiece(int id, GameObject diabox, DataManager manager, Action<DataManager> complexAction, string name = "", string dialog = "", string avatar = "", string voice = "") :
             base(id, complexAction, manager)
         {
-            setVars(name, dialog, avatar);
+            setVars(name, dialog, avatar, voice);
         }
 
         #region 废弃旧代码
@@ -133,6 +134,7 @@ namespace Assets.Script.GameStruct
         public override void Exec()
         {
             DialogBoxUIManager uiManager = diabox.GetComponent<DialogBoxUIManager>();
+            SoundManager sm = GameObject.Find("GameManager").GetComponent<SoundManager>();
             //判断是否在打字途中点击第二下
             if (uiManager.IsTyping())
             {
@@ -144,7 +146,9 @@ namespace Assets.Script.GameStruct
             else
             {
                 //通过UIManager设置文字，并开启打字机
-                uiManager.SetText(this, name, dialog);
+                uiManager.SetText(this, name, dialog, voice);
+                sm.SetVoice(voice);
+                //模块结束
                 finish = false;
             }
 
@@ -156,11 +160,12 @@ namespace Assets.Script.GameStruct
             uiManager.HideNextIcon();
         }
 
-        private void setVars(string name, string dialog, string avatar)
+        private void setVars(string name, string dialog, string avatar, string voice)
         {
             this.name = name;
             this.dialog = dialog;
             this.avatar = avatar;
+            this.voice = voice;
         }
 
         public override string ToString()

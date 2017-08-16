@@ -238,7 +238,7 @@ namespace Assets.Script.GameStruct
             }
             else
             {
-                GameObject go = (GameObject)Resources.Load("Prefab/Character");
+                GameObject go = Resources.Load("Prefab/Character") as GameObject;
                 go = NGUITools.AddChild(charaPanel, go);
                 go.transform.name = "sprite" + depth;
                 ui = go.GetComponent<UI2DSprite>();

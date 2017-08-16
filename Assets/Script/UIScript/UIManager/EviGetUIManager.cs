@@ -37,7 +37,7 @@ public class EviGetUIManager : MonoBehaviour
         nameLabel.text = "";
         dialogLabel.text = "【" + getevi.name + "】已收入事件调查簿";
         dialogLabel.GetComponent<TypeWriter>().ResetToBeginning();
-        DataManager.GetInstance().effecting = true;
+        DataManager.GetInstance().isEffecting = true;
         StartCoroutine(OpenMain());
     }
 
@@ -106,7 +106,7 @@ public class EviGetUIManager : MonoBehaviour
         }
         dialogLabel.GetComponent<TypeWriter>().Finish();
         finished = true;
-        DataManager.GetInstance().effecting = false;
+        DataManager.GetInstance().isEffecting = false;
     }
 
     private IEnumerator CloseAll()

@@ -38,7 +38,7 @@ namespace Assets.Script.GameStruct
 
         public override void Update()
         {
-            if (manager.effecting)
+            if (manager.isEffecting)
             {
                 //Debug.Log("Effects Running Throw Click Event!");
                 return;
@@ -48,16 +48,16 @@ namespace Assets.Script.GameStruct
                 if (pieces[current].GetType() == typeof(EffectPiece))
                 {
                     //图像效果处理块
-                    manager.effecting = true;
+                    manager.isEffecting = true;
                     EffectPiece ep = (EffectPiece)pieces[current];
-                    ep.ExecAuto(new Action(() => { manager.effecting = false; current = ep.Next(); Update(); }));
+                    ep.ExecAuto(new Action(() => { manager.isEffecting = false; current = ep.Next(); Update(); }));
                 }
                 else if ( pieces[current].GetType() == typeof(SoundPiece))
                 {
                     //声音处理块
-                    manager.effecting = true;
+                    manager.isEffecting = true;
                     SoundPiece sp = (SoundPiece)pieces[current];
-                    sp.ExecAuto(new Action(() => { manager.effecting = false; current = sp.Next(); Update(); }));
+                    sp.ExecAuto(new Action(() => { manager.isEffecting = false; current = sp.Next(); Update(); }));
                 }
                 else if (pieces[current].GetType() == typeof(TimePiece))
                 {
@@ -101,19 +101,19 @@ namespace Assets.Script.GameStruct
                 else if (pieces[current].GetType() == typeof(DiaboxPiece))
                 {
                     //对话框控制模块
-                    manager.effecting = true;
+                    manager.isEffecting = true;
                     manager.blockRightClick = true;
                     DiaboxPiece dp = (DiaboxPiece)pieces[current];
-                    dp.ExecAuto(new Action(() => { manager.effecting = false; manager.blockRightClick = false; Update(); }));
+                    dp.ExecAuto(new Action(() => { manager.isEffecting = false; manager.blockRightClick = false; Update(); }));
                     current = dp.Next();
                 }
                 else if (pieces[current].GetType() == typeof(InputPiece))
                 {
                     //姓名输入模块
-                    manager.effecting = true;
+                    manager.isEffecting = true;
                     manager.blockRightClick = true;
                     InputPiece ip = (InputPiece)pieces[current];
-                    ip.ExecAuto(new Action(() => { manager.effecting = false; manager.blockRightClick = false; Update(); }));
+                    ip.ExecAuto(new Action(() => { manager.isEffecting = false; manager.blockRightClick = false; Update(); }));
                     current = ip.Next();
                 }
                 else

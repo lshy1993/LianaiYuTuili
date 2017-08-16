@@ -7,6 +7,7 @@ public class PhoneAppButton : MonoBehaviour
 
     void OnClick()
     {
+        if (Input.GetMouseButtonUp(1)) return;
         uiManger.OpenApp();
     }
 
