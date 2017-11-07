@@ -14,51 +14,33 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class MapEvent
     {
-        /// <summary>
         /// 事件名
-        /// </summary>
         public string name { set; get; }
 
-
-        /// <summary>
         /// 事件发生地点
-        /// </summary>
         public string position { set; get; }
 
-
-        /// <summary>
         /// 事件入口文件名
-        /// </summary>
         public string entryNode { set; get; }
 
-        /// <summary>
         /// 前置与事件
-        /// </summary>
         public List<string> conditionAndEvents;
 
-        /// <summary>
         /// 前置或事件
-        /// </summary>
         public List<string> conditionOrEvents;
 
-        /// <summary>
         /// 条件回合
-        /// </summary>
         public Range conditionTurn;
 
-        /// <summary>
         /// 条件状态
-        /// </summary>
         public Dictionary<string, Range> conditionStatus;
 
-
-        /// <summary>
         /// 好感度条件
-        /// </summary>
         public Dictionary<string, Range> conditionGirls;
 
         //是否是默认地点事件（可重复）
         public bool isdefault;
+
         /// <summary>
         /// 是否结束
         /// </summary>

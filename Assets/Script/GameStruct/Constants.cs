@@ -21,6 +21,21 @@ namespace Assets.Script.GameStruct
         public static readonly int RANK_MAX = 300000;
         public static readonly int RANK_MIN = 1;
 
+        public static readonly string ROOT_PATH = "JSON/";
+        public static readonly string DEFAULT_PATH = ROOT_PATH + "MapEvents/";
+        public static readonly string LOCATION_PATH = ROOT_PATH + "ButtonConfig/";
+        public static readonly string DEBUG_PATH = ROOT_PATH + "TestEvents/";
+        public static readonly string DETECT_PATH = ROOT_PATH + "Detect/";
+        public static readonly string DETECT_DEBUG_PATH = ROOT_PATH + "DetectDebug/";
+        public static readonly string ENQUIRE_PATH = ROOT_PATH + "EnquireConfig/";
+        public static readonly string ENQUIRE_DEBUG_PATH = ROOT_PATH + "EnquireDebug/";
+        public static readonly string EVIDENCE_PATH = ROOT_PATH + "EvidenceConfig/";
+        public static readonly string EVIDENCE_DEBUG_PATH = ROOT_PATH + "EvidenceDebug/";
+        public static readonly string EDU_PATH = ROOT_PATH + "EduConfig/";
+        public static readonly string EDU_DEBUG_PATH = ROOT_PATH + "EduDebug/";
+        public static readonly string REASONING_PATH = ROOT_PATH + "ReasoningConfig/";
+        public static readonly string REASONING_DEBUG_PATH = ROOT_PATH + "ReasoningDebug/";
+
         internal static readonly int MONEY_MIN = 0;
         internal static readonly int MONEY_MAX = int.MaxValue;
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Script.GameStruct;
 using System.Collections.Generic;
+using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
 public class SystemUIManager : MonoBehaviour

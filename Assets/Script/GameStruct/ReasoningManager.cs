@@ -12,8 +12,6 @@ namespace Assets.Script.GameStruct
     public class ReasoningManager
     {
         private static ReasoningManager instance;
-        private static readonly string REASONING_PATH = "Text/ReasoningConfig/";
-        private static readonly string REASONING_DEBUG_PATH = "Text/ReasoningDebug/";
 
         public List<string> eviNameList
         {
@@ -65,7 +63,7 @@ namespace Assets.Script.GameStruct
         public static Dictionary<string, ReasoningEvent> GetStaticEnquireEvents()
         {
             Dictionary<string, ReasoningEvent> events = new Dictionary<string, ReasoningEvent>();
-            string path = Constants.DEBUG ? REASONING_DEBUG_PATH : REASONING_PATH;
+            string path = Constants.DEBUG ? Constants.REASONING_DEBUG_PATH : Constants.REASONING_PATH;
             Debug.Log("读取自我推理表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {

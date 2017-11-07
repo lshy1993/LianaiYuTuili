@@ -17,35 +17,20 @@ namespace Assets.Script.GameStruct.EventSystem
     {
         private UnityEngine.Random random;
         private static EventManager instance;
-        private static readonly string DEFAULT_PATH = "Text/MapEvents/";
-        private static readonly string DEBUG_PATH = "Text/TestEvents/";
-        private static readonly string LOCATION_PATH = "Text/ButtonConfig/";
 
         private static readonly int STATE_NOT_RUNNED = 0;
         private static readonly int STATE_RUNNED = 1;
 
-        /// <summary>
-        /// 事件表
-        /// 《事件名，事件》
-        /// </summary>
+        /// 事件表《事件名，事件》
         private Dictionary<string, MapEvent> eventTable;
 
-        /// <summary>
-        /// 强制事件表，是事件表的子集
-        /// 《事件名，事件》
-        /// </summary>
+        /// 强制事件表，是事件表的子集《事件名，事件》
         private Dictionary<string, MapEvent> forceEventTable;
 
-        /// <summary>
-        /// 事件状态
-        /// 《事件名，状态编号》
-        /// </summary>
+        /// 事件状态《事件名，状态编号》
         private Dictionary<string, int> eventState;
 
-        /// <summary>
-        /// 当前地点的可用事件表
-        /// 《地点名，事件列表》
-        /// </summary>
+        /// 当前地点的可用事件表《地点名，事件列表》
         private Dictionary<string, List<MapEvent>> locationEvents;
 
         private DataManager dataManager;
@@ -81,7 +66,7 @@ namespace Assets.Script.GameStruct.EventSystem
         {
             locationEvents = new Dictionary<string, List<MapEvent>>();
             //遍历所有的地点
-            foreach (TextAsset text in Resources.LoadAll<TextAsset>(LOCATION_PATH))
+            foreach (TextAsset text in Resources.LoadAll<TextAsset>(Constants.LOCATION_PATH))
             {
                 JsonData data = JsonMapper.ToObject(text.text);
                 if (data != null && data.Contains("地点"))
@@ -91,14 +76,28 @@ namespace Assets.Script.GameStruct.EventSystem
             }
         }
 
+        /// <summary>
+        /// 获取强制事件表
+        /// </summary>
         public Dictionary<string, MapEvent> getForceEvents()
         {
             return forceEventTable;
         }
 
+        /// <summary>
+        /// 获取所有事件
+        /// </summary>
         public Dictionary<string, MapEvent> getEvents()
         {
             return eventTable;
+        }
+
+        /// <summary>
+        /// 获取所有事件当前状态
+        /// </summary>
+        public Dictionary<string, int> getEventState()
+        {
+            return eventState;
         }
 
         public MapEvent GetCurrentForceEvent()
@@ -265,7 +264,7 @@ namespace Assets.Script.GameStruct.EventSystem
         /// </summary>
         public static Dictionary<string, MapEvent> GetStaticEvent()
         {
-            string path = (Constants.DEBUG ? DEBUG_PATH : DEFAULT_PATH) + "Events/";
+            string path = (Constants.DEBUG ? Constants.DEBUG_PATH : Constants.DEFAULT_PATH) + "Events/";
             Dictionary<string, MapEvent> eventTable = new Dictionary<string, MapEvent>();
 
             Debug.Log("读取事件表");
@@ -310,7 +309,7 @@ namespace Assets.Script.GameStruct.EventSystem
         private static void LoadStaticEventLogic(Dictionary<string, MapEvent> eventTable)
         {
             // 读入事件逻辑文件
-            string path = (Constants.DEBUG ? DEBUG_PATH : DEFAULT_PATH) + "EventLogic/";
+            string path = (Constants.DEBUG ? Constants.DEBUG_PATH : Constants.DEFAULT_PATH) + "EventLogic/";
 
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {

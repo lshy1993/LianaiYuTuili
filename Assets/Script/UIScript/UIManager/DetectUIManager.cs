@@ -119,10 +119,10 @@ public class DetectUIManager : MonoBehaviour
             GameObject investBtn = Resources.Load("Prefab/Invest_Choice") as GameObject;
             investBtn = NGUITools.AddChild(investContainer, investBtn);
             investBtn.transform.localPosition = invest.coordinate;
-            
-            UIButton btn = investBtn.GetComponent<UIButton>();
+
             /*
              * 测试用删除
+             * UIButton btn = investBtn.GetComponent<UIButton>();
              * btn.normalSprite2D = invest.icon;
              * btn.hoverSprite2D = invest.iconHover;
              * btn.pressedSprite2D = invest.iconHover;

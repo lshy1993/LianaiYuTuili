@@ -82,10 +82,10 @@ namespace Assets.Script.GameStruct
                     GameObject currentPanel = panels[current];
                     GameObject nextPanel = panels[panel];
                     Debug.Log("AvgPanel从 " + current +" 到 "+panel);
-                    Debug.Log("Avg Panel 状态" + transform.gameObject.active);
+                    Debug.Log("Avg Panel 状态" + transform.gameObject.activeSelf);
                     nextPanel.SetActive(true);
                     StartCoroutine(Switch(currentPanel, nextPanel, fadein, fadeout));
-                    Debug.Log("Avg Panel 状态" + transform.gameObject.active);
+                    Debug.Log("Avg Panel 状态" + transform.gameObject.activeSelf);
                     current = panel;
                 }
             }

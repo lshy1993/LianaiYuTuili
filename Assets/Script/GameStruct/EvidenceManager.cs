@@ -12,10 +12,7 @@ namespace Assets.Script.GameStruct
     public class EvidenceManager
     {
         private static EvidenceManager instance;
-        private static readonly string EVIDENCE_PATH = "Text/EvidenceConfig/";
-        private static readonly string EVIDENCE_DEBUG_PATH = "Text/EvidenceDebug/";
 
-        
         private Hashtable gVars, lVars;
         private Dictionary<string, Evidence> evidenceDic;
 
@@ -28,7 +25,7 @@ namespace Assets.Script.GameStruct
         public static Dictionary<string, Evidence> GetStaticEvidenceDic()
         {
             Dictionary<string, Evidence> dic = new Dictionary<string, Evidence>();
-            string path = Constants.DEBUG ? EVIDENCE_DEBUG_PATH : EVIDENCE_PATH;
+            string path = Constants.DEBUG ? Constants.EVIDENCE_DEBUG_PATH : Constants.EVIDENCE_PATH;
             Debug.Log("读取证据列表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {

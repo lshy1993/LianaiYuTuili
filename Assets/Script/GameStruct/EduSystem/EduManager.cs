@@ -12,8 +12,6 @@ namespace Assets.Script.GameStruct
     public class EduManager
     {
         private static EduManager instance;
-        private static readonly string EDU_PATH = "Text/EduConfig/";
-        private static readonly string EDU_DEBUG_PATH = "Text/EduDebug/";
 
         //private Hashtable gVars, lVars;
         private List<EduEvent> events;//所有的按钮
@@ -39,7 +37,7 @@ namespace Assets.Script.GameStruct
         public static List<EduEvent> GetStaticEduEvents()
         {
             List<EduEvent> events = new List<EduEvent>();
-            string path = Constants.DEBUG ? EDU_DEBUG_PATH : EDU_PATH;
+            string path = Constants.DEBUG ? Constants.EDU_DEBUG_PATH : Constants.EDU_PATH;
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
                 JsonData jsondata = JsonMapper.ToObject(text.text);

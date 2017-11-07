@@ -144,7 +144,6 @@ namespace Assets.Script.GameStruct
         public static SoundEffect FadeInBGM(float time)
         {
             SoundBuilder builder = new SoundBuilder();
-            AudioSource aus = GameObject.Find("GameManager").GetComponent<SoundManager>().currentBGM;
             SoundEffect e = builder.Source(SoundEffect.SoundType.BGM)
                 .TotalTime(time)
                 .Operater(SoundEffect.OperateType.Fadein)

@@ -12,8 +12,8 @@ namespace Assets.Script.GameStruct
     public class AppManager
     {
         private static AppManager instance;
-        private static readonly string APP_PATH = "Text/AppConfig/";
-        private static readonly string APP_DEBUG_PATH = "Text/AppDebug/";
+        private static readonly string APP_PATH = "JSON/AppConfig/";
+        private static readonly string APP_DEBUG_PATH = "JSON/AppDebug/";
 
         public static AppManager GetInstance()
         {

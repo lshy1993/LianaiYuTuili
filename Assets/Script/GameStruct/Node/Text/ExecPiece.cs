@@ -9,7 +9,7 @@ namespace Assets.Script.GameStruct
     public class ExecPiece : Piece
     {
         public delegate void Execute(DataManager manager);
-        private DataManager manager;
+        //private DataManager manager;
 
         private Execute exec;
         public ExecPiece(int id, DataManager manager, Execute exec):base(id)

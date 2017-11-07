@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class LogoUIManager : MonoBehaviour
 {
-    private GameObject root;
+    //private GameObject root;
     private GameObject logoContainer, animationContainer, baseContainer;
     private GameObject logoG, logoS, logoT;
     private float fadein = 0.5f, fadeout = 0.5f;
@@ -18,7 +18,7 @@ public class LogoUIManager : MonoBehaviour
 
     void Awake()
     {
-        root = GameObject.Find("UI Root");
+        //root = GameObject.Find("UI Root");
         baseContainer = this.transform.Find("Base_Container").gameObject;
         logoG = this.transform.Find("LogoG_Container").gameObject;
         logoT = this.transform.Find("LogoT_Container").gameObject;

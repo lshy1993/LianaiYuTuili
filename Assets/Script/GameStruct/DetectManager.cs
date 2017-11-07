@@ -12,8 +12,6 @@ namespace Assets.Script.GameStruct
     public class DetectManager
     {
         private static DetectManager instance;
-        private static readonly string DETECT_PATH = "Text/Detect/";
-        private static readonly string DETECT_DEBUG_PATH = "Text/DetectDebug/";
 
         private DataManager manager;
         private Dictionary<string, DetectEvent> detectEvents;
@@ -170,7 +168,7 @@ namespace Assets.Script.GameStruct
         public static Dictionary<string, DetectEvent> GetStaticDetectEvents()
         {
             Dictionary<string, DetectEvent> events = new Dictionary<string, DetectEvent>();
-            string path = Constants.DEBUG ? DETECT_DEBUG_PATH : DETECT_PATH;
+            string path = Constants.DEBUG ? Constants.DETECT_DEBUG_PATH : Constants.DETECT_PATH;
             Debug.Log("读取侦探表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {

@@ -19,8 +19,8 @@ namespace Assets.Script.GameStruct
             return instance;
         }
 
-        public static readonly string PATH = "Text/Characters/";
-        public static readonly string DEBUG = "Text/CharacterDebug/";
+        public static readonly string PATH = "JSON/Characters/";
+        public static readonly string DEBUG = "JSON/CharacterDebug/";
 
         public Dictionary<string, Character> characterTable;
 

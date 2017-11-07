@@ -217,6 +217,7 @@ namespace Assets.Script.GameStruct
         }
         #endregion
 
+        #region 多周目数据初始化
         /// <summary>
         /// 初始化多周目数据
         /// </summary>
@@ -277,6 +278,7 @@ namespace Assets.Script.GameStruct
             datapool.WriteSystemVar("CG信息表", cgInfo);
 
         }
+        #endregion
 
         #region 游戏静态数据初始化
         private void InitStatic()

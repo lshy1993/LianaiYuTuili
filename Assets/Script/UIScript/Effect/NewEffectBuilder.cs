@@ -155,7 +155,6 @@ namespace Assets.Script.UIScript
 
         public static NewImageEffect SetDefaultPostionByDepth(int depth, string pstr)
         {
-            float x;
             NewEffectBuilder builder = new NewEffectBuilder();
             NewImageEffect e = builder.UI(depth)
                 .Operate(NewImageEffect.OperateMode.SetPos)

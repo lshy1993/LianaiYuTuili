@@ -12,8 +12,6 @@ namespace Assets.Script.GameStruct
     public class EnquireManager
     {
         private static EnquireManager instance;
-        private static readonly string ENQUIRE_PATH = "Text/EnquireConfig/";
-        private static readonly string ENQUIRE_DEBUG_PATH = "Text/EnquireDebug/";
 
         private DataManager manager;
         private Dictionary<string, EnquireEvent> enquireEvents;
@@ -124,7 +122,7 @@ namespace Assets.Script.GameStruct
         public static Dictionary<string, EnquireEvent> GetStaticEnquireEvents()
         {
             Dictionary<string, EnquireEvent> events = new Dictionary<string, EnquireEvent>();
-            string path = Constants.DEBUG ? ENQUIRE_DEBUG_PATH : ENQUIRE_PATH;
+            string path = Constants.DEBUG ? Constants.ENQUIRE_DEBUG_PATH : Constants.ENQUIRE_PATH;
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
                 JsonData jsondata = JsonMapper.ToObject(text.text);
