@@ -11,6 +11,7 @@ public class HPMPUIManager : MonoBehaviour
 {
     private UIProgressBar hpBar, mpBar;
     private GameObject hpmpContainer;
+    private DataManager dm;
 
     public int nowhp, allhp, nowmp, allmp;
 
@@ -21,6 +22,7 @@ public class HPMPUIManager : MonoBehaviour
 
     private void Awake()
     {
+        dm = DataManager.GetInstance();
         hpmpContainer = this.transform.Find("HPMP_Container").gameObject;
         hpBar = hpmpContainer.transform.Find("HP_Sprite").GetComponent<UIProgressBar>();
         mpBar = hpmpContainer.transform.Find("MP_Sprite").GetComponent<UIProgressBar>();
@@ -29,22 +31,24 @@ public class HPMPUIManager : MonoBehaviour
 
     private void SetHPMP()
     {
-        nowhp = DataManager.GetInstance().GetInTurnVar<int>("当前血量");
-        allhp = DataManager.GetInstance().GetGameVar<Player>("玩家").logicStatus["生命上限"];
+        nowhp = dm.inturnData.currentHP;
+        allhp = dm.gameData.player.logicStatus["生命上限"];
         hp = (float)nowhp / (float)allhp;
-        allmp = DataManager.GetInstance().GetGameVar<int>("精力总量");
+        allmp = dm.gameData.All_MP;
         nowmp = allmp;
         mp = (float)nowmp / (float)allmp;
     }
 
     public void ShowBar()
     {
+        gameObject.SetActive(true);
         SetHPMP();
         StartCoroutine(OpenUI());
     }
 
     public void HideBar()
     {
+        gameObject.SetActive(true);
         StartCoroutine(CloseUI());
         finished = false;
     }
@@ -61,7 +65,7 @@ public class HPMPUIManager : MonoBehaviour
     {
         finished = false;
         nowhp += x;
-        DataManager.GetInstance().SetInTurnVar("当前血量", nowhp);
+        dm.inturnData.currentHP = nowhp;
         StartCoroutine(Minus());
     }
 

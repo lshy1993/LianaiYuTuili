@@ -9,15 +9,13 @@ public class AvatarSwitchButton : BasicButton
     public UILabel hint;
     public GraphicSettingUIManager uiManager;
 
-    protected override void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        base.OnHover(ishover);
         hint.text = ishover ? "设置【人物头像与表情】是否开启" : "";
     }
 
-    protected override void OnClick()
+    protected override void Execute()
     {
-        base.OnClick();
         uiManager.SwitchAvatar();
     }
 }

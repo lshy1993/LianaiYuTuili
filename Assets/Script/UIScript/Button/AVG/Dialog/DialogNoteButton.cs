@@ -2,13 +2,17 @@
 using System.Collections;
 using Assets.Script.UIScript;
 
-public class DialogNoteButton : MonoBehaviour {
-
+/// <summary>
+/// 对话框按钮 打开NOTE
+/// </summary>
+public class DialogNoteButton : BasicButton
+{
 	public NoteUIManager nuiManager;
 
-	void OnClick()
+	protected override void Execute()
     {
         nuiManager.gameObject.SetActive(true);
         nuiManager.OpenNote();
 	}
+
 }

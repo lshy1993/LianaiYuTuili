@@ -13,7 +13,7 @@ public class AppCalendarUIManager : MonoBehaviour
 
     private Dictionary<int, Routine> routines
     {
-        get { return DataPool.GetInstance().GetStaticVar("日程表") as Dictionary<int, Routine>; }
+        get { return DataManager.GetInstance().staticData.routines; }
     }
 
     private void Awake()

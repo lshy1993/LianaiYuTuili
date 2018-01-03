@@ -43,13 +43,13 @@ public class LogoUIManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         //淡入游戏制作组Logo
         yield return StartCoroutine(FadeInLogo(logoG));
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         //淡出
         yield return StartCoroutine(FadeOutLogo(logoG));
         yield return new WaitForSeconds(0.5f);
         //淡入学校Logo
         yield return StartCoroutine(FadeInLogo(logoS));
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         //淡出
         yield return StartCoroutine(FadeOutLogo(logoS));
         yield return new WaitForSeconds(0.5f);

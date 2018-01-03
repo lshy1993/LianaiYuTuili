@@ -56,11 +56,14 @@ public class ImageManager : MonoBehaviour
     [HideInInspector]
     public UI2DSprite bgSprite;
 
+    private DataManager dm;
+
     private Dictionary<string, UI2DSprite> fgSprites;
     private bool isFast = false;
 
     void Awake()
     {
+        dm = DataManager.GetInstance();
         bgSprite = bgPanel.transform.Find("BackGround_Sprite").gameObject.GetComponent<UI2DSprite>();
         fgSprites = new Dictionary<string, UI2DSprite>();
     }
@@ -76,9 +79,42 @@ public class ImageManager : MonoBehaviour
     public Sprite LoadCharacter(string name) { return LoadImage(CHARA_PATH, name); }
 
 
-    public void MoveInit(Sprite nextSprite)
+    public void MoveInit(string name)
     {
-        if (bgSprite.sprite2D != nextSprite) StartCoroutine(ChangeBackground(nextSprite));
+        Sprite nextSprite = LoadBackground(name);
+        if (bgSprite.sprite2D != nextSprite)
+        {
+            StartCoroutine(DetectMoving(nextSprite));
+        }
+    }
+
+    private IEnumerator DetectMoving(Sprite sprite, float time = 0.5f)
+    {
+        fgPanel.alpha = 0;
+        bgSprite.alpha = 1;
+        float t = 1;
+        while (t > 0)
+        {
+            t = Mathf.MoveTowards(t, 0, 1 / time * Time.fixedDeltaTime);
+            bgSprite.alpha = t;
+            yield return null;
+        }
+        bgSprite.alpha = 0;
+        bgSprite.sprite2D = sprite;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / time * Time.fixedDeltaTime);
+            bgSprite.alpha = t;
+            yield return null;
+        }
+        fgPanel.gameObject.SetActive(true);
+        t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / time * Time.fixedDeltaTime);
+            fgPanel.alpha = t;
+            yield return null;
+        }
     }
 
     private UI2DSprite GetSpriteByDepth(int depth)
@@ -195,22 +231,6 @@ public class ImageManager : MonoBehaviour
         }
     }
 
-    private IEnumerator ChangeBackground(Sprite sprite, float time = 0.5f)
-    {
-        bgSprite.alpha = 1;
-        while (bgSprite.alpha > 0)
-        {
-            bgSprite.alpha = Mathf.MoveTowards(bgSprite.alpha, 0, 1 / time * Time.fixedDeltaTime);
-            yield return null;
-        }
-        bgSprite.alpha = 0;
-        bgSprite.sprite2D = sprite;
-        while (bgSprite.alpha < 1)
-        {
-            bgSprite.alpha = Mathf.MoveTowards(bgSprite.alpha, 1, 1 / time * Time.fixedDeltaTime);
-            yield return null;
-        }
-    }
 
     #region 存储 读取 前背景画面
     public void SaveImageInfo()
@@ -226,18 +246,29 @@ public class ImageManager : MonoBehaviour
             string sprite = ui.sprite2D == null ? "" : ui.sprite2D.name;
             charaDic.Add(depth, new SpriteState(sprite, child.localPosition, ui.alpha));
         }
+        /* demo1.20 改动
         DataManager.GetInstance().SetGameVar("背景图片", bgSprite.sprite2D.name);
         DataManager.GetInstance().SetGameVar("立绘信息", charaDic);
+        */
+        dm.gameData.bgSprite = bgSprite.sprite2D.name;
+        dm.gameData.fgSprites = charaDic;
     }
 
     public void LoadImageInfo()
     {
+        /* demo1.20 改动
         string bgname = DataManager.GetInstance().GetGameVar<string>("背景图片");
+        */
+        string bgname = dm.gameData.bgSprite;
         bgSprite.sprite2D = LoadBackground(bgname);
+        /* demo1.20 改动
         Dictionary<int, SpriteState> fgdic = DataManager.GetInstance().GetGameVar<Dictionary<int, SpriteState>>("立绘信息");
+        */
+        Dictionary<int, SpriteState> fgdic = dm.gameData.fgSprites;
+
 
         //遍历当前的前景图 不在字典内的删除
-        foreach(Transform  child in fgPanel.transform)
+        foreach (Transform  child in fgPanel.transform)
         {
             int depth = Convert.ToInt32(child.name.Substring(6));
             if (!fgdic.ContainsKey(depth))

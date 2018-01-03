@@ -19,7 +19,7 @@ namespace Assets.Script.TextScripts
                 f.OpenDialog(0),
                 f.t("李云萧", "逃生图，发生火灾的时候用的。"),
                 f.t("李云萧", "上面印有教学区的平面图。"),
-                f.GetEvidence("教学楼平面图")
+                f.GetEvidence("00003")
             };
         }
 

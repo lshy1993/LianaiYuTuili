@@ -49,5 +49,47 @@ namespace Assets.Script.GameStruct.Model
                 //moves.Add((string)data["移动"]);
             }
         }
+
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            str += "    " + (isEng ? "place" : "地点") + " : " + place + "\n";
+            str += "    " + (isEng ? "imagename" : "背景图片名") + " : " + imagename + "\n";
+            if (entry != "")
+            {
+                str += "    " + (isEng ? "entry" : "初次进入脚本文件") + " : " + entry + "\n";
+            }
+
+            if (dialogs.Count != 0)
+            {
+                str += "    " + (isEng ? "dialogs" : "对话项") + " : ";
+                foreach(DetectDialog item in dialogs)
+                {
+                    str += "\n" + item.ToString(isEng);
+                }
+            }
+
+            if (invests.Count != 0)
+            {
+                str += "    " + (isEng ? "invests" : "调查项") + " : ";
+                foreach (DetectInvest item in invests)
+                {
+                    str += "\n" + item.ToString(isEng);
+                }
+            }
+
+            if (moves.Count != 0)
+            {
+                str += "    " + (isEng ? "moves" : "移动项") + " : ";
+                foreach (string item in moves)
+                {
+                    str += item + "  ";
+                }
+                str += "\n";
+            }
+            str += "\n";
+            return str;
+        }
+
     }
 }

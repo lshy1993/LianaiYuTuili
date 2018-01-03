@@ -5,22 +5,13 @@ public class MenuExitButton : BasicButton
 {
     public SystemUIManager uiManager;
 
-    protected override void OnClick()
+    protected override void Execute()
     {
-        base.OnClick();
         uiManager.OpenExit();
     }
 
-    protected override void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        base.OnHover(ishover);
-        if (ishover)
-        {
-            uiManager.SetHelpInfo("退出游戏");
-        }
-        else
-        {
-            uiManager.SetHelpInfo("");
-        }
+        uiManager.SetHelpInfo(ishover, "退出游戏");
     }
 }

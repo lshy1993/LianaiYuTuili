@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EduReturnButton : MonoBehaviour {
-
+public class EduReturnButton : BasicButton
+{
     public EduUIManager uiManager;
 
-    void OnHover(bool isHover)
+    protected override void Hover(bool isHover)
     {
         if (isHover)
         {
@@ -17,8 +17,9 @@ public class EduReturnButton : MonoBehaviour {
         }
     }
 
-    void OnClick()
+    protected override void Execute()
     {
         uiManager.ReturnMap();
     }
+
 }

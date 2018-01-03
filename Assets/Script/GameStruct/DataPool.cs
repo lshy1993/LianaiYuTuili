@@ -35,7 +35,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public object GetStaticVar(string key)
+        public object GetStaticVar11(string key)
         {
             if (staticVar.ContainsKey(key))
             {
@@ -49,7 +49,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="key"></param>
         /// <param name="obj"></param>
-        public void WriteStaticVar(string key, object obj)
+        public void WriteStaticVar11(string key, object obj)
         {
             if (staticVar.ContainsKey(key))
             {
@@ -71,7 +71,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public object GetSystemVar(string key)
+        public object GetSystemVar11(string key)
         {
             if (systemVar.ContainsKey(key))
             {
@@ -85,7 +85,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="key"></param>
         /// <param name="obj"></param>
-        public void WriteSystemVar(string key, object obj)
+        public void WriteSystemVar11(string key, object obj)
         {
             if (systemVar.ContainsKey(key))
             {

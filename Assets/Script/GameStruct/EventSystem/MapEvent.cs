@@ -14,36 +14,54 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class MapEvent
     {
-        /// 事件名
+        /// <summary>
+        /// 【唯一】事件名
+        /// </summary>
         public string name { set; get; }
 
-        /// 事件发生地点
+        /// <summary>
+        /// 事件触发【地点名】
+        /// </summary>
         public string position { set; get; }
 
+        /// <summary>
         /// 事件入口文件名
+        /// </summary>
         public string entryNode { set; get; }
 
-        /// 前置与事件
+        /// <summary>
+        /// 前置【与】事件列表
+        /// </summary>
         public List<string> conditionAndEvents;
 
-        /// 前置或事件
+        /// <summary>
+        /// 前置【或】事件列表
+        /// </summary>
         public List<string> conditionOrEvents;
-
-        /// 条件回合
+        
+        /// <summary>
+        /// 回合数限制
+        /// </summary>
         public Range conditionTurn;
 
-        /// 条件状态
+        /// <summary>
+        /// 其他属性限制【多项】
+        /// </summary>
         public Dictionary<string, Range> conditionStatus;
 
-        /// 好感度条件
+        /// <summary>
+        /// 角色好感度限制【多项】
+        /// </summary>
         public Dictionary<string, Range> conditionGirls;
 
-        //是否是默认地点事件（可重复）
+        /// <summary>
+        /// 是否【默认/可重复】事件
+        /// </summary>
         public bool isdefault;
 
-        /// <summary>
-        /// 是否结束
-        /// </summary>
+        // <summary>
+        // 是否结束
+        // </summary>
 
         public MapEvent(string name, string position, string entryNode)
         {
@@ -125,86 +143,116 @@ namespace Assets.Script.GameStruct
                 }
             }
         }
-        
-        public override string ToString()
+
+        /// <summary>
+        /// 格式化输出
+        /// </summary>
+        /// <param name="isEng">是否显示变量名</param>
+        public string ToString(bool isEng)
         {
-            string str = base.ToString();
-            str += ("name : " + name + "\n");
+            string str = string.Empty;
 
-            str += ("position: " + position + "\n");
-
-            str += ("conditionAndEvents : " + "\n");
-
-            foreach(string s in conditionAndEvents)
+            str += (isEng ? "name" : "事件名") + " : " + name + "\n";
+            str += (isEng ? "position" : "触发地点") + " : " + position + "\n";
+            str += (isEng ? "entryNode" : "入口文件") + " : " + entryNode + "\n";
+            str += (isEng ? "conditionTurn" : "回合限制") + " : " + conditionTurn.ToString() + "\n";
+            //前置【与】事件
+            if (conditionAndEvents.Count() != 0)
             {
-                str += (s + " ");
+                str += (isEng ? "conditionAndEvents" : "前置【与】事件") + " : " + "\n";
+                str += "    ";
+                foreach (string s in conditionAndEvents)
+                {
+                    str += (s + " ");
+                }
+                str += "\n";
             }
-
-            str += ("conditionOrEvents : " + "\n");
-
-            foreach(string s in conditionOrEvents)
+            //前置【或】事件
+            if (conditionOrEvents.Count() != 0)
             {
-                str += (s + " ");
+                str += (isEng ? "conditionOrEvents" : "前置【或】事件") + " : " + "\n";
+                str += "    ";
+                foreach (string s in conditionOrEvents)
+                {
+                    str += (s + " ");
+                }
+                str += "\n";
             }
-
-
-            str += "\n";
-
-            str += ("conditionTurn : " + conditionTurn + "\n");
-
-            str += ("conditionStatus :" + "\n");
-
-            foreach (KeyValuePair<string, Range> kv in conditionStatus)
+            //属性限制
+            if(conditionStatus.Count() != 0)
             {
-                str += (kv.Key + ": " );
-
-                str += ("min: " + kv.Value.GetMin() + " max: " + kv.Value.GetMax() + "\n");
-
+                str += (isEng ? "conditionStatus" : "属性限制") + " : " + "\n";
+                foreach (KeyValuePair<string, Range> kv in conditionStatus)
+                {
+                    str += "    " + kv.Key + " : ";
+                    str += kv.Value.ToString() + "\n";
+                }
             }
-
-            foreach (KeyValuePair<string, Range> kv in conditionGirls)
+            //好感度限制
+            if (conditionGirls.Count() != 0)
             {
-                str += (kv.Key + ": " );
-
-                str += ("min: " + kv.Value.GetMin() + " max: " + kv.Value.GetMax() + "\n");
-
+                str += (isEng ? "conditionGirls" : "好感度限制") + " : " + "\n";
+                foreach (KeyValuePair<string, Range> kv in conditionGirls)
+                {
+                    str += "    " + kv.Key + " : ";
+                    str += kv.Value.ToString() + "\n";
+                    //str += ("min: " + kv.Value.GetMin() + " max: " + kv.Value.GetMax() + "\n");
+                }
             }
-
 
             return str;
         }
 
     }
 
-
+    /// <summary>
+    /// 自定义范围类
+    /// </summary>
     public class Range
     {
         private int min;
         private int max;
+
         public Range(int min, int max)
         {
             this.min = min;
             this.max = max;
         }
 
-        public void SetMin(int min)
+        public void SetMin(int value)
         {
-            this.min = min;
+            min = value;
         }
 
-        public void SetMax(int max)
+        public void SetMax(int value)
         {
-            this.max = max;
+            max = value;
         }
 
+        /// <summary>
+        /// 返回范围下限
+        /// </summary>
+        /// <returns></returns>
         public int GetMin()
         {
             return min;
         }
 
+        /// <summary>
+        /// 返回范围上限
+        /// </summary>
+        /// <returns></returns>
         public int GetMax()
         {
             return max;
         }
+
+        public override string ToString()
+        {
+            //return base.ToString();
+            if (min == max) return min.ToString();
+            return min + " -- " + max;
+        }
+
     }
 }

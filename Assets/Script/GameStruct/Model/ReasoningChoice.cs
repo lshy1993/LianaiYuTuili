@@ -18,5 +18,15 @@ namespace Assets.Script.GameStruct.Model
             if (data.Contains("正解")) correct = (bool)data["正解"];
             entry = (string)data["事件入口"];
         }
+
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            str += "    " + (isEng ? "text" : "选项") + " : " + text + "\n";
+            str += "    " + (isEng ? "correct" : "是否为正确答案") + " : " + correct + "\n";
+            str += "    " + (isEng ? "entry" : "选项进入脚本") + " : " + entry + "\n";
+            return str;
+        }
+
     }
 }

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EduRelaxButton : MonoBehaviour {
-
+public class EduRelaxButton : BasicButton
+{
     public EduUIManager uiManager;
 
-    void OnHover(bool isHover)
+    protected override void Hover(bool isHover)
     {
         if (isHover)
         {
@@ -17,7 +17,7 @@ public class EduRelaxButton : MonoBehaviour {
         }
     }
 
-    void OnClick()
+    protected override void Execute()
     {
         uiManager.RelaxExecute();
     }

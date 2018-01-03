@@ -15,12 +15,12 @@ namespace Assets.Script.GameStruct
 
         public List<string> eviNameList
         {
-           get { return DataManager.GetInstance().GetInTurnVar<List<string>>("持有证据"); }
+           get { return DataManager.GetInstance().inturnData.holdEvidences; }
         }
 
         public Dictionary<string, Evidence> eviDic
         {
-            get { return DataPool.GetInstance().GetStaticVar("证据列表") as Dictionary<string, Evidence>; }
+            get { return DataManager.GetInstance().staticData.evidenceDic; }
         }
 
         private Dictionary<string, ReasoningEvent> reasoningEvents;

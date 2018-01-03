@@ -3,7 +3,10 @@ using System.Collections;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
 
-public class ReasoningTextButton : MonoBehaviour
+/// <summary>
+/// 自我推理界面 文字按钮
+/// </summary>
+public class ReasoningTextButton : BasicButton
 {
     private ReasoningUIManager uiManager;
     public int id;
@@ -13,7 +16,7 @@ public class ReasoningTextButton : MonoBehaviour
         this.uiManager = manager;
     }
 
-    void OnClick()
+    protected override void Execute()
     {
         uiManager.JudgeText(id);
     }

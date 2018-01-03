@@ -14,7 +14,7 @@ public class EndingUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        endingTable = DataPool.GetInstance().GetSystemVar("结局表") as List<bool>;
+        endingTable = DataManager.GetInstance().systemData.endingTable;
         SetEnding();
     }
 

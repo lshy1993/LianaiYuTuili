@@ -24,27 +24,27 @@ namespace Assets.Script.GameStruct
 
         private string currentEventName
         {
-            set { manager.SetInTurnVar("当前侦探事件", value); }
-            get { return manager.GetInTurnVar<string>("当前侦探事件"); }
+            set { manager.inturnData.currentDetectEvent = value; }
+            get { return manager.inturnData.currentDetectEvent; }
         }
 
         private string currentPlace
         {
-            set { manager.SetInTurnVar("当前侦探位置", value); }
-            get { return manager.GetInTurnVar<string>("当前侦探位置"); }
+            set { manager.inturnData.currentDetectPos = value; }
+            get { return manager.inturnData.currentDetectPos; }
         }
 
         private List<string> knownInfo
         {
-            set { manager.SetInTurnVar("侦探事件已知信息", value); }
-            get { return manager.GetInTurnVar<List<string>>("侦探事件已知信息"); }
+            set { manager.inturnData.detectKnown = value; }
+            get { return manager.inturnData.detectKnown; }
         }
 
         private Dictionary<string, bool> placeStatus
         {
-            set { manager.SetInTurnVar("侦探事件位置状态表", value); }
+            set { manager.inturnData.detectEventTable = value; }
 
-            get { return manager.GetInTurnVar<Dictionary<string, bool>>("侦探事件位置状态表"); }
+            get { return manager.inturnData.detectEventTable; }
         }
 
         public static DetectManager GetInstance()
@@ -60,15 +60,15 @@ namespace Assets.Script.GameStruct
             this.manager = manager;
             this.detectEvents = detectEvents;
 
-            if (!manager.ContainsInTurnVar("侦探事件已知信息"))
-            {
-                knownInfo = new List<string>();
-            }
+            //if (!manager.ContainsInTurnVar("侦探事件已知信息"))
+            //{
+            //    knownInfo = new List<string>();
+            //}
 
-            if (!manager.ContainsInTurnVar("侦探事件位置状态表"))
-            {
-                placeStatus = new Dictionary<string, bool>();
-            }
+            //if (!manager.ContainsInTurnVar("侦探事件位置状态表"))
+            //{
+            //    placeStatus = new Dictionary<string, bool>();
+            //}
         }
 
         //------------------------------------------------------

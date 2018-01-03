@@ -93,18 +93,18 @@ namespace Assets.Script.UIScript
 
         private IEnumerator ShowBtn()
         {
+            BlockBtn(false);
             btnTable.SetActive(true);
             for (int i = 0; i < btnTable.transform.childCount; i++)
             {
                 btnTable.transform.GetChild(i).GetComponent<UIRect>().alpha = 0;
             }
-            BlockBtn(false);
             for (int i =  0; i <btnTable.transform.childCount; i++)
             {
                 float x = 0;
                 while (x < 1)
                 {
-                    x = Mathf.MoveTowards(x, 1, 1 / 0.25f * Time.deltaTime);
+                    x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.deltaTime);
                     btnTable.transform.GetChild(i).GetComponent<UIRect>().alpha = x;
                     yield return null;
                 }

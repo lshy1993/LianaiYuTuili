@@ -16,8 +16,9 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 f.OpenDialog(0),
-                f.t("李云萧", "你是怎么知道时间的？"),
-                f.t("叶婷", "教室里有挂钟。"),
+                f.t("李云萧", "从办公室？"),
+                f.t("叶婷", "是的，我先去交了作业，就立马回到了教室。"),
+                f.t("叶婷", "我看了下教室里的挂钟，没错就是50分。"),
                 f.t("李云萧", "……")
             };
         }

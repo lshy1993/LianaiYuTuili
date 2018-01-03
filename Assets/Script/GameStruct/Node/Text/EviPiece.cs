@@ -16,7 +16,7 @@ namespace Assets.Script.GameStruct
 
         private Dictionary<string, Evidence> evidic
         {
-            get { return DataPool.GetInstance().GetStaticVar("证据列表") as Dictionary<string, Evidence>; }
+            get { return  DataManager.GetInstance().staticData.evidenceDic; }
         }
 
         public bool finished;
@@ -33,7 +33,7 @@ namespace Assets.Script.GameStruct
             //打开证据获得框
             eviPanel.SetActive(true);
             //检查是否已经获得过证据
-            List<string> evidenceHave = DataManager.GetInstance().GetInTurnVar<List<string>>("持有证据");
+            List<string> evidenceHave = DataManager.GetInstance().inturnData.holdEvidences;
             if (evidenceHave.Contains(eviStr))
             {
                 finished = true;
@@ -46,7 +46,7 @@ namespace Assets.Script.GameStruct
             {
                 finished = true;
                 evidenceHave.Add(eviStr);
-                List<string> knownInfo = DataManager.GetInstance().GetInTurnVar<List<string>>("侦探事件已知信息");
+                List<string> knownInfo = DataManager.GetInstance().inturnData.detectKnown;
                 knownInfo.Add(getevi.name);
                 uimanager.Close();
             }

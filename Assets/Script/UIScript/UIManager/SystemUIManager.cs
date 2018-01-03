@@ -54,7 +54,7 @@ public class SystemUIManager : MonoBehaviour
         tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
         TextureScale.Bilinear(tex, 240, 135);
         byte[] imagebytes = tex.EncodeToPNG();
-        DataPool.GetInstance().WriteSystemVar("缩略图", imagebytes);
+        DataPool.GetInstance().WriteTempVar("缩略图", imagebytes);
         Destroy(tex);
     }
 
@@ -64,9 +64,9 @@ public class SystemUIManager : MonoBehaviour
     }
 
 
-    public void SetHelpInfo(string str)
+    public void SetHelpInfo(bool ishover, string str)
     {
-        sysIndexInfo.text = str;
+        sysIndexInfo.text = ishover ? str : "";
     }
 
     /// <summary>
@@ -251,7 +251,7 @@ public class SystemUIManager : MonoBehaviour
 
     private void SaveData()
     {
-        string mode = DataManager.GetInstance().GetGameVar<string>("MODE");
+        string mode = DataManager.GetInstance().gameData.MODE;
         if (mode == "Avg模式" || mode == "侦探模式")
         {
             gm.sm.SaveSoundInfo();
@@ -296,8 +296,8 @@ public class SystemUIManager : MonoBehaviour
     private void FreshSaveTable()
     {
         saveloadContainer.transform.Find("SL_Label").GetComponent<UILabel>().text = SaveMode ? "存档" : "读档";
-        savedic = DataPool.GetInstance().GetSystemVar("存档信息") as Dictionary<int, SavingInfo>;
-        savepic = DataPool.GetInstance().GetSystemVar("存档缩略图") as Dictionary<string, byte[]>;
+        savedic = DataManager.GetInstance().systemData.saveInfo;
+        savepic = DataManager.GetInstance().GetTempVar<Dictionary<string, byte[]>>("存档缩略图");
         for (int i = 1; i <= 6; i++)
         {
             int saveid = groupnum * 6 + i;
@@ -381,7 +381,7 @@ public class SystemUIManager : MonoBehaviour
         saveloadContainer.SetActive(false);
         warningContainer.SetActive(false);
         //Node复原
-        string modeName = DataManager.GetInstance().GetGameVar<string>("MODE");
+        string modeName = DataManager.GetInstance().gameData.MODE;
         Debug.Log(modeName);
         switch (modeName)
         {
@@ -392,14 +392,14 @@ public class SystemUIManager : MonoBehaviour
                 gm.node = NodeFactory.GetInstance().GetEduNode();
                 break;
             case "侦探模式":
-                string currentDetect = DataManager.GetInstance().GetInTurnVar<string>("当前侦探事件");
+                string currentDetect = DataManager.GetInstance().inturnData.currentDetectEvent;
                 //界面复原
                 gm.im.LoadImageInfo();
                 gm.sm.LoadSoundInfo();
                 gm.node = NodeFactory.GetInstance().GetDetectJudgeNode(currentDetect);
                 break;
             case "Avg模式":
-                string textName = DataManager.GetInstance().GetGameVar<string>("当前脚本名");
+                string textName = DataManager.GetInstance().gameData.currentScript;
                 //界面复原
                 gm.im.LoadImageInfo();
                 gm.sm.LoadSoundInfo();

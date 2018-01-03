@@ -1,25 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PhoneSelfButton : MonoBehaviour
+public class PhoneSelfButton : BasicButton
 {
     public NoteUIManager uiManager;
 
-    void OnClick()
+    protected override void Execute()
     {
-        if (Input.GetMouseButtonUp(1)) return;
         uiManager.OpenSelf();
     }
 
-    void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        if (ishover)
-        {
-            uiManager.SetHelpInfo("打开学生信息页");
-        }
-        else
-        {
-            uiManager.SetHelpInfo("");
-        }
+        uiManager.SetHelpInfo(ishover, "打开学生信息页");
     }
 }

@@ -36,17 +36,39 @@ namespace Assets.Script.GameStruct
         private EduManager eduManager;
         private AppManager appManager;
 
-        //是否自动模式
-        public bool isAuto;
-        //正在进行图形特效
+        public GameData gameData = new GameData();
+        public InTurnData inturnData = new InTurnData();
+        public StaticData staticData = new StaticData();
+        public SystemData systemData = new SystemData();
+
+        /// <summary>
+        /// 是否自动模式
+        /// </summary>
+        public bool isAuto = false;
+
+        /// <summary>
+        /// 是否正在进行特效
+        /// </summary>
         public bool isEffecting = false;
-        //禁用右键菜单：在询问时，地点转换？
+
+        /// <summary>
+        /// 禁用右键菜单(询问/地点转换)
+        /// </summary>
         public bool blockRightClick = false;
-        //禁用快进
+
+        /// <summary>
+        /// 禁用快进
+        /// </summary>
         public bool blockClick = false;
-        //禁用BackLog：在打开菜单，询问时
-        public bool blockBacklog = false;      
-        //禁用存读档：询问时
+
+        /// <summary>
+        /// 禁用文字履历(菜单/询问)
+        /// </summary>
+        public bool blockBacklog = false;
+
+        /// <summary>
+        /// 禁用存读档(询问)
+        /// </summary>
         public bool blockSaveLoad = false;
 
         private DataManager()
@@ -67,28 +89,59 @@ namespace Assets.Script.GameStruct
 
         private void InitInTurn()
         {
+            //SetInTurnVar("持有证据", new List<string>());
+            //SetInTurnVar("侦探事件已知信息", new List<string>());
+            //SetInTurnVar("侦探模式", Constants.DETECT_STATUS.FREE);
+            //SetInTurnVar("当前侦探事件", "");
+            //SetInTurnVar("当前侦探位置", "");
+            //SetInTurnVar("侦探事件位置状态表", new Dictionary<string, bool>());
+            //SetInTurnVar("已威慑证词序号", new List<int>());
+            //SetInTurnVar("询问编号", "");
+            //SetInTurnVar("证词序号", 0);
+            //SetInTurnVar("当前血量", 5);
             //单回合内数据 写入存档
             SetTempVar("文字记录", new Queue<BacklogText>());
-            SetInTurnVar("持有证据", new List<string>());
-            SetInTurnVar("侦探事件已知信息", new List<string>());
-            SetInTurnVar("侦探模式", Constants.DETECT_STATUS.FREE);
-            SetInTurnVar("当前侦探事件", "");
-            SetInTurnVar("当前侦探位置", "");
-            SetInTurnVar("侦探事件位置状态表", new Dictionary<string, bool>());
-            SetInTurnVar("已威慑证词序号", new List<int>());
-            SetInTurnVar("询问编号", "");
-            SetInTurnVar("证词序号", 0);
-            SetInTurnVar("当前血量", 5);
+            inturnData.holdEvidences = new List<string>();
+            inturnData.detectKnown = new List<string>();
+            inturnData.detectMode = Constants.DETECT_STATUS.FREE;
+            inturnData.currentDetectEvent = string.Empty;
+            inturnData.currentDetectPos = string.Empty;
+            inturnData.detectEventTable = new Dictionary<string, bool>();
+            inturnData.pressedTestimony = new List<int>();
+            inturnData.currentEnquire = string.Empty;
+            inturnData.currentTestimonyNum = 0;
+            inturnData.currentHP = 5;
         }
 
-        private void InitGame()
+        public void InitGame()
         {
-            //游戏数据 跟随存档
-            SetGameVar("回合", 0);
-            SetGameVar("姓","李");
-            SetGameVar("名", "云萧");
-            SetGameVar("玩家", new Player());
-            SetGameVar("精力总量", 200);
+            //SetGameVar("回合", 0);
+            //SetGameVar("姓","李");
+            //SetGameVar("名", "云萧");
+            //SetGameVar("玩家", new Player());
+            //SetGameVar("精力总量", 200);
+            //SetGameVar("MODE", "");
+            //SetGameVar("当前事件名", "");
+            //SetGameVar("当前脚本名", "");
+            //SetGameVar("文字位置", 0);
+            //SetGameVar("背景图片", "");
+            //SetGameVar("立绘信息", new Dictionary<int, SpriteState>());
+
+
+            //游戏数据初始化 跟随存档
+            gameData.gameTurn = 0;
+            gameData.heroXing = "李";
+            gameData.heroMing = "云萧";
+            gameData.player = new Player();
+            gameData.All_MP = 200;
+            gameData.MODE = string.Empty;
+            gameData.currentEvent = string.Empty;
+            gameData.currentScript = string.Empty;
+            gameData.currentTextPos = 0;
+            gameData.bgSprite = string.Empty;
+            gameData.fgSprites = new Dictionary<int, SpriteState>();
+            //事件状态表的重置
+            gameData.eventStatus = EventManager.LoadEventState(staticData.eventTable);
             RandomCourse();
         }
 
@@ -122,6 +175,20 @@ namespace Assets.Script.GameStruct
         public void ResetSysConfig()
         {
             //系统默认设置
+            systemData.settingMode = Constants.Setting_Mode.Graphic;
+            systemData.fullScreen = false;
+            systemData.fadingSwitch = true;
+            systemData.animateSwitch = true;
+            systemData.avatarSwitch = true;
+            systemData.BGMTime = 3;
+            systemData.chapterTime = 3;
+            systemData.textSpeed = 60f;
+            systemData.waitTime = 1.5f;
+            systemData.diaboxAlpha = 75;
+            systemData.defaultCharaNum = 0;
+            systemData.charaVoiceVolume = new float[] { 1, 1, 1, 1, 1, 1 };
+            systemData.charaVoice = new bool[] { true, true, true, true, true, true };
+            /*
             datapool.WriteSystemVar("settingMode", Constants.Setting_Mode.Graphic);
             datapool.WriteSystemVar("fullScreen", false);
             datapool.WriteSystemVar("fadingSwitch", true);
@@ -137,6 +204,7 @@ namespace Assets.Script.GameStruct
             datapool.WriteSystemVar("charaVoiceVolume", charaVolume);
             bool[] charaVoice = { true, true, true, true, true, true };
             datapool.WriteSystemVar("charaVoice", charaVoice);
+            */
         }
 
         private void LoadSysConfig(Hashtable hst)
@@ -147,29 +215,44 @@ namespace Assets.Script.GameStruct
                 if(key == "textSpeed")
                 {
                     string json = hst[key].ToString();
-                    datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float>(json));
+                    var value = JsonConvert.DeserializeObject<float>(json);
+                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    //datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float>(json));
                 }
                 else if (key == "waitTime")
                 {
                     string json = hst[key].ToString();
-                    datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float>(json));
+                    var value = JsonConvert.DeserializeObject<float>(json);
+                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    //datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float>(json));
                 }
                 else if (key == "charaVoiceVolume")
                 {
                     string json = hst[key].ToString();
-                    datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float[]>(json));
+                    var value = JsonConvert.DeserializeObject<float[]>(json);
+                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    //datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float[]>(json));
                 }
                 else if(key == "charaVoice")
                 {
                     string json = hst[key].ToString();
-                    datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<bool[]>(json));
+                    var value = JsonConvert.DeserializeObject<bool[]>(json);
+                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    //datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<bool[]>(json));
                 }
                 else if (hst[key].GetType() == typeof(Int64))
                 {
-                    datapool.WriteSystemVar(key, Convert.ToInt32(hst[key]));
+                    var value = Convert.ToInt32(hst[key]);
+                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    //datapool.WriteSystemVar(key, Convert.ToInt32(hst[key]));
                 }
                 else
-                    datapool.WriteSystemVar(key, hst[key]);
+                {
+                    var value = hst[key];
+                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    //datapool.WriteSystemVar(key, hst[key]);
+                }
+
             }
         }
         #endregion
@@ -192,7 +275,8 @@ namespace Assets.Script.GameStruct
                 //string x = (string)JsonMapper.ToObject(toLoad);
                 list = JsonConvert.DeserializeObject<Dictionary<int, SavingInfo>>(toLoad);
             }
-            datapool.WriteSystemVar("存档信息", list);
+            //datapool.WriteSystemVar("存档信息", list);
+            systemData.saveInfo = list;
             RefreshSavePic();
         }
 
@@ -201,7 +285,9 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public void RefreshSavePic()
         {
-            Dictionary<int, SavingInfo> list = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
+            //Dictionary<int, SavingInfo> list = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
+            Dictionary<int, SavingInfo> list = systemData.saveInfo;
+
             Dictionary<string, byte[]> savepic = new Dictionary<string, byte[]>();
             foreach (KeyValuePair<int, SavingInfo> kv in list)
             {
@@ -213,7 +299,8 @@ namespace Assets.Script.GameStruct
                 fs.Close();
                 savepic.Add(kv.Value.picPath, bytes);
             }
-            datapool.WriteSystemVar("存档缩略图", savepic);
+            datapool.WriteTempVar("存档缩略图", savepic);
+            //datapool.WriteSystemVar("存档缩略图", savepic);
         }
         #endregion
 
@@ -265,17 +352,23 @@ namespace Assets.Script.GameStruct
                 endingTable = sysSave["EndingTable"];
                 caseTable = sysSave["CaseTable"];
             }
+            systemData.musicTable = musicTable;
+            systemData.cgTable = cgTable;
+            systemData.endingTable = endingTable;
+            systemData.caseTable = caseTable;
+            /* demo1.20 改动
             datapool.WriteSystemVar("音乐表", musicTable);
             datapool.WriteSystemVar("画廊表", cgTable);
             datapool.WriteSystemVar("结局表", endingTable);
             datapool.WriteSystemVar("案件表", caseTable);
+            */
 
-
-            //TODO:静态表格 例如cginfo
+            //TODO:静态表格 例如cginfo 记录文件名与键值
             Dictionary<int, string> cgInfo = new Dictionary<int, string>();
             cgInfo.Add(0, "Logo");
             cgInfo.Add(1, "classroom");
-            datapool.WriteSystemVar("CG信息表", cgInfo);
+            staticData.cgInfo = cgInfo;
+            //datapool.WriteSystemVar("CG信息表", cgInfo);
 
         }
         #endregion
@@ -299,20 +392,24 @@ namespace Assets.Script.GameStruct
         private void InitApp()
         {
             Dictionary<string, Girl> girls = AppManager.GetStaticGirls();
-            datapool.WriteStaticVar("女主角资料表", girls);
+            //datapool.WriteStaticVar("女主角资料表", girls);
+            staticData.girls = girls;
             Dictionary<string, Tour> tours = AppManager.GetStaticTours();
-            datapool.WriteStaticVar("旅游资讯表", tours);
+            //datapool.WriteStaticVar("旅游资讯表", tours);
+            staticData.tours = tours;
             Dictionary<string, Keyword> keywords = AppManager.GetStaticKeywords();
-            datapool.WriteStaticVar("帮助词条表", keywords);
+            //datapool.WriteStaticVar("帮助词条表", keywords);
+            staticData.keywords = keywords;
             Dictionary<int, Routine> routines = AppManager.GetStaticRoutines();
-            datapool.WriteStaticVar("日程表", routines);
+            //datapool.WriteStaticVar("日程表", routines);
+            staticData.routines = routines;
         }
 
         private void InitCharacters()
         {
             Dictionary<string, Character> characters = CharacterManager.GetStaticCharacters();
-            datapool.WriteStaticVar("人物", characters);
-
+            //datapool.WriteStaticVar("人物", characters);
+            staticData.characters = characters;
             CharacterManager.GetInstance().characterTable = characters;
         }
 
@@ -323,17 +420,8 @@ namespace Assets.Script.GameStruct
         private void InitEvidence()
         {
             Dictionary<string, Evidence> evidenceDic = EvidenceManager.GetStaticEvidenceDic();
-            datapool.WriteStaticVar("证据列表", evidenceDic);
-
-            //List<Evidence> holdEvidence = new List<Evidence>();
-            //datapool.WriteGameVar("持有证据", holdEvidence);
-
-            // 测试后删除
-            //foreach(KeyValuePair<string,Evidence> kv in evidenceDic)
-            //{
-            //    holdEvidence.Add(kv.Value);
-            //}
-
+            //datapool.WriteStaticVar("证据列表", evidenceDic);
+            staticData.evidenceDic = evidenceDic;
         }
 
         /// <summary>
@@ -341,11 +429,11 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private void InitEdu()
         {
-            List<EduEvent> events = EduManager.GetStaticEduEvents();
-            datapool.WriteStaticVar("养成按钮", events);
-
+            List<EduEvent> eduEvents = EduManager.GetStaticEduEvents();
+            //datapool.WriteStaticVar("养成按钮", eduEvents);
+            staticData.eduEvents = eduEvents;
             eduManager = EduManager.GetInstance();
-            eduManager.Init(events, this);
+            eduManager.Init(eduEvents, this);
         }
 
         /// <summary>
@@ -353,11 +441,11 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private void InitDetects()
         {
-            Dictionary<string, DetectEvent> events = DetectManager.GetStaticDetectEvents();
-            datapool.WriteStaticVar("侦探事件表", events);
-
+            Dictionary<string, DetectEvent> detectEvents = DetectManager.GetStaticDetectEvents();
+            //datapool.WriteStaticVar("侦探事件表", detectEvents);
+            staticData.detectEvents = detectEvents;
             detectManager = DetectManager.GetInstance();
-            detectManager.Init(events, this);
+            detectManager.Init(detectEvents, this);
         }
 
         /// <summary>
@@ -365,23 +453,23 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private void InitEnquire()
         {
-            Dictionary<string, EnquireEvent> events = EnquireManager.GetStaticEnquireEvents();
-            datapool.WriteStaticVar("询问总表", events);
-
+            Dictionary<string, EnquireEvent> enquireEvents = EnquireManager.GetStaticEnquireEvents();
+            //datapool.WriteStaticVar("询问总表", enquireEvents);
+            staticData.enquireEvents = enquireEvents;
             enquireManager = EnquireManager.GetInstance();
-            enquireManager.Init(events, this);
+            enquireManager.Init(enquireEvents, this);
         }
 
         /// <summary>
-        /// 初始化【询问模式】数据
+        /// 初始化【推理模式】数据
         /// </summary>
         private void InitReasoning()
         {
-            Dictionary<string, ReasoningEvent> events = ReasoningManager.GetStaticEnquireEvents();
-            datapool.WriteStaticVar("自我推理总表", events);
-
+            Dictionary<string, ReasoningEvent> reasonEvents = ReasoningManager.GetStaticEnquireEvents();
+            //datapool.WriteStaticVar("自我推理总表", reasonEvents);
+            staticData.reasonEvents = reasonEvents;
             reasoningManager = ReasoningManager.GetInstance();
-            reasoningManager.Init(events);
+            reasoningManager.Init(reasonEvents);
         }
 
         /// <summary>
@@ -390,19 +478,26 @@ namespace Assets.Script.GameStruct
         private void InitEvents()
         {
             Dictionary<string, MapEvent> events = EventManager.GetStaticEvent();
-            datapool.WriteStaticVar("事件表", events);
-            datapool.WriteGameVar("事件状态表", EventManager.LoadEventState(events));
+            //datapool.WriteStaticVar("事件表", events);
+            staticData.eventTable = events;
+
+            //datapool.WriteGameVar("事件状态表", EventManager.LoadEventState(events));
+            //gameData.eventStatus = EventManager.LoadEventState(events);
+
             eventManager = EventManager.GetInstance();
+            /*
             eventManager.Init(
                 (Dictionary<string, MapEvent>)datapool.GetStaticVar("事件表"),
                 this);
+                */
+            eventManager.Init(staticData.eventTable, this);
         }
         #endregion
 
         public void PrintEvents()
         {
             Debug.Log("事件表:");
-            foreach (KeyValuePair<string, MapEvent> kv in (Dictionary<string, MapEvent>)datapool.GetStaticVar("事件表"))
+            foreach (KeyValuePair<string, MapEvent> kv in staticData.eventTable)
             {
                 Debug.Log(kv.Key);
                 Debug.Log(kv.Value.ToString());
@@ -414,8 +509,10 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public void MoveOneTurn()
         {
-            int t = GetGameVar<int>("回合");
-            SetGameVar("回合", t + 1);
+            //int t = GetGameVar<int>("回合");
+            //SetGameVar("回合", t + 1);
+            gameData.gameTurn++;
+
             //清空InTurnVar
             InitInTurn();
             //随机当日的课表
@@ -424,19 +521,29 @@ namespace Assets.Script.GameStruct
         
         private void RandomCourse()
         {
+            //随机当日课程
             int morningSchedule = 0, afternoonSchedule = 0;
             while (morningSchedule == afternoonSchedule)
             {
                 morningSchedule = UnityEngine.Random.Range(0, 4);
                 afternoonSchedule = UnityEngine.Random.Range(0, 4);
             }
+            gameData.morningSchedule = morningSchedule;
+            gameData.afternoonSchedule = afternoonSchedule;
+            /* demo1.20 改动
             SetGameVar("上午课程", morningSchedule);
             SetGameVar("下午课程", afternoonSchedule);
+            */
+
             //随机当日的加成系数
             int morningRate = IsHoliday() ? 1 : UnityEngine.Random.Range(2, 3);
             int afternoonRate = IsHoliday() ? 1 : UnityEngine.Random.Range(2, 3);
-            SetGameVar("上午指数", morningRate);
-            SetGameVar("下午指数", afternoonRate);
+            /* demo1.20 改动
+             * SetGameVar("上午指数", morningRate);
+             * SetGameVar("下午指数", afternoonRate);
+            */
+            gameData.morningRate = morningRate;
+            gameData.afternoonRate = afternoonRate;
         }
 
         /// <summary>
@@ -444,7 +551,9 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public bool IsHoliday()
         {
-            int turn = GetGameVar<int>("回合");
+            //int turn = GetGameVar<int>("回合");
+            int turn = gameData.gameTurn;
+
             DateTime date = START_DAY.AddDays(turn);
             int x = Convert.ToInt32(date.DayOfWeek);
             //TODO:对节假日的判断
@@ -463,7 +572,10 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public DateTime GetToday()
         {
+            /* demo1.20 改动
             int turn = GetGameVar<int>("回合");
+            */
+            int turn = gameData.gameTurn;
             return START_DAY.AddDays(turn);
         }
 
@@ -501,54 +613,58 @@ namespace Assets.Script.GameStruct
             datapool.WriteTempVar(key, value);
         }
 
-        public void SetGameVar(string key, object value)
-        {
-            datapool.WriteGameVar(key, value);
-        }
+        //public void SetGameVar(string key, object value)
+        //{
+        //    datapool.WriteGameVar(key, value);
+        //}
 
-        public void SetInTurnVar(string key, object value)
-        {
-            datapool.WriteInTurnVar(key, value);
-        }
+        //public void SetInTurnVar(string key, object value)
+        //{
+        //    datapool.WriteInTurnVar(key, value);
+        //}
 
-        public void SetSystemVar(string key, object value)
-        {
-            datapool.WriteSystemVar(key, value);
-        }
+        //public void SetSystemVar(string key, object value)
+        //{
+        //    datapool.WriteSystemVar(key, value);
+        //}
 
         public T GetTempVar<T>(string key)
         {
             return (T)datapool.GetTempVar(key);
         }
 
-        public T GetGameVar<T>(string key)
-        {
-            return (T)datapool.GetGameVar(key);
-        }
+        //public T GetGameVar<T>(string key)
+        //{
+        //    return (T)datapool.GetGameVar(key);
+        //}
 
-        public T GetInTurnVar<T>(string key)
-        {
-            return (T)datapool.GetInTurnVar(key);
-        }
+        //public T GetInTurnVar<T>(string key)
+        //{
+        //    return (T)datapool.GetInTurnVar(key);
+        //}
 
-        public T GetSystemVar<T>(string key)
-        {
-            return (T)datapool.GetSystemVar(key);
-        }
+        //public T GetSystemVar<T>(string key)
+        //{
+        //    return (T)datapool.GetSystemVar(key);
+        //}
 
-        public bool ContainsGameVar(string key) { return datapool.GetGameVarTable().ContainsKey(key); }
+        //public bool ContainsGameVar(string key) { return datapool.GetGameVarTable().ContainsKey(key); }
 
-        public bool ContainsInTurnVar(string key) { return datapool.GetInTurnVarTable().ContainsKey(key); }
+        //public bool ContainsInTurnVar(string key) { return datapool.GetInTurnVarTable().ContainsKey(key); }
 
         DataPool GetDataPool() { return datapool; }
+
         public Hashtable GetGameVars()
         {
             return datapool.GetGameVarTable();
         }
-
         public Hashtable GetInTurnVars()
         {
             return datapool.GetInTurnVarTable();
+        }
+        public Hashtable GetSystemVars()
+        {
+            return datapool.GetSystemTable();
         }
         #endregion
 
@@ -562,12 +678,17 @@ namespace Assets.Script.GameStruct
             LoadSaveTool.CreateFile(LoadSaveTool.GetSavePath(filename), toSave);
             //储存截图
             string picname = "data" + i + ".png";
-            byte[] picdata = (byte[])datapool.GetSystemVar("缩略图");
+            byte[] picdata = (byte[])datapool.GetTempVar("缩略图");
             LoadSaveTool.CreatByteFile(LoadSaveTool.GetSavePath(picname), picdata);
             //更新存档信息
-            Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
+            //Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
+            Dictionary<int, SavingInfo> savedic = systemData.saveInfo;
+
             //TODO: 获取状态
+            /* demo1.20 改动
             string gamemode = GetGameVar<string>("MODE");
+            */
+            string gamemode = gameData.MODE;
             string savetime = DateTime.Now.ToString("yyyy/MM/dd\nHH:mm");
             string customtext = "存档了！";
             SavingInfo info = new SavingInfo(gamemode, savetime, customtext, picname);
@@ -588,10 +709,15 @@ namespace Assets.Script.GameStruct
 
         private string DataToJsonString()
         {
+            /* demo 1.20 改动
             Hashtable toSave = new Hashtable();
             toSave.Add("GameVar", new Hashtable(datapool.GetGameVarTable()));
             toSave.Add("InTurnVar", new Hashtable(datapool.GetInTurnVarTable()));
-            return JsonConvert.SerializeObject(toSave);
+            */
+            SaveData sv = new SaveData();
+            sv.gameData = gameData;
+            sv.inturnData = inturnData;
+            return JsonConvert.SerializeObject(sv);
                 //JsonMapper.Serialize(toSave);
         }
 
@@ -606,6 +732,12 @@ namespace Assets.Script.GameStruct
 
         private void LoadDataFromJson(string str)
         {
+            SaveData sv = JsonConvert.DeserializeObject<SaveData>(str);
+            gameData = sv.gameData;
+            inturnData = sv.inturnData;
+            eventManager.UpdateEvent();
+
+            /* demo1.20 改动
             string json;
             Hashtable hst = JsonConvert.DeserializeObject<Hashtable>(str);
             json = hst["GameVar"].ToString();
@@ -634,12 +766,13 @@ namespace Assets.Script.GameStruct
             string textName = gVars.Property("当前脚本名").Value.ToString();
             json = gVars.Property("文字位置").Value.ToString();
             int currentTextId = JsonConvert.DeserializeObject<int>(json);
-
+            
             if(modeName == "Avg模式" || modeName == "侦探模式")
             {
                 string bgsprite = gVars.Property("背景图片").Value.ToString();
                 json = gVars.Property("立绘信息").Value.ToString();
                 Dictionary<int, SpriteState> fgsprite = JsonConvert.DeserializeObject<Dictionary<int, SpriteState>>(json);
+                
                 SetGameVar("背景图片", bgsprite);
                 SetGameVar("立绘信息", fgsprite);
             }
@@ -648,7 +781,6 @@ namespace Assets.Script.GameStruct
             SetGameVar("玩家", player);
             SetGameVar("事件状态表", eventStatusDict);
             SetGameVar("当前事件名", currentEventName);
-            eventManager.UpdateEvent();
 
             SetGameVar("姓", xing);
             SetGameVar("名", ming);
@@ -688,7 +820,6 @@ namespace Assets.Script.GameStruct
             json = IVars.Property("证词序号").Value.ToString();
             int testimonyId = JsonConvert.DeserializeObject<int>(json);
 
-
             SetInTurnVar("持有证据", evidenceHave);
             SetInTurnVar("侦探模式", currentStatus);
             SetInTurnVar("侦探事件位置状态表", placeDict);
@@ -699,7 +830,7 @@ namespace Assets.Script.GameStruct
             SetInTurnVar("询问编号", enquireId);
             SetInTurnVar("证词序号", testimonyId);
             SetInTurnVar("当前血量", currentHP);
-
+            */
         }
 
         public void Delete(int i)
@@ -711,7 +842,9 @@ namespace Assets.Script.GameStruct
             string picname = "data" + i + ".png";
             LoadSaveTool.DeleteFile(picname);
             //更新存档信息
-            Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
+            //Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
+            Dictionary<int, SavingInfo> savedic = systemData.saveInfo;
+
             if (savedic.ContainsKey(i))
             {
                 savedic.Remove(i);

@@ -53,7 +53,7 @@ namespace Assets.Script.TextScripts
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetEnquireNode("demoZ01");
+            return nodeFactory.GetEnquireNode("demoZ00");
         }
 
     }

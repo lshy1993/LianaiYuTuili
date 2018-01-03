@@ -15,8 +15,8 @@ public class SettingUIManager : MonoBehaviour
 
     private Constants.Setting_Mode settingMode
     {
-        get { return DataManager.GetInstance().GetSystemVar<Constants.Setting_Mode>("settingMode"); }
-        set { DataManager.GetInstance().SetSystemVar("settingMode", (int)value); }
+        get { return DataManager.GetInstance().systemData.settingMode; }
+        set { DataManager.GetInstance().systemData.settingMode = value; }
     }
     
     private void OnEnable()

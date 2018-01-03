@@ -16,7 +16,7 @@ public class SoundSettingUIManager : MonoBehaviour
     private void OnEnable()
     {
         //初始化
-        defaultNum = DataManager.GetInstance().GetSystemVar<int>("defaultCharaNum");
+        defaultNum = DataManager.GetInstance().systemData.defaultCharaNum;
         //读取相应的数据 并挂到组件上
         SetCharaButton(defaultNum);
     }
@@ -56,8 +56,8 @@ public class SoundSettingUIManager : MonoBehaviour
     {
         SetRadioPressed(charaGrid.transform.GetChild(x).gameObject);
         //对应组件
-        float volume = DataManager.GetInstance().GetSystemVar<float[]>("charaVoiceVolume")[x];
-        bool flag = DataManager.GetInstance().GetSystemVar<bool[]>("charaVoice")[x];
+        float volume = DataManager.GetInstance().systemData.charaVoiceVolume[x];
+        bool flag = DataManager.GetInstance().systemData.charaVoice[x];
         SetToggleAvailable(flag ? offBtn : onBtn);
         SetTogglePressed(flag ? onBtn : offBtn);
         volumeSlider.SetActive(flag);
@@ -100,14 +100,14 @@ public class SoundSettingUIManager : MonoBehaviour
     public void SwitchVoice()
     {
         //是否开启语音
-        bool[] flag = DataManager.GetInstance().GetSystemVar<bool[]>("charaVoice");
+        bool[] flag = DataManager.GetInstance().systemData.charaVoice;
         flag[defaultNum] = !flag[defaultNum];
-        DataManager.GetInstance().SetSystemVar("charaVoice", flag);
+        DataManager.GetInstance().systemData.charaVoice = flag;
         SetCharaButton(defaultNum);
     }
 
     public void SetVolume(float volume)
     {
-        DataManager.GetInstance().GetSystemVar<float[]>("charaVoiceVolume")[defaultNum] = volume;
+        DataManager.GetInstance().systemData.charaVoiceVolume[defaultNum] = volume;
     }
 }

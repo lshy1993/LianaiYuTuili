@@ -13,7 +13,7 @@ public class AppHelpUIManager : MonoBehaviour
 
     private Dictionary<string, Keyword> keys
     {
-        get { return DataPool.GetInstance().GetStaticVar("帮助词条表") as Dictionary<string, Keyword>; }
+        get { return DataManager.GetInstance().staticData.keywords; }
     }
 
     private void Awake()

@@ -16,22 +16,17 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 f.OpenDialog(),
-                f.t("李云萧", "奇怪的声音？"),
-                f.t("叶婷", "我想应该是玻璃被打碎的声音吧，很清脆的声响。"),
-                f.t("叶婷", "而且你看，办公室的窗户不是破了吗？"),
-                f.t("李云萧", "不过，你又是怎么知道具体时间是11点50分的？"),
-                f.t("叶婷", "我开门的时候，正好看了眼里面的挂钟。"),
-                f.t("李云萧", "挂钟？"),
-                f.t("叶婷", "就挂在办公室外窗那面墙上的。"),
-                f.t("李云萧", "[66ccff]（的确，进门之后可以看到挂钟）[-]"),
-                f.t("李云萧", "那么之后？")
+                f.t("李云萧", "偷看是指？"),
+                f.t("叶婷", "我躲在办公室的窗外，一直观察着。"),
+                f.t("李云萧", "[66ccff]（这样做不太好吧……）[-]"),
+                f.t("李云萧", "你看到了什么？"),
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetEnquireNode("demoZ01");
+            return nodeFactory.GetEnquireNode("demoZ00");
         }
 
     }

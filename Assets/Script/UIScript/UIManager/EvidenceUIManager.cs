@@ -20,7 +20,7 @@ public class EvidenceUIManager : MonoBehaviour
         evidenceImage = transform.Find("EvidenceImage_Sprite").GetComponent<UI2DSprite>();
         introductionText = transform.Find("LabelBack_Sprite/EvidenceInfo_Label").GetComponent<UILabel>();
 
-        eviDic = DataPool.GetInstance().GetStaticVar("证据列表") as Dictionary<string, Evidence>;
+        eviDic = DataManager.GetInstance().staticData.evidenceDic;
     }
 
     private void OnEnable()
@@ -33,7 +33,7 @@ public class EvidenceUIManager : MonoBehaviour
     private void SetEvidence()
     {
         //初始化[证据]列表
-        eviNameList = DataManager.GetInstance().GetInTurnVar<List<string>>("持有证据");
+        eviNameList = DataManager.GetInstance().inturnData.holdEvidences;
         eviGrid.transform.DestroyChildren();
         foreach (string eviName in eviNameList)
         {

@@ -15,7 +15,7 @@ public class Slider_TextSpeed : MonoBehaviour
     {
         float textSpeed = 20 + Convert.ToInt32(slider.value * 50);
         numlabel.text = (slider.value * 100).ToString("0");
-        DataManager.GetInstance().SetSystemVar("textSpeed", textSpeed);
+        DataManager.GetInstance().systemData.textSpeed = textSpeed;
         clicked = true;
     }
 

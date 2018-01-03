@@ -28,7 +28,10 @@ namespace Assets.Script.GameStruct.EventSystem
         private Dictionary<string, MapEvent> forceEventTable;
 
         /// 事件状态《事件名，状态编号》
-        private Dictionary<string, int> eventState;
+        private Dictionary<string, int> eventState
+        {
+            get { return dataManager.gameData.eventStatus; }
+        }
 
         /// 当前地点的可用事件表《地点名，事件列表》
         private Dictionary<string, List<MapEvent>> locationEvents;
@@ -58,10 +61,16 @@ namespace Assets.Script.GameStruct.EventSystem
                 if (kv.Value.position == null) forceEventTable.Add(kv.Key, kv.Value);
             }
             this.dataManager = manager;
+            /* demo1.20 改动
             this.eventState = dataManager.GetGameVar<Dictionary<string, int>>("事件状态表");
+            */
+            //this.eventState = dataManager.gameData.eventStatus;
             InitLocation();
         }
 
+        /// <summary>
+        /// 生成基于地点的可触发表
+        /// </summary>
         private void InitLocation()
         {
             locationEvents = new Dictionary<string, List<MapEvent>>();
@@ -98,6 +107,14 @@ namespace Assets.Script.GameStruct.EventSystem
         public Dictionary<string, int> getEventState()
         {
             return eventState;
+        }
+
+        /// <summary>
+        /// 获取某地点所有的可能事件
+        /// </summary>
+        public Dictionary<string, List<MapEvent>> getLocationEvents()
+        {
+            return locationEvents;
         }
 
         public MapEvent GetCurrentForceEvent()
@@ -138,12 +155,17 @@ namespace Assets.Script.GameStruct.EventSystem
             }
         }
 
+        /// <summary>
+        /// 刷新每个地点可以触发的事件
+        /// </summary>
         public void UpdateEvent()
         {
+            //清空每个地点的事件表
             foreach (List<MapEvent> list in locationEvents.Values)
             {
                 list.Clear();
             }
+            //从总事件表中将可以发生的事件加入
             foreach (KeyValuePair<string, MapEvent> kv in eventTable)
             {
                 if (IsAvailableEvent(kv.Value)
@@ -159,17 +181,27 @@ namespace Assets.Script.GameStruct.EventSystem
         public void FinishCurrentEvent()
         {
             //Debug.Log("当前事件:" + currentEvent.name + "状态：" + eventState[currentEvent.name]);
+            /* demo1.20 改动
             string currentName = dataManager.GetGameVar<string>("当前事件名");
+            */
+            string currentName = dataManager.gameData.currentEvent;
             //eventState[currentEvent.name] = STATE_RUNNED;
             eventState[currentName] = STATE_RUNNED;
             UpdateEvent();
         }
 
+        /// <summary>
+        /// 判断在当前条件下，此事件是否能发生
+        /// </summary>
         private bool IsAvailableEvent(MapEvent e)
         {
+            /* demo1.20 改动
             Player player = dataManager.GetGameVar<Player>("玩家");
             int turn = dataManager.GetGameVar<int>("回合");
-
+            */
+            Player player = dataManager.gameData.player;
+            int turn = dataManager.gameData.gameTurn;
+            
             //若是不可重复事件  且 已经执行过
             if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
 
@@ -228,7 +260,10 @@ namespace Assets.Script.GameStruct.EventSystem
             MapEvent e = GetCurrentEventAt(place);
 
             currentEvent = e;
+            /* demo1.20 改动
             dataManager.SetGameVar("当前事件名", e.name);
+            */
+            dataManager.gameData.currentEvent = e.name;
 
             GameNode node = NodeFactory.GetInstance().FindTextScript(e.entryNode);
             return node;
@@ -242,7 +277,10 @@ namespace Assets.Script.GameStruct.EventSystem
             MapEvent e = GetCurrentForceEvent();
 
             currentEvent = e;
+            /* demo1.20 改动
             dataManager.SetGameVar("当前事件名", e.name);
+            */
+            dataManager.gameData.currentEvent = e.name;
 
             GameNode node = NodeFactory.GetInstance().FindTextScript(e.entryNode);
             return node;

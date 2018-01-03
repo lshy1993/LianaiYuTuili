@@ -13,9 +13,12 @@ namespace Assets.Script.GameStruct.Node
 
         private EventManager em;
         private NodeFactory factory;
+        private DataManager dm;
+
         public EndTurnNode(DataManager manager, GameObject root, PanelSwitch ps) : base(manager, root, ps)
         {
             em = EventManager.GetInstance();
+            dm = DataManager.GetInstance();
             factory = NodeFactory.GetInstance();
             Update();
         }
@@ -35,7 +38,10 @@ namespace Assets.Script.GameStruct.Node
                 GameObject.Find("GameManager").GetComponent<SoundManager>().StopBGM();
                 return em.RunForceEvent();
             }
+            /* demo1.20 改动
             int turn = DataManager.GetInstance().GetGameVar<int>("回合");
+            */
+            int turn = dm.gameData.gameTurn;
             //满足180回合 进入不同的结局
             if (turn == 20)
             {

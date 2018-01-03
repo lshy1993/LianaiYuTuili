@@ -43,8 +43,8 @@ public class DialogBoxUIManager : MonoBehaviour
 
     public void SetHeroName()
     {
-        xing = DataManager.GetInstance().GetGameVar<string>("姓");
-        ming = DataManager.GetInstance().GetGameVar<string>("名");
+        xing = DataManager.GetInstance().gameData.heroXing;
+        ming = DataManager.GetInstance().gameData.heroMing;
     }
 
     //将文字数据应用到UI上

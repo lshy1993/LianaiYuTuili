@@ -2,31 +2,17 @@
 using System.Collections;
 using Assets.Script.GameStruct;
 
-//调查模式 功能通用按钮
-public class DetectFunctionButton : MonoBehaviour
+/// <summary>
+/// 侦探模式 功能通用按钮
+/// </summary>
+public class DetectFunctionButton : BasicButton
 {
-    public string status;
+    public Constants.DETECT_STATUS status;
     public DetectUIManager manager;
 
-    void OnClick()
+    protected override void Execute()
     {
-        switch (status)
-        {
-            case "Free":
-                manager.SwitchStatus(Constants.DETECT_STATUS.FREE);
-                break;
-            case "Invest":
-                manager.SwitchStatus(Constants.DETECT_STATUS.INVEST);
-                break;
-            case "Dialog":
-                manager.SwitchStatus(Constants.DETECT_STATUS.DIALOG);
-                break;
-            case "Move":
-                manager.SwitchStatus(Constants.DETECT_STATUS.MOVE);
-                break;
-            default:
-                break;
-        }
+        manager.SwitchStatus(status);
     }
 
 }

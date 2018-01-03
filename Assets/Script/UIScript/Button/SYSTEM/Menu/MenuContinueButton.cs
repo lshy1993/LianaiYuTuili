@@ -5,23 +5,13 @@ public class MenuContinueButton : BasicButton
 {
     public SystemUIManager uiManager;
 
-    protected override void OnClick()
+    protected override void Execute()
     {
-        base.OnClick();
         uiManager.Close();
     }
 
-    protected override void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        base.OnHover(ishover);
-        if (ishover)
-        {
-            uiManager.SetHelpInfo("继续游戏");
-        }
-        else
-        {
-            uiManager.SetHelpInfo("");
-        }
-        
+        uiManager.SetHelpInfo(ishover, "继续游戏");
     }
 }

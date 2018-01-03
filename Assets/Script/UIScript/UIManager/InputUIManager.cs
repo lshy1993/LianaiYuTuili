@@ -52,8 +52,8 @@ public class InputUIManager : MonoBehaviour
     public  void ConfirmYes()
     {
         //确认姓名 写入游戏
-        DataManager.GetInstance().SetGameVar("姓", xing);
-        DataManager.GetInstance().SetGameVar("名", ming);
+        DataManager.GetInstance().gameData.heroXing = xing;
+        DataManager.GetInstance().gameData.heroMing = ming;
         duiManager.SetHeroName();
         //关闭界面
         transform.gameObject.SetActive(false);

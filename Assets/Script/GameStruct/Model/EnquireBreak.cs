@@ -28,5 +28,27 @@ namespace Assets.Script.GameStruct.Model
                 evidence = (string)data["所需证据"];
             }
         }
+
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            if (conditions.Count != 0)
+            {
+                str += "    " + (isEng ? "conditions" : "需要威慑的证词") + " : " ;
+                foreach(int item in conditions)
+                {
+                    str += item + "  ";
+                }
+                str += "\n";
+            }
+            if (id != 0)
+            {
+                str += "    " + (isEng ? "id" : "指证证词编号") + " : " + id + "\n";
+                str += "    " + (isEng ? "evidence" : "所需证据") + " : " + evidence + "\n";
+            }
+           
+            return str;
+        }
+
     }
 }

@@ -1,25 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PhoneAppButton : MonoBehaviour
+public class PhoneAppButton : BasicButton
 {
     public NoteUIManager uiManger;
 
-    void OnClick()
+    protected override void Execute()
     {
-        if (Input.GetMouseButtonUp(1)) return;
         uiManger.OpenApp();
     }
 
-    void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        if (ishover)
-        {
-            uiManger.SetHelpInfo("打开应用界面");
-        }
-        else
-        {
-            uiManger.SetHelpInfo("");
-        }
+        uiManger.SetHelpInfo(ishover, "打开应用界面");
     }
 }

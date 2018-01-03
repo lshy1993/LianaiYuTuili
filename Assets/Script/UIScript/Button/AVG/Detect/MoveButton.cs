@@ -2,7 +2,10 @@
 using System.Collections;
 using Assets.Script.GameStruct;
 
-public class MoveButton : MonoBehaviour
+/// <summary>
+/// 侦探模式 可移动选项 按钮
+/// </summary>
+public class MoveButton : BasicButton
 {
     public string place;
     private DetectUIManager uiManager;
@@ -12,7 +15,7 @@ public class MoveButton : MonoBehaviour
         this.uiManager = uiManager;
     }
 
-    void OnClick()
+    protected override void Execute()
     {
         uiManager.MovePlace(place);
     }

@@ -220,33 +220,7 @@ public class PanelSwitch : MonoBehaviour
         {
             //标题画面被打开时
             TitleUIManager tm = panels["Title"].GetComponent<TitleUIManager>();
-            switch (tm.status)
-            {
-                case Constants.TITLE_STATUS.EXTRA:
-                    tm.RightClickReturn();
-                    break;
-                case Constants.TITLE_STATUS.GALLERY:
-                    if (GameObject.Find("Large_Container") != null && GameObject.Find("Large_Container").activeSelf)
-                    {
-                        //tm.ClosePic();
-                    }
-                    else
-                    {
-                        tm.CloseGallery();
-                    }
-                    break;
-                case Constants.TITLE_STATUS.MUSIC:
-                    tm.CloseMusic();
-                    break;
-                case Constants.TITLE_STATUS.RECOLL:
-                    tm.CloseRecollection();
-                    break;
-                case Constants.TITLE_STATUS.ENDING:
-                    tm.CloseEnding();
-                    break;
-                default:
-                    break;
-            }
+            tm.RightClick();
         }
 
         if (panels["System"].activeSelf)

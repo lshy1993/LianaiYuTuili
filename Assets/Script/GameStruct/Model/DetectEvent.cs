@@ -41,5 +41,39 @@ namespace Assets.Script.GameStruct.Model
             id = ID;
             ID++;
         }
+
+        /// <summary>
+        /// 格式化输出
+        /// </summary>
+        /// <param name="isEng">是否显示变量名</param>
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            str += (isEng ? "id" : "编号") + " : " + id + "\n";
+
+            if (sections.Count != 0)
+            {
+                str += (isEng ? "sections" : "子节点") + " : " + "\n";
+                foreach (KeyValuePair<string, DetectPlaceSection> kv in sections)
+                {
+                    str += kv.Value.ToString(isEng);
+                }
+            }
+
+            str += (isEng ? "eventExit" : "出口脚本文件") + " : " + eventExit + "\n";
+
+            if (conditions.Count != 0)
+            {
+                str += (isEng ? "conditions" : "结束条件") + " : ";
+                foreach (string item in conditions)
+                {
+                    str += item + "  ";
+                }
+                str += "\n";
+            }
+
+            return str;
+        }
+
     }
 }

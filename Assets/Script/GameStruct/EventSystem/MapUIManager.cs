@@ -24,8 +24,7 @@ public class MapUIManager : MonoBehaviour
     {
         get
         {
-            int turn = DataManager.GetInstance().GetGameVar<int>("回合");
-            return DataManager.START_DAY.AddDays(turn);
+            return DataManager.GetInstance().GetToday();
         }
     }
 
@@ -102,7 +101,10 @@ public class MapUIManager : MonoBehaviour
     private void UIFresh()
     {
         //transform.Find("PlaceInfo_Container").gameObject.transform.localPosition = new Vector3(-815, 60);
+        /* demo1.20 改动
         Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        */
+        Player player = DataManager.GetInstance().gameData.player;
 
         if (date.Month == 8 && date.Day == 31)
         {

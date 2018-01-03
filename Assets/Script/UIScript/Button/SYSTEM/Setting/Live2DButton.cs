@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Live2DSwitchButton : MonoBehaviour
+public class Live2DButton : MonoBehaviour
 {
     public UILabel hint;
     void OnHover(bool ishover)

@@ -3,7 +3,10 @@ using System.Collections;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
 
-public class ReasoningEvidenceButton : MonoBehaviour
+/// <summary>
+/// 自我推理界面 证据按钮
+/// </summary>
+public class ReasoningEvidenceButton : BasicButton
 {
     private ReasoningUIManager uiManager;
     public Evidence current;
@@ -13,22 +16,14 @@ public class ReasoningEvidenceButton : MonoBehaviour
         this.uiManager = manager;
     }
 
-    void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        if (ishover)
-        {
-            uiManager.HoverEvidence(current.introduction);
-        }
-        else
-        {
-            uiManager.HoverEvidence("");
-        }
-        
+        uiManager.HoverEvidence(ishover, current.introduction);
     }
 
-    void OnClick()
+    protected override void Execute()
     {
-        Debug.Log("接招!");
+        //Debug.Log("接招!");
         uiManager.JudgeEvidence(current);
     }
 }

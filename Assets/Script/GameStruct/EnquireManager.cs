@@ -19,33 +19,47 @@ namespace Assets.Script.GameStruct
         //可见证词
         private List<string> visibleTestimony;
 
+        /// <summary>
+        /// 已威慑证词号码
+        /// </summary>
         public List<int> pressedId
         {
-            set { manager.SetInTurnVar("已威慑证词序号", value); }
-            get { return manager.GetInTurnVar<List<int>>("已威慑证词序号"); }
+            set { manager.inturnData.pressedTestimony = value; }
+            get { return manager.inturnData.pressedTestimony; }
         }
 
-        //当前的证词编号
+        /// <summary>
+        /// 当前的证词编号
+        /// </summary>
         public int currentId
         {
-            set { manager.SetInTurnVar("证词序号", value); }
-            get { return manager.GetInTurnVar<int>("证词序号"); }
+            set { manager.inturnData.currentTestimonyNum = value; }
+            get { return manager.inturnData.currentTestimonyNum; }
         }
 
+        /// <summary>
+        /// 当前询问编号
+        /// </summary>
         public string enquireId
         {
-            set { manager.SetInTurnVar("询问编号", value); }
-            get { return manager.GetInTurnVar<string>("询问编号"); }
+            set { manager.inturnData.currentEnquire = value; }
+            get { return manager.inturnData.currentEnquire; }
         }
 
+        /// <summary>
+        /// 证据总表
+        /// </summary>
         public Dictionary<string,Evidence> eviDic
         {
-            get { return DataPool.GetInstance().GetStaticVar("证据列表") as Dictionary<string, Evidence>; }
+            get { return manager.staticData.evidenceDic; }
         }
 
+        /// <summary>
+        /// 持有证据
+        /// </summary>
         public List<string> eviNameList
         {
-            get { return manager.GetInTurnVar<List<string>>("持有证据"); }
+            get { return manager.inturnData.holdEvidences; }
         }
 
         public static EnquireManager GetInstance()
@@ -69,7 +83,8 @@ namespace Assets.Script.GameStruct
             //if (!enquireEvents.ContainsKey(key)) throw new Exception();
             EnquireEvent e = enquireEvents[key];
 
-            if (!manager.ContainsInTurnVar("询问编号") || e.id != enquireId)
+            //if (!manager.ContainsInTurnVar("询问编号") || e.id != enquireId)
+            if (e.id != enquireId)
             {
                 // 需要刷新的情况
                 enquireId = e.id;
@@ -119,6 +134,10 @@ namespace Assets.Script.GameStruct
             }
         }
 
+        /// <summary>
+        /// 从JSON中读取预制的数据
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<string, EnquireEvent> GetStaticEnquireEvents()
         {
             Dictionary<string, EnquireEvent> events = new Dictionary<string, EnquireEvent>();

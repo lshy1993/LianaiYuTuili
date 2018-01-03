@@ -13,18 +13,21 @@ public class GraphicSettingUIManager : MonoBehaviour
     public GameObject live2dOnBtn, live2dOffBtn;
     public UISlider bgmSld, chapterSld;
 
+    private DataManager dm;
+
     private void OnEnable()
     {
+        dm = DataManager.GetInstance();
         //设置画面大小
         SetTogglePressed(Screen.fullScreen ? fullBtn : winBtn);
         //设置画面效果
-        bool flag = DataManager.GetInstance().GetSystemVar<bool>("fadingSwitch");
+        bool flag = dm.systemData.fadingSwitch;
         SetTogglePressed(flag ? fadeOnBtn : fadeOffBtn);
         //设置动画效果
-        flag = DataManager.GetInstance().GetSystemVar<bool>("animateSwitch");
+        flag = dm.systemData.animateSwitch;
         SetTogglePressed(flag ? animeOnBtn : animeOffBtn);
         //设置头像
-        flag = DataManager.GetInstance().GetSystemVar<bool>("avatarSwitch");
+        flag = dm.systemData.avatarSwitch;
         SetTogglePressed(flag ? avatarOnBtn : avatarOffBtn);
         //总在最前
         topOnBtn.GetComponent<UIButton>().enabled = false;
@@ -33,9 +36,9 @@ public class GraphicSettingUIManager : MonoBehaviour
         live2dOnBtn.GetComponent<UIButton>().enabled = false;
         live2dOffBtn.GetComponent<UIButton>().enabled = false;
         //设置标签显示
-        int xx = DataManager.GetInstance().GetSystemVar<int>("BGMTime");
+        int xx = dm.systemData.BGMTime;
         bgmSld.value = xx / 31f;
-        chapterSld.value = DataManager.GetInstance().GetSystemVar<int>("chapterTime") / 31f;
+        chapterSld.value = dm.systemData.chapterTime / 31f;
     }
 
     /// <summary>
@@ -68,25 +71,25 @@ public class GraphicSettingUIManager : MonoBehaviour
 
     public void SwitchFading()
     {
-        bool flag = DataManager.GetInstance().GetSystemVar<bool>("fadingSwitch");
+        bool flag = dm.systemData.fadingSwitch;
         SetTogglePressed(flag ? fadeOffBtn : fadeOnBtn);
         SetToggleAvailable(flag ? fadeOnBtn : fadeOffBtn);
-        DataManager.GetInstance().SetSystemVar("fadingSwitch", !flag);
+        dm.systemData.fadingSwitch = !flag;
     }
 
     public void SwitchAnime()
     {
-        bool flag = DataManager.GetInstance().GetSystemVar<bool>("animateSwitch");
+        bool flag = dm.systemData.animateSwitch;
         SetTogglePressed(flag ? animeOffBtn : animeOnBtn);
         SetToggleAvailable(flag ? animeOnBtn : animeOffBtn);
-        DataManager.GetInstance().SetSystemVar("animateSwitch", !flag);
+        dm.systemData.animateSwitch = !flag;
     }
 
     public void SwitchAvatar()
     {
-        bool flag = DataManager.GetInstance().GetSystemVar<bool>("avatarSwitch");
+        bool flag =dm.systemData.avatarSwitch;
         SetTogglePressed(flag ? avatarOffBtn : avatarOnBtn);
         SetToggleAvailable(flag ? avatarOnBtn : avatarOffBtn);
-        DataManager.GetInstance().SetSystemVar("avatarSwitch", !flag);
+        dm.systemData.avatarSwitch = !flag;
     }
 }

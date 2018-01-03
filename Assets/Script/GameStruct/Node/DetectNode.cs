@@ -43,26 +43,24 @@ namespace Assets.Script.GameStruct
             next = factory.FindTextScript(entry);
             end = true;
         }
-
+        
+        //移动操作
         public void MoveTo(string place)
         {
-            //移动操作
+            //判断是否 首次进入该场景
             if (!string.IsNullOrEmpty(detectEvent.sections[place].entry) && !detectManager.IsEntered(place))
             {
-                //首次进入则触发
-                detectManager.EnterPlace(place);
+                //结束当前NODE 进入 文本NODE
                 ChooseNext(detectEvent.sections[place].entry);
             }
             else
             {
-                //普通移动
-                detectManager.EnterPlace(place);
+                //普通的移动
+                //重新对UI设置新数据
                 uiManager.SetDetectNode(this, detectEvent.sections, place, detectEvent.id);
-                uiManager.ShowCharaContainer();
             }
-            //section = detectEvent.sections[place];
-            //uiManager.LoadSection(section);
-            //uiManager.SwitchStatus(Constants.DETECT_STATUS.FREE);
+            //修改数据
+            detectManager.EnterPlace(place);
         }
 
         public void SetKnown(string name)

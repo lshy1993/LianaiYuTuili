@@ -6,7 +6,10 @@ using UnityEngine;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
-public class InvestButton : MonoBehaviour
+/// <summary>
+/// 侦探模式 可调查地点 按钮
+/// </summary>
+public class InvestButton : BasicButton
 {
     public DetectInvest invest;
     private DetectUIManager uiManager;
@@ -22,19 +25,12 @@ public class InvestButton : MonoBehaviour
         uiManager = transform.parent.parent.GetComponent<DetectUIManager>();
     }
 
-    void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        if (ishover)
-        {
-            uiManager.SetHint(invest.info);
-        }
-        else
-        {
-            uiManager.SetHint("");
-        }
+        uiManager.SetHint(ishover, invest.info);
     }
 
-    void OnClick()
+    protected override void Execute()
     {
         detectNode.ChooseNext(invest.entry);
     }

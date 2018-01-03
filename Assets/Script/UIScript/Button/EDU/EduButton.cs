@@ -3,7 +3,7 @@ using System.Collections;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
 
-public class EduButton : MonoBehaviour
+public class EduButton : BasicButton
 {
     private EduUIManager uiManager;
     public int eduID;
@@ -13,7 +13,7 @@ public class EduButton : MonoBehaviour
         this.uiManager = manager;
     }
 
-    void OnHover(bool isHover)
+    protected override void Hover(bool isHover)
     {
         if (isHover)
         {
@@ -26,7 +26,7 @@ public class EduButton : MonoBehaviour
 
     }
 
-    void OnClick()
+    protected override void Execute()
     {
         uiManager.Execute(eduID);
     }

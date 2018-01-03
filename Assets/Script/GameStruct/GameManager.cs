@@ -94,14 +94,21 @@ public class GameManager : MonoBehaviour
         }
         else if (node.end)
         {
-            Debug.Log(node.GetType());
             SwitchNode();
         }
     }
 
     private void SwitchNode()
     {
-        this.node = this.node.NextNode();
+        //转换前节点名
+        string[] str = node.GetType().ToString().Split('.');
+        string output1 = str[str.Length - 1];
+
+        node = node.NextNode();
+        //转换后节点名
+        str = node.GetType().ToString().Split('.');
+        string output2 = str[str.Length - 1];
+        Debug.Log("转换节点：由" + output1 + "至" + output2);
     }
 
 
@@ -110,12 +117,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
+        //0 重置gameVar
+        dm.InitGame();
         //1 刷新事件
         em.UpdateEvent();
         //获取强制事件
         MapEvent e = em.GetCurrentForceEvent();
         em.currentEvent = e;
-        dm.SetGameVar("当前事件名", e.name);
+        //dm.SetGameVar("当前事件名", e.name);
+        dm.gameData.currentEvent = e.name;
         node = nodeFactory.FindTextScript(e.entryNode);
         //清空文字记录
         dm.ClearHistory();

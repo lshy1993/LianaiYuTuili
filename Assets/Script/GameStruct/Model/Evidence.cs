@@ -9,6 +9,7 @@ namespace Assets.Script.GameStruct.Model
 {
     public class Evidence
     {
+        public string UID;
         public string name;
         public string introduction;
 
@@ -19,6 +20,7 @@ namespace Assets.Script.GameStruct.Model
 
         public Evidence(JsonData data)
         {
+            UID = (string)data["UID"];
             name = (string)data["证据名"];
             iconPath = ICON_PATH + (string)data["图标"];
 
@@ -30,6 +32,23 @@ namespace Assets.Script.GameStruct.Model
             }
             
             introduction = (string)data["简介"];
+        }
+
+        /// <summary>
+        /// 格式化输出
+        /// </summary>
+        /// <param name="isEng">是否显示变量名</param>
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            str += "UID : " + UID + "\n";
+            str += (isEng ? "name" : "证据名") + " : " + name + "\n";
+            str += (isEng ? "introduction" : "简介") + " : " + introduction + "\n";
+
+            str += (isEng ? "iconPath" : "图标文件") + " : " + iconPath + "\n";
+            str += (isEng ? "imagePath" : "详细图片文件") + " : " + imagePath + "\n";
+
+            return str;
         }
     }
 }

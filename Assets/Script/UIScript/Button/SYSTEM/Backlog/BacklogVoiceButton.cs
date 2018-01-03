@@ -10,7 +10,7 @@ public class BacklogVoiceButton : BasicButton {
         //base.OnHover(ishover);
     }
 
-    protected override void OnClick()
+    protected override void Execute()
     {
         Debug.Log("Repeat Voice" + path);
         //TODO: 语音重现

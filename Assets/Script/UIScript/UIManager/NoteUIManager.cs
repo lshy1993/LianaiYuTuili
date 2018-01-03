@@ -96,9 +96,9 @@ public class NoteUIManager : MonoBehaviour
         SwitchTo(Constants.NOTE_STATUS.APP);
     }
 
-    public void SetHelpInfo(string str)
+    public void SetHelpInfo(bool ishover, string str)
     {
-        introText.text = str;
+        introText.text = ishover ? str : "";
     }
 
     private void SwitchTo(Constants.NOTE_STATUS target)

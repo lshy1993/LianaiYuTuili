@@ -3,7 +3,10 @@ using System.Collections;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
 
-public class EnquireEvidenceButton : MonoBehaviour
+/// <summary>
+/// 询问界面 证据按钮
+/// </summary>
+public class EnquireEvidenceButton : BasicButton
 {
     private EnquireUIManager uiManager;
 
@@ -15,15 +18,20 @@ public class EnquireEvidenceButton : MonoBehaviour
         this.uiManager = manager;
     }
 
-    void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
         uiManager.SetHint(ishover, evidence);
     }
 
-    void OnClick()
+    protected override void SE_Click()
     {
-        Debug.Log("Igiari!");
-        Debug.Log(uiManager == null);
+
+    }
+
+    protected override void Execute()
+    {
+        //Debug.Log("Igiari!");
+        //Debug.Log(uiManager == null);
         uiManager.EnquirePresent(evidence);
     }
 }

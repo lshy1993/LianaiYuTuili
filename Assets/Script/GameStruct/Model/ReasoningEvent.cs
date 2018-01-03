@@ -35,5 +35,35 @@ namespace Assets.Script.GameStruct.Model
                 evidence = new ReasoningEvidence(data["证据"]);
             }
         }
+
+        /// <summary>
+        /// 格式化输出
+        /// </summary>
+        /// <param name="isEng">是否显示变量名</param>
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            str += (isEng ? "id" : "编号") + " : " + id + "\n";
+            str += (isEng ? "question" : "问题") + " : " + question + "\n";
+            str += (isEng ? "exit" : "出口") + " : " + exit + "\n";
+
+            if (choice.Count != 0)
+            {
+                str += (isEng ? "choice" : "文本选项") + " : " + "\n";
+                foreach(ReasoningChoice item in choice)
+                {
+                    str += item.ToString(isEng);
+                }
+            }
+            else
+            {
+                str += (isEng ? "evidence" : "正确证据") + " : " + "\n";
+                str += evidence.ToString(isEng);
+            }
+
+            return str;
+        }
+
+
     }
 }

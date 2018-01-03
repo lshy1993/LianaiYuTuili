@@ -25,5 +25,24 @@ namespace Assets.Script.GameStruct.Model
                 foreach (JsonData d in content["前置"]) condition.Add((int)d);
             }
         }
+
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            str += "    " + (isEng ? "id" : "位置") + " : " + id + "\n";
+            str += "    " + (isEng ? "text" : "证词") + " : " + text.Replace("\n", "") + "\n";
+            str += "    " + (isEng ? "pressOut" : "威慑 进入脚本") + " : " + pressOut + "\n";
+            if (condition.Count != 0)
+            {
+                str += "    " + (isEng ? "condition" : "出现条件") + " : ";
+                foreach(int item in condition)
+                {
+                    str += item + "  ";
+                }
+                str += "\n";
+            }
+            return str;
+        }
+
     }
 }

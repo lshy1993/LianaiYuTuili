@@ -16,17 +16,17 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 f.OpenDialog(),
-                f.t("李云萧", "你的教室在？"),
-                f.t("叶婷", "距离办公室最近的一间，出门左拐就是办公室。"),
-                f.t("叶婷", "这样近的话，我们就能随时注意办公的动静了。"),
-                f.t("李云萧", "[66ccff]（这种没什么用的好处……）[-]")
+                f.t("李云萧", "你没有看错吗？"),
+                f.t("叶婷", "当然，我不会记错的。"),
+                f.t("叶婷", "我对我自己的视力还是有信心的。"),
+                f.t("李云萧", "……")
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetEnquireNode("demoZ01");
+            return nodeFactory.GetEnquireNode("demoZ00");
         }
 
     }

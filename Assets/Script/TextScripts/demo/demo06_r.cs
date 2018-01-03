@@ -16,17 +16,18 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 f.OpenDialog(),
-                f.t("李云萧", "[66ccff]（她的理由就到这里了……）[-]"),
-                f.t("苏梦忆", "李云萧，能证明喵星人的清白吗？"),
-                f.t("李云萧", "现在证明清白是不可能的，证据还不够……"),
-                f.t("李云萧", "[66ccff]（但是，如果能把嫌疑人的范围扩大就好了。）[-]")
+                f.t("苏梦忆", "李云萧，这是怎么回是啊？"),
+                f.t("李云萧", "总觉得，她刚才的话，有些模糊的地方。"),
+                f.t("苏梦忆", "可是我们也不证明她在说谎啊。"),
+                f.t("李云萧", "[66ccff]（但是，就调查结果看，不对劲。）[-]"),
+                f.t("李云萧", "[66ccff]（试着进行那个吧。）[-]")
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetEnquireNode("demoZ01");
+            return nodeFactory.GetEnquireNode("demoZ00");
         }
 
     }

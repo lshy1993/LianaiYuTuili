@@ -25,6 +25,7 @@ public class EduUIManager : MonoBehaviour
     private GameObject btnTable;
 
     public SoundManager sm;
+    private DataManager dm;
 
     private Player player;
 
@@ -32,8 +33,7 @@ public class EduUIManager : MonoBehaviour
     {
         get
         {
-            int turn = DataManager.GetInstance().GetGameVar<int>("回合");
-            return DataManager.START_DAY.AddDays(turn);
+            return dm.GetToday();
         }
     }
 
@@ -49,6 +49,8 @@ public class EduUIManager : MonoBehaviour
 
     void Awake()
     {
+        dm = DataManager.GetInstance();
+
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
         datelabel = transform.Find("Time_Container/Date_Label").gameObject.GetComponent<UILabel>();
         moneylabel = transform.Find("Time_Container/Money_Label").gameObject.GetComponent<UILabel>();
@@ -89,15 +91,15 @@ public class EduUIManager : MonoBehaviour
 
     void OnEnable()
     {
-        player = DataManager.GetInstance().GetGameVar<Player>("玩家");
-        int forenoon = DataManager.GetInstance().GetGameVar<int>("上午课程");
-        int afternoon = DataManager.GetInstance().GetGameVar<int>("下午课程");
+        player = dm.gameData.player;
+        int forenoon = dm.gameData.morningSchedule;
+        int afternoon = dm.gameData.afternoonSchedule;
         foreclass = defaultSchedule[forenoon];
         afterclass = defaultSchedule[afternoon];
         forename = defaultFileName[forenoon];
         aftername = defaultFileName[afternoon];
-        foreindex = DataManager.GetInstance().GetGameVar<int>("上午指数");
-        afterindex = DataManager.GetInstance().GetGameVar<int>("下午指数");
+        foreindex = (int)dm.gameData.morningRate;
+        afterindex = (int)dm.gameData.afternoonRate;
         //TODO:加上对节日的判断
         if (date.Month == 8 && date.Day == 31)
         {

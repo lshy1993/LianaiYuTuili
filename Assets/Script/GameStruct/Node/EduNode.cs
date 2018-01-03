@@ -24,8 +24,8 @@ namespace Assets.Script.GameStruct
 
         public override void Init()
         {
-            allEvents = DataPool.GetInstance().GetStaticVar("养成按钮") as List<EduEvent>;
-
+            //allEvents = DataPool.GetInstance().GetStaticVar("养成按钮") as List<EduEvent>;
+            allEvents = manager.staticData.eduEvents;
             uiManager = root.transform.Find("Edu_Panel").GetComponent<EduUIManager>();
             uiManager.SetEduNode(this);
             uiManager.SetEduEvent(allEvents);

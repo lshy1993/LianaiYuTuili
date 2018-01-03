@@ -19,7 +19,7 @@ namespace Assets.Script.TextScripts
                 f.OpenDialog(0),
                 f.t("李云萧", "掉在地上的碎玻璃，好像上面有点红色的血迹。"),
                 f.t("李云萧", "是有什么人被玻璃划破了吗？"),
-                f.GetEvidence("碎玻璃")
+                f.GetEvidence("00001")
             };
         }
 

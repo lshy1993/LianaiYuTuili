@@ -13,7 +13,7 @@ public class AppTourUIManager : MonoBehaviour
 
     private Dictionary<string, Tour> keys
     {
-        get { return DataPool.GetInstance().GetStaticVar("旅游资讯表") as Dictionary<string, Tour>; }
+        get { return DataManager.GetInstance().staticData.tours; }
     }
 
     private void Awake()

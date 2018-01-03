@@ -14,11 +14,11 @@ public class Slider_AutoSpeed : MonoBehaviour
     public void OnValueChange()
     {
         float speed = 5 - slider.value * 5;
-        Debug.Log(speed);
+        Debug.Log("AutoSpeed : " + speed);
         int i = (int)(speed * 100);
         speed = (float)(i * 1.0) / 100;
         numlabel.text = (slider.value * 100).ToString();
-        DataManager.GetInstance().SetSystemVar("waitTime", speed);
+        DataManager.GetInstance().systemData.waitTime = speed;
         clicked = true;
     }
 

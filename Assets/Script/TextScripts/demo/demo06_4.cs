@@ -16,16 +16,16 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 f.OpenDialog(),
-                f.t("李云萧", "当时没有别的人吗？"),
-                f.t("叶婷", "当然，我是仔细看过的，只有他一人。"),
-                f.t("李云萧", "嗯……")
+                f.t("李云萧", "你是立刻就进去了吗？"),
+                f.t("叶婷", "当然，这种时候不能害怕，越早进去越能减小损失。"),
+                f.t("李云萧", "嗯，好像很有道理……")
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetEnquireNode("demoZ01");
+            return nodeFactory.GetEnquireNode("demoZ00");
         }
 
     }

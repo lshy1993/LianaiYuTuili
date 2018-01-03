@@ -16,21 +16,18 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 f.OpenDialog(),
-                f.t("李云萧", "钥匙？"),
-                f.t("叶婷", "办公室的钥匙。"),
-                f.t("李云萧", "为什么你会有办公室的钥匙？"),
-                f.t("叶婷", "每个科目的总代表可以得到对应办公室的备用钥匙。"),
-                f.t("李云萧", "是么？"),
-                f.t("叶婷", "这样，即使老师不在的时候，我也能将作业交上去。"),
-                f.t("李云萧", "也就是说，你在任何时间能进入办公室？"),
-                f.t("叶婷", "是的……")
+                f.t("李云萧", "只有1张吗？"),
+                f.t("叶婷", "是的，只有一张。"),
+                f.t("李云萧", "有没有可能是叠在一起了？"),
+                f.t("叶婷", "后来我有检查过，并没有多的试卷。"),
+                f.t("李云萧", "是这样啊……")
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetEnquireNode("demoZ01");
+            return nodeFactory.GetEnquireNode("demoZ00");
         }
 
     }

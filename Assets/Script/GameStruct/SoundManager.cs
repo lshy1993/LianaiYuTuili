@@ -7,9 +7,22 @@ using Assets.Script.GameStruct;
 
 public class SoundManager : MonoBehaviour
 {
+    /// <summary>
+    /// BGM音源
+    /// </summary>
     public AudioSource currentBGM;
+    /// <summary>
+    /// 效果音源
+    /// </summary>
     public AudioSource currentSE;
+    /// <summary>
+    /// 语音音源
+    /// </summary>
     public AudioSource currentVoice;
+    /// <summary>
+    /// 系统效果音
+    /// </summary>
+    public AudioSource systemSE;
 
     [HideInInspector]
     public float userBgmVolume
@@ -29,13 +42,23 @@ public class SoundManager : MonoBehaviour
         get { return currentVoice.volume; }
         set { currentVoice.volume = value; }
     }
+    [HideInInspector]
+    public float userSysSEVolume
+    {
+        get { return systemSE.volume; }
+        set { systemSE.volume = value; }
+    }
+
 
     private float memoryVolume;
     private Dictionary<string, AudioClip> auDic;
     private AudioSource aim;
 
+    private DataManager dm;
+
     private void Start()
     {
+        dm = DataManager.GetInstance();
         memoryVolume = userBgmVolume;
     }
 
@@ -92,29 +115,58 @@ public class SoundManager : MonoBehaviour
         currentBGM.Stop();
         currentBGM.clip = null;
     }
+
     public void SetSE(string fileName, bool loop = false)
     {
-        if (string.IsNullOrEmpty(fileName)) return;
-        AudioClip ac = Resources.Load<AudioClip>("Audio/" + fileName);
-        currentSE.clip = ac;
-        currentSE.loop = loop;
-        currentSE.Play();
+        if (string.IsNullOrEmpty(fileName))
+        {
+            if (currentSE.isPlaying) return;
+            currentSE.clip = null;
+        }
+        else
+        {
+            AudioClip ac = Resources.Load<AudioClip>("Audio/" + fileName);
+            currentSE.clip = ac;
+            currentSE.loop = loop;
+            currentSE.Play();
+        }
     }
     public void StopSE()
     {
         currentSE.Stop();
     }
+
     public void SetVoice(string fileName)
     {
-        if (string.IsNullOrEmpty(fileName)) return;
-        AudioClip ac = Resources.Load<AudioClip>("Voice/" + fileName);
-        currentVoice.clip = ac;
-        currentVoice.Play();
+        if (string.IsNullOrEmpty(fileName))
+        {
+            //若还在播放则忽视
+            if (currentVoice.isPlaying) return;
+            currentVoice.clip = null;
+        }
+        else
+        {
+            AudioClip ac = Resources.Load<AudioClip>("Voice/" + fileName);
+            currentVoice.clip = ac;
+            currentVoice.Play();
+        }
     }
     public void StopVoice()
     {
         currentVoice.Stop();
     }
+
+    /// <summary>
+    /// 播放系统音效
+    /// </summary>
+    public void SetSystemSE(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName)) return;
+        AudioClip ac = Resources.Load<AudioClip>("Audio/" + fileName);
+        systemSE.clip = ac;
+        systemSE.Play();
+    }
+
 
     public void RunEffect(SoundEffect effect, Action callback)
     {
@@ -160,19 +212,32 @@ public class SoundManager : MonoBehaviour
 
     public void SaveSoundInfo()
     {
+        /* demo1.20 改动
         string bgmName = currentBGM.clip == null ? "" : currentBGM.clip.name;
         string seName = currentSE.clip == null ? "" : currentSE.clip.name;
         string voiceName = currentVoice.clip == null ? "" : currentVoice.clip.name;
         DataManager.GetInstance().SetGameVar("BGM", bgmName);
         DataManager.GetInstance().SetGameVar("SE", seName);
         DataManager.GetInstance().SetGameVar("Voice", voiceName);
+        */
+        string bgmName = currentBGM.clip == null ? "" : currentBGM.clip.name;
+        string seName = currentSE.clip == null ? "" : currentSE.clip.name;
+        string voiceName = currentVoice.clip == null ? "" : currentVoice.clip.name;
+        dm.gameData.BGM = bgmName;
+        dm.gameData.SE = seName;
+        dm.gameData.Voice = voiceName;
     }
 
     public void LoadSoundInfo()
     {
+        /* demo1.20 改动
         string bgmName = DataManager.GetInstance().GetGameVar<string>("BGM");
         string seName = DataManager.GetInstance().GetGameVar<string>("SE");
         string voiceName = DataManager.GetInstance().GetGameVar<string>("Voice");
+        */
+        string bgmName = dm.gameData.BGM;
+        string seName = dm.gameData.SE;
+        string voiceName = dm.gameData.Voice;
         SetBGM(bgmName);
         SetSE(seName);
         SetVoice(voiceName);

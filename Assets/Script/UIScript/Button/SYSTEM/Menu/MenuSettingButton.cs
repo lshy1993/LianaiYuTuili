@@ -5,22 +5,13 @@ public class MenuSettingButton : BasicButton
 {
     public SystemUIManager uiManager;
 
-    protected override void OnClick()
+    protected override void Execute()
     {
-        base.OnClick();
         uiManager.OpenSetting();
     }
 
-    protected override void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        base.OnHover(ishover);
-        if (ishover)
-        {
-            uiManager.SetHelpInfo("设置游戏系统参数");
-        }
-        else
-        {
-            uiManager.SetHelpInfo("");
-        }
+        uiManager.SetHelpInfo(ishover, "设置游戏系统参数");
     }
 }

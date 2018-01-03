@@ -34,8 +34,8 @@ public class DetectUIManager : MonoBehaviour
 
     public Constants.DETECT_STATUS status
     {
-        get { return DataManager.GetInstance().GetInTurnVar<Constants.DETECT_STATUS>("侦探模式"); }
-        set { DataManager.GetInstance().SetInTurnVar("侦探模式", value); }
+        get { return DataManager.GetInstance().inturnData.detectMode; }
+        set { DataManager.GetInstance().inturnData.detectMode = value; }
     }
 
     public PanelSwitch ps;
@@ -72,7 +72,8 @@ public class DetectUIManager : MonoBehaviour
 
     private void ChangeBackground(string name)
     {
-        im.MoveInit(im.LoadBackground(name));
+        //移动所需的图层变化
+        im.MoveInit(name);
     }
 
     #region 数据绑定
@@ -181,9 +182,11 @@ public class DetectUIManager : MonoBehaviour
     }
     #endregion
 
+
+
     public void SwitchStatus(Constants.DETECT_STATUS nextStatus)
     {
-        Debug.Log("next status:" + nextStatus);
+        //Debug.Log("next status:" + nextStatus);
         switch (nextStatus)
         {
             case Constants.DETECT_STATUS.FREE:
@@ -210,7 +213,7 @@ public class DetectUIManager : MonoBehaviour
                 break;
         }
         this.status = nextStatus;
-        DataManager.GetInstance().SetInTurnVar("侦探模式", nextStatus);
+        //DataManager.GetInstance().intSetInTurnVar("侦探模式", nextStatus);
     }
 
     public void ShowCharaContainer()
@@ -218,13 +221,16 @@ public class DetectUIManager : MonoBehaviour
         charaContainer.SetActive(true);
     }
 
-    public void SetHint(string str)
+    public void SetHint(bool ishover, string str)
     {
-        hintinfoLabel.text = str;
+        hintinfoLabel.text = ishover ? str : "";
     }
 
     public void MovePlace(string place)
     {
+        //先消除按钮UI
+
+        //再触发NODE变更
         Debug.Log("移动至地点：" + place);
         currentDetectNode.MoveTo(place);
     }

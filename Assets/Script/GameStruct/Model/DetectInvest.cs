@@ -14,7 +14,7 @@ namespace Assets.Script.GameStruct.Model
         public string info;
         public Vector3 coordinate;
         public Sprite icon, iconHover;
-        public string entry;
+        public string entry, normal, hover;
         public List<string> condition;
 
         public DetectInvest(JsonData data)
@@ -23,8 +23,8 @@ namespace Assets.Script.GameStruct.Model
             info = (string)data["名称"];
             coordinate = new Vector3((int)data["坐标"][0], (int)data["坐标"][1]);
 
-            string normal = (string)data["正常图片"];
-            string hover = (string)data["悬停图片"];
+            normal = (string)data["正常图片"];
+            hover = (string)data["悬停图片"];
 
             icon = Resources.Load(ICON_PATH + normal) as Sprite;
             iconHover = Resources.Load(ICON_PATH + hover) as Sprite;
@@ -37,7 +37,35 @@ namespace Assets.Script.GameStruct.Model
             }
         }
 
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            str += "        " + (isEng ? "info" : "名称") + " : " + info + "\n";
+            str += "        " + (isEng ? "coordinate" : "坐标") + " : " + ((Vector2)coordinate).ToString() + "\n";
+            if (normal != "")
+            {
+                str += "        " + (isEng ? "normal" : "按钮图标文件") + " : " + normal + "\n";
+            }
+            if (hover != "")
+            {
+
+                str += "        " + (isEng ? "hover" : "悬停图标文件") + " : " + hover + "\n";
+            }
+            str += "        " + (isEng ? "entry" : "入口脚本文件") + " : " + entry + "\n";
+
+            if (condition.Count != 0)
+            {
+                str += "        " + (isEng ? "condition" : "前置条件") + " : ";
+                foreach(string item in condition)
+                {
+                    str += item + "  ";
+                }
+                str += "\n";
+            }
+
+            return str;
+        }
+
+
     }
-
-
 }

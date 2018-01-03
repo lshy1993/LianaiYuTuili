@@ -5,24 +5,14 @@ public class MenuLoadButton : BasicButton
 {
     public SystemUIManager uiManager;
 
-    protected override void OnClick()
+    protected override void Execute()
     {
-        base.OnClick();
         uiManager.OpenLoad();
     }
 
-    protected override void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        base.OnHover(ishover);
-        if (ishover)
-        {
-            uiManager.SetHelpInfo("读取游戏进度");
-        }
-        else
-        {
-            uiManager.SetHelpInfo("");
-        }
-        
+        uiManager.SetHelpInfo(ishover, "读取游戏进度");
     }
 
 }

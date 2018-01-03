@@ -45,7 +45,7 @@ public class SelfUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        player = DataManager.GetInstance().GetGameVar<Player>("玩家");
+        player = DataManager.GetInstance().gameData.player;
         SetCardInfo();
         //数值条动画
         StartCoroutine(ShowBar(wenb, player.GetBasicStatus("文科"), 200));
@@ -59,7 +59,9 @@ public class SelfUIManager : MonoBehaviour
     private void SetCardInfo()
     {
         //[基本信息]设置学生证
-        namelb.text = DataManager.GetInstance().GetGameVar<string>("姓") + DataManager.GetInstance().GetGameVar<string>("名");
+        string xing = DataManager.GetInstance().gameData.heroXing;
+        string ming = DataManager.GetInstance().gameData.heroMing;
+        namelb.text = xing + ming;
         wenlb.text = player.GetBasicStatus("文科").ToString();
         lilb.text = player.GetBasicStatus("理科").ToString();
         tilb.text = player.GetBasicStatus("体育").ToString();

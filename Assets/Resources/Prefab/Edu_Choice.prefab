@@ -5,13 +5,13 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 429184}
-  - 61: {fileID: 6146466}
-  - 114: {fileID: 11431204}
-  - 114: {fileID: 11412850}
-  - 114: {fileID: 11498730}
+  - component: {fileID: 429184}
+  - component: {fileID: 6146466}
+  - component: {fileID: 11431204}
+  - component: {fileID: 11412850}
+  - component: {fileID: 11498730}
   m_Layer: 5
   m_Name: Edu_Choice
   m_TagString: Untagged
@@ -31,6 +31,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &6146466
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -103,6 +104,7 @@ MonoBehaviour:
   mWidth: 96
   mHeight: 96
   mDepth: 6
+  mMat: {fileID: 0}
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -112,13 +114,15 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
   mSprite: {fileID: 21300000, guid: b99a40835760e244b82dba0ca73d330f, type: 3}
-  mMat: {fileID: 0}
   mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
   mBorder: {x: 0, y: 0, z: 0, w: 0}
   mFixedAspect: 0
@@ -132,10 +136,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 157340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f770d3009c5b8847a6dd3b25af8307c, type: 3}
+  m_Script: {fileID: 11500000, guid: 90c6e8a8456fabc41b4d09b88a6932db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  json: {fileID: 0}
   eduID: 0
 --- !u!1001 &100100000
 Prefab:

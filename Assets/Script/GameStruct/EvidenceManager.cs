@@ -27,14 +27,16 @@ namespace Assets.Script.GameStruct
             Dictionary<string, Evidence> dic = new Dictionary<string, Evidence>();
             string path = Constants.DEBUG ? Constants.EVIDENCE_DEBUG_PATH : Constants.EVIDENCE_PATH;
             Debug.Log("读取证据列表");
+            int uid = 0;
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
                 JsonData jsondata = JsonMapper.ToObject(text.text);
                 foreach (JsonData jd in jsondata)
                 {
+                    uid++;
                     Evidence ee = new Evidence(jd);
                     //Debug.Log("读取：" + ee.name);
-                    dic.Add(ee.name, ee);
+                    dic.Add(ee.UID, ee);
                 }
             }
             return dic;

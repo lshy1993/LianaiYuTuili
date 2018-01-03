@@ -35,5 +35,30 @@ namespace Assets.Script.GameStruct.Model
             JsonData condition = data["跳出"];
             enquireBreak = new EnquireBreak(condition);
         }
+
+        /// <summary>
+        /// 格式化输出
+        /// </summary>
+        /// <param name="isEng">是否显示变量名</param>
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+            str += (isEng ? "id" : "编号") + " : " + id + "\n";
+            str += (isEng ? "music" : "音乐") + " : " + music + "\n";
+            if (testimony.Count != 0)
+            {
+                str += (isEng ? "testimony" : "证词列表") + " : " + "\n";
+                foreach (EnquireTestimony item in testimony)
+                {
+                    str += item.ToString(isEng);
+                }
+            }
+            str += (isEng ? "enquireBreak" : "结束询问的条件") + " : " + "\n";
+            str += (isEng ? "loopExit" : "自循环 进入脚本") + " : " + loopExit + "\n";
+            str += (isEng ? "wrongExit" : "指证错误后 进入脚本") + " : " + wrongExit + "\n";
+            str += enquireBreak.ToString(isEng);
+            return str;
+        }
+
     }
 }

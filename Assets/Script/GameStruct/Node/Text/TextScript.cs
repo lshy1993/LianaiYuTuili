@@ -12,8 +12,12 @@ namespace Assets.Script.GameStruct
     {
         private int current
         {
+            /*
             set { manager.SetGameVar("文字位置", value); }
             get { return manager.GetGameVar<int>("文字位置"); }
+            */
+            set { manager.gameData.currentTextPos = value; }
+            get { return manager.gameData.currentTextPos; }
         }
 
         public IList<Piece> pieces;

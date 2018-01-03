@@ -9,9 +9,8 @@ public class SettingTabButton : BasicButton
 {
     public SettingUIManager uiManager;
 
-    protected override void OnClick()
+    protected override void Execute()
     {
-        base.OnClick();
         string str = this.transform.name;
         uiManager.SwitchTab(str);
     }

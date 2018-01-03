@@ -61,6 +61,16 @@ public class ReasoningUIManager : MonoBehaviour
         textChoices = new List<GameObject>();
     }
 
+    private void OnEnable()
+    {
+        DataManager.GetInstance().blockRightClick = true;
+    }
+
+    private void OnDisable()
+    {
+        DataManager.GetInstance().blockRightClick = false;
+    }
+
     #region 数据绑定
     public void SetReasoningEvent(ReasoningEvent rEvent)
     {
@@ -186,10 +196,10 @@ public class ReasoningUIManager : MonoBehaviour
         }
     }
 
-    public void HoverEvidence(string evi)
+    public void HoverEvidence(bool ishover, string evi)
     {
         //Debug.Log("hover");
-        infoLabel.GetComponent<UILabel>().text = evi;
+        infoLabel.GetComponent<UILabel>().text = ishover ? evi : "";
     }
     #endregion
 
@@ -272,6 +282,7 @@ public class ReasoningUIManager : MonoBehaviour
         //5 选项依次显示
         StartCoroutine(ifevi ? ShowEvidence() : ShowChoice());
         //6 *血条展示
+        hpmpManager.gameObject.SetActive(true);
         hpmpManager.ShowBar();
     }
 

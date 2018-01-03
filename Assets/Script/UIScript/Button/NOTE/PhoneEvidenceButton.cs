@@ -1,25 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PhoneEvidenceButton : MonoBehaviour
+public class PhoneEvidenceButton : BasicButton
 {
     public NoteUIManager uiManager;
     
-    void OnClick()
+    protected override void Execute()
     {
-        if (Input.GetMouseButtonUp(1)) return;
         uiManager.OpenEvidence();
     }
 
-    void OnHover(bool ishover)
+    protected override void Hover(bool ishover)
     {
-        if (ishover)
-        {
-            uiManager.SetHelpInfo("打开事件簿界面");
-        }
-        else
-        {
-            uiManager.SetHelpInfo("");
-        }
+        uiManager.SetHelpInfo(ishover, "打开事件簿界面");
     }
 }

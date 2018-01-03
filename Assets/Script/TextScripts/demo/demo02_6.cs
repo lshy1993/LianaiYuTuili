@@ -20,7 +20,7 @@ namespace Assets.Script.TextScripts
                 f.t("李云萧", "几张写有答案的试卷，应该是其他班级的。"),
                 f.t("李云萧", "看题目应该就是昨天刚考完的试卷……嗯？"),
                 f.t("李云萧", "好像有些碎玻璃，难道是窗户碎的时候，掉在上面的？"),
-                f.GetEvidence("掉落的试卷")
+                f.GetEvidence("00002")
             };
         }
 

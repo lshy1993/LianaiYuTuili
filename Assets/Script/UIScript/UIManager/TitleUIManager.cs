@@ -10,10 +10,11 @@ public class TitleUIManager : MonoBehaviour
     public SystemUIManager sysm;
     //public SoundManager sm;
 
-    public UIWidget title, button, music, gallery, recollection, ending;
+    public UIWidget title, extra, music, gallery, recollection, ending;
+    public GameObject btnTable, largeCon;
     public GameObject bg;
 
-    public Constants.TITLE_STATUS status;
+    private Constants.TITLE_STATUS status;
 
     void Awake()
     {
@@ -24,6 +25,42 @@ public class TitleUIManager : MonoBehaviour
     {
         //初始化时播放BGM
         gm.sm.SetBGM("Title");
+    }
+
+    public Constants.TITLE_STATUS GetStatus()
+    {
+        return status;
+    }
+
+    public void RightClick()
+    {
+        switch (status)
+        {
+            case Constants.TITLE_STATUS.EXTRA:
+                RightClickReturn();
+                break;
+            case Constants.TITLE_STATUS.GALLERY:
+                if (largeCon.activeSelf)
+                {
+                    gallery.GetComponent<GalleryUIManager>().ClosePic();
+                }
+                else
+                {
+                    CloseGallery();
+                }
+                break;
+            case Constants.TITLE_STATUS.MUSIC:
+                CloseMusic();
+                break;
+            case Constants.TITLE_STATUS.RECOLL:
+                CloseRecollection();
+                break;
+            case Constants.TITLE_STATUS.ENDING:
+                CloseEnding();
+                break;
+            default:
+                break;
+        }
     }
 
     #region public Title相关按钮
@@ -79,7 +116,7 @@ public class TitleUIManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             status = Constants.TITLE_STATUS.MUSIC;
-            StartCoroutine(FadeOut(button));
+            StartCoroutine(FadeOut(extra));
             StartCoroutine(FadeIn(music));
             gm.sm.StopBGM();
         }
@@ -88,7 +125,7 @@ public class TitleUIManager : MonoBehaviour
     {
         status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(FadeOut(music));
-        StartCoroutine(FadeIn(button));
+        StartCoroutine(FadeIn(extra));
         gm.sm.SetBGM("Title");
     }
     public void OpenGallery()
@@ -96,7 +133,7 @@ public class TitleUIManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             status = Constants.TITLE_STATUS.GALLERY;
-            StartCoroutine(FadeOut(button));
+            StartCoroutine(FadeOut(extra));
             StartCoroutine(FadeIn(gallery));
         }
     }
@@ -104,14 +141,14 @@ public class TitleUIManager : MonoBehaviour
     {
         status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(FadeOut(gallery));
-        StartCoroutine(FadeIn(button));
+        StartCoroutine(FadeIn(extra));
     }
     public void OpenRecollection()
     {
         if (Input.GetMouseButtonUp(0))
         {
             status = Constants.TITLE_STATUS.RECOLL;
-            StartCoroutine(FadeOut(button));
+            StartCoroutine(FadeOut(extra));
             StartCoroutine(FadeIn(recollection));
         }
     }
@@ -119,14 +156,14 @@ public class TitleUIManager : MonoBehaviour
     {
         status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(FadeOut(recollection));
-        StartCoroutine(FadeIn(button));
+        StartCoroutine(FadeIn(extra));
     }
     public void OpenEnding()
     {
         if (Input.GetMouseButtonUp(0))
         {
             status = Constants.TITLE_STATUS.ENDING;
-            StartCoroutine(FadeOut(button));
+            StartCoroutine(FadeOut(extra));
             StartCoroutine(FadeIn(ending));
         }
     }
@@ -134,7 +171,7 @@ public class TitleUIManager : MonoBehaviour
     {
         status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(FadeOut(ending));
-        StartCoroutine(FadeIn(button));
+        StartCoroutine(FadeIn(extra));
     }
     #endregion
 
@@ -142,17 +179,18 @@ public class TitleUIManager : MonoBehaviour
     {
         StartCoroutine(MoveBG(false));
         yield return StartCoroutine(FadeOut(title));
-        StartCoroutine(FadeIn(button));
+        StartCoroutine(FadeIn(extra));
     }
     private IEnumerator CloseExtra()
     {
         StartCoroutine(MoveBG(true));
-        yield return StartCoroutine(FadeOut(button));
+        yield return StartCoroutine(FadeOut(extra));
         StartCoroutine(FadeIn(title));
     }
 
     private IEnumerator FadeIn(UIWidget target)
     {
+        if (target == title) BlockBtn(false);
         target.transform.gameObject.SetActive(true);
         float x = 0;
         while (x < 1)
@@ -161,9 +199,11 @@ public class TitleUIManager : MonoBehaviour
             target.alpha = x;
             yield return null;
         }
+        if (target == title) BlockBtn(true);
     }
     private IEnumerator FadeOut(UIWidget target)
     {
+        if (target == title) BlockBtn(false);
         float x = 1;
         while (x > 0)
         {
@@ -172,6 +212,7 @@ public class TitleUIManager : MonoBehaviour
             yield return null;
         }
         target.transform.gameObject.SetActive(false);
+        if (target == title) BlockBtn(true);
     }
 
     private IEnumerator MoveBG(bool isback)
@@ -185,5 +226,13 @@ public class TitleUIManager : MonoBehaviour
             yield return null;
         }
         title.transform.gameObject.SetActive(isback);
+    }
+
+    private void BlockBtn(bool blocked)
+    {
+        for (int i = 0; i < btnTable.transform.childCount; i++)
+        {
+            btnTable.transform.GetChild(i).GetComponent<UIButton>().enabled = blocked;
+        }
     }
 }

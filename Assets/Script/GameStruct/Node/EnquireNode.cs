@@ -39,7 +39,11 @@ namespace Assets.Script.GameStruct
         public override void Update()
         { }
 
-        public void EnquireExit(string entry)
+        /// <summary>
+        /// 结束当前NODE
+        /// </summary>
+        /// <param name="entry">下个NODE</param>
+        public void NodeExit(string entry)
         {
             uiManager.gameObject.SetActive(false);
             next = factory.FindTextScript(entry);

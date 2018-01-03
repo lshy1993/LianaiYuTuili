@@ -19,15 +19,15 @@ public class TextSettingUIManager : MonoBehaviour
 
     private int alpha
     {
-        get { return DataManager.GetInstance().GetSystemVar<int>("diaboxAlpha"); }
+        get { return DataManager.GetInstance().systemData.diaboxAlpha; }
     }
     private float tsp
     {
-        get { return DataManager.GetInstance().GetSystemVar<float>("textSpeed"); }
+        get { return DataManager.GetInstance().systemData.textSpeed; }
     }
     private float waitTime
     {
-        get { return DataManager.GetInstance().GetSystemVar<float>("waitTime"); }
+        get { return DataManager.GetInstance().systemData.waitTime; }
     }
 
     private void Awake()

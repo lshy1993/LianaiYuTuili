@@ -13,6 +13,11 @@ public class EnquireUIManager : MonoBehaviour
     public HPMPUIManager hpmpManager;
 
     private const int TOTAL_DISTANCE = 1280;
+    private const int EVIDENCE_Y = -425;
+    private const int EVIDENCE_MOVE = 170;
+    private const int TIME_X = 670;
+    private const int TIME_MOVE = 70;
+
     private GameObject startContainer, breakContainer, backLine, breakBack;
     private GameObject evidenceContainer, timeObject;
     private GameObject evidenceGrid, speedDownSprite, hintContainer;
@@ -124,12 +129,18 @@ public class EnquireUIManager : MonoBehaviour
         enquireNode = node;
     }
 
-    public void SetEnquireEvent(EnquireEvent eqEvent, List<string> visibleTestimony)
+    /// <summary>
+    /// 设置当前的询问事件
+    /// </summary>
+    /// <param name="newEvent">事件</param>
+    /// <param name="newTestimony">证词</param>
+    public void SetEnquireEvent(EnquireEvent newEvent, List<string> newTestimony)
     {
-        //判断是否进入同一个询问（即是否是威慑跳回）
-        if (enquireEvent != eqEvent)
+        //判断是否进入了同一个询问
+        if (enquireEvent != newEvent)
         {
-            enquireEvent = eqEvent;
+            //全新的询问
+            enquireEvent = newEvent;
             pressedID.Clear();
             currentID = 0;
             isnew = true;
@@ -137,9 +148,10 @@ public class EnquireUIManager : MonoBehaviour
         }
         else
         {
+            //若从威慑文本跳回
             isnew = false;
         }
-        this.visibleTestimony = visibleTestimony;
+        this.visibleTestimony = newTestimony;
         SetEvidence();
     }
 
@@ -165,6 +177,10 @@ public class EnquireUIManager : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// 退出当前询问
+    /// </summary>
+    /// <param name="target">退出方式</param>
     private void EnquireExit(Constants.ENQUIRE_STATUS target)
     {
         wheelMoving = false;
@@ -172,18 +188,17 @@ public class EnquireUIManager : MonoBehaviour
         switch (target)
         {
             case Constants.ENQUIRE_STATUS.PRESS:
-                Debug.Log(exitStatus);
-                enquireNode.EnquireExit(enquireEvent.testimony[currentID].pressOut);
+                enquireNode.NodeExit(enquireEvent.testimony[currentID].pressOut);
                 break;
             case Constants.ENQUIRE_STATUS.WRONG:
-                enquireNode.EnquireExit(enquireEvent.wrongExit);
+                enquireNode.NodeExit(enquireEvent.wrongExit);
                 break;
             case Constants.ENQUIRE_STATUS.LOOP:
                 StopAllCoroutines();
-                enquireNode.EnquireExit(enquireEvent.loopExit);
+                enquireNode.NodeExit(enquireEvent.loopExit);
                 break;
             case Constants.ENQUIRE_STATUS.CORRECT:
-                enquireNode.EnquireExit(enquireEvent.enquireBreak.outEvent);
+                enquireNode.NodeExit(enquireEvent.enquireBreak.outEvent);
                 break;
             default:
                 break;
@@ -197,6 +212,25 @@ public class EnquireUIManager : MonoBehaviour
             child.GetComponent<UIButton>().enabled = enabled;
         }
     }
+
+    /// <summary>
+    /// 仅修改pos:x
+    /// </summary>
+    private void SetPositionX(GameObject go, float x)
+    {
+        float y = go.transform.localPosition.y;
+        go.transform.localPosition = new Vector3(x, y, 0);
+    }
+
+    /// <summary>
+    /// 仅修改pos:y
+    /// </summary>
+    private void SetPositionY(GameObject go,float y)
+    {
+        float x = go.transform.localPosition.x;
+        go.transform.localPosition = new Vector3(x, y, 0);
+    }
+
 
     #region Public方法供调用
     public void WheelStart()
@@ -227,7 +261,7 @@ public class EnquireUIManager : MonoBehaviour
 
     public void SetHint(bool show, Evidence evi)
     {
-        hintContainer.SetActive(show);
+        //hintContainer.SetActive(show);
         hintNameLabel.text = show ? evi.name  : "";
         hintIntroLabel.text = show ? evi.introduction : "";
         int w = hintIntroLabel.width;
@@ -236,18 +270,25 @@ public class EnquireUIManager : MonoBehaviour
         hintIntroLabel.transform.GetComponent<TweenPosition>().ResetToBeginning();
     }
 
+    /// <summary>
+    /// 威慑按钮调用
+    /// </summary>
     public void EnquirePress()
     {
-        //威慑按钮调用
         StopAllCoroutines();
+        //威慑动画
         StartCoroutine(HoldAnimation());
 
     }
 
+    /// <summary>
+    /// 指证按钮调用
+    /// </summary>
+    /// <param name="evidence">用哪个证据</param>
     public void EnquirePresent(Evidence evidence)
     {
-        //指证按钮调用
         StopAllCoroutines();
+        //指证动画
         StartCoroutine(ObjectionAnimation(evidence));
     }
     #endregion
@@ -257,15 +298,19 @@ public class EnquireUIManager : MonoBehaviour
     {
         //证词轮盘开始
         wheelMoving = true;
+        //如果是威慑或者指证失败，自动进入下一句
         if (exitStatus == Constants.ENQUIRE_STATUS.PRESS || exitStatus == Constants.ENQUIRE_STATUS.WRONG)
         {
             currentID++;
         }
+        //当轮盘未转到底时
         while (currentID < visibleTestimony.Count())
         {
             currentLabel.text = visibleTestimony[currentID];
             //进度条移动
             StartCoroutine(TimePass(currentID));
+            //同时移动证词
+            //TODO:根据语音变动长度
             yield return StartCoroutine(Moving(5f));
             currentID++;
         }
@@ -273,12 +318,13 @@ public class EnquireUIManager : MonoBehaviour
         List<int> condition = enquireEvent.enquireBreak.conditions;
         if (condition.Count > 0 && pressedID.Intersect(condition).Count() == condition.Count)
         {
+            //已经全威慑/关键句
             yield return StartCoroutine(CloseUI());
             EnquireExit(Constants.ENQUIRE_STATUS.CORRECT);
         }
         else
         {
-            //不满足则loop跳出
+            //进入循环脚本
             currentID = 0;
             yield return StartCoroutine(CloseUI());
             EnquireExit(Constants.ENQUIRE_STATUS.LOOP);
@@ -320,15 +366,19 @@ public class EnquireUIManager : MonoBehaviour
         {
             if(left < 150)
             {
+                currentLabel.GetComponent<UIButton>().enabled = false;
                 x = Mathf.MoveTowards(x, final, 150 / 0.5f * Time.deltaTime);
                 alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.5f * Time.deltaTime);
-            }else if(right < 150)
+            }
+            else if(right < 150)
             {
+                currentLabel.GetComponent<UIButton>().enabled = false;
                 x = Mathf.MoveTowards(x, final, 150 / 0.5f * Time.deltaTime);
                 alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.5f * Time.deltaTime);
             }
             else
             {
+                currentLabel.GetComponent<UIButton>().enabled = true;
                 x = Mathf.MoveTowards(x, final, (TOTAL_DISTANCE - w - 300) / time * Time.deltaTime);
             }
             currentLabel.transform.localPosition = new Vector3(x, y, 0);
@@ -449,7 +499,7 @@ public class EnquireUIManager : MonoBehaviour
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / 0.25f * Time.fixedDeltaTime);
-            float eviy = -440 + 150 * t;
+            float eviy = EVIDENCE_Y + EVIDENCE_MOVE * t;
             evidenceContainer.transform.localPosition = new Vector3(evidenceContainer.transform.localPosition.x, eviy, 0);
             yield return null;
         }
@@ -478,22 +528,25 @@ public class EnquireUIManager : MonoBehaviour
     #region 打开/关闭 其他UI动画
     private IEnumerator OpenUI(bool isnew)
     {
+        //禁用证据按钮
+        SetEvidenceEnable(false);
         //显示血条
         hpmpManager.ShowBar();
-        //预设文字的位置
+        //证词回预设位置
         currentLabel.transform.localPosition = originPosition;
-        //移入 证据框 时间条
-        float x = 0;
-        while (x < 1)
+        //移入证据栏和证词进度条
+        float t = 0;
+        float speed = 1 / 0.25f * Time.fixedDeltaTime;
+        while (t < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.25f * Time.fixedDeltaTime);
-            float timex = 670 - 70 * x;
-            timeObject.transform.localPosition = new Vector3(timex, timeObject.transform.localPosition.y, 0);
-            //若非全新进入 则移入证据条
+            t = Mathf.MoveTowards(t, 1, speed);
+            float timex = TIME_X - TIME_MOVE * t;
+            SetPositionX(timeObject, timex);
+            //若非全新的询问 则从下方移入证据栏
             if (!isnew)
             {
-                float eviy = -440 + 150 * x;
-                evidenceContainer.transform.localPosition = new Vector3(evidenceContainer.transform.localPosition.x, eviy, 0);
+                float eviy = EVIDENCE_Y + EVIDENCE_MOVE * t;
+                SetPositionY(evidenceContainer, eviy);
             }
             yield return null;
         }
@@ -504,20 +557,22 @@ public class EnquireUIManager : MonoBehaviour
 
     private IEnumerator CloseUI()
     {
-        currentLabel.transform.localPosition = originPosition;
         //禁用证据按钮
         SetEvidenceEnable(false);
         //隐藏血条
         hpmpManager.HideBar();
-        //移出 证据框 进度条
-        float x = 1;
-        while (x > 0)
+        //证词回预设位置
+        currentLabel.transform.localPosition = originPosition;
+        //移出证据栏和证词进度条
+        float t = 1;
+        float speed = 1 / 0.1f * Time.fixedDeltaTime;
+        while (t > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.1f * Time.fixedDeltaTime);
-            float eviy = -440 + 150 * x;
-            float timex = 670 - 70 * x;
-            evidenceContainer.transform.localPosition = new Vector3(evidenceContainer.transform.localPosition.x, eviy, 0);
-            timeObject.transform.localPosition = new Vector3(timex, timeObject.transform.localPosition.y, 0);
+            t = Mathf.MoveTowards(t, 0, speed);
+            float eviy = EVIDENCE_Y + EVIDENCE_MOVE * t;
+            float timex = TIME_X - TIME_MOVE * t;
+            SetPositionX(timeObject, timex);
+            SetPositionY(evidenceContainer, eviy);
             yield return null;
         }
     }
@@ -526,19 +581,17 @@ public class EnquireUIManager : MonoBehaviour
     #region 指证威慑动画
     private IEnumerator HoldAnimation()
     {
-        //yield return 
         StartCoroutine(CloseUI());
         yield return StartCoroutine(PresentAnimation(true));
-        pressedID.Add(currentID + 1);
+        pressedID.Add(currentID+1);
         EnquireExit(Constants.ENQUIRE_STATUS.PRESS);
     }
 
     private IEnumerator ObjectionAnimation(Evidence evidence)
     {
-        //yield return
         StartCoroutine(CloseUI());
         yield return StartCoroutine(PresentAnimation(false));
-        if (evidence.name == enquireEvent.enquireBreak.evidence && currentID + 1 == enquireEvent.enquireBreak.id)
+        if (evidence.UID == enquireEvent.enquireBreak.evidence && currentID + 1 == enquireEvent.enquireBreak.id)
         {
             EnquireExit(Constants.ENQUIRE_STATUS.CORRECT);
         }
@@ -572,7 +625,7 @@ public class EnquireUIManager : MonoBehaviour
         //3.显示人物头像
         //4.显示文字并缓慢扩大
         float x = 0;
-        float time = isHold ? 0.5f : 1;
+        float time = isHold ? 0.75f : 1f;
         while (x < 1)
         {
             x = Mathf.MoveTowards(x, 1, 1 / time * Time.fixedDeltaTime);

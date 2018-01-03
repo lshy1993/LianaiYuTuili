@@ -3,7 +3,7 @@ using System.Collections;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
 
-public class KeywordButton : MonoBehaviour
+public class KeywordButton : BasicButton
 {
     private AppHelpUIManager uiManager;
     public string current;
@@ -13,7 +13,7 @@ public class KeywordButton : MonoBehaviour
         this.uiManager = manager;
     }
 
-    void OnClick()
+    protected override void Execute()
     {
         uiManager.SetExplanByName(current);
     }

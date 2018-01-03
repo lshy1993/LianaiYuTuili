@@ -4,7 +4,10 @@ using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
 using System.Collections.Generic;
 
-public class DialogButton : MonoBehaviour
+/// <summary>
+/// 侦探模式 对话选项 按钮
+/// </summary>
+public class DialogButton : BasicButton
 {
     public DetectDialog dialog;
     private DetectUIManager uiManager;
@@ -20,9 +23,9 @@ public class DialogButton : MonoBehaviour
         this.detectNode = detectNode;
     }
 
-    void OnClick()
+    protected override void Execute()
     {
-        Debug.Log(detectNode);
+        //Debug.Log(detectNode);
         uiManager.ShowCharaContainer();
         detectNode.SetKnown(dialog.dialog);
         detectNode.ChooseNext(dialog.entry);
