@@ -183,16 +183,16 @@ public class ReasoningUIManager : MonoBehaviour
     public void JudgeEvidence(Evidence evi)
     {
         //判断证据
-        if(evi.name == reasoningEvent.evidence.name)
+        if(evi.UID == reasoningEvent.answerEvi.name)
         {
             StartCoroutine(CloseEvidence());
-            StartCoroutine(ShowCorrect(reasoningEvent.evidence.curretEntry));
+            StartCoroutine(ShowCorrect(reasoningEvent.answerEvi.curretEntry));
             //reasoningNode.ReasoningExit();
         }
         else
         {
             StartCoroutine(CloseEvidence());
-            reasoningNode.ReasoningExit(reasoningEvent.evidence.wrongEntry);
+            reasoningNode.ReasoningExit(reasoningEvent.answerEvi.wrongEntry);
         }
     }
 

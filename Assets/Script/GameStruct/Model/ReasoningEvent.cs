@@ -12,7 +12,7 @@ namespace Assets.Script.GameStruct.Model
         public string question;
         public string exit;
         public List<ReasoningChoice> choice;
-        public ReasoningEvidence evidence;
+        public ReasoningEvidence answerEvi;
 
         public ReasoningEvent(JsonData data)
         {
@@ -32,7 +32,7 @@ namespace Assets.Script.GameStruct.Model
 
             if (data.Contains("证据") && data["证据"] != null)
             {
-                evidence = new ReasoningEvidence(data["证据"]);
+                answerEvi = new ReasoningEvidence(data["证据"]);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Assets.Script.GameStruct.Model
             else
             {
                 str += (isEng ? "evidence" : "正确证据") + " : " + "\n";
-                str += evidence.ToString(isEng);
+                str += answerEvi.ToString(isEng);
             }
 
             return str;
