@@ -67,7 +67,6 @@ public class TitleUIManager : MonoBehaviour
     public void ClickStart()
     {
         //新游戏start
-        if (Input.GetMouseButtonUp(1)) return;
         gm.sm.StopBGM();
         gm.NewGame();
     }
@@ -75,7 +74,6 @@ public class TitleUIManager : MonoBehaviour
 	public void ClickExtra()
     {
         //打开extra
-        if (Input.GetMouseButtonUp(1)) return;
         status = Constants.TITLE_STATUS.EXTRA;
         StartCoroutine(OpenExtra());
     }
@@ -89,7 +87,6 @@ public class TitleUIManager : MonoBehaviour
     public void ClickLoad()
     {
         //设计：title不动 sys淡入
-        if (Input.GetMouseButtonUp(1)) return;
         sysm.transform.gameObject.SetActive(true);
         sysm.GetComponent<UIPanel>().alpha = 1;
         sysm.OpenLoad(true);
@@ -97,7 +94,6 @@ public class TitleUIManager : MonoBehaviour
 
     public void ClickSetting()
     {
-        if (Input.GetMouseButtonUp(1)) return;
         sysm.transform.gameObject.SetActive(true);
         sysm.GetComponent<UIPanel>().alpha = 1;
         sysm.OpenSetting();
@@ -105,7 +101,6 @@ public class TitleUIManager : MonoBehaviour
 
     public void ClickExit()
     {
-        if (Input.GetMouseButtonUp(1)) return;
         Application.Quit();
     }
     #endregion
@@ -190,6 +185,7 @@ public class TitleUIManager : MonoBehaviour
 
     private IEnumerator FadeIn(UIWidget target)
     {
+        DataManager.GetInstance().blockRightClick = true;
         if (target == title) BlockBtn(false);
         target.transform.gameObject.SetActive(true);
         float x = 0;
@@ -200,6 +196,7 @@ public class TitleUIManager : MonoBehaviour
             yield return null;
         }
         if (target == title) BlockBtn(true);
+        DataManager.GetInstance().blockRightClick = false;
     }
     private IEnumerator FadeOut(UIWidget target)
     {
@@ -217,6 +214,7 @@ public class TitleUIManager : MonoBehaviour
 
     private IEnumerator MoveBG(bool isback)
     {
+        DataManager.GetInstance().blockRightClick = true;
         float x = 0;
         while (x < 1)
         {
@@ -226,6 +224,7 @@ public class TitleUIManager : MonoBehaviour
             yield return null;
         }
         title.transform.gameObject.SetActive(isback);
+        DataManager.GetInstance().blockRightClick = false;
     }
 
     private void BlockBtn(bool blocked)

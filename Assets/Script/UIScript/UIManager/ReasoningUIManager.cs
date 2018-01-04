@@ -164,9 +164,12 @@ public class ReasoningUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 判定文字选项
+    /// </summary>
+    /// <param name="id">文字项</param>
     public void JudgeText(int id)
     {
-        //判定文字选项
         if (reasoningEvent.choice[id].correct)
         {
             Debug.Log("Correct");
@@ -180,10 +183,13 @@ public class ReasoningUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 判断证据
+    /// </summary>
+    /// <param name="evi">目标证据</param>
     public void JudgeEvidence(Evidence evi)
     {
-        //判断证据
-        if(evi.UID == reasoningEvent.answerEvi.name)
+        if(reasoningEvent.answerEvi.evi.Contains(evi.UID))
         {
             StartCoroutine(CloseEvidence());
             StartCoroutine(ShowCorrect(reasoningEvent.answerEvi.curretEntry));
@@ -196,9 +202,13 @@ public class ReasoningUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 显示证据提示
+    /// </summary>
+    /// <param name="ishover"></param>
+    /// <param name="evi"></param>
     public void HoverEvidence(bool ishover, string evi)
     {
-        //Debug.Log("hover");
         infoLabel.GetComponent<UILabel>().text = ishover ? evi : "";
     }
     #endregion

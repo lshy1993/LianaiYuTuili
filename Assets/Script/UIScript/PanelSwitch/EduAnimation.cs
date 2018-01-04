@@ -60,14 +60,14 @@ namespace Assets.Script.UIScript
 
         private IEnumerator ShowClose()
         {
-            float timey, charay, funx;
+            float timey; //charay,funx, 
             float x = 1;
             while (x > 0)
             {
                 x = Mathf.MoveTowards(x, 0, 1 / closeTime * Time.deltaTime);
                 timey = 400 - 70 * x;
-                charay = -445 + 160 * x;
-                funx = -700 + 110 * x;
+                //charay = -445 + 160 * x;
+                //funx = -700 + 110 * x;
                 timeContainer.transform.localPosition = new Vector3(160, timey);
                 //charaContainer.transform.localPosition = new Vector3(0, charay);
                 //functionContainer.transform.localPosition = new Vector3(funx, 0);
@@ -87,14 +87,14 @@ namespace Assets.Script.UIScript
             scheduleContainer.GetComponent<UIWidget>().alpha = 0;
             charaContainer.GetComponent<UIWidget>().alpha = 0;
             selectionContainer.GetComponent<UIWidget>().alpha = 0;
-            float timey, charay, funx;
+            float timey;// charay, funx;
             float x = 0;
             while (x < 1)
             {
                 x = Mathf.MoveTowards(x, 1, 1 / openTime * Time.deltaTime);
                 timey = 400 - 70 * x;
-                charay = -445 + 160 * x;
-                funx = -700 + 110 * x;
+                //charay = -445 + 160 * x;
+                //funx = -700 + 110 * x;
                 timeContainer.transform.localPosition = new Vector3(160, timey);
                 //charaContainer.transform.localPosition = new Vector3(0, charay);
                 //functionContainer.transform.localPosition = new Vector3(funx, 0);

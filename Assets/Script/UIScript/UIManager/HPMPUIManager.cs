@@ -13,12 +13,30 @@ public class HPMPUIManager : MonoBehaviour
     private GameObject hpmpContainer;
     private DataManager dm;
 
-    public int nowhp, allhp, nowmp, allmp;
+    public SoundManager sm;
 
-    public bool opened, finished;
+    private int nowhp, allhp, nowmp, allmp;
 
-    public float hp { set { hpBar.value = value; } get { return hpBar.value; } }
-    public float mp { set { mpBar.value = value; } get { return mpBar.value; } }
+    //是否已经开启界面
+    private bool opened;
+
+    private bool finished;
+
+    /// <summary>
+    /// hpBar的数值
+    /// </summary>
+    public float hpValue {
+        set { hpBar.value = value; }
+        get { return hpBar.value; }
+    }
+
+    /// <summary>
+    /// mpBar的数值
+    /// </summary>
+    public float mpValue {
+        set { mpBar.value = value; }
+        get { return mpBar.value; }
+    }
 
     private void Awake()
     {
@@ -31,12 +49,27 @@ public class HPMPUIManager : MonoBehaviour
 
     private void SetHPMP()
     {
+
         nowhp = dm.inturnData.currentHP;
         allhp = dm.gameData.player.logicStatus["生命上限"];
-        hp = (float)nowhp / (float)allhp;
+        hpValue = (float)nowhp / (float)allhp;
+
         allmp = dm.gameData.All_MP;
         nowmp = allmp;
-        mp = (float)nowmp / (float)allmp;
+        mpValue = (float)nowmp / (float)allmp;
+    }
+
+    /// <summary>
+    /// 是否完成了减血特效
+    /// </summary>
+    public bool IsEffectFinished()
+    {
+        return finished;
+    }
+
+    public bool IsZeroMP()
+    {
+        return nowmp == 0;
     }
 
     public void ShowBar()
@@ -50,20 +83,27 @@ public class HPMPUIManager : MonoBehaviour
     {
         gameObject.SetActive(true);
         StartCoroutine(CloseUI());
-        finished = false;
     }
 
+    /// <summary>
+    /// 减少MP
+    /// </summary>
+    /// <param name="x">减少量</param>
     public void MPMinus(int x)
     {
         nowmp -= x;
         if (nowmp < 0) nowmp = 0;
         if (nowmp > allmp) nowmp = allmp;
-        mp = (float)nowmp / (float)allmp;
+        mpValue = (float)nowmp / (float)allmp;
     }
 
+    /// <summary>
+    /// 减少HP
+    /// </summary>
+    /// <param name="x">减少量</param>
     public void HPMinus(int x)
     {
-        finished = false;
+
         nowhp += x;
         dm.inturnData.currentHP = nowhp;
         StartCoroutine(Minus());
@@ -71,26 +111,28 @@ public class HPMPUIManager : MonoBehaviour
 
     private IEnumerator Minus()
     {
-        DataManager.GetInstance().isEffecting = true;
+        finished = false;
+        dm.isEffecting = true;
         //判断是否需要首先打开界面
         if (!opened) yield return StartCoroutine(OpenUI());
         //扣血
-        float origin = hp;
+        float origin = hpValue;
         float final = (float)nowhp / (float)allhp;
         float t = 0;
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / 0.4f * Time.fixedDeltaTime);
             hpBar.value = origin - (origin - final) * t;
-            //Debug.Log(hpBar.value);
             yield return null;
         }
-        DataManager.GetInstance().isEffecting = false;
+        dm.isEffecting = false;
+        //游戏失败情况
+        if(nowhp == 0)
+        {
+            //TODO:推理案件浏览模式
+            dm.inturnData.gameOver = true;
+        }
         finished = true;
-        //TODO:游戏失败情况
-        //考虑在侦探json里面，设定失败时跳转的脚本名
-
-
     }
 
     private IEnumerator OpenUI()

@@ -60,6 +60,9 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public int currentHP;
 
-
+        /// <summary>
+        /// 是否推理失败
+        /// </summary>
+        public bool gameOver;
     }
 }

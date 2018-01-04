@@ -28,6 +28,10 @@ namespace Assets.Script.TextScripts
         public override GameNode NextNode()
         {
             Finish();
+            if (manager.inturnData.gameOver)
+            {
+                return nodeFactory.FindTextScript("demofin");
+            }
             return nodeFactory.GetEnquireNode("demoZ02");
         }
 

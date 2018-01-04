@@ -8,24 +8,27 @@ namespace Assets.Script.GameStruct.Model
 {
     public class EnquireBreak
     {
-        public int id;
-        public string evidence;
+        public List<int> id;
+        public List<string> evidence;
         public string outEvent;
         public List<int> conditions;
 
         public EnquireBreak(JsonData data)
         {
+            id = new List<int>();
+            evidence = new List<string>();
+            conditions = new List<int>();
+
             outEvent = (string)data["出口"];
 
-            conditions = new List<int>();
             if (data.Contains("全威慑") && data["全威慑"] != null)
             {
                 foreach (JsonData d in data["全威慑"]) conditions.Add((int)d);
             }
             else
             {
-                id = (int)data["目标编号"];
-                evidence = (string)data["所需证据"];
+                foreach (JsonData d in data["目标编号"]) id.Add((int)d);
+                foreach (JsonData d in data["所需证据"]) evidence.Add((string)d);
             }
         }
 
@@ -41,10 +44,19 @@ namespace Assets.Script.GameStruct.Model
                 }
                 str += "\n";
             }
-            if (id != 0)
+
+            if (id.Count != 0)
             {
-                str += "    " + (isEng ? "id" : "指证证词编号") + " : " + id + "\n";
-                str += "    " + (isEng ? "evidence" : "所需证据") + " : " + evidence + "\n";
+                str += "    " + (isEng ? "id" : "指证证词编号") + " : ";
+                foreach (int item in id) str += id + "  ";
+                str += "\n";
+            }
+
+            if (evidence.Count != 0)
+            { 
+                str += "    " + (isEng ? "evidence" : "所需证据") + " : ";
+                foreach (string item in evidence) str += evidence + "  ";
+                str += "\n";
             }
            
             return str;

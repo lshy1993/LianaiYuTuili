@@ -15,7 +15,6 @@ namespace Assets.Script.GameStruct.EventSystem
 {
     public class EventManager
     {
-        private UnityEngine.Random random;
         private static EventManager instance;
 
         private static readonly int STATE_NOT_RUNNED = 0;
@@ -53,7 +52,6 @@ namespace Assets.Script.GameStruct.EventSystem
         /// </summary>
         public void Init(Dictionary<string, MapEvent> eventTable, DataManager manager)
         {
-            random = new UnityEngine.Random();
             this.eventTable = eventTable;
             this.forceEventTable = new Dictionary<string, MapEvent>();
             foreach (KeyValuePair<string, MapEvent> kv in eventTable)

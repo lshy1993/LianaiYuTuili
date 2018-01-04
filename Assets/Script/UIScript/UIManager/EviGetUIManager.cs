@@ -15,7 +15,8 @@ public class EviGetUIManager : MonoBehaviour
     private UILabel title, intro;
 
     public UILabel dialogLabel, nameLabel;
-    public bool finished;
+
+    private bool finished;
 
     private void Awake()
     {
@@ -25,6 +26,14 @@ public class EviGetUIManager : MonoBehaviour
         iconhover = mainCon.transform.Find("EvidenceIcon_Sprite/Hover_Sprite").GetComponent<UI2DSprite>();
         title = mainCon.transform.Find("EvidenceName_Label").GetComponent<UILabel>();
         intro = mainCon.transform.Find("EvidenceInfo_Label").GetComponent<UILabel>();
+    }
+
+    /// <summary>
+    /// 证据获得特效是否完成
+    /// </summary>
+    public bool IsEffectFinished()
+    {
+        return finished;
     }
 
     public void Show(Evidence evi)

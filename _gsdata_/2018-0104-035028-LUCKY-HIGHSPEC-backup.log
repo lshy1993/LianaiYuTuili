@@ -1,0 +1,723 @@
+2018-01-04 03:50:28: -- 分析开始 User Command
+2018-01-04 03:50:29: 变更：158， 冲突：， 复制时间：， 复制状态：4,525， 错误： , All: 11579
+2018-01-04 03:50:29: Left to Right: Delete File: 158 
+2018-01-04 03:50:29: -- 分析已结束。历时 00:00:01, 速度： 11K 文件/秒
+2018-01-04 03:50:29: 
+2018-01-04 03:54:42: == 同步开始由 User Command
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Advanced INI Parser/INIParser.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Advanced INI Parser/INIParser.cs.meta'
+2018-01-04 03:54:42: 删除文件夹 'D:/LianaiYuTuili/Assets/Advanced INI Parser'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Advanced INI Parser.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker/FungusStateTransition.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker/FungusStateTransition.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker/PlaymakerExecuteBlock.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker/PlaymakerExecuteBlock.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker/ReceiveFungusVariable.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker/ReceiveFungusVariable.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker/WriteToFungus.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker/WriteToFungus.cs.meta'
+2018-01-04 03:54:42: 删除文件夹 'D:/LianaiYuTuili/Assets/Fungus-Playmaker'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Fungus-Playmaker.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/BacklogVoiceButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/BacklogVoiceButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DetectFunctionButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DetectFunctionButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DetectNoteButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DetectNoteButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DialogButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DialogButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DialogMenuButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DialogMenuButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DialogNoteButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/DialogNoteButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EduButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EduButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EduRelaxButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EduRelaxButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EduReturnButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EduReturnButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EnquireEvidenceButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EnquireEvidenceButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EnquirePressButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/EnquirePressButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/GirlQButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/GirlQButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/InvestButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/InvestButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/KeywordButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/KeywordButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/MapButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/MapButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/MapReturnButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/MapReturnButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/MoveButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/MoveButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/PhoneAppButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/PhoneAppButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/PhoneEvidenceButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/PhoneEvidenceButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/PhoneLoveButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/PhoneLoveButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/PhoneSelfButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/PhoneSelfButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/ReasoningEvidenceButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/ReasoningEvidenceButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/ReasoningTextButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/ReasoningTextButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysBacklogButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysBacklogButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysContinueButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysContinueButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysExitButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysExitButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysLoadButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysLoadButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysNoteButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysNoteButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysReturnButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysReturnButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysSaveButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysSaveButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysSettingButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysSettingButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysTitleButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/SysTitleButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/TourButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/Button/TourButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/AnimateSwitchButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/AnimateSwitchButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/AvatarSwitchButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/AvatarSwitchButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/FadeSwitchButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/FadeSwitchButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/Live2DSwitchButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/Live2DSwitchButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/QuickFunctionHover.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/QuickFunctionHover.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/ScreenSizeButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/ScreenSizeButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/ToggleAuto.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/ToggleAuto.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/TopSwitchButton.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Script/UIScript/OnClick/TopSwitchButton.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Spinning.cs'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Assets/Spinning.cs.meta'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/0a/0a8e8bd4891e053498774ed57b50117e'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/0a/0a8e8bd4891e053498774ed57b50117e.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/11/11fe57842d0ce30478249f770ab1bf06'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/11/11fe57842d0ce30478249f770ab1bf06.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/1c/1c932cfdf8e6589418b6b034dc67e37a'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/1c/1c932cfdf8e6589418b6b034dc67e37a.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/2e/2ee9438dc1e8d24449b9ee1b0d2e4302'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/2e/2ee9438dc1e8d24449b9ee1b0d2e4302.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/32/32fe059b80c437b40ba9fa159f1a332e'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/32/32fe059b80c437b40ba9fa159f1a332e.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/3f/3f770d3009c5b8847a6dd3b25af8307c'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/3f/3f770d3009c5b8847a6dd3b25af8307c.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/5c/5cd737e1defc4f547b361460afe660c0'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/5c/5cd737e1defc4f547b361460afe660c0.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/63/639bc094851148446b68e609f6ffad2d'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/63/639bc094851148446b68e609f6ffad2d.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/78/7824ebaa8b7f8f94fa92a35d80f212d2'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/78/7824ebaa8b7f8f94fa92a35d80f212d2.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/81/8151e87c0536a1c4f918fad95c12d611'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/81/8151e87c0536a1c4f918fad95c12d611.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/83/83a29048f92e2614d8b00c9f11dd5139'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/83/83a29048f92e2614d8b00c9f11dd5139.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/89/89119945531717a478e074ee1b02d77f'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/89/89119945531717a478e074ee1b02d77f.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/8a/8aea8b430ffd01a419a36f4eb8e8ef03'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/8a/8aea8b430ffd01a419a36f4eb8e8ef03.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/99/99e5030783750fc4a8a609c717bbf932'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/99/99e5030783750fc4a8a609c717bbf932.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/9b/9b05841086b02c74a90005ef406f1bb9'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/9b/9b05841086b02c74a90005ef406f1bb9.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/9d/9d00718e2081ebd45a80126431ae6749'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/9d/9d00718e2081ebd45a80126431ae6749.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/a1/a1376ff7c5aadc747a2ace3fdeefcde4'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/a1/a1376ff7c5aadc747a2ace3fdeefcde4.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/aa/aa45abbb5c80758429ea99c4f48c70b1'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/aa/aa45abbb5c80758429ea99c4f48c70b1.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/b2/b2304fcd9cdd200488ce7ea5c3c7fb24'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/b2/b2304fcd9cdd200488ce7ea5c3c7fb24.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/b4/b4d11f1d3e2e9b8448a511f9fb485628'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/b4/b4d11f1d3e2e9b8448a511f9fb485628.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/b9/b965c04a8e7473446bab774e6d565576'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/b9/b965c04a8e7473446bab774e6d565576.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/bc/bc21014496d6e544f8bcca745947a95e'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/bc/bc21014496d6e544f8bcca745947a95e.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/bc/bc3f9c3150ec4c0479523a7f47a55554'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/bc/bc3f9c3150ec4c0479523a7f47a55554.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/c2/c28af75140c102a479ed8625905c4c45'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/c2/c28af75140c102a479ed8625905c4c45.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/d1/d15da728cb76d344194262af7862c6be'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/d1/d15da728cb76d344194262af7862c6be.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/d8/d894a7420064d6c49b6ac0e86fa7763d'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/d8/d894a7420064d6c49b6ac0e86fa7763d.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/da/daf1344c60fed41439a874a521c6f634'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/da/daf1344c60fed41439a874a521c6f634.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/e7/e7b5e62202c98a044980162242f6070a'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/e7/e7b5e62202c98a044980162242f6070a.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/ed/ed8158b5403c92546854967fc522814a'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/ed/ed8158b5403c92546854967fc522814a.info'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/f3/f337cae8086ee3842b818099e75d208f'
+2018-01-04 03:54:42: 删除文件 'D:/LianaiYuTuili/Library/metadata/f3/f337cae8086ee3842b818099e75d208f.info'
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ReasoningDebug/reasoning.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_1.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Analytics.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/TeachTwo.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/dd/dde7ba4f5f1cbd34f904fcda6770988b
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/49/4945327aded32744e920fb8ca724d4c5
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/50/50ebc94aa8255664e8359d2890948626
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b5/b516539adc1ec554fb9717fb40848b4d
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/18/182353fdf0b4d9a408de8776fe4fb8c8
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_2.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ce/ceb2eab2d2b6c2441a93a9fdc2eb5a20
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/04/04e4a548dec3f0f42b02e7819b7bbfc3
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/MusicShop.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/CharacterManager.cs
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_3.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/08/0857337a15411a14fb904e4961c6e0bc
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/ScienseMuseum.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Advertisements.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/02/02d38f0ee1ba04e479c708051f82ac41
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e3/e3ddeaa8f49436047b7770ef88998a75.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll.mdb
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/EventSystem/EventManager.cs
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/LianaiYuTuili.Editor.csproj
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/mapDefaultEvents.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/af/af46b3531bc67474fbbc4a8b4e49b481
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/16/16878144ce66b2c4a913436d10e3b608
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/AssetServerCacheV3
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/test-enquire.txt.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduDebug/Edu0.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_1.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/forceEvents.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b3/b300af791c4f19a45b6c4bb25a822129.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug/detest1.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EnquireDebug/enquire_sample.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/WcDonald.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/8e/8ee09f7dd72852245bf7012934ea9c82
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EvidenceDebug/evidence.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduDebug.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/15/15b354fa1d9d1c542acc9d1434742496
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_3.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.WindowsStandalone.Extensions.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.VR.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/UIScript/OnClick/ToggleAuto.cs
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/5d/5d8546418df6d1b4c89c999b8e69fb1d
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/CharacterDebug.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EnquireDebug/enquire.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b3/b300af791c4f19a45b6c4bb25a822129
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll.mdb
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EvidenceDebug.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f7/f72a1fe032a657c49abc971badcf5776
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/routines.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/DomTwo.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_3.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_3.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EnquireDebug.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/fb/fbf8243d940fc3646af5fcbe43a05f48
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/GuideEvent.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Cafe.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bb/bbefc72659f5f514fab91da0d6461cb9
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f0/f0fadba0f951c6a46aec1e8befc38ccf
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/78/78a4e4bd16cb4d8499a790ad72319e6e
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/1d/1dc964514a9f9504c8cc73fe94c5cf59
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Scene/main.unity
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e7/e721a0397a3ff9a4cbc3b30a09c26206
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/CurrentLayout.dwlt
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a4/a4d7f149575e1084897498a6e23b6ce9
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b8/b8d0b44756bbe6943a7b517d7614bb02.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Theater.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bd/bdb442deea54a464da3966d9aac19cf5
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bd/bd5c6c4188301a74daa96caf1f1e57b2
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/keywords.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/73/73f321e8873f14041936c48e2847d0a7
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/tourguides.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Market.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e9/e9d69899f7ded724db3287d97d4e4a7c
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_1.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ed/edfa36196ba67ab4f95d13d92e0b5421.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/LianaiYuTuili.csproj
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Library.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/keywords.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/GameCenter.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d5/d5935cfb6a9473045b3cdb255a5382ae
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/26/26bdfd4fe3d9fa341a7d352e3802ffc3
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/2c/2c8f5deadfb65b9419d4c42c6ecec378
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/fc/fce42ca0c46ea3d44bf6238db8e75aee
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_1.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a9/a9a6274115af3bf4e8b18c26c7a41456
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/73/73f67518b57a74148b432029f3d2e105
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/testMapEvents.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/13/131c3e1909b5a7a4687c077d8ad9f72d
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug/invest_sample.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a7/a7a977180aa7f2f4d97986feca986be3
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/90/900c0ec7b7cb7c1469924724ac20a041
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/GirlEvent_Su.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b8/b8d0b44756bbe6943a7b517d7614bb02
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/15/1599431f39b24154ebd14a57b05aca44
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/32/32188fd89022c154c81befa2f0e00be0.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_3.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a4/a4cf13fdc21e2e449b9619d9a273eb31
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_1.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/02/02d38f0ee1ba04e479c708051f82ac41.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/42/420d78b910b560c40a45bef7999efedc
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ed/edfa36196ba67ab4f95d13d92e0b5421
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bc/bc2501308ee69e046a0c26efd947d6c5
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/8d/8dc7e623f2b4a8d49b512d3d220f8d0d
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Restaurant.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu5_2.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/de/de033bd0de8dc204da5848b61b85e0e6
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/93/93e9da2e66b98404baf970eb942ada12
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.UI.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f5/f5737d68274db2847b7b11d48c9ef09b
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/GirlEvent_Ouyang.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/AppManager.cs
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a3/a3d48b3bad8b2484ea01010faf0531ae
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/32/32188fd89022c154c81befa2f0e00be0
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f1/f1358b42cc0788b4d9874ddf53671aaa
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7d/7d103e0d50046b541929d06f263d0152
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/6b/6b99716bd4b2a734b85289940086872b
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/expandedItems
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/8d/8d6a0e1330fdbc14bbda734cf9d92ae7
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7b/7b2af612b6ab9e34f92d6aff40e0106f.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e0/e04076b7bfc736141b84d91dd42dea34.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/test.txt.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d5/d5bc828c11afd0c40b4b379f3d1f8f2f
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d8/d8c6daced0e95314ca0ddc096b5d28aa.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/26/26bdfd4fe3d9fa341a7d352e3802ffc3.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7d/7d103e0d50046b541929d06f263d0152.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Museum.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/TeachThree.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f4/f406b74056df51b49830901191dcb8da.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Lake.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/df/df4a0c51d6c85754e9a4bdf23e90cc8d
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_2.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/VideoShop.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/0e/0ef0e55ef45dcc44dbcb8b6f7b0ec6e1
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/singleEvents.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/detest1.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c3/c3e5bed26a383e24fb161b6ac1b4ee33
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_1.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/testplace.txt.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_2.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/GirlEvent_Su.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f1/f1dc7e75b5b44614c94a1d8fba32ffea
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/TeachThree.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Museum.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/57b5c4fc4aaa16340a84d91c58c75a57.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/GirlDebug.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7d/7d9078f3a6a2e844981a8c604c861bab
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_2.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/ThemePark.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/girls.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Stadium.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Gym.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_3.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Shop.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/Events_Sample.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/57baf4ad2b25e49439148468873f8775
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.PlaymodeTestsRunner.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c8/c87acac99f9559a4fac7a4d8d2b5864c
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ca/ca34abcc58aa7d24cbaee3f58fa5058a
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.EditorTestsRunner.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/af/af46b3531bc67474fbbc4a8b4e49b481.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptMapper
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c7/c754b7540d4a93a4280016b40c8f808e
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/SyntaxTree.VisualStudio.Unity.Bridge.xml
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/mapEvents.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a4/a4cf13fdc21e2e449b9619d9a273eb31.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b7/b72b0a799dc37a74b9ecbd353cb37248
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d8/d8c6daced0e95314ca0ddc096b5d28aa
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/version.txt
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Graphs.xml
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d4/d4b59dba0ddf10a4f9d41c967582e9fa
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/51/519700b3ab7072c499b01c2a2fbb8f17
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Ground.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Cafe.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug/detest2.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/57b5c4fc4aaa16340a84d91c58c75a57
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/5d/5d638e18401f8894b94e79afb4e45dd8
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/db/db41f64232a96e94a9446f1e1c78c010
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_2.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/test_script.txt.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/Constants.cs
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/GirlEvent_Ximen.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Market.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b2/b28dd9209c0d5ba448570082179a7550
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/DetectManager.cs
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/InspectorExpandedItems.asset
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/MusicShop.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d7/d7346b5d18af4ec4f8d5785d8f97df8d
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/assetDatabase3
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_3.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/8b/8b6a9e31ee63c2f4d9f70c7d5309084f
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/EnquireManager.cs
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/Model/Girls.cs.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c5/c588b137ee3c1bf418189bb7eb359994
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bb/bbefc72659f5f514fab91da0d6461cb9.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/2c/2c8f5deadfb65b9419d4c42c6ecec378.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/af/af0cf6ab7e9fba4459ef275e85e16935
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_2.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/shadercompiler-UnityShaderCompiler.exe0.log
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Gym.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/75/757900b67e7cd15499a9b05044b2764b
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/9e/9e2b3eda42abbd44fababd6334165a6c
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/0e/0e17a78653f6d994babd7ff95dff8687
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/5c/5c8ebbd09f6d7cc43a54d089f9889dc9
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/TeachOne.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d2/d22ff0fc2fc342f42bd8f5b70ec2cb31
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7d/7d9090f777ed9d243ab6758520bb675f
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c8/c84dbe5553dcd724d807f5489d59958c
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_2.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ee/eef9271efe6cc5949848794c88dad7fa
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/fe/fefe7692e5e088446bf0087be2d594ea
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7b/7b2af612b6ab9e34f92d6aff40e0106f
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/Character.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Ground.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/1d/1d1c2ba6667a3ec458013c4193da3867
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ee/ee88242b22932e24d9b4f99fb8540a49
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/CharacterDebug/testgirls.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c5/c588b137ee3c1bf418189bb7eb359994.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/SyntaxTree.VisualStudio.Unity.Bridge.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/fa/fad3989870550c344a6de7afd8649da9
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/LianaiYuTuili.Plugins.csproj
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug/detest3.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Graphs.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/51/519700b3ab7072c499b01c2a2fbb8f17.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/17/17da2bab8ce0eaf49b3496efe5f1b576
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d6/d6f4336ab85e5f440b1eeead765c4a5f
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Beach.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e0/e04076b7bfc736141b84d91dd42dea34
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/UIScript/UIManager/SystemUIManager.cs
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu5_1.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/03/030c3867e3b0b9a489446e14fb0e511c
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/db/db41f64232a96e94a9446f1e1c78c010.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c4/c4a547ff7ed799246b9dc1ee898a0bf1
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ReasoningDebug.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_1.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/cd/cd0d25f4b42227543b272339a040d5b0
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/MapToEduEvent.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/5782f9e9e6e0bb94bac99aeea24814fc.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f4/f406b74056df51b49830901191dcb8da
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/ThemePark.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/NetCafe.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/5c/5c8ebbd09f6d7cc43a54d089f9889dc9.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/89/89eaa736c479a6e44a10c4864e985aa7
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.TreeEditor.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/University.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/5782f9e9e6e0bb94bac99aeea24814fc
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/DomOne.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/girls.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/17/17da2bab8ce0eaf49b3496efe5f1b576.info
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_2.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_3.json
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/LastSceneManagerSetup.txt
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e3/e3ddeaa8f49436047b7770ef88998a75
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/dd/dd2182d861ba3df4b902b1780a923721
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.HoloLens.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d0/d0b10d096f5b7c64291a4b621f69b155
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Networking.dll
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a7/a7e690ab981b7df40b230b4a4edcf61a
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.WindowsStandalone.Extensions.xml
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/BookStore.json.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e2/e22a1ecc2026b6841a8cf96c9eb43458
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/GirlManager.cs.meta
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/BuiltinAssemblies.stamp
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d2/d2075e39be92abb41bc301c075b14e0f
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b6/b68e916341c24fa41b56524e1b076e72
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d0/d03d9a18554bd8844b420e4d2f2a491f
+2018-01-04 03:54:42: Deleted Recycled: C:/File/UnityProject/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a5/a5b74521b481e774f9036a4e939d2183
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/TeachOne.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Gym.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/15/1599431f39b24154ebd14a57b05aca44
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EvidenceDebug.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/5c/5c8ebbd09f6d7cc43a54d089f9889dc9
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/test.txt.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Market.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d5/d5bc828c11afd0c40b4b379f3d1f8f2f
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ed/edfa36196ba67ab4f95d13d92e0b5421
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EnquireDebug/enquire.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/girls.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d0/d03d9a18554bd8844b420e4d2f2a491f
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/CurrentLayout.dwlt
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_1.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/ThemePark.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7d/7d9090f777ed9d243ab6758520bb675f
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/GirlManager.cs.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/8d/8dc7e623f2b4a8d49b512d3d220f8d0d
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d2/d2075e39be92abb41bc301c075b14e0f
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EnquireDebug.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ReasoningDebug/reasoning.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c5/c588b137ee3c1bf418189bb7eb359994.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ed/edfa36196ba67ab4f95d13d92e0b5421.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.UI.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e7/e721a0397a3ff9a4cbc3b30a09c26206
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/keywords.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bb/bbefc72659f5f514fab91da0d6461cb9
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f1/f1358b42cc0788b4d9874ddf53671aaa
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a7/a7a977180aa7f2f4d97986feca986be3
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_3.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_2.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_1.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.TreeEditor.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/cd/cd0d25f4b42227543b272339a040d5b0
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/MusicShop.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e9/e9d69899f7ded724db3287d97d4e4a7c
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_3.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b3/b300af791c4f19a45b6c4bb25a822129.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d4/d4b59dba0ddf10a4f9d41c967582e9fa
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.VR.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/42/420d78b910b560c40a45bef7999efedc
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/AssetServerCacheV3
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/dd/dd2182d861ba3df4b902b1780a923721
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/GirlEvent_Ouyang.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/TeachThree.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/girls.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/detest1.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f4/f406b74056df51b49830901191dcb8da.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c3/c3e5bed26a383e24fb161b6ac1b4ee33
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Lake.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/af/af46b3531bc67474fbbc4a8b4e49b481
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Restaurant.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/test_script.txt.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Cafe.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/2c/2c8f5deadfb65b9419d4c42c6ecec378
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/73/73f321e8873f14041936c48e2847d0a7
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/2c/2c8f5deadfb65b9419d4c42c6ecec378.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a7/a7e690ab981b7df40b230b4a4edcf61a
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f1/f1dc7e75b5b44614c94a1d8fba32ffea
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Cafe.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_2.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/26/26bdfd4fe3d9fa341a7d352e3802ffc3.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_3.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/testMapEvents.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/93/93e9da2e66b98404baf970eb942ada12
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_3.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ee/eef9271efe6cc5949848794c88dad7fa
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/49/4945327aded32744e920fb8ca724d4c5
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/VideoShop.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d0/d0b10d096f5b7c64291a4b621f69b155
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/ScienseMuseum.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_3.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/InspectorExpandedItems.asset
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/9e/9e2b3eda42abbd44fababd6334165a6c
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/16/16878144ce66b2c4a913436d10e3b608
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ca/ca34abcc58aa7d24cbaee3f58fa5058a
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/WcDonald.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/db/db41f64232a96e94a9446f1e1c78c010.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/13/131c3e1909b5a7a4687c077d8ad9f72d
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a9/a9a6274115af3bf4e8b18c26c7a41456
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e3/e3ddeaa8f49436047b7770ef88998a75.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.WindowsStandalone.Extensions.xml
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/51/519700b3ab7072c499b01c2a2fbb8f17.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Ground.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/LianaiYuTuili.csproj
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/GirlEvent_Su.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Ground.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_2.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7b/7b2af612b6ab9e34f92d6aff40e0106f.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EnquireDebug/enquire_sample.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/0e/0e17a78653f6d994babd7ff95dff8687
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_2.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_1.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/expandedItems
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d8/d8c6daced0e95314ca0ddc096b5d28aa
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/MapToEduEvent.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/fe/fefe7692e5e088446bf0087be2d594ea
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_2.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/5d/5d8546418df6d1b4c89c999b8e69fb1d
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Scene/main.unity
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/fa/fad3989870550c344a6de7afd8649da9
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b6/b68e916341c24fa41b56524e1b076e72
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/UIScript/UIManager/SystemUIManager.cs
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/DomTwo.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.PlaymodeTestsRunner.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_3.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Shop.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/version.txt
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/af/af0cf6ab7e9fba4459ef275e85e16935
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Market.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/04/04e4a548dec3f0f42b02e7819b7bbfc3
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_1.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a4/a4cf13fdc21e2e449b9619d9a273eb31
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/DomOne.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/32/32188fd89022c154c81befa2f0e00be0
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/78/78a4e4bd16cb4d8499a790ad72319e6e
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/8b/8b6a9e31ee63c2f4d9f70c7d5309084f
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/TeachThree.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_1.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.WindowsStandalone.Extensions.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/LianaiYuTuili.Editor.csproj
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d2/d22ff0fc2fc342f42bd8f5b70ec2cb31
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/GuideEvent.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/dd/dde7ba4f5f1cbd34f904fcda6770988b
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/af/af46b3531bc67474fbbc4a8b4e49b481.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/8e/8ee09f7dd72852245bf7012934ea9c82
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/8d/8d6a0e1330fdbc14bbda734cf9d92ae7
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/26/26bdfd4fe3d9fa341a7d352e3802ffc3
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_1.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_2.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/51/519700b3ab7072c499b01c2a2fbb8f17
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7b/7b2af612b6ab9e34f92d6aff40e0106f
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/0e/0ef0e55ef45dcc44dbcb8b6f7b0ec6e1
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/LastSceneManagerSetup.txt
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug/invest_sample.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Beach.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu1_2.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/de/de033bd0de8dc204da5848b61b85e0e6
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/test-enquire.txt.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug/detest3.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug/detest2.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/keywords.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f0/f0fadba0f951c6a46aec1e8befc38ccf
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/6b/6b99716bd4b2a734b85289940086872b
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f4/f406b74056df51b49830901191dcb8da
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/DetectManager.cs
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/testplace.txt.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bd/bd5c6c4188301a74daa96caf1f1e57b2
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/03/030c3867e3b0b9a489446e14fb0e511c
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/NetCafe.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bc/bc2501308ee69e046a0c26efd947d6c5
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/08/0857337a15411a14fb904e4961c6e0bc
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu3_1.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/EventSystem/EventManager.cs
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/EnquireManager.cs
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/routines.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/57baf4ad2b25e49439148468873f8775
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/5782f9e9e6e0bb94bac99aeea24814fc.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu5_2.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a5/a5b74521b481e774f9036a4e939d2183
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Library.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/SyntaxTree.VisualStudio.Unity.Bridge.xml
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/GameCenter.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/assetDatabase3
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/Constants.cs
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/Events_Sample.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug/tourguides.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/18/182353fdf0b4d9a408de8776fe4fb8c8
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bb/bbefc72659f5f514fab91da0d6461cb9.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Advertisements.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Analytics.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/57b5c4fc4aaa16340a84d91c58c75a57
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/df/df4a0c51d6c85754e9a4bdf23e90cc8d
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c8/c84dbe5553dcd724d807f5489d59958c
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a4/a4cf13fdc21e2e449b9619d9a273eb31.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/02/02d38f0ee1ba04e479c708051f82ac41
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e0/e04076b7bfc736141b84d91dd42dea34
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b7/b72b0a799dc37a74b9ecbd353cb37248
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/mapEvents.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/1d/1dc964514a9f9504c8cc73fe94c5cf59
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptMapper
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/LianaiYuTuili.Plugins.csproj
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/15/15b354fa1d9d1c542acc9d1434742496
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll.mdb
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a3/a3d48b3bad8b2484ea01010faf0531ae
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d8/d8c6daced0e95314ca0ddc096b5d28aa.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c8/c87acac99f9559a4fac7a4d8d2b5864c
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.EditorTestsRunner.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Gym.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/bd/bdb442deea54a464da3966d9aac19cf5
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/a4/a4d7f149575e1084897498a6e23b6ce9
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Graphs.xml
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/Character.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/32/32188fd89022c154c81befa2f0e00be0.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/BuiltinAssemblies.stamp
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Networking.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/CharacterDebug/testgirls.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b5/b516539adc1ec554fb9717fb40848b4d
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c5/c588b137ee3c1bf418189bb7eb359994
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/GirlEvent_Su.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/SyntaxTree.VisualStudio.Unity.Bridge.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/DetectDebug/detest1.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/50/50ebc94aa8255664e8359d2890948626
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EvidenceDebug/evidence.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/University.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f7/f72a1fe032a657c49abc971badcf5776
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b8/b8d0b44756bbe6943a7b517d7614bb02.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/mapDefaultEvents.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/17/17da2bab8ce0eaf49b3496efe5f1b576.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/17/17da2bab8ce0eaf49b3496efe5f1b576
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/90/900c0ec7b7cb7c1469924724ac20a041
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll.mdb
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/75/757900b67e7cd15499a9b05044b2764b
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduDebug/Edu0.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e2/e22a1ecc2026b6841a8cf96c9eb43458
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Museum.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/Model/Girls.cs.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_3.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu2_2.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/GirlDebug.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e0/e04076b7bfc736141b84d91dd42dea34.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Stadium.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu5_1.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/5d/5d638e18401f8894b94e79afb4e45dd8
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d6/d6f4336ab85e5f440b1eeead765c4a5f
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/02/02d38f0ee1ba04e479c708051f82ac41.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/5782f9e9e6e0bb94bac99aeea24814fc
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c4/c4a547ff7ed799246b9dc1ee898a0bf1
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d7/d7346b5d18af4ec4f8d5785d8f97df8d
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/fb/fbf8243d940fc3646af5fcbe43a05f48
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/1d/1d1c2ba6667a3ec458013c4193da3867
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b8/b8d0b44756bbe6943a7b517d7614bb02
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/57/57b5c4fc4aaa16340a84d91c58c75a57.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/fc/fce42ca0c46ea3d44bf6238db8e75aee
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.Graphs.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/UnityAssemblies/UnityEditor.HoloLens.dll
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Theater.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7d/7d103e0d50046b541929d06f263d0152
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/89/89eaa736c479a6e44a10c4864e985aa7
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ce/ceb2eab2d2b6c2441a93a9fdc2eb5a20
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/e3/e3ddeaa8f49436047b7770ef88998a75
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/ThemePark.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/db/db41f64232a96e94a9446f1e1c78c010
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b2/b28dd9209c0d5ba448570082179a7550
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/CharacterDebug.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/CharacterManager.cs
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/MusicShop.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/MapEvents/GirlEvent_Ximen.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/forceEvents.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7d/7d103e0d50046b541929d06f263d0152.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/AppDebug.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/BookStore.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduConfig/Edu4_3.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/b3/b300af791c4f19a45b6c4bb25a822129
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/shadercompiler-UnityShaderCompiler.exe0.log
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/TestEvents/Events/singleEvents.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/c7/c754b7540d4a93a4280016b40c8f808e
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/73/73f67518b57a74148b432029f3d2e105
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/f5/f5737d68274db2847b7b11d48c9ef09b
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/Museum.json
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ButtonConfig/TeachTwo.json.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/5c/5c8ebbd09f6d7cc43a54d089f9889dc9.info
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Script/GameStruct/AppManager.cs
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/EduDebug.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/ee/ee88242b22932e24d9b4f99fb8540a49
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/d5/d5935cfb6a9473045b3cdb255a5382ae
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Assets/Resources/Text/ReasoningDebug.meta
+2018-01-04 03:54:43: Deleted Recycled: D:/LianaiYuTuili/_gsdata_/_saved_/Library/metadata/7d/7d9078f3a6a2e844981a8c604c861bab
+2018-01-04 03:54:43: == 同步完成. 历时: 00:00:01, 速度: 0 字节/s, 完成: 4,683, 错误: 
+2018-01-04 03:54:43: 

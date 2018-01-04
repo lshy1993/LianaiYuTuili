@@ -35586,7 +35586,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogLabel: {fileID: 205687513}
   nameLabel: {fileID: 384964616}
-  finished: 0
 --- !u!1 &744205946
 GameObject:
   m_ObjectHideFlags: 0
@@ -92807,12 +92806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7be94fc5f047444832538b1b72e18b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowhp: 0
-  allhp: 0
-  nowmp: 0
-  allmp: 0
-  opened: 0
-  finished: 0
+  sm: {fileID: 46274297}
 --- !u!1 &1991633105
 GameObject:
   m_ObjectHideFlags: 0

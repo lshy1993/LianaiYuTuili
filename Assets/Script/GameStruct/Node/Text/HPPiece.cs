@@ -12,6 +12,10 @@ namespace Assets.Script.GameStruct
     {
         private GameObject hpPanel;
         private int minusNum;
+
+        /// <summary>
+        /// 当前块是否执行完毕
+        /// </summary>
         public bool finished;
 
         public HPPiece(int id, GameObject hppanel, int minus) : base(id)
@@ -26,7 +30,7 @@ namespace Assets.Script.GameStruct
             //判断UI是否完成了动画显示
             hpPanel.SetActive(true);
             HPMPUIManager uiManager = hpPanel.GetComponent<HPMPUIManager>();
-            if (uiManager.finished)
+            if (uiManager.IsEffectFinished())
             {
                 finished = true;
                 uiManager.HideBar();

@@ -52,6 +52,10 @@ namespace Assets.Script.UIScript
             //backSprite.GetComponent<UIRect>().alpha = 0;
             //backSprite.SetActive(true);
             btnTable.SetActive(false);
+            for (int i = 0; i < btnTable.transform.childCount; i++)
+            {
+                btnTable.transform.GetChild(i).GetComponent<UIRect>().alpha = 0;
+            }
             titleLabel.GetComponent<UIRect>().alpha = 0;
             copyLabel.SetActive(false);
             versionLabel.SetActive(false);

@@ -19,6 +19,19 @@ namespace Assets.Script.GameStruct
             get { return  DataManager.GetInstance().staticData.evidenceDic; }
         }
 
+        private List<string> evidenceHave
+        {
+            get { return DataManager.GetInstance().inturnData.holdEvidences; }
+        }
+
+        private List<string> knownInfo
+        {
+            get { return DataManager.GetInstance().inturnData.detectKnown; }
+        }
+
+        /// <summary>
+        /// 当前块是否执行完毕
+        /// </summary>
         public bool finished;
 
         public EviPiece(int id, GameObject evipanel, string eviname) : base(id)
@@ -33,7 +46,6 @@ namespace Assets.Script.GameStruct
             //打开证据获得框
             eviPanel.SetActive(true);
             //检查是否已经获得过证据
-            List<string> evidenceHave = DataManager.GetInstance().inturnData.holdEvidences;
             if (evidenceHave.Contains(eviStr))
             {
                 finished = true;
@@ -42,11 +54,10 @@ namespace Assets.Script.GameStruct
             //添加证据 且打开UI
             Evidence getevi = evidic[eviStr];
             EviGetUIManager uimanager = eviPanel.GetComponent<EviGetUIManager>();
-            if (uimanager.finished)
+            if (uimanager.IsEffectFinished())
             {
                 finished = true;
                 evidenceHave.Add(eviStr);
-                List<string> knownInfo = DataManager.GetInstance().inturnData.detectKnown;
                 knownInfo.Add(getevi.name);
                 uimanager.Close();
             }

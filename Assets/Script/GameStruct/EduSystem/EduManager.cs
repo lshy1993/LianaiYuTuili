@@ -14,7 +14,7 @@ namespace Assets.Script.GameStruct
         private static EduManager instance;
 
         //private Hashtable gVars, lVars;
-        private List<EduEvent> events;//所有的按钮
+        //private List<EduEvent> events;//所有的按钮
         private DataManager manager;
         //public EduEvent currentEvent;
 
@@ -31,7 +31,7 @@ namespace Assets.Script.GameStruct
             //this.gVars = gVars;
             //this.lVars = lVars;
             this.manager = manager;
-            this.events = events;
+            //this.events = events;
         }
 
         public static List<EduEvent> GetStaticEduEvents()

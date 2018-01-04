@@ -101,7 +101,7 @@ public class EnquireUIManager : MonoBehaviour
     {
         //如果抬起空格则进入冷却
         if (Input.GetKeyUp(KeyCode.Space)) coolDown = true;
-        if (hpmpManager.nowmp == 0f) coolDown = false;
+        if (hpmpManager.IsZeroMP()) coolDown = false;
         //开始询问后，不减速时不断回复MP
         //按下空格则开始减速 同时消耗MP
         if (Input.GetKey(KeyCode.Space) && coolDown)
@@ -352,7 +352,7 @@ public class EnquireUIManager : MonoBehaviour
     {
         float x = position.x;
         float y = position.y;
-        float l = currentLabel.localSize.y;
+        //float h = currentLabel.localSize.y;
         float w = currentLabel.localSize.x;
         //弹幕右侧与屏幕右侧距离 当小于100时开始淡出
         float right = 640 - (w / 2 + x);
@@ -445,7 +445,7 @@ public class EnquireUIManager : MonoBehaviour
     {
         float t = 0;
         float y = isopen ? 0 : 1;
-        float time = isopen ? 0.15f : 0.15f;
+        //float time = isopen ? 0.15f : 0.15f;
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.fixedDeltaTime);
@@ -591,7 +591,7 @@ public class EnquireUIManager : MonoBehaviour
     {
         StartCoroutine(CloseUI());
         yield return StartCoroutine(PresentAnimation(false));
-        if (evidence.UID == enquireEvent.enquireBreak.evidence && currentID + 1 == enquireEvent.enquireBreak.id)
+        if(JudgeObjection(evidence.UID))
         {
             EnquireExit(Constants.ENQUIRE_STATUS.CORRECT);
         }
@@ -599,6 +599,11 @@ public class EnquireUIManager : MonoBehaviour
         {
             EnquireExit(Constants.ENQUIRE_STATUS.WRONG);
         }
+    }
+
+    private bool JudgeObjection(string UID)
+    {
+        return enquireEvent.enquireBreak.evidence.Contains(UID) && enquireEvent.enquireBreak.id.Contains(currentID);
     }
 
     private IEnumerator PresentAnimation(bool isHold)

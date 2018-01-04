@@ -87,7 +87,10 @@ namespace Assets.Script.GameStruct
             InitInTurn();
         }
 
-        private void InitInTurn()
+        /// <summary>
+        /// 初始化推理模式数据
+        /// </summary>
+        public void InitInTurn()
         {
             //SetInTurnVar("持有证据", new List<string>());
             //SetInTurnVar("侦探事件已知信息", new List<string>());
@@ -99,7 +102,7 @@ namespace Assets.Script.GameStruct
             //SetInTurnVar("询问编号", "");
             //SetInTurnVar("证词序号", 0);
             //SetInTurnVar("当前血量", 5);
-            //单回合内数据 写入存档
+            //推理回合数据 写入存档
             SetTempVar("文字记录", new Queue<BacklogText>());
             inturnData.holdEvidences = new List<string>();
             inturnData.detectKnown = new List<string>();
