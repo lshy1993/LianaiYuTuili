@@ -98,10 +98,10 @@ namespace Assets.Script.GameStruct
         /// 淡出所有立绘【需要与RemoveAllChara连用】
         /// </summary>
         /// <param name="fadeout">淡出时间，默认0.3s</param>
-        public EffectPiece FadeoutAllChara(float fadeout = 0.3f)
+        public EffectPiece FadeoutAllChara(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            effects.Enqueue(NewEffectBuilder.FadeOutAll(fadeout));
+            effects.Enqueue(NewEffectBuilder.FadeOutAllChara(fadeout));
             return new EffectPiece(id++, effects);
             
         }
@@ -110,10 +110,10 @@ namespace Assets.Script.GameStruct
         /// 淡出所有图片【需要与RemoveAllPic连用】
         /// </summary>
         /// <param name="fadeout">淡出时间，默认0.3s</param>
-        public EffectPiece FadeoutAllPic(float fadeout = 0.3f)
+        public EffectPiece FadeoutAllPic(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            effects.Enqueue(NewEffectBuilder.FadeOutAll(fadeout));
+            effects.Enqueue(NewEffectBuilder.FadeOutAllPic(fadeout));
             return new EffectPiece(id++, effects);
         }
 
@@ -121,7 +121,7 @@ namespace Assets.Script.GameStruct
         /// 淡出所有（包括对话框）【需要与RemoveAll连用】
         /// </summary>
         /// <param name="fadeout">淡出时间，默认0.3s</param>
-        public EffectPiece FadeoutAll(float fadeout = 0.3f)
+        public EffectPiece FadeoutAll(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutAll(fadeout));
@@ -135,18 +135,31 @@ namespace Assets.Script.GameStruct
         public EffectPiece SetBackground(string spriteName)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.SetAlphaBackSprite(1));
             effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
             return new EffectPiece(id++, effects);
 
         }
 
         /// <summary>
-        /// 变更背景（淡出后淡入新背景）
+        /// 转换背景
+        /// </summary>
+        /// <param name="spriteName">目标图片名</param>
+        /// <param name="transtime">转换时间</param>
+        public EffectPiece TransBackground(string spriteName, float transtime = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.TransBackSprite(spriteName, transtime));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 变更背景（淡出旧背景+淡入新背景）
         /// </summary>
         /// <param name="spriteName">需要更改的背景图片名</param>
         /// <param name="fadeout">原图淡出的时间，默认0.3s</param>
         /// <param name="fadein">新图淡入的时间，默认0.3s</param>
-        public EffectPiece ChangeBackground(string spriteName, float fadeout = 0.3f, float fadein = 0.3f)
+        public EffectPiece ChangeBackground(string spriteName, float fadeout = 0.5f, float fadein = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutBackSprite(fadeout));
@@ -156,12 +169,13 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 设置背景（淡入）
+        /// 设置背景（从0淡入）
         /// </summary>
         /// <param name="fadein">新图淡入的时间，默认0.3s</param>
-        public EffectPiece FadeinBackground(string spriteName, float fadein = 0.3f)
+        public EffectPiece FadeinBackground(string spriteName, float fadein = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.SetAlphaBackSprite(0));
             effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
             effects.Enqueue(NewEffectBuilder.FadeInBackSprite(fadein));
             return new EffectPiece(id++, effects);
@@ -171,7 +185,7 @@ namespace Assets.Script.GameStruct
         /// 移除背景（淡出）
         /// </summary>
         /// <param name="fadeout">原图淡出的时间，默认0.3s</param>
-        public EffectPiece FadeoutBackground(float fadeout = 0.3f)
+        public EffectPiece FadeoutBackground(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutBackSprite(fadeout));
@@ -179,29 +193,75 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 设置立绘（画面中心，淡入效果）
+        /// 设置立绘（画面中心）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">需要更改的背景图片名</param>
-        /// <param name="fadein">淡入的时间，默认0.3s</param>
-        public EffectPiece SetCharacterSprite(int depth, string spriteName, float fadein = 0.3f)
-        {
-            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth ,spriteName));
-            effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 0));
-            effects.Enqueue(NewEffectBuilder.SetDefaultPostionByDepth(depth, "middle"));
-            effects.Enqueue(NewEffectBuilder.FadeInByDepth(depth, fadein));
-            return new EffectPiece(id++, effects);
-        }
+        //public EffectPiece SetCharacterSprite(int depth, string spriteName)
+        //{
+        //    Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+        //    effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth ,spriteName));
+        //    effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 0));
+        //    effects.Enqueue(NewEffectBuilder.SetDefaultPostionByDepth(depth, "middle"));
+        //    return new EffectPiece(id++, effects);
+        //}
 
         /// <summary>
-        /// 设置立绘（预设位置：左 中 右后淡入）
+        /// 设置立绘（预设位置：左 中 右）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">需要更改的背景图片名</param>
         /// <param name="position">left | middle | right 左中右</param>
-        /// <param name="fadein">淡入的时间，默认0.3s</param>
-        public EffectPiece SetCharacterSprite(int depth, string spriteName, string position, float fadein = 0.3f)
+        public EffectPiece SetCharacterSprite(int depth, string spriteName, string position = "middle")
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth, spriteName));
+            effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 1));
+            effects.Enqueue(NewEffectBuilder.SetDefaultPostionByDepth(depth, position));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 设置立绘（带坐标）
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">需要更改的背景图片名</param>
+        /// <param name="x">x轴坐标</param>
+        /// <param name="y">y轴坐标</param>
+        public EffectPiece SetCharacterSprite(int depth, string spriteName, float x, float y)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth, spriteName));
+            effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 1));
+            effects.Enqueue(NewEffectBuilder.SetPostionByDepth(depth, new Vector3(x, y)));
+            return new EffectPiece(id++, effects);
+        }
+
+
+        /// <summary>
+        /// 淡入立绘（画面中心）
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">需要更改的背景图片名</param>
+        /// <param name="fadein">淡入的时间，默认0.5s</param>
+        //public EffectPiece FadeInCharacterSprite(int depth, string spriteName, float fadein = 0.5f)
+        //{
+        //    Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+        //    effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth, spriteName));
+        //    effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 0));
+        //    effects.Enqueue(NewEffectBuilder.SetDefaultPostionByDepth(depth, "middle"));
+        //    effects.Enqueue(NewEffectBuilder.FadeInByDepth(depth, fadein));
+        //    return new EffectPiece(id++, effects);
+        //}
+
+        /// <summary>
+        /// 淡入立绘（预设位置：左 中 右）
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">需要更改的背景图片名</param>
+        /// <param name="position">left | middle | right </param>
+        /// <param name="fadein">淡入的时间，默认0.5s</param>
+        public EffectPiece FadeInCharacterSprite(int depth, string spriteName, string position = "middle", float fadein = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth, spriteName));
@@ -212,14 +272,14 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 设置立绘（带坐标淡入）
+        /// 淡入立绘（带坐标）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">需要更改的背景图片名</param>
         /// <param name="x">x轴坐标</param>
         /// <param name="y">y轴坐标</param>
-        /// <param name="fadein">淡入的时间，默认0.3s</param>
-        public EffectPiece SetCharacterSprite(int depth, string spriteName, float x, float y, float fadein = 0.3f)
+        /// <param name="fadein">淡入的时间，默认0.5s</param>
+        public EffectPiece SetCharacterSprite(int depth, string spriteName, float x, float y, float fadein = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth, spriteName));
@@ -230,13 +290,27 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 更改立绘douyu.com
+        /// 渐变立绘
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
-        /// <param name="spriteName">需要更改的背景图片名</param>
+        /// <param name="spriteName">新显示的图片名</param>
+        /// <param name="transtime">渐变时间，默认0.5s</param>
+        /// <returns></returns>
+        public EffectPiece TransCharacterSprite(int depth, string spriteName, float transtime = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            //TODO
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 淡入淡出立绘
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">新显示的图片名</param>
         /// <param name="fadeout">原图淡出的时间，默认0.5s</param>
         /// <param name="fadein">淡入的时间，默认0.5s</param>
-        public EffectPiece ChangeCharacterSprite(int depth, string spriteName, float fadeout = 0.15f, float fadein = 0.15f)
+        public EffectPiece ChangeCharacterSprite(int depth, string spriteName, float fadeout = 0.5f, float fadein = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutByDepth(depth, fadeout));
@@ -246,11 +320,11 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 删除立绘
+        /// 淡出立绘
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
-        /// <param name="fadeout">淡出的时间，默认0.3s</param>
-        public EffectPiece FadeoutCharacterSprite(int depth, float fadeout = 0.3f)
+        /// <param name="fadeout">淡出的时间，默认0.5s</param>
+        public EffectPiece FadeoutCharacterSprite(int depth, float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutByDepth(depth, fadeout));

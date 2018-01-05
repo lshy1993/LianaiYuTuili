@@ -54,7 +54,7 @@ public class SystemUIManager : MonoBehaviour
         tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
         TextureScale.Bilinear(tex, 240, 135);
         byte[] imagebytes = tex.EncodeToPNG();
-        DataPool.GetInstance().WriteTempVar("缩略图", imagebytes);
+        DataManager.GetInstance().SetTempVar("缩略图", imagebytes);
         Destroy(tex);
     }
 

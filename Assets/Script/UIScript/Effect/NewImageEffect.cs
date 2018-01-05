@@ -18,7 +18,7 @@ namespace Assets.Script.UIScript
 
         public enum ImageType { Back, Fore, AllChara, AllPic, All };
         public ImageType target;
-        public enum OperateMode { SetSprite, SetPos, SetAlpha, Fade, Move, Remove };
+        public enum OperateMode { SetSprite, SetPos, SetAlpha, Fade, Move, Trans, Delete };
         public OperateMode operate;
 
         public NewImageEffect()

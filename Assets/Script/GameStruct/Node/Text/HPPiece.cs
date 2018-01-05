@@ -27,9 +27,9 @@ namespace Assets.Script.GameStruct
 
         public override void Exec()
         {
-            //判断UI是否完成了动画显示
             hpPanel.SetActive(true);
             HPMPUIManager uiManager = hpPanel.GetComponent<HPMPUIManager>();
+            //判断UI是否完成了动画显示
             if (uiManager.IsEffectFinished())
             {
                 finished = true;

@@ -28,6 +28,10 @@ namespace Assets.Script.TextScripts
         public override GameNode NextNode()
         {
             Finish();
+            if (manager.inturnData.gameOver)
+            {
+                return nodeFactory.FindTextScript("demo_fail");
+            }
             return nodeFactory.GetReasoningNode("Qdemo01");
         }
 

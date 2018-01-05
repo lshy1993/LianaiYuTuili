@@ -6,19 +6,19 @@ using System.Collections;
 
 namespace Assets.Script.GameStruct
 {
-    class DataPool
+    class DataPool1
     {
-        private static DataPool instance;
-        public static DataPool GetInstance()
+        private static DataPool1 instance;
+        public static DataPool1 GetInstance()
         {
-            if (instance == null) instance = new DataPool();
+            if (instance == null) instance = new DataPool1();
             return instance;
         }
 
         private Hashtable staticVar, systemVar, gameVar, inTurnVar, tempVar;
 
         private Dictionary<string, Type> gameVarTypes, inTurnVarTypes;
-        private DataPool()
+        private DataPool1()
         {
             staticVar = new Hashtable();
             systemVar = new Hashtable();

@@ -31,7 +31,7 @@ namespace Assets.Script.TextScripts
             Finish();
             if (manager.inturnData.gameOver)
             {
-                return nodeFactory.FindTextScript("demofin");
+                return nodeFactory.FindTextScript("demo_fail");
             }
             return nodeFactory.GetEnquireNode("demoZ00");
         }

@@ -21,7 +21,7 @@ public class VisualDynamicData : EditorWindow
     private bool toggle1, toggle2, toggle3, toggle4, toggle5, toggle6;
     private int index;
     private DataManager dm;
-    private Player p;
+    private Player p { get { return dm.gameData.player; } }
 
     [MenuItem("GalTool/DynamicData")]
     public static void showWindow()
@@ -33,7 +33,6 @@ public class VisualDynamicData : EditorWindow
     {
         //开启窗口时 加载数据
         dm = DataManager.GetInstance();
-        p = dm.gameData.player;
         autoRepaintOnSceneChange = true;
         toggle1 = false;
     }
@@ -41,7 +40,7 @@ public class VisualDynamicData : EditorWindow
     public void OnGUI()
     {
         //GUI显示
-        if (GUILayout.Button("ShowAllHashtable"))
+        if (GUILayout.Button("REFRESH"))
         {
             index = -1;
         }
@@ -88,6 +87,7 @@ public class VisualDynamicData : EditorWindow
             EditorGUILayout.LabelField("艺术", p.GetBasicStatus("艺术").ToString());
             EditorGUILayout.LabelField("体育", p.GetBasicStatus("体育").ToString());
             EditorGUILayout.LabelField("宅力", p.GetBasicStatus("宅力").ToString());
+            EditorGUILayout.LabelField("体力", p.energyPoint.ToString());
             EditorGUILayout.LabelField("排名", p.GetBasicStatus("排名").ToString());
             EditorGUILayout.LabelField("金钱", p.GetBasicStatus("金钱").ToString());
             GUILayout.Label("=========逻辑属性=========");
@@ -95,7 +95,7 @@ public class VisualDynamicData : EditorWindow
             EditorGUILayout.LabelField("口才", p.GetLogicStatus("口才").ToString());
             EditorGUILayout.LabelField("思维", p.GetLogicStatus("思维").ToString());
             EditorGUILayout.LabelField("观察", p.GetLogicStatus("观察").ToString());
-            EditorGUILayout.LabelField("生命上限", p.GetLogicStatus("生命上限").ToString());
+            EditorGUILayout.LabelField("生命上限", p.LimitHP.ToString());
             EditorGUILayout.LabelField("精力总量", dm.gameData.All_MP.ToString());
             GUILayout.Label("=======攻略对象好感度=======");
             EditorGUILayout.LabelField("苏梦忆", p.GetGirlPoint("苏梦忆").ToString());
@@ -156,7 +156,7 @@ public class VisualDynamicData : EditorWindow
         switch (index)
         {
             case -1:
-                ShowAllTable();
+                Repaint();
                 break;
             case 0:
                 ShowEventTabel();
@@ -256,21 +256,4 @@ public class VisualDynamicData : EditorWindow
         }
     }
 
-    void ShowAllTable()
-    {
-        content = string.Empty;
-        foreach (string key in DataManager.GetInstance().GetGameVars().Keys)
-        {
-            content += key + "\n";
-        }
-        foreach (string key in DataManager.GetInstance().GetInTurnVars().Keys)
-        {
-            content += key + "\n";
-        }
-        foreach (string key in DataManager.GetInstance().GetSystemVars().Keys)
-        {
-            content += key + "\n";
-        }
-
-    }
 }

@@ -51,7 +51,7 @@ public class HPMPUIManager : MonoBehaviour
     {
 
         nowhp = dm.inturnData.currentHP;
-        allhp = dm.gameData.player.logicStatus["生命上限"];
+        allhp = dm.gameData.player.LimitHP;
         hpValue = (float)nowhp / (float)allhp;
 
         allmp = dm.gameData.All_MP;
@@ -103,7 +103,6 @@ public class HPMPUIManager : MonoBehaviour
     /// <param name="x">减少量</param>
     public void HPMinus(int x)
     {
-
         nowhp += x;
         dm.inturnData.currentHP = nowhp;
         StartCoroutine(Minus());
@@ -160,6 +159,7 @@ public class HPMPUIManager : MonoBehaviour
             hpmpContainer.transform.localPosition = new Vector3(hpx, hpmpContainer.transform.localPosition.y, 0);
             yield return null;
         }
+        finished = false;
         opened = false;
         transform.gameObject.SetActive(false);
     }

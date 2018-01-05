@@ -13,7 +13,7 @@ namespace Assets.Script.GameStruct
         public static readonly int TURN_MAX = 180;
 
         public static readonly int MOVE_MIN = 0;
-        public static readonly int MOVE_MAX = 100;
+        public static readonly int MOVE_MAX = 250;
 
         public static readonly int BASIC_MIN = 0;
         public static readonly int BASIC_MAX = 250;

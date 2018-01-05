@@ -216,12 +216,11 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 foreach (KeyValuePair<string, Range> kv in e.conditionStatus)
                 {
-                    if (player.ContainsBasicStatus(kv.Key) &&
-                        (kv.Value.GetMin() > player.GetBasicStatus(kv.Key) || player.GetBasicStatus(kv.Key) > kv.Value.GetMax()))
+                    int bstatus = player.GetBasicStatus(kv.Key);
+                    if ((kv.Value.GetMin() > bstatus || bstatus > kv.Value.GetMax()))
                         return false;
-
-                    if (player.ContainsLogicStatus(kv.Key) &&
-                        (kv.Value.GetMin() > player.GetLogicStatus(kv.Key) || player.GetLogicStatus(kv.Key) > kv.Value.GetMax()))
+                    int lstatus = player.GetLogicStatus(kv.Key);
+                    if ((kv.Value.GetMin() > lstatus  || lstatus > kv.Value.GetMax()))
                         return false;
                 }
             }
@@ -240,8 +239,8 @@ namespace Assets.Script.GameStruct.EventSystem
             {
                 foreach (KeyValuePair<string, Range> kv in e.conditionGirls)
                 {
-                    if (player.ContainsBasicStatus(kv.Key) &&
-                        (kv.Value.GetMin() > player.GetGirlPoint(kv.Key) || player.GetGirlPoint(kv.Key) > kv.Value.GetMax()))
+                    int gstatus = player.GetGirlPoint(kv.Key);
+                    if ((kv.Value.GetMin() > gstatus || gstatus> kv.Value.GetMax()))
                         return false;
                 }
             }

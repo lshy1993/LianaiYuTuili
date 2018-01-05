@@ -65,6 +65,17 @@ namespace Assets.Script.UIScript
 
         public NewImageEffect Get() { return imageEffect; }
 
+        #region 背景图相关操作
+        public static NewImageEffect SetAlphaBackSprite(float aloha)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .FinalAlpha(0)
+                .Operate(NewImageEffect.OperateMode.SetAlpha)
+                .Get();
+            return e;
+        }
+
         public static NewImageEffect SetBackSprite(string sprite)
         {
             NewEffectBuilder builder = new NewEffectBuilder();
@@ -97,6 +108,20 @@ namespace Assets.Script.UIScript
             return e;
         }
 
+        public static NewImageEffect TransBackSprite(string sprite, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Source(sprite)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.Trans)
+                .FinalAlpha(0)
+                .Get();
+            return e;
+        }
+        #endregion
+
+        #region 前景图操作
         public static NewImageEffect SetSpriteByDepth(int depth, string sprite)
         {
             NewEffectBuilder builder = new NewEffectBuilder();
@@ -111,7 +136,7 @@ namespace Assets.Script.UIScript
         {
             NewEffectBuilder builder = new NewEffectBuilder();
             NewImageEffect e = builder.UI(depth)
-                .Operate(NewImageEffect.OperateMode.Remove)
+                .Operate(NewImageEffect.OperateMode.Delete)
                 .Get();
                 return e;
         }
@@ -183,6 +208,7 @@ namespace Assets.Script.UIScript
                 .Get();
             return e;
         }
+        #endregion
 
         public static NewImageEffect FadeOutAll(float time)
         {
@@ -199,7 +225,7 @@ namespace Assets.Script.UIScript
         {
             NewEffectBuilder builder = new NewEffectBuilder();
             NewImageEffect e = builder.UI(NewImageEffect.ImageType.All)
-                .Operate(NewImageEffect.OperateMode.Remove)
+                .Operate(NewImageEffect.OperateMode.Delete)
                 .Get();
             return e;
         }
@@ -219,11 +245,30 @@ namespace Assets.Script.UIScript
         {
             NewEffectBuilder builder = new NewEffectBuilder();
             NewImageEffect e = builder.UI(NewImageEffect.ImageType.AllChara)
-                .Operate(NewImageEffect.OperateMode.Remove)
+                .Operate(NewImageEffect.OperateMode.Delete)
                 .Get();
             return e;
         }
 
+        public static NewImageEffect FadeOutAllPic(float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.AllPic)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.Fade)
+                .FinalAlpha(0)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect RemoveAllPic()
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.AllPic)
+                .Operate(NewImageEffect.OperateMode.Delete)
+                .Get();
+            return e;
+        }
 
     }
 }

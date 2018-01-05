@@ -84,7 +84,7 @@ namespace Assets.Script.TextScripts
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.FindTextScript("demofin");
+            return nodeFactory.FindTextScript("demo_fin");
             //return nodeFactory.GetEnquireNode("demoZ05");
         }
 

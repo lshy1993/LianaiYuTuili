@@ -43,8 +43,8 @@ public class SpriteState
 
 public class ImageManager : MonoBehaviour
 {
-    public const string BG_PATH = "Background/";
-    public const string CHARA_PATH = "Character/";
+    private const string BG_PATH = "Background/";
+    private const string CHARA_PATH = "Character/";
 
     public static readonly Vector3 LEFT = new Vector3(-300, 0, 0);
     public static readonly Vector3 MIDDLE = new Vector3(0, 0, 0);
@@ -54,7 +54,7 @@ public class ImageManager : MonoBehaviour
     public DialogBoxUIManager dUiManager;
 
     [HideInInspector]
-    public UI2DSprite bgSprite;
+    private UI2DSprite bgSprite, transSprite;
 
     private DataManager dm;
 
@@ -65,6 +65,7 @@ public class ImageManager : MonoBehaviour
     {
         dm = DataManager.GetInstance();
         bgSprite = bgPanel.transform.Find("BackGround_Sprite").gameObject.GetComponent<UI2DSprite>();
+        transSprite = bgPanel.transform.Find("Trans_Sprite").gameObject.GetComponent<UI2DSprite>();
         fgSprites = new Dictionary<string, UI2DSprite>();
     }
 
@@ -186,8 +187,15 @@ public class ImageManager : MonoBehaviour
         switch (effect.operate)
         {
             case NewImageEffect.OperateMode.SetSprite:
-                ui.sprite2D = isback ? LoadBackground(effect.state.spriteName) : LoadCharacter(effect.state.spriteName);
-                if (!isback) ui.MakePixelPerfect();
+                if (isback)
+                {
+                    ui.sprite2D = LoadBackground(effect.state.spriteName);
+                }
+                else
+                {
+                    ui.sprite2D = LoadCharacter(effect.state.spriteName);
+                    ui.MakePixelPerfect();
+                }
                 callback();
                 break;
             case NewImageEffect.OperateMode.SetAlpha:
@@ -223,10 +231,13 @@ public class ImageManager : MonoBehaviour
                     StartCoroutine(Fade(ui, effect, callback));
                 }
                 break;
+            case NewImageEffect.OperateMode.Trans:
+                StartCoroutine(Trans(effect, callback));
+                break;
             case NewImageEffect.OperateMode.Move:
                 StartCoroutine(Move(ui, effect, callback));
                 break;
-            case NewImageEffect.OperateMode.Remove:
+            case NewImageEffect.OperateMode.Delete:
                 break;
         }
     }
@@ -315,6 +326,31 @@ public class ImageManager : MonoBehaviour
         callback();
     }
 
+    private IEnumerator Trans(NewImageEffect effect, Action callback)
+    {
+        //设置Trans层等于bg
+        Debug.Log(bgSprite.sprite2D.name);
+        transSprite.sprite2D = bgSprite.sprite2D;
+        Debug.Log(transSprite.sprite2D.name);
+        transSprite.alpha = bgSprite.alpha;
+        transSprite.depth = 2;
+
+        bgSprite.sprite2D = LoadBackground(effect.state.spriteName);
+        bgSprite.alpha = 1;
+        //将trans层淡出
+        float t = 0;
+        float origin = transSprite.alpha;
+        float final = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
+            transSprite.alpha = origin + t * (final - origin);
+            yield return null;
+        }
+        //transSprite.sprite2D = null;
+        callback();
+    }
+
     private IEnumerator Move(UI2DSprite ui, NewImageEffect effect, Action callback)
     {
         float t = 0;
@@ -339,13 +375,14 @@ public class ImageManager : MonoBehaviour
         {
             t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
             float alpha = origin + t * (final - origin);
+
+            if (includeDiabox) dUiManager.mainContainer.GetComponent<UIWidget>().alpha = alpha;
             foreach (int i in GetDepthNum())
             {
                 UI2DSprite ui = GetSpriteByDepth(i);
                 ui.GetComponent<UIRect>().alpha = alpha;
             }
-            if (includeBack) bgSprite.alpha = alpha;
-            if (includeDiabox) dUiManager.mainContainer.GetComponent<UIWidget>().alpha = alpha;
+            if (includeBack) bgSprite.GetComponent<UIRect>().alpha = alpha;
             yield return null;
         }
         //删除
@@ -366,6 +403,7 @@ public class ImageManager : MonoBehaviour
             int x = Convert.ToInt32(child.name.Remove(0, 6));
             nums.Add(x);
         }
+        nums.Sort();
         return nums;
     }
 }

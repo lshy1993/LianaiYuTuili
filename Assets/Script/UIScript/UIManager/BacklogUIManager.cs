@@ -14,6 +14,7 @@ public class BacklogUIManager : MonoBehaviour {
     {
         table = this.transform.Find("Scroll View/BacklogText_Table").gameObject;
         bar = this.transform.Find("ScrollBar").GetComponent<UIScrollBar>();
+        table.transform.DestroyChildren();
     }
 
     void OnEnable()

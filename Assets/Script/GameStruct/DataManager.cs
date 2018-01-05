@@ -27,7 +27,6 @@ namespace Assets.Script.GameStruct
             return instance;
         }
 
-        private DataPool datapool;
         //各类数据管理器
         private EventManager eventManager;
         private DetectManager detectManager;
@@ -40,6 +39,7 @@ namespace Assets.Script.GameStruct
         public InTurnData inturnData = new InTurnData();
         public StaticData staticData = new StaticData();
         public SystemData systemData = new SystemData();
+        public TempData tempData = new TempData();
 
         /// <summary>
         /// 是否自动模式
@@ -73,7 +73,6 @@ namespace Assets.Script.GameStruct
 
         private DataManager()
         {
-            datapool = DataPool.GetInstance();
             Init();
         }
 
@@ -85,6 +84,13 @@ namespace Assets.Script.GameStruct
             InitMultiplay();
             InitGame();
             InitInTurn();
+            InitTemp();
+        }
+
+        private void InitTemp()
+        {
+            //SetTempVar("文字记录", new Queue<BacklogText>());
+            tempData.backLog = new Queue<BacklogText>();
         }
 
         /// <summary>
@@ -102,8 +108,8 @@ namespace Assets.Script.GameStruct
             //SetInTurnVar("询问编号", "");
             //SetInTurnVar("证词序号", 0);
             //SetInTurnVar("当前血量", 5);
+
             //推理回合数据 写入存档
-            SetTempVar("文字记录", new Queue<BacklogText>());
             inturnData.holdEvidences = new List<string>();
             inturnData.detectKnown = new List<string>();
             inturnData.detectMode = Constants.DETECT_STATUS.FREE;
@@ -151,16 +157,15 @@ namespace Assets.Script.GameStruct
         #region 系统设置类初始化
         private void InitSystem()
         {
-            Hashtable sysConfig = new Hashtable();
             string filename = "config.sav";
             string savepath = LoadSaveTool.GetSavePath(filename);
             if (!LoadSaveTool.IsFileExists(savepath))
             {
                 //若不存在则创建默认数据
                 ResetSysConfig();
-                sysConfig = datapool.GetSystemTable();
                 //string toSave = LoadSaveTool.RijndaelEncrypt(JsonConvert.SerializeObject(sysConfig), LoadSaveTool.GetKey());
-                string toSave = JsonConvert.SerializeObject(sysConfig);
+                string toSave = JsonConvert.SerializeObject(systemData);
+
                 LoadSaveTool.CreateDirectory(LoadSaveTool.SAVE_PATH);
                 LoadSaveTool.CreateFile(savepath, toSave);
             }
@@ -169,9 +174,8 @@ namespace Assets.Script.GameStruct
                 StreamReader savefile = new StreamReader(savepath);
                 //string toLoad = LoadSaveTool.RijndaelDecrypt(savefile.ReadToEnd(), LoadSaveTool.GetKey());
                 string toLoad = savefile.ReadToEnd();
-                //string x = (string)JsonMapper.ToObject(toLoad);
-                sysConfig = JsonConvert.DeserializeObject<Hashtable>(toLoad);
-                LoadSysConfig(sysConfig);
+                systemData = JsonConvert.DeserializeObject<SystemData>(toLoad);
+                //LoadSysConfig(sysConfig);
             }
         }
 
@@ -302,7 +306,7 @@ namespace Assets.Script.GameStruct
                 fs.Close();
                 savepic.Add(kv.Value.picPath, bytes);
             }
-            datapool.WriteTempVar("存档缩略图", savepic);
+            tempData.WriteTempVar("存档缩略图", savepic);
             //datapool.WriteSystemVar("存档缩略图", savepic);
         }
         #endregion
@@ -497,16 +501,6 @@ namespace Assets.Script.GameStruct
         }
         #endregion
 
-        public void PrintEvents()
-        {
-            Debug.Log("事件表:");
-            foreach (KeyValuePair<string, MapEvent> kv in staticData.eventTable)
-            {
-                Debug.Log(kv.Key);
-                Debug.Log(kv.Value.ToString());
-            }
-        }
-
         /// <summary>
         /// 游戏执行下一回合
         /// </summary>
@@ -588,7 +582,8 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public void ClearHistory()
         {
-            GetTempVar<Queue<BacklogText>>("文字记录").Clear();
+            tempData.backLog.Clear();
+            //GetTempVar<Queue<BacklogText>>("文字记录").Clear();
         }
 
         /// <summary>
@@ -597,7 +592,8 @@ namespace Assets.Script.GameStruct
         /// <param name="blt">文本记录块</param>
         public void AddHistory(BacklogText blt)
         {
-            Queue<BacklogText> history = GetTempVar<Queue<BacklogText>>("文字记录");
+            Queue<BacklogText> history = tempData.backLog;
+            //GetTempVar<Queue<BacklogText>>("文字记录");
             if (history.Count > 100)
             {
                 history.Dequeue();
@@ -607,53 +603,54 @@ namespace Assets.Script.GameStruct
 
         public Queue<BacklogText> GetHistory()
         {
-            return GetTempVar<Queue<BacklogText>>("文字记录");
+            return tempData.backLog;
+                //GetTempVar<Queue<BacklogText>>("文字记录");
         }
 
         #region Get / Set 方法
         public void SetTempVar(string key, object value)
         {
-            datapool.WriteTempVar(key, value);
+            tempData.WriteTempVar(key, value);
         }
-
-        //public void SetGameVar(string key, object value)
-        //{
-        //    datapool.WriteGameVar(key, value);
-        //}
-
-        //public void SetInTurnVar(string key, object value)
-        //{
-        //    datapool.WriteInTurnVar(key, value);
-        //}
-
-        //public void SetSystemVar(string key, object value)
-        //{
-        //    datapool.WriteSystemVar(key, value);
-        //}
 
         public T GetTempVar<T>(string key)
         {
-            return (T)datapool.GetTempVar(key);
+            return (T)tempData.GetTempVar(key);
         }
 
-        //public T GetGameVar<T>(string key)
-        //{
-        //    return (T)datapool.GetGameVar(key);
-        //}
+        /* demo 1.22 去除
+        public void SetGameVar(string key, object value)
+        {
+            datapool.WriteGameVar(key, value);
+        }
 
-        //public T GetInTurnVar<T>(string key)
-        //{
-        //    return (T)datapool.GetInTurnVar(key);
-        //}
+        public void SetInTurnVar(string key, object value)
+        {
+            datapool.WriteInTurnVar(key, value);
+        }
 
-        //public T GetSystemVar<T>(string key)
-        //{
-        //    return (T)datapool.GetSystemVar(key);
-        //}
+        public void SetSystemVar(string key, object value)
+        {
+            datapool.WriteSystemVar(key, value);
+        }
+        public T GetGameVar<T>(string key)
+        {
+            return (T)datapool.GetGameVar(key);
+        }
 
-        //public bool ContainsGameVar(string key) { return datapool.GetGameVarTable().ContainsKey(key); }
+        public T GetInTurnVar<T>(string key)
+        {
+            return (T)datapool.GetInTurnVar(key);
+        }
 
-        //public bool ContainsInTurnVar(string key) { return datapool.GetInTurnVarTable().ContainsKey(key); }
+        public T GetSystemVar<T>(string key)
+        {
+            return (T)datapool.GetSystemVar(key);
+        }
+
+        public bool ContainsGameVar(string key) { return datapool.GetGameVarTable().ContainsKey(key); }
+
+        public bool ContainsInTurnVar(string key) { return datapool.GetInTurnVarTable().ContainsKey(key); }
 
         DataPool GetDataPool() { return datapool; }
 
@@ -669,6 +666,7 @@ namespace Assets.Script.GameStruct
         {
             return datapool.GetSystemTable();
         }
+        */
         #endregion
 
         #region 存读档用
@@ -681,7 +679,7 @@ namespace Assets.Script.GameStruct
             LoadSaveTool.CreateFile(LoadSaveTool.GetSavePath(filename), toSave);
             //储存截图
             string picname = "data" + i + ".png";
-            byte[] picdata = (byte[])datapool.GetTempVar("缩略图");
+            byte[] picdata = (byte[])tempData.GetTempVar("缩略图");
             LoadSaveTool.CreatByteFile(LoadSaveTool.GetSavePath(picname), picdata);
             //更新存档信息
             //Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
@@ -721,7 +719,6 @@ namespace Assets.Script.GameStruct
             sv.gameData = gameData;
             sv.inturnData = inturnData;
             return JsonConvert.SerializeObject(sv);
-                //JsonMapper.Serialize(toSave);
         }
 
         public void Load(int i)
@@ -739,6 +736,8 @@ namespace Assets.Script.GameStruct
             gameData = sv.gameData;
             inturnData = sv.inturnData;
             eventManager.UpdateEvent();
+            //对临时变量重置？
+            ClearHistory();
 
             /* demo1.20 改动
             string json;

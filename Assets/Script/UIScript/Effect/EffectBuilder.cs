@@ -28,7 +28,7 @@ namespace Assets.Script.GameStruct
             soundManager = sm;
             characterManager = cm;
             //获取由ImageManager找到的组件
-            backgroundSprite = im.bgSprite;
+            //backgroundSprite = im.bgSprite;
             //click = im.clickContainer;
             //charaPanel = im.fgPanel.gameObject;
             //dialog = im.dialogContainer;
