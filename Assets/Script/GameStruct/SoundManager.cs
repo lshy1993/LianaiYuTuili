@@ -24,6 +24,8 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public AudioSource systemSE;
 
+    public SideLabelUIManager sideLabel;
+
     [HideInInspector]
     public float userBgmVolume
     {
@@ -201,6 +203,7 @@ public class SoundManager : MonoBehaviour
                 break;
             case SoundEffect.OperateType.Set:
                 SetBGM(effect.clip, effect.loop);
+                sideLabel.ShowBGM(currentBGM.clip.name);
                 callback();
                 break;
             default:

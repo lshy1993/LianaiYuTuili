@@ -94,6 +94,14 @@ namespace Assets.Script.GameStruct
         #endregion
 
         #region EffectPiece部分
+
+        public EffectPiece Wait(float time)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Wait(time));
+            return new EffectPiece(id++, effects);
+        }
+
         /// <summary>
         /// 淡出所有立绘【需要与RemoveAllChara连用】
         /// </summary>
@@ -103,7 +111,6 @@ namespace Assets.Script.GameStruct
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutAllChara(fadeout));
             return new EffectPiece(id++, effects);
-            
         }
 
         /// <summary>
@@ -294,12 +301,13 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">新显示的图片名</param>
+        /// <param name="position">新图片的位置，默认middle</param>
         /// <param name="transtime">渐变时间，默认0.5s</param>
-        /// <returns></returns>
-        public EffectPiece TransCharacterSprite(int depth, string spriteName, float transtime = 0.5f)
+        public EffectPiece TransCharacterSprite(int depth, string spriteName, string position = "middle", float transtime = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            //TODO
+            effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, position));
+            effects.Enqueue(NewEffectBuilder.TransByDepth(depth, transtime));
             return new EffectPiece(id++, effects);
         }
 

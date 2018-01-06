@@ -7,18 +7,19 @@ using Assets.Script.GameStruct.Model;
 
 namespace Assets.Script.GameStruct
 {
+    /// <summary>
+    /// 游戏内临时数据
+    /// </summary>
     public class TempData
     {
-        private static TempData instance;
-
-        public static TempData GetInstance()
-        {
-            if (instance == null) instance = new TempData();
-            return instance;
-        }
-
         private Hashtable tempVar;
+
         public Queue<BacklogText> backLog;
+
+        /// <summary>
+        /// 存档信息
+        /// </summary>
+        public Dictionary<int, SavingInfo> saveInfo;
 
         public TempData()
         {

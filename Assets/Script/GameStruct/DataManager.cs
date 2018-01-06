@@ -38,7 +38,8 @@ namespace Assets.Script.GameStruct
         public GameData gameData = new GameData();
         public InTurnData inturnData = new InTurnData();
         public StaticData staticData = new StaticData();
-        public SystemData systemData = new SystemData();
+        public ConfigData configData = new ConfigData();
+        public MultiData multiData = new MultiData();
         public TempData tempData = new TempData();
 
         /// <summary>
@@ -78,13 +79,13 @@ namespace Assets.Script.GameStruct
 
         public void Init()
         {
+            InitTemp();
             InitStatic();
             InitSystem();
-            InitSaving();
             InitMultiplay();
+            InitSaving();
             InitGame();
             InitInTurn();
-            InitTemp();
         }
 
         private void InitTemp()
@@ -98,17 +99,6 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public void InitInTurn()
         {
-            //SetInTurnVar("持有证据", new List<string>());
-            //SetInTurnVar("侦探事件已知信息", new List<string>());
-            //SetInTurnVar("侦探模式", Constants.DETECT_STATUS.FREE);
-            //SetInTurnVar("当前侦探事件", "");
-            //SetInTurnVar("当前侦探位置", "");
-            //SetInTurnVar("侦探事件位置状态表", new Dictionary<string, bool>());
-            //SetInTurnVar("已威慑证词序号", new List<int>());
-            //SetInTurnVar("询问编号", "");
-            //SetInTurnVar("证词序号", 0);
-            //SetInTurnVar("当前血量", 5);
-
             //推理回合数据 写入存档
             inturnData.holdEvidences = new List<string>();
             inturnData.detectKnown = new List<string>();
@@ -124,19 +114,6 @@ namespace Assets.Script.GameStruct
 
         public void InitGame()
         {
-            //SetGameVar("回合", 0);
-            //SetGameVar("姓","李");
-            //SetGameVar("名", "云萧");
-            //SetGameVar("玩家", new Player());
-            //SetGameVar("精力总量", 200);
-            //SetGameVar("MODE", "");
-            //SetGameVar("当前事件名", "");
-            //SetGameVar("当前脚本名", "");
-            //SetGameVar("文字位置", 0);
-            //SetGameVar("背景图片", "");
-            //SetGameVar("立绘信息", new Dictionary<int, SpriteState>());
-
-
             //游戏数据初始化 跟随存档
             gameData.gameTurn = 0;
             gameData.heroXing = "李";
@@ -154,7 +131,7 @@ namespace Assets.Script.GameStruct
             RandomCourse();
         }
 
-        #region 系统设置类初始化
+        #region 游戏设置 ConfigData 初始化
         private void InitSystem()
         {
             string filename = "config.sav";
@@ -164,7 +141,7 @@ namespace Assets.Script.GameStruct
                 //若不存在则创建默认数据
                 ResetSysConfig();
                 //string toSave = LoadSaveTool.RijndaelEncrypt(JsonConvert.SerializeObject(sysConfig), LoadSaveTool.GetKey());
-                string toSave = JsonConvert.SerializeObject(systemData);
+                string toSave = JsonConvert.SerializeObject(configData);
 
                 LoadSaveTool.CreateDirectory(LoadSaveTool.SAVE_PATH);
                 LoadSaveTool.CreateFile(savepath, toSave);
@@ -174,46 +151,29 @@ namespace Assets.Script.GameStruct
                 StreamReader savefile = new StreamReader(savepath);
                 //string toLoad = LoadSaveTool.RijndaelDecrypt(savefile.ReadToEnd(), LoadSaveTool.GetKey());
                 string toLoad = savefile.ReadToEnd();
-                systemData = JsonConvert.DeserializeObject<SystemData>(toLoad);
+                configData = JsonConvert.DeserializeObject<ConfigData>(toLoad);
                 //LoadSysConfig(sysConfig);
             }
         }
 
         public void ResetSysConfig()
         {
-            //系统默认设置
-            systemData.settingMode = Constants.Setting_Mode.Graphic;
-            systemData.fullScreen = false;
-            systemData.fadingSwitch = true;
-            systemData.animateSwitch = true;
-            systemData.avatarSwitch = true;
-            systemData.BGMTime = 3;
-            systemData.chapterTime = 3;
-            systemData.textSpeed = 60f;
-            systemData.waitTime = 1.5f;
-            systemData.diaboxAlpha = 75;
-            systemData.defaultCharaNum = 0;
-            systemData.charaVoiceVolume = new float[] { 1, 1, 1, 1, 1, 1 };
-            systemData.charaVoice = new bool[] { true, true, true, true, true, true };
-            /*
-            datapool.WriteSystemVar("settingMode", Constants.Setting_Mode.Graphic);
-            datapool.WriteSystemVar("fullScreen", false);
-            datapool.WriteSystemVar("fadingSwitch", true);
-            datapool.WriteSystemVar("animateSwitch", true);
-            datapool.WriteSystemVar("avatarSwitch", true);
-            datapool.WriteSystemVar("BGMTime", 3);
-            datapool.WriteSystemVar("chapterTime", 3);
-            datapool.WriteSystemVar("textSpeed", 60f);
-            datapool.WriteSystemVar("waitTime", 1.5f);
-            datapool.WriteSystemVar("diaboxAlpha", 75);
-            datapool.WriteSystemVar("defaultCharaNum", 0);
-            float[] charaVolume = { 1, 1, 1, 1, 1, 1 };
-            datapool.WriteSystemVar("charaVoiceVolume", charaVolume);
-            bool[] charaVoice = { true, true, true, true, true, true };
-            datapool.WriteSystemVar("charaVoice", charaVoice);
-            */
+            //游戏的默认设置
+            configData.settingMode = Constants.Setting_Mode.Graphic;
+            configData.fullScreen = false;
+            configData.fadingSwitch = true;
+            configData.animateSwitch = true;
+            configData.avatarSwitch = true;
+            configData.BGMTime = 3;
+            configData.chapterTime = 3;
+            configData.textSpeed = 60f;
+            configData.waitTime = 1.5f;
+            configData.diaboxAlpha = 75;
+            configData.defaultCharaNum = 0;
+            configData.charaVoiceVolume = new float[] { 1, 1, 1, 1, 1, 1 };
+            configData.charaVoice = new bool[] { true, true, true, true, true, true };
         }
-
+        /*
         private void LoadSysConfig(Hashtable hst)
         {
             foreach(string key in hst.Keys)
@@ -223,45 +183,47 @@ namespace Assets.Script.GameStruct
                 {
                     string json = hst[key].ToString();
                     var value = JsonConvert.DeserializeObject<float>(json);
-                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    configData.GetType().GetField(key).SetValue(configData, value);
                     //datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float>(json));
                 }
                 else if (key == "waitTime")
                 {
                     string json = hst[key].ToString();
                     var value = JsonConvert.DeserializeObject<float>(json);
-                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    configData.GetType().GetField(key).SetValue(configData, value);
                     //datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float>(json));
                 }
                 else if (key == "charaVoiceVolume")
                 {
                     string json = hst[key].ToString();
                     var value = JsonConvert.DeserializeObject<float[]>(json);
-                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    configData.GetType().GetField(key).SetValue(configData, value);
                     //datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<float[]>(json));
                 }
                 else if(key == "charaVoice")
                 {
                     string json = hst[key].ToString();
                     var value = JsonConvert.DeserializeObject<bool[]>(json);
-                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    configData.GetType().GetField(key).SetValue(configData, value);
                     //datapool.WriteSystemVar(key, JsonConvert.DeserializeObject<bool[]>(json));
                 }
                 else if (hst[key].GetType() == typeof(Int64))
                 {
                     var value = Convert.ToInt32(hst[key]);
-                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    configData.GetType().GetField(key).SetValue(configData, value);
                     //datapool.WriteSystemVar(key, Convert.ToInt32(hst[key]));
                 }
                 else
                 {
                     var value = hst[key];
-                    systemData.GetType().GetField(key).SetValue(systemData, value);
+                    configData.GetType().GetField(key).SetValue(configData, value);
                     //datapool.WriteSystemVar(key, hst[key]);
                 }
 
             }
         }
+        */
+
         #endregion
 
         #region 存档类初始化
@@ -279,11 +241,10 @@ namespace Assets.Script.GameStruct
                 StreamReader savefile = new StreamReader(savepath);
                 //string toLoad = LoadSaveTool.RijndaelDecrypt(savefile.ReadToEnd(), LoadSaveTool.GetKey());
                 string toLoad = savefile.ReadToEnd();
-                //string x = (string)JsonMapper.ToObject(toLoad);
                 list = JsonConvert.DeserializeObject<Dictionary<int, SavingInfo>>(toLoad);
             }
             //datapool.WriteSystemVar("存档信息", list);
-            systemData.saveInfo = list;
+            tempData.saveInfo = list;
             RefreshSavePic();
         }
 
@@ -293,7 +254,7 @@ namespace Assets.Script.GameStruct
         public void RefreshSavePic()
         {
             //Dictionary<int, SavingInfo> list = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
-            Dictionary<int, SavingInfo> list = systemData.saveInfo;
+            Dictionary<int, SavingInfo> list = tempData.saveInfo;
 
             Dictionary<string, byte[]> savepic = new Dictionary<string, byte[]>();
             foreach (KeyValuePair<int, SavingInfo> kv in list)
@@ -317,65 +278,35 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private void InitMultiplay()
         {
-            List<bool> musicTable = new List<bool>();
-            List<bool> cgTable = new List<bool>();
-            List<bool> endingTable = new List<bool>();
-            List<bool> caseTable = new List<bool>();
-
             string filename = "datamp.sav";
             string savepath = LoadSaveTool.GetSavePath(filename);
 
-            //若不存在 则生成默认数据表 并写入本地文件
+            //判断是否含有datamp文件
             if (!LoadSaveTool.IsFileExists(savepath))
             {
+                //若不存在 则生成默认数据表 
+                multiData = new MultiData();
                 #region 临时测试用 静态表
-                musicTable.Add(true);
-                cgTable.Add(true);
-                endingTable.Add(true);
-                caseTable.Add(true);
+                multiData.musicTable.Add(true);
+                multiData.cgTable.Add(true);
+                multiData.endingTable.Add(true);
+                multiData.caseTable.Add(true);
                 #endregion
 
-                //Hashtable SysSave = new Hashtable();
-                Dictionary<string, List<bool>> SysSave = new Dictionary<string, List<bool>>(); 
-                SysSave.Add("MusicTable", musicTable);
-                SysSave.Add("CGTable", cgTable);
-                SysSave.Add("EndingTable", endingTable);
-                SysSave.Add("CaseTable", caseTable);
-
+                //并写入本地文件
                 //string toSave = LoadSaveTool.RijndaelEncrypt(JsonConvert.SerializeObject(SysSave), LoadSaveTool.GetKey());
-                string toSave = JsonConvert.SerializeObject(SysSave);
+                string toSave = JsonConvert.SerializeObject(multiData);
                 LoadSaveTool.CreateDirectory(LoadSaveTool.SAVE_PATH);
                 LoadSaveTool.CreateFile(savepath, toSave);
             }
             else
             {
-                //存在 则读取二周目数据
+                //若文件存在 则读取二周目数据
                 StreamReader savefile = new StreamReader(savepath);
                 //string toLoad = LoadSaveTool.RijndaelDecrypt(savefile.ReadToEnd(), LoadSaveTool.GetKey());
                 string toLoad = savefile.ReadToEnd();
-                Dictionary<string, List<bool>> sysSave = JsonConvert.DeserializeObject<Dictionary<string, List<bool>>>(toLoad);
-                musicTable = sysSave["MusicTable"];
-                cgTable = sysSave["CGTable"];
-                endingTable = sysSave["EndingTable"];
-                caseTable = sysSave["CaseTable"];
+                multiData = JsonConvert.DeserializeObject<MultiData>(toLoad);
             }
-            systemData.musicTable = musicTable;
-            systemData.cgTable = cgTable;
-            systemData.endingTable = endingTable;
-            systemData.caseTable = caseTable;
-            /* demo1.20 改动
-            datapool.WriteSystemVar("音乐表", musicTable);
-            datapool.WriteSystemVar("画廊表", cgTable);
-            datapool.WriteSystemVar("结局表", endingTable);
-            datapool.WriteSystemVar("案件表", caseTable);
-            */
-
-            //TODO:静态表格 例如cginfo 记录文件名与键值
-            Dictionary<int, string> cgInfo = new Dictionary<int, string>();
-            cgInfo.Add(0, "Logo");
-            cgInfo.Add(1, "classroom");
-            staticData.cgInfo = cgInfo;
-            //datapool.WriteSystemVar("CG信息表", cgInfo);
 
         }
         #endregion
@@ -391,6 +322,11 @@ namespace Assets.Script.GameStruct
             InitEdu();
             InitEvidence();
             InitApp();
+            //TODO:静态表格 例如cginfo 记录文件名与键值
+            Dictionary<int, string> cgInfo = new Dictionary<int, string>();
+            cgInfo.Add(0, "Logo");
+            cgInfo.Add(1, "classroom");
+            staticData.cgInfo = cgInfo;
         }
 
         /// <summary>
@@ -506,10 +442,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public void MoveOneTurn()
         {
-            //int t = GetGameVar<int>("回合");
-            //SetGameVar("回合", t + 1);
             gameData.gameTurn++;
-
             //清空InTurnVar
             InitInTurn();
             //随机当日的课表
@@ -583,7 +516,6 @@ namespace Assets.Script.GameStruct
         public void ClearHistory()
         {
             tempData.backLog.Clear();
-            //GetTempVar<Queue<BacklogText>>("文字记录").Clear();
         }
 
         /// <summary>
@@ -593,7 +525,6 @@ namespace Assets.Script.GameStruct
         public void AddHistory(BacklogText blt)
         {
             Queue<BacklogText> history = tempData.backLog;
-            //GetTempVar<Queue<BacklogText>>("文字记录");
             if (history.Count > 100)
             {
                 history.Dequeue();
@@ -604,7 +535,6 @@ namespace Assets.Script.GameStruct
         public Queue<BacklogText> GetHistory()
         {
             return tempData.backLog;
-                //GetTempVar<Queue<BacklogText>>("文字记录");
         }
 
         #region Get / Set 方法
@@ -683,7 +613,7 @@ namespace Assets.Script.GameStruct
             LoadSaveTool.CreatByteFile(LoadSaveTool.GetSavePath(picname), picdata);
             //更新存档信息
             //Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
-            Dictionary<int, SavingInfo> savedic = systemData.saveInfo;
+            Dictionary<int, SavingInfo> savedic = tempData.saveInfo;
 
             //TODO: 获取状态
             /* demo1.20 改动
@@ -845,7 +775,7 @@ namespace Assets.Script.GameStruct
             LoadSaveTool.DeleteFile(picname);
             //更新存档信息
             //Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
-            Dictionary<int, SavingInfo> savedic = systemData.saveInfo;
+            Dictionary<int, SavingInfo> savedic = tempData.saveInfo;
 
             if (savedic.ContainsKey(i))
             {

@@ -23,7 +23,7 @@ public class Slider_BGMLabel : MonoBehaviour
         {
             numlabel.text = showBGMtime.ToString() + "s";
         }
-        DataManager.GetInstance().systemData.BGMTime = showBGMtime;
+        DataManager.GetInstance().configData.BGMTime = showBGMtime;
     }
 
     void OnHover(bool ishover)

@@ -25,7 +25,7 @@ public class ToggleAuto : MonoBehaviour
     private float currentTime = 0f;
     private float waitTime
     {
-        get { return DataManager.GetInstance().systemData.waitTime; }
+        get { return DataManager.GetInstance().configData.waitTime; }
     }
 
     private void Update()

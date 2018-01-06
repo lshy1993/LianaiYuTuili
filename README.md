@@ -9,6 +9,12 @@ Unity3D
 NGUI  
 ## Update Info  
 版本更新内容  
+### demo 1.23  
+* 添加 立绘 层的Trans
+* 修改多周目存档数据格式
+* 创立 MultiData 类
+* 将存档信息表移至TempData
+* 显示BGM名
 
 ### demo 1.22  
 * 修改 Set 和 FadeIn 定义

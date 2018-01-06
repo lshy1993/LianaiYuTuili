@@ -25,7 +25,7 @@ namespace Assets.Script.GameStruct
             timePanel.SetActive(true);
             TimeUIManager uiManager = timePanel.GetComponent<TimeUIManager>();
             //若UI控制动作完成
-            if (uiManager.finished)
+            if (uiManager.IsFinished())
             {
                 //将Piece标记已完成
                 finished = true;

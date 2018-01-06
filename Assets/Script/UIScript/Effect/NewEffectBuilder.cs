@@ -65,6 +65,17 @@ namespace Assets.Script.UIScript
 
         public NewImageEffect Get() { return imageEffect; }
 
+
+        public static NewImageEffect Wait(float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.All)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.Wait)
+                .Get();
+            return e;
+        }
+
         #region 背景图相关操作
         public static NewImageEffect SetAlphaBackSprite(float aloha)
         {
@@ -164,6 +175,38 @@ namespace Assets.Script.UIScript
                 .TotalTime(time)
                 .Operate(NewImageEffect.OperateMode.Fade)
                 .FinalAlpha(0)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect PreTransByDepth(int depth, string sprite, Vector3 postision)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(depth)
+                .Source(sprite)
+                .Operate(NewImageEffect.OperateMode.PreTrans)
+                .FinalPosition(postision)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect PreTransByDepth(int depth, string sprite, string postision)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(depth)
+                .Source(sprite)
+                .Operate(NewImageEffect.OperateMode.PreTrans)
+                .FinalPosition(postision)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect TransByDepth(int depth, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(depth)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.Trans)
                 .Get();
             return e;
         }

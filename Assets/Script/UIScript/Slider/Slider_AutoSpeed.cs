@@ -18,7 +18,7 @@ public class Slider_AutoSpeed : MonoBehaviour
         int i = (int)(speed * 100);
         speed = (float)(i * 1.0) / 100;
         numlabel.text = (slider.value * 100).ToString();
-        DataManager.GetInstance().systemData.waitTime = speed;
+        DataManager.GetInstance().configData.waitTime = speed;
         clicked = true;
     }
 

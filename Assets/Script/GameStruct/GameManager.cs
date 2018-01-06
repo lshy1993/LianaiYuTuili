@@ -124,7 +124,6 @@ public class GameManager : MonoBehaviour
         //获取强制事件
         MapEvent e = em.GetCurrentForceEvent();
         em.currentEvent = e;
-        //dm.SetGameVar("当前事件名", e.name);
         dm.gameData.currentEvent = e.name;
         node = nodeFactory.FindTextScript(e.entryNode);
         //清空文字记录
