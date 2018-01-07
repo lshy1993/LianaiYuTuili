@@ -374,7 +374,7 @@ public class ImageManager : MonoBehaviour
         UI2DSprite ui = GetSpriteByDepth(effect.depth);
         //复制一个变成Trans
         GameObject go = Instantiate(ui.gameObject) as GameObject;
-        go = NGUITools.AddChild(fgPanel.gameObject, go);
+        go.transform.parent = ui.transform.parent;
         go.transform.localPosition = ui.transform.localPosition;
         go.transform.name = "trans" + effect.depth;
         UI2DSprite trans = go.GetComponent<UI2DSprite>();

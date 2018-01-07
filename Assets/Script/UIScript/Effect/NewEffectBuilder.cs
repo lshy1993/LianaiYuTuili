@@ -77,11 +77,11 @@ namespace Assets.Script.UIScript
         }
 
         #region 背景图相关操作
-        public static NewImageEffect SetAlphaBackSprite(float aloha)
+        public static NewImageEffect SetAlphaBackSprite(float alpha)
         {
             NewEffectBuilder builder = new NewEffectBuilder();
             NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
-                .FinalAlpha(0)
+                .FinalAlpha(alpha)
                 .Operate(NewImageEffect.OperateMode.SetAlpha)
                 .Get();
             return e;

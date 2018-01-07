@@ -21,8 +21,8 @@ public class EduUIManager : MonoBehaviour
     private UIProgressBar wenbar, libar, tibar, yibar, zhaibar, energybar;
     private UI2DSprite foreicon, aftericon, animate;
 
-    private GameObject spriteContainer, selectionContainer, functionContainer, scheduleContainer, acgo;
-    private GameObject btnTable;
+    private GameObject functionContainer, scheduleContainer, acgo;
+    private GameObject btnTable, spriteContainer, buttonContainer;
 
     public SoundManager sm;
     private DataManager dm;
@@ -71,21 +71,22 @@ public class EduUIManager : MonoBehaviour
 
         helplabel = transform.Find("NewSelection_Container/Help_Label").GetComponent<UILabel>();
 
-        foreindexlabel = transform.Find("Schedule_Container/Fore_Container/ForeIndex_Label").GetComponent<UILabel>();
-        afterindexlabel = transform.Find("Schedule_Container/After_Container/AfterIndex_Label").GetComponent<UILabel>();
-        foreicon = transform.Find("Schedule_Container/Fore_Container/ForeIcon_Sprite").GetComponent<UI2DSprite>();
-        aftericon = transform.Find("Schedule_Container/After_Container/AfterIcon_Sprite").GetComponent<UI2DSprite>();
-
-        spriteContainer = transform.Find("QSprite_Container").gameObject;
-        selectionContainer = transform.Find("NewSelection_Container").gameObject;
-        functionContainer = transform.Find("NewSelection_Container/Function_Container").gameObject;
         scheduleContainer = transform.Find("Schedule_Container").gameObject;
-        acgo = transform.Find("QSprite_Container/Container").gameObject;
+        foreindexlabel = scheduleContainer.transform.Find("Fore_Container/ForeIndex_Label").GetComponent<UILabel>();
+        afterindexlabel = scheduleContainer.transform.Find("After_Container/AfterIndex_Label").GetComponent<UILabel>();
+        foreicon = scheduleContainer.transform.Find("Fore_Container/ForeIcon_Sprite").GetComponent<UI2DSprite>();
+        aftericon = scheduleContainer.transform.Find("After_Container/AfterIcon_Sprite").GetComponent<UI2DSprite>();
 
-        showlabel = transform.Find("QSprite_Container/Show_Label").gameObject.GetComponent<UILabel>();
-        animate = transform.Find("QSprite_Container/Animate_Sprite").gameObject.GetComponent<UI2DSprite>();
+        spriteContainer = transform.Find("NewSelection_Container/QSprite_Container").gameObject;
+        buttonContainer = transform.Find("NewSelection_Container/Button_Container").gameObject;
 
-        btnTable = transform.Find("NewSelection_Container/Grid").gameObject;
+        functionContainer = buttonContainer.transform.Find("Function_Container").gameObject;
+        btnTable = buttonContainer.transform.Find("Grid").gameObject;
+
+        acgo = spriteContainer.transform.Find("Container").gameObject;
+        showlabel = spriteContainer.transform.Find("Show_Label").gameObject.GetComponent<UILabel>();
+        animate = spriteContainer.transform.Find("Animate_Sprite").gameObject.GetComponent<UI2DSprite>();
+
         SetEduButton();
     }
 
@@ -127,25 +128,7 @@ public class EduUIManager : MonoBehaviour
 
     private void SetBGM()
     {
-        //TODO: 根据日期判断背景音乐？
-        /*
-        if (date.Day < 7)
-        {
-            ptr = "FirstSeason";
-        }
-        else if (date.Day < 14)
-        {
-            ptr = "SecondSeason";
-        }
-        else if (date.Day < 21)
-        {
-            ptr = "ThirdSeason";
-        }
-        else
-        {
-            ptr = "ForthSeason";
-        }*/
-        string ptr = "FirstSeason";
+        string ptr = "watashi-time";
         sm.SetBGM(ptr);
     }
 
@@ -327,8 +310,7 @@ public class EduUIManager : MonoBehaviour
 
     private IEnumerator ShowResult(string name, Dictionary<string, int> change, int cost, bool success = false)
     {
-        functionContainer.SetActive(false);
-        selectionContainer.SetActive(false);
+        buttonContainer.SetActive(false);
         spriteContainer.SetActive(true);
         animate.gameObject.SetActive(true);
 
@@ -368,8 +350,7 @@ public class EduUIManager : MonoBehaviour
     //休息时的Q版动作
     private IEnumerator ShowResult(int cost, bool success = false)
     {
-        functionContainer.SetActive(false);
-        selectionContainer.SetActive(false);
+        buttonContainer.SetActive(false);
         spriteContainer.SetActive(true);
         animate.gameObject.SetActive(true);
         int i = 0;
@@ -398,12 +379,12 @@ public class EduUIManager : MonoBehaviour
     public void NextDay()
     {
         //供调试调用
-        currentNode.EduExit();
-        spriteContainer.SetActive(false);
-        animate.sprite2D = null;
-        showlabel.text = "";
-        animate.gameObject.SetActive(false);
         acgo.SetActive(false);
+        currentNode.EduExit();
+        //spriteContainer.SetActive(false);
+        //animate.sprite2D = null;
+        //showlabel.text = "";
+        //animate.gameObject.SetActive(false);
     }
 
     public void ReturnMap()

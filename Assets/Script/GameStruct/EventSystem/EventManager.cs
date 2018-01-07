@@ -203,25 +203,25 @@ namespace Assets.Script.GameStruct.EventSystem
             //若是不可重复事件  且 已经执行过
             if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
 
-            // 不满足前置日期
-            if (turn > e.conditionTurn.GetMax() ||
-                turn < e.conditionTurn.GetMin())
+            // 不满足前置回合数
+            if (turn > e.conditionTurn.GetMax() || turn < e.conditionTurn.GetMin())
             {
                 return false;
             }
 
             // 不满足前置属性
-            if (e.conditionStatus != null &&
-                e.conditionStatus.Count > 0)
+            if (e.conditionStatus != null && e.conditionStatus.Count > 0)
             {
                 foreach (KeyValuePair<string, Range> kv in e.conditionStatus)
                 {
                     int bstatus = player.GetBasicStatus(kv.Key);
                     if ((kv.Value.GetMin() > bstatus || bstatus > kv.Value.GetMax()))
                         return false;
+                    /* 去掉了逻辑属性限制
                     int lstatus = player.GetLogicStatus(kv.Key);
                     if ((kv.Value.GetMin() > lstatus  || lstatus > kv.Value.GetMax()))
                         return false;
+                    */
                 }
             }
 

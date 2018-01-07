@@ -17,7 +17,7 @@ namespace Assets.Script.UIScript
         {
             return base.OpenSequence(() =>
             {
-                transform.Find("Main_Container").gameObject.SetActive(true);
+                //transform.Find("Main_Container").gameObject.SetActive(true);
                 transform.Find("Click_Container").gameObject.SetActive(true);
                 callback();
             });

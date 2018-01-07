@@ -202,6 +202,8 @@ public class DialogBoxUIManager : MonoBehaviour
             yield return null;
         }
         mainContainer.SetActive(false);
+        dialogLabel.text = string.Empty;
+        nameLabel.text = string.Empty;
         callback();
     }
 

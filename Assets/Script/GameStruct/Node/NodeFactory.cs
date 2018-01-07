@@ -57,6 +57,15 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public TimeSwitchNode GetSwitchNode(string time,string place,string exit)
+        {
+            return new TimeSwitchNode(dm, root, ps, time, place, exit);
+        }
+
+        /// <summary>
         /// 结束回合
         /// </summary>
         /// <returns></returns>
@@ -134,7 +143,6 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public TextScript FindTextScript(string name)
         {
-            //dm.SetGameVar("文字位置", 0);
             dm.gameData.currentTextPos = 0;
             return FindTextScriptNoneInit(name);
         }
@@ -152,7 +160,6 @@ namespace Assets.Script.GameStruct
             */
             dm.gameData.currentScript = name;
             dm.gameData.MODE = "Avg模式";
-
             string classStr = SCRIPT_PATH + "." + name;
             Type t = Type.GetType(classStr);
             object[] args = new object[] { dm, root, ps };

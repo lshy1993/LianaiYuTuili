@@ -31,7 +31,7 @@ public class FinUIManager : MonoBehaviour
 
     private IEnumerator OpenAnimate()
     {
-        sm.SetBGM("Title");
+        sm.SetBGM("ed");
         float t = -360;
         while (t < maxHeight)
         {

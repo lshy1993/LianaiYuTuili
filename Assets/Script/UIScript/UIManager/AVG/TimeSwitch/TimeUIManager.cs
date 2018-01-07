@@ -9,45 +9,48 @@ using Assets.Script.GameStruct.Model;
 
 public class TimeUIManager : MonoBehaviour
 {
-    private GameObject mainCon;
+    private GameObject mainCon, clickCon;
     private GameObject timeLabel, placeLabel;
+    private TimeSwitchNode switchNode;
+    private string nextNode, timeStr, placeStr;
 
-    public GameObject clickCon;
-
-    public float fadein = 1f;
-    public float fadeout = 0.5f;
-
-    /// <summary>
-    /// 是否完成UI载入
-    /// </summary>
-    private bool finished;
+    public float fadein, fadeout;
 
     private void Awake()
     {
         mainCon = transform.Find("Time_Container").gameObject;
-
+        clickCon = transform.Find("Click_Container").gameObject;
         timeLabel = mainCon.transform.Find("Time_Label").gameObject;
         placeLabel = mainCon.transform.Find("Place_Label").gameObject;
-            
+
     }
 
-    public bool IsFinished()
+    public void SetNode(TimeSwitchNode node)
     {
-        return finished;
+        switchNode = node;
     }
 
-    public void Show(string time, string place)
+    public void SetLabel(string time, string place, string next)
     {
-        timeLabel.GetComponent<UILabel>().text = time;
-        placeLabel.GetComponent<UILabel>().text = place;
+        timeStr = time;
+        placeStr = place;
+        nextNode = next;
+    }
+
+    public void Show()
+    {
+        this.gameObject.SetActive(true);
+        timeLabel.GetComponent<UILabel>().text = timeStr;
+        placeLabel.GetComponent<UILabel>().text = placeStr;
         //执行动画
-        finished = false;
+        clickCon.SetActive(false);
         StartCoroutine(OpenMain());
     }
 
     public void Close()
     {
         //关闭动画
+        clickCon.SetActive(false);
         StartCoroutine(CloseMain());
     }
 
@@ -63,7 +66,6 @@ public class TimeUIManager : MonoBehaviour
             mainCon.GetComponent<UIWidget>().alpha = x;
             yield return null;
         }
-        
         //2.显示时间
         timeLabel.SetActive(true);
         timeLabel.GetComponent<TypewriterEffect>().ResetToBeginning();
@@ -80,13 +82,13 @@ public class TimeUIManager : MonoBehaviour
             yield return null;
         }
         DataManager.GetInstance().isEffecting = false;
-        finished = true;
         //开启点击部分
         clickCon.SetActive(true);
     }
 
     private IEnumerator CloseMain()
     {
+        DataManager.GetInstance().isEffecting = true;
         //整个淡出 关闭Panel
         float x = 1;
         while (x > 0)
@@ -100,6 +102,8 @@ public class TimeUIManager : MonoBehaviour
         placeLabel.SetActive(false);
         mainCon.SetActive(false);
         transform.gameObject.SetActive(false);
-        finished = false;
+        DataManager.GetInstance().isEffecting = false;
+        //结束该Node
+        switchNode.NodeExit(nextNode);
     }
 }

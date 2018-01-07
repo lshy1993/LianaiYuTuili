@@ -24,7 +24,7 @@ namespace Assets.Script.TextScripts
                 f.t("","[00ff00]话有点多，那么请开始游玩吧！祝你游戏愉快！[-]"),
                 f.CloseDialog(),
                 f.FadeinBackground("gate"),
-                f.SwitchText("8月31日 上午","华欣外国语学校 校门"),
+                //f.SwitchText("8月31日 上午","华欣外国语学校 校门"),
                 f.OpenDialog(),
                 f.PlayBGM("popsky",0),
                 f.t("", "呼……呼……终于来到这所学校了……"),
@@ -38,7 +38,7 @@ namespace Assets.Script.TextScripts
                 f.Wait(0.5f),
                 //——背景 走廊——
                 f.FadeinBackground("corridor"),
-                f.SwitchText("8月31日 上午","1号教学楼 4楼 走廊"),
+                //f.SwitchText("8月31日 上午","1号教学楼 4楼 走廊"),
                 f.OpenDialog(),
                 f.t("", "[66ccff]将主要的入学手续办好后，我决定前往所在班级的教室[-]"),
                 f.t("", "[66ccff]来的路上，问了下其他年级的学生，好像是在3楼的样子。[-]"),
@@ -87,7 +87,7 @@ namespace Assets.Script.TextScripts
                 f.FadeoutAll(),
                 //——背景 讲台视角的教室——
                 f.FadeinBackground("classroom"),
-                f.SwitchText("8月31日 上午","高二（3）班 教室"),
+                //f.SwitchText("8月31日 上午","高二（3）班 教室"),
                 f.OpenDialog(),
                 //——无立绘 头像——
                 f.t("李云萧","[66ccff]（都是陌生的脸……）[-]"),

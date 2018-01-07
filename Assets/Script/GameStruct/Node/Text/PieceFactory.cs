@@ -142,8 +142,8 @@ namespace Assets.Script.GameStruct
         public EffectPiece SetBackground(string spriteName)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            effects.Enqueue(NewEffectBuilder.SetAlphaBackSprite(1));
             effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            effects.Enqueue(NewEffectBuilder.SetAlphaBackSprite(1));
             return new EffectPiece(id++, effects);
 
         }
@@ -384,10 +384,10 @@ namespace Assets.Script.GameStruct
         /// </summary>
         /// <param name="time">显示时间</param>
         /// <param name="place">显示文字</param>
-        public TimePiece SwitchText(string time, string place)
-        {
-            return new TimePiece(id++, timepanel, time, place);
-        }
+        //public TimePiece SwitchText(string time, string place)
+        //{
+        //    return new TimePiece(id++, timepanel, time, place);
+        //}
 
         #region EviPiece部分
         /// <summary>

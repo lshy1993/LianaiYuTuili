@@ -53,7 +53,7 @@ public class BasicButton : MonoBehaviour
     /// </summary>
     protected virtual void SE_Click()
     {
-        sm.SetSystemSE("SE_confirm");
+        sm.SetSystemSE("decision3");
     }
 
     /// <summary>
