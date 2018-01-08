@@ -9,9 +9,15 @@ Unity3D
 NGUI  
 ## Update Info  
 版本更新内容  
+### demo 1.25  
+* EffectBuilder与ImageManager执行函数一一对应
+* 背景层添加编号-1
+* Trans的机制添加同步trans功能
+
 ### demo 1.24  
 * 将timepiece 变成node  
 * 去掉了事件触发的逻辑属性的限制
+* 修改了Edu进入的动画
 
 ### demo 1.23  
 * 添加 立绘 层的Trans  

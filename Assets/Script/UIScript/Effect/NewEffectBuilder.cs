@@ -76,6 +76,17 @@ namespace Assets.Script.UIScript
             return e;
         }
 
+        public static NewImageEffect TransAll(float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.All)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.TransAll)
+                .Get();
+            return e;
+        }
+
+
         #region 背景图相关操作
         public static NewImageEffect SetAlphaBackSprite(float alpha)
         {
@@ -119,14 +130,22 @@ namespace Assets.Script.UIScript
             return e;
         }
 
-        public static NewImageEffect TransBackSprite(string sprite, float time)
+        public static NewImageEffect PreTransBackSprite(string sprite)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(-1)
+                .Source(sprite)
+                .Operate(NewImageEffect.OperateMode.PreTrans)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect TransBackSprite(float time)
         {
             NewEffectBuilder builder = new NewEffectBuilder();
             NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
-                .Source(sprite)
                 .TotalTime(time)
                 .Operate(NewImageEffect.OperateMode.Trans)
-                .FinalAlpha(0)
                 .Get();
             return e;
         }
@@ -238,6 +257,17 @@ namespace Assets.Script.UIScript
                 .TotalTime(time)
                 .Operate(NewImageEffect.OperateMode.Move)
                 .FinalPosition(final)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect MoveDefaultByDepth(int depth, string pstr, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(depth)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.Move)
+                .FinalPosition(pstr)
                 .Get();
             return e;
         }

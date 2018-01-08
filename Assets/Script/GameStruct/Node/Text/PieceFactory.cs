@@ -135,6 +135,14 @@ namespace Assets.Script.GameStruct
             return new EffectPiece(id++, effects);
         }
 
+        public EffectPiece TransAll(float transtime = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.TransAll(transtime));
+            return new EffectPiece(id++, effects);
+        }
+
+
         /// <summary>
         /// 设置背景（不带有转换特效）
         /// </summary>
@@ -149,14 +157,28 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 转换背景
+        /// 预渐变立绘
+        /// </summary>
+        /// <param name="depth">对象图层</param>
+        /// <param name="spriteName">改变后的图像</param>
+        public EffectPiece PreTransBackground(string spriteName)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.PreTransBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+
+        /// <summary>
+        /// 渐变背景
         /// </summary>
         /// <param name="spriteName">目标图片名</param>
         /// <param name="transtime">转换时间</param>
         public EffectPiece TransBackground(string spriteName, float transtime = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            effects.Enqueue(NewEffectBuilder.TransBackSprite(spriteName, transtime));
+            effects.Enqueue(NewEffectBuilder.PreTransBackSprite(spriteName));
+            effects.Enqueue(NewEffectBuilder.TransBackSprite(transtime));
             return new EffectPiece(id++, effects);
         }
 
@@ -200,20 +222,6 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 设置立绘（画面中心）
-        /// </summary>
-        /// <param name="depth">目标所在的层级</param>
-        /// <param name="spriteName">需要更改的背景图片名</param>
-        //public EffectPiece SetCharacterSprite(int depth, string spriteName)
-        //{
-        //    Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-        //    effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth ,spriteName));
-        //    effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 0));
-        //    effects.Enqueue(NewEffectBuilder.SetDefaultPostionByDepth(depth, "middle"));
-        //    return new EffectPiece(id++, effects);
-        //}
-
-        /// <summary>
         /// 设置立绘（预设位置：左 中 右）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
@@ -244,29 +252,12 @@ namespace Assets.Script.GameStruct
             return new EffectPiece(id++, effects);
         }
 
-
-        /// <summary>
-        /// 淡入立绘（画面中心）
-        /// </summary>
-        /// <param name="depth">目标所在的层级</param>
-        /// <param name="spriteName">需要更改的背景图片名</param>
-        /// <param name="fadein">淡入的时间，默认0.5s</param>
-        //public EffectPiece FadeInCharacterSprite(int depth, string spriteName, float fadein = 0.5f)
-        //{
-        //    Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-        //    effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth, spriteName));
-        //    effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 0));
-        //    effects.Enqueue(NewEffectBuilder.SetDefaultPostionByDepth(depth, "middle"));
-        //    effects.Enqueue(NewEffectBuilder.FadeInByDepth(depth, fadein));
-        //    return new EffectPiece(id++, effects);
-        //}
-
         /// <summary>
         /// 淡入立绘（预设位置：左 中 右）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">需要更改的背景图片名</param>
-        /// <param name="position">left | middle | right </param>
+        /// <param name="position">left | middle | right</param>
         /// <param name="fadein">淡入的时间，默认0.5s</param>
         public EffectPiece FadeInCharacterSprite(int depth, string spriteName, string position = "middle", float fadein = 0.5f)
         {
@@ -297,7 +288,20 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 渐变立绘
+        /// 预渐变立绘
+        /// </summary>
+        /// <param name="depth">对象图层</param>
+        /// <param name="spriteName">改变后的图像</param>
+        /// <param name="position">改变后的位置</param>
+        public EffectPiece PreTransCharacterSprite(int depth, string spriteName, string position = "middle")
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, position));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 直接渐变立绘
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">新显示的图片名</param>
@@ -336,6 +340,19 @@ namespace Assets.Script.GameStruct
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutByDepth(depth, fadeout));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 移动立绘（从当前位置移动）
+        /// </summary>
+        /// <param name="depth">目标所在层级</param>
+        /// <param name="position">left | middle | right</param>
+        /// <param name="time">移动时间，默认0.5s</param>
+        public EffectPiece MoveCharacterSprite(int depth, string position, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.MoveDefaultByDepth(depth, position, time));
             return new EffectPiece(id++, effects);
         }
 

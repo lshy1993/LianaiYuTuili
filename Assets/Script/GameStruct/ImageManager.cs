@@ -53,20 +53,26 @@ public class ImageManager : MonoBehaviour
     public UIPanel bgPanel, fgPanel, eviPanel;
     public DialogBoxUIManager dUiManager;
 
-    private UI2DSprite bgSprite;
-    //transSprite;
+    private UI2DSprite bgSprite, backtransSprite;
 
     private DataManager dm;
 
     private Dictionary<string, UI2DSprite> fgSprites;
     private bool isFast = false;
 
+    /// <summary>
+    /// 储存一起渐变的图层编号
+    /// </summary>
+    private List<int> transList;
+
+
     void Awake()
     {
         dm = DataManager.GetInstance();
         bgSprite = bgPanel.transform.Find("BackGround_Sprite").gameObject.GetComponent<UI2DSprite>();
-        //transSprite = bgPanel.transform.Find("Trans_Sprite").gameObject.GetComponent<UI2DSprite>();
+        backtransSprite = bgPanel.transform.Find("Trans_Sprite").gameObject.GetComponent<UI2DSprite>();
         fgSprites = new Dictionary<string, UI2DSprite>();
+        transList = new List<int>();
     }
 
     public void SetFast(bool fast) { isFast = fast; }
@@ -79,7 +85,10 @@ public class ImageManager : MonoBehaviour
     public Sprite LoadBackground(string name) { return LoadImage(BG_PATH, name); }
     public Sprite LoadCharacter(string name) { return LoadImage(CHARA_PATH, name); }
 
-
+    /// <summary>
+    /// 侦探模式时 背景图片的初始化
+    /// </summary>
+    /// <param name="name">读入的背景图片</param>
     public void MoveInit(string name)
     {
         Sprite nextSprite = LoadBackground(name);
@@ -118,9 +127,14 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 获取某一层的图片
+    /// </summary>
+    /// <param name="depth">层编号</param>
     private UI2DSprite GetSpriteByDepth(int depth)
     {
         UI2DSprite ui;
+        if (depth == -1) return bgSprite;
         if (fgPanel.transform.Find("sprite" + depth) != null)
         {
             ui = fgPanel.transform.Find("sprite" + depth).GetComponent<UI2DSprite>();
@@ -137,9 +151,29 @@ public class ImageManager : MonoBehaviour
         return ui;
     }
 
+    /// <summary>
+    /// 获取某一层的渐变层
+    /// </summary>
+    /// <param name="depth">层编号</param>
     private UI2DSprite GetTransByDepth(int depth)
     {
-        return fgPanel.transform.Find("trans" + depth).GetComponent<UI2DSprite>();
+        UI2DSprite ui;
+        if (depth == -1) return backtransSprite;
+        if (fgPanel.transform.Find("trans" + depth) != null)
+        {
+            ui = fgPanel.transform.Find("trans" + depth).GetComponent<UI2DSprite>();
+        }
+        else
+        {
+            UI2DSprite originSprite = GetSpriteByDepth(depth);
+            //复制一个变成Trans
+            GameObject go = Instantiate(originSprite.gameObject) as GameObject;
+            go.transform.parent = originSprite.transform.parent;
+            go.transform.localPosition = originSprite.transform.localPosition;
+            go.transform.name = "trans" + depth;
+            ui = go.GetComponent<UI2DSprite>();
+        }
+        return ui;
     }
 
     private void RemoveSpriteByDepth(int depth)
@@ -150,7 +184,7 @@ public class ImageManager : MonoBehaviour
         }
     }
 
-    private void SetDefaultPos(UI2DSprite ui, string pstr)
+    private Vector3 SetDefaultPos(UI2DSprite ui, string pstr)
     {
         int x;
         switch (pstr)
@@ -169,7 +203,7 @@ public class ImageManager : MonoBehaviour
                 break;
         }
         int y = -360 + ui.height / 2;
-        ui.transform.localPosition = new Vector3(x, y);
+        return new Vector3(x, y);
     }
 
     public void RunEffect(NewImageEffect effect, Action callback)
@@ -211,7 +245,7 @@ public class ImageManager : MonoBehaviour
             case NewImageEffect.OperateMode.SetPos:
                 if (!string.IsNullOrEmpty(effect.defaultpos))
                 {
-                    SetDefaultPos(ui, effect.defaultpos);
+                    ui.transform.localPosition = SetDefaultPos(ui, effect.defaultpos);
                 }
                 else
                 {
@@ -240,7 +274,7 @@ public class ImageManager : MonoBehaviour
             case NewImageEffect.OperateMode.Trans:
                 if (isback)
                 {
-                    StartCoroutine(Trans(effect, callback));
+                    StartCoroutine(TransBackGround(effect, callback));
                 }
                 else
                 {
@@ -249,6 +283,9 @@ public class ImageManager : MonoBehaviour
                 break;
             case NewImageEffect.OperateMode.PreTrans:
                 StartCoroutine(PreTransByDepth(effect, callback));
+                break;
+            case NewImageEffect.OperateMode.TransAll:
+                StartCoroutine(TransAll(effect, callback));
                 break;
             case NewImageEffect.OperateMode.Move:
                 StartCoroutine(Move(ui, effect, callback));
@@ -345,57 +382,104 @@ public class ImageManager : MonoBehaviour
         callback();
     }
 
-    private IEnumerator Trans(NewImageEffect effect, Action callback)
+    /// <summary>
+    /// 将所有已PreTrans的图层一并渐变
+    /// </summary>
+    private IEnumerator TransAll(NewImageEffect effect, Action callback)
     {
-        UI2DSprite transSprite = bgPanel.transform.Find("Trans_Sprite").gameObject.GetComponent<UI2DSprite>();
-        //复制bg给Trans层
-        transSprite.sprite2D = bgSprite.sprite2D;
-        transSprite.alpha = bgSprite.alpha;
-        transSprite.depth = 2;
-        //更换bg层
-        bgSprite.sprite2D = LoadBackground(effect.state.spriteName);
-        bgSprite.alpha = 1;
-        //将trans层淡出
         float t = 0;
-        float origin = transSprite.alpha;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
+            foreach (int item in transList)
+            {
+                UI2DSprite transSprite = GetTransByDepth(item);
+                UI2DSprite originSprite = GetSpriteByDepth(item);
+                //将trans层淡出同时 淡入原层
+                float origin = transSprite.alpha;
+                float final = 0;
+                transSprite.alpha = origin + t * (final - origin);
+                originSprite.alpha = t;
+            }
+            yield return null;
+        }
+        foreach (int item in transList)
+        {
+            UI2DSprite transSprite = GetTransByDepth(item);
+            Destroy(transSprite.gameObject);
+        }
+        transList.Clear();
+        callback();
+    }
+
+    /// <summary>
+    /// 渐变预处理
+    /// </summary>
+    /// <param name="effect"></param>
+    /// <param name="callback"></param>
+    private IEnumerator PreTransByDepth(NewImageEffect effect, Action callback)
+    {
+        //向TransList添加层数
+        transList.Add(effect.depth);
+        UI2DSprite originSprite = GetSpriteByDepth(effect.depth);
+        UI2DSprite transSprite = GetTransByDepth(effect.depth);
+        //复制本体给Trans层
+        transSprite.sprite2D = originSprite.sprite2D;
+        transSprite.MakePixelPerfect();
+        transSprite.alpha = originSprite.alpha;
+        transSprite.depth = originSprite.depth + 1;
+        yield return null;
+        //更换本体层内容
+        originSprite.alpha = 0;
+        if(effect.depth != -1)
+        {
+            originSprite.sprite2D = LoadCharacter(effect.state.spriteName);
+        }
+        else
+        {
+            originSprite.sprite2D = LoadBackground(effect.state.spriteName);
+        }
+        originSprite.MakePixelPerfect();
+        if (!string.IsNullOrEmpty(effect.defaultpos))
+        {
+            originSprite.transform.localPosition = SetDefaultPos(originSprite, effect.defaultpos);
+        }
+        else
+        {
+            originSprite.transform.localPosition = effect.state.GetPosition();
+        }
+        callback();
+    }
+
+    /// <summary>
+    /// 单一渐变背景图
+    /// </summary>
+    /// <param name="effect"></param>
+    /// <param name="callback"></param>
+    private IEnumerator TransBackGround(NewImageEffect effect, Action callback)
+    {
+        UI2DSprite ui = bgSprite;
+        UI2DSprite trans = backtransSprite;
+        //将trans淡出同时淡入原ui
+        float t = 0;
+        float origin = trans.alpha;
         float final = 0;
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
-            transSprite.alpha = origin + t * (final - origin);
+            trans.alpha = origin + t * (final - origin);
+            ui.alpha = t;
             yield return null;
         }
-        //transSprite.sprite2D = null;
+        transList.Remove(-1);
         callback();
     }
 
-    private IEnumerator PreTransByDepth(NewImageEffect effect, Action callback)
-    {
-        UI2DSprite ui = GetSpriteByDepth(effect.depth);
-        //复制一个变成Trans
-        GameObject go = Instantiate(ui.gameObject) as GameObject;
-        go.transform.parent = ui.transform.parent;
-        go.transform.localPosition = ui.transform.localPosition;
-        go.transform.name = "trans" + effect.depth;
-        UI2DSprite trans = go.GetComponent<UI2DSprite>();
-        trans.MakePixelPerfect();
-        trans.depth = trans.depth + 1;
-        yield return null;
-        //读取新的图片，且alpha为0
-        ui.alpha = 0;
-        ui.sprite2D = LoadCharacter(effect.state.spriteName);
-        ui.MakePixelPerfect();
-        if (!string.IsNullOrEmpty(effect.defaultpos))
-        {
-            SetDefaultPos(ui, effect.defaultpos);
-        }
-        else
-        {
-            ui.transform.localPosition = effect.state.GetPosition();
-        }
-        callback();
-    }
-
+    /// <summary>
+    /// 单一渐变前景图
+    /// </summary>
+    /// <param name="effect"></param>
+    /// <param name="callback"></param>
     private IEnumerator TransByDepth(NewImageEffect effect, Action callback)
     {
         UI2DSprite ui = GetSpriteByDepth(effect.depth);
@@ -413,6 +497,7 @@ public class ImageManager : MonoBehaviour
         }
         //删除trans
         DestroyObject(trans.gameObject);
+        transList.Remove(effect.depth);
         callback();
     }
 
@@ -421,6 +506,14 @@ public class ImageManager : MonoBehaviour
         float t = 0;
         Vector3 origin = ui.transform.localPosition;
         Vector3 final = effect.state.GetPosition();
+        if (!string.IsNullOrEmpty(effect.defaultpos))
+        {
+            final = SetDefaultPos(ui, effect.defaultpos);
+        }
+        else
+        {
+            final = effect.state.GetPosition();
+        }
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
@@ -438,22 +531,42 @@ public class ImageManager : MonoBehaviour
 
     private IEnumerator FadeAll(NewImageEffect effect, Action callback, bool includeBack, bool includeDiabox)
     {
+        Dictionary<int, float> originAlpha = new Dictionary<int, float>();
+        foreach (int i in GetDepthNum())
+        {
+            UI2DSprite ui = GetSpriteByDepth(i);
+            originAlpha[i] = ui.alpha;
+        }
+        if (includeBack) originAlpha[-1] = bgSprite.alpha;
+        if (includeDiabox)
+        {
+            originAlpha[-2] = dUiManager.mainContainer.GetComponent<UIWidget>().alpha;
+            dUiManager.clickContainer.SetActive(false);
+        }
         float t = 0;
-        float origin = 1 - effect.state.spriteAlpha;
         float final = effect.state.spriteAlpha;
-        if (includeDiabox) dUiManager.clickContainer.SetActive(false);
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
-            float alpha = origin + t * (final - origin);
-
-            if (includeDiabox) dUiManager.mainContainer.GetComponent<UIWidget>().alpha = alpha;
+            if (includeDiabox)
+            {
+                float origin = originAlpha[-2];
+                float alpha = origin + t * (final - origin);
+                dUiManager.mainContainer.GetComponent<UIWidget>().alpha = alpha;
+            }
             foreach (int i in GetDepthNum())
             {
                 UI2DSprite ui = GetSpriteByDepth(i);
+                float origin = originAlpha[i];
+                float alpha = origin + t * (final - origin);
                 ui.GetComponent<UIRect>().alpha = alpha;
             }
-            if (includeBack) bgSprite.GetComponent<UIRect>().alpha = alpha;
+            if (includeBack)
+            {
+                float origin = originAlpha[-1];
+                float alpha = origin + t * (final - origin);
+                bgSprite.GetComponent<UIRect>().alpha = alpha;
+            }
             yield return null;
         }
         //删除

@@ -21,7 +21,7 @@ namespace Assets.Script.UIScript
         public enum OperateMode
         {
             SetSprite, SetPos, SetAlpha, Fade,
-            Move, PreTrans,Trans, Delete, Wait
+            Move, PreTrans, Trans, TransAll, Delete, Wait
         };
         public OperateMode operate;
 
