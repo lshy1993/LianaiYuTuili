@@ -148,7 +148,7 @@ namespace Assets.Script.GameStruct
                 //通过UIManager设置文字，并开启打字机
                 uiManager.SetText(this, name, dialog, voice);
                 sm.SetVoice(voice);
-                //模块结束
+                //模块设为未结束
                 finish = false;
             }
 

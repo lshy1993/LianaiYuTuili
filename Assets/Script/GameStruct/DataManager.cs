@@ -55,22 +55,27 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 禁用右键菜单(询问/地点转换)
         /// </summary>
-        public bool blockRightClick = false;
+        private bool blockRightClick = false;
+
+        /// <summary>
+        /// 禁用滚轮
+        /// </summary>
+        private bool blockWheel = false;
 
         /// <summary>
         /// 禁用快进
         /// </summary>
-        public bool blockClick = false;
+        private bool blockClick = false;
 
         /// <summary>
         /// 禁用文字履历(菜单/询问)
         /// </summary>
-        public bool blockBacklog = false;
+        private bool blockBacklog = false;
 
         /// <summary>
         /// 禁用存读档(询问)
         /// </summary>
-        public bool blockSaveLoad = false;
+        private bool blockSaveLoad = false;
 
         private DataManager()
         {
@@ -88,6 +93,9 @@ namespace Assets.Script.GameStruct
             InitInTurn();
         }
 
+        /// <summary>
+        /// 游戏临时数据的清空
+        /// </summary>
         private void InitTemp()
         {
             //SetTempVar("文字记录", new Queue<BacklogText>());
@@ -173,7 +181,8 @@ namespace Assets.Script.GameStruct
             configData.charaVoiceVolume = new float[] { 1, 1, 1, 1, 1, 1 };
             configData.charaVoice = new bool[] { true, true, true, true, true, true };
         }
-        /*
+
+        /* 废弃旧版代码
         private void LoadSysConfig(Hashtable hst)
         {
             foreach(string key in hst.Keys)
@@ -437,18 +446,7 @@ namespace Assets.Script.GameStruct
         }
         #endregion
 
-        /// <summary>
-        /// 游戏执行下一回合
-        /// </summary>
-        public void MoveOneTurn()
-        {
-            gameData.gameTurn++;
-            //清空InTurnVar
-            InitInTurn();
-            //随机当日的课表
-            RandomCourse();
-        }
-        
+
         private void RandomCourse()
         {
             //随机当日课程
@@ -460,20 +458,111 @@ namespace Assets.Script.GameStruct
             }
             gameData.morningSchedule = morningSchedule;
             gameData.afternoonSchedule = afternoonSchedule;
-            /* demo1.20 改动
-            SetGameVar("上午课程", morningSchedule);
-            SetGameVar("下午课程", afternoonSchedule);
-            */
-
             //随机当日的加成系数
             int morningRate = IsHoliday() ? 1 : UnityEngine.Random.Range(2, 3);
             int afternoonRate = IsHoliday() ? 1 : UnityEngine.Random.Range(2, 3);
-            /* demo1.20 改动
-             * SetGameVar("上午指数", morningRate);
-             * SetGameVar("下午指数", afternoonRate);
-            */
             gameData.morningRate = morningRate;
             gameData.afternoonRate = afternoonRate;
+        }
+
+        #region Block 函数
+        /// <summary>
+        /// 锁定右键功能
+        /// </summary>
+        public void BlockRightClick()
+        {
+            blockRightClick = true;
+        }
+        /// <summary>
+        /// 锁定左键点击
+        /// </summary>
+        public void BlockClick()
+        {
+            blockClick = true;
+        }
+        public void BlockWheel()
+        {
+            blockWheel = true;
+        }
+        /// <summary>
+        /// 锁定文字履历（不添加新条目）
+        /// </summary>
+        public void BlockBacklog()
+        {
+            blockBacklog = true;
+        }
+        /// <summary>
+        /// 锁定存读档
+        /// </summary>
+        public void BlockSaveLoad()
+        {
+            blockSaveLoad = true;
+        }
+        /// <summary>
+        /// 解锁右键功能
+        /// </summary>
+        public void UnblockRightClick()
+        {
+            blockRightClick = false;
+        }
+        /// <summary>
+        /// 解锁左键点击
+        /// </summary>
+        public void UnblockClick()
+        {
+            blockClick = false;
+        }
+        public void UnblockWheel()
+        {
+            blockWheel = false;
+        }
+        /// <summary>
+        /// 解锁文字履历
+        /// </summary>
+        public void UnblockBacklog()
+        {
+            blockBacklog = false;
+        }
+        /// <summary>
+        /// 解锁存读档
+        /// </summary>
+        public void UnblockSaveLoad()
+        {
+            blockSaveLoad = false;
+        }
+
+        public bool IsClickBlocked()
+        {
+            return blockClick;
+        }
+        public bool IsRightClickBlocked()
+        {
+            return blockRightClick;
+        }
+        public bool IsBacklogBlocked()
+        {
+            return blockBacklog;
+        }
+        public bool IsSaveLoadBlocked()
+        {
+            return blockSaveLoad;
+        }
+        public bool IsWheelBlocked()
+        {
+            return blockWheel;
+        }
+        #endregion
+
+        /// <summary>
+        /// 游戏执行下一回合
+        /// </summary>
+        public void MoveOneTurn()
+        {
+            gameData.gameTurn++;
+            //清空InTurnVar
+            InitInTurn();
+            //随机当日的课表
+            RandomCourse();
         }
 
         /// <summary>
@@ -508,7 +597,6 @@ namespace Assets.Script.GameStruct
             int turn = gameData.gameTurn;
             return START_DAY.AddDays(turn);
         }
-
 
         /// <summary>
         /// 清空文字记录
@@ -620,7 +708,7 @@ namespace Assets.Script.GameStruct
             string gamemode = GetGameVar<string>("MODE");
             */
             string gamemode = gameData.MODE;
-            string savetime = DateTime.Now.ToString("yyyy/MM/dd\nHH:mm");
+            string savetime = DateTime.Now.ToString("yyyy/MM/dd  HH:mm");
             string customtext = "存档了！";
             SavingInfo info = new SavingInfo(gamemode, savetime, customtext, picname);
             if (savedic.ContainsKey(i))
@@ -769,10 +857,10 @@ namespace Assets.Script.GameStruct
         {
             //删除存档
             string filename = "data" + i + ".sav";
-            LoadSaveTool.DeleteFile(filename);
+            LoadSaveTool.DeleteFile(LoadSaveTool.GetSavePath(filename));
             //删除截图
             string picname = "data" + i + ".png";
-            LoadSaveTool.DeleteFile(picname);
+            LoadSaveTool.DeleteFile(LoadSaveTool.GetSavePath(picname));
             //更新存档信息
             //Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
             Dictionary<int, SavingInfo> savedic = tempData.saveInfo;

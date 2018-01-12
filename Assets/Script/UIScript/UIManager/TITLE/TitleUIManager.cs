@@ -185,18 +185,18 @@ public class TitleUIManager : MonoBehaviour
 
     private IEnumerator FadeIn(UIWidget target)
     {
-        DataManager.GetInstance().blockRightClick = true;
+        DataManager.GetInstance().BlockRightClick();
         if (target == title) BlockBtn(false);
         target.transform.gameObject.SetActive(true);
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.fixedDeltaTime);
             target.alpha = x;
             yield return null;
         }
         if (target == title) BlockBtn(true);
-        DataManager.GetInstance().blockRightClick = false;
+        DataManager.GetInstance().UnblockRightClick();
     }
     private IEnumerator FadeOut(UIWidget target)
     {
@@ -204,7 +204,7 @@ public class TitleUIManager : MonoBehaviour
         float x = 1;
         while (x > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.fixedDeltaTime);
             target.alpha = x;
             yield return null;
         }
@@ -214,7 +214,7 @@ public class TitleUIManager : MonoBehaviour
 
     private IEnumerator MoveBG(bool isback)
     {
-        DataManager.GetInstance().blockRightClick = true;
+        DataManager.GetInstance().BlockRightClick();
         float x = 0;
         while (x < 1)
         {
@@ -224,7 +224,7 @@ public class TitleUIManager : MonoBehaviour
             yield return null;
         }
         title.transform.gameObject.SetActive(isback);
-        DataManager.GetInstance().blockRightClick = false;
+        DataManager.GetInstance().UnblockRightClick();
     }
 
     private void BlockBtn(bool blocked)

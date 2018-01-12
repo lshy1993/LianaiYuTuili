@@ -199,9 +199,13 @@ namespace Assets.Script.GameStruct.EventSystem
             */
             Player player = dataManager.gameData.player;
             int turn = dataManager.gameData.gameTurn;
-            
-            //若是不可重复事件  且 已经执行过
-            if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
+
+            //如果该事件未在eventState内 则跳过
+            if (eventState.ContainsKey(e.name))
+            {
+                //若是不可重复事件  且 已经执行过
+                if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
+            }
 
             // 不满足前置回合数
             if (turn > e.conditionTurn.GetMax() || turn < e.conditionTurn.GetMin())

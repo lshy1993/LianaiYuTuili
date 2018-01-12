@@ -66,30 +66,41 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //右键事件绑定
-        if (Input.GetMouseButtonDown(1))
+        //右键事件绑定 Esc 充当右键功能
+        if (Input.GetMouseButtonDown(1)||Input.GetKeyDown(KeyCode.Escape))
         {
-            if (dm.isEffecting || dm.blockRightClick)
+            if (dm.isEffecting || dm.IsRightClickBlocked())
                 return;
             else
                 ps.RightClick();
         }
-        //Esc 充当右键功能
-        if (Input.GetKeyDown(KeyCode.Escape))
+        /*
+        if ()
         {
-            if (dm.isEffecting || dm.blockRightClick)
+            if (dm.isEffecting || dm.IsRightClickBlocked())
                 return;
             else
                 ps.RightClick();
         }
+        */
+
         //滚轮作用绑定事件
-        if (Input.GetAxis("Mouse ScrollWheel") > 0) ps.MouseUpScroll(Input.GetAxis("Mouse ScrollWheel"));
-        if (Input.GetAxis("Mouse ScrollWheel") < 0) ps.MouseDownScroll(Input.GetAxis("Mouse ScrollWheel"));
+        if (!dm.IsWheelBlocked())
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                ps.MouseUpScroll(Input.GetAxis("Mouse ScrollWheel"));
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                ps.MouseDownScroll(Input.GetAxis("Mouse ScrollWheel"));
+            }
+        }
 
         if (node == null)
         {
+            //Debug.LogError("Game End, node null");
             // 游戏结束返回标题画面
-            //Debug.Log("Game End, node null");
             //ps.SwitchTo_VerifyIterative("Title_Panel");
         }
         else if (node.end)

@@ -82,6 +82,12 @@ namespace Assets.Script.GameStruct
         {
             Graphic, Sound, Text, Operate
         }
+
+        public enum WarningMode
+        {
+            Title, Quit, Save, Load, Delete
+        }
+
     }
 
 }

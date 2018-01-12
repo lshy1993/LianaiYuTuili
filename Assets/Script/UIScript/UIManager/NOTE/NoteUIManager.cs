@@ -32,14 +32,14 @@ public class NoteUIManager : MonoBehaviour
     {
         indexContainer.SetActive(true);
         currentOpen = Constants.NOTE_STATUS.INDEX;
-        DataManager.GetInstance().blockClick = true;
-        DataManager.GetInstance().blockBacklog = true;
+        DataManager.GetInstance().BlockClick();
+        DataManager.GetInstance().BlockBacklog();
     }
 
     private void OnDisable()
     {
-        DataManager.GetInstance().blockClick = false;
-        DataManager.GetInstance().blockBacklog = false;
+        DataManager.GetInstance().UnblockClick();
+        DataManager.GetInstance().UnblockBacklog();
     }
 
     private void SetNewIcon()

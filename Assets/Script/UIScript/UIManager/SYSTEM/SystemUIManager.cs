@@ -6,34 +6,43 @@ using Assets.Script.GameStruct.Model;
 
 public class SystemUIManager : MonoBehaviour
 {
-    private GameManager gm;
+    private SLUIManager slm;
+
     public PanelSwitch ps;
     public GameObject butContainer, saveloadContainer, settingContainer, backlogContainer, warningContainer;
-    public GameObject saveTable;
+    public DialogBoxUIManager dbum;
     public UILabel sysIndexInfo;
 
-    private int saveID, groupnum = 1;
-    private Dictionary<int, SavingInfo> savedic;
-    private Dictionary<string, byte[]> savepic;
+    private Constants.WarningMode currentMode;
 
-    public enum WarningMode { Title, Quit, Save, Load, Delete};
-    private WarningMode currentMode;
-    private bool SaveMode, fromTitle;
+    public bool fromAVG;
 
     private void Awake()
     {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        slm = saveloadContainer.GetComponent<SLUIManager>();
+        //生成存档界面表格
+        slm.saveTable.transform.DestroyChildren();
+        for (int i = 1; i <= 6; i++)
+        {
+            GameObject go = Resources.Load("Prefab/Saving_Box") as GameObject;
+            go = NGUITools.AddChild(slm.saveTable, go);
+            go.name = "Saving_Box" + i;
+            go.transform.Find("Save_Sprite").GetComponent<SaveLoadButton>().id = i;
+            go.transform.Find("Save_Sprite").GetComponent<SaveLoadButton>().uiManager = slm;
+            go.transform.Find("Delete_Button").GetComponent<SaveDeleteButton>().id = i;
+            go.transform.Find("Delete_Button").GetComponent<SaveDeleteButton>().uiManager = slm;
+        }
     }
 
     private void OnEnable()
     {
-        DataManager.GetInstance().blockClick = true;
+        DataManager.GetInstance().BlockClick();
     }
 
     private void OnDisable()
     {
-        DataManager.GetInstance().blockClick = false;
-        DataManager.GetInstance().blockBacklog = false;
+        DataManager.GetInstance().UnblockClick();
+        DataManager.GetInstance().UnblockBacklog();
     }
 
     public void Open()
@@ -41,7 +50,7 @@ public class SystemUIManager : MonoBehaviour
         //1.预截图
         StartCoroutine(ScreenShot());
         //2.打开面板
-        DataManager.GetInstance().blockBacklog = true;
+        DataManager.GetInstance().BlockBacklog();
         StartCoroutine(FadeInP(0.2f));
         StartCoroutine(FadeIn(butContainer, 0.3f));
     }
@@ -58,12 +67,6 @@ public class SystemUIManager : MonoBehaviour
         Destroy(tex);
     }
 
-    public void Close()
-    {
-        StartCoroutine(FadeOutP(0.3f));
-    }
-
-
     public void SetHelpInfo(bool ishover, string str)
     {
         sysIndexInfo.text = ishover ? str : "";
@@ -75,6 +78,11 @@ public class SystemUIManager : MonoBehaviour
     public void OpenNote()
     {
         Close();
+    }
+    public void Close()
+    {
+        StartCoroutine(FadeOutP(0.3f));
+        if (fromAVG) dbum.ShowWindow();
     }
 
     /// <summary>
@@ -91,7 +99,7 @@ public class SystemUIManager : MonoBehaviour
     /// </summary>
     public void OpenBacklog()
     {
-        DataManager.GetInstance().blockBacklog = false;
+        DataManager.GetInstance().UnblockBacklog();
         butContainer.SetActive(false);
         StartCoroutine(FadeIn(backlogContainer, 0.3f));
     }
@@ -102,8 +110,7 @@ public class SystemUIManager : MonoBehaviour
     public void OpenSave()
     {
         butContainer.SetActive(false);
-        SaveMode = true;
-        FreshSaveTable();
+        slm.SetSaveMode();
         StartCoroutine(FadeIn(saveloadContainer, 0.3f));
     }
 
@@ -111,11 +118,10 @@ public class SystemUIManager : MonoBehaviour
     /// 【按钮】打开读取进度
     /// </summary>
     public void OpenLoad(bool fromTitle = false)
-    { 
-        butContainer.SetActive(false);
-        SaveMode = false;
-        this.fromTitle = fromTitle;
-        FreshSaveTable();
+    {
+        if (fromTitle) butContainer.SetActive(false);
+        else StartCoroutine(FadeOut(butContainer, 0.3f));
+        slm.SetLoadMode(fromTitle);
         StartCoroutine(FadeIn(saveloadContainer, 0.3f));
     }
 
@@ -125,7 +131,7 @@ public class SystemUIManager : MonoBehaviour
     public void OpenTitle()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        OpenWarning(WarningMode.Title);
+        OpenWarning(Constants.WarningMode.Title);
     }
 
     /// <summary>
@@ -134,57 +140,14 @@ public class SystemUIManager : MonoBehaviour
     public void OpenExit()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        OpenWarning(WarningMode.Quit);
-    }
-
-    /// <summary>
-    /// 【档位按钮】按下存档/读档
-    /// </summary>
-    /// <param name="x">存档栏位置1-6</param>
-    public void SelectSave(int x)
-    {
-        saveID = groupnum * 6 + x;
-        if (SaveMode)
-        {
-            //存档模式
-            if (savedic.ContainsKey(saveID))
-            {
-                OpenWarning(WarningMode.Save);
-            }
-            else
-            {
-                SaveData();
-            }
-        }
-        else
-        {
-            //读取模式
-            if (savedic.ContainsKey(saveID))
-            {
-                OpenWarning(WarningMode.Load);
-            }
-        }
-
-    }
-
-    /// <summary>
-    /// 【档位按钮】按下删除
-    /// </summary>
-    /// <param name="x">存档栏位置1-6</param>
-    public void SelectDelete(int x)
-    {
-        saveID = groupnum * 6 + x;
-        if (savedic.ContainsKey(saveID))
-        {
-            OpenWarning(WarningMode.Delete);
-        }
+        OpenWarning(Constants.WarningMode.Quit);
     }
 
     /// <summary>
     /// 【界面】打开警告框
     /// </summary>
     /// <param name="arg">警告框类型</param>
-    private void OpenWarning(WarningMode arg)
+    public void OpenWarning(Constants.WarningMode arg)
     {
         if (Input.GetMouseButtonUp(1)) return;
         warningContainer.GetComponent<UIWidget>().alpha = 1;
@@ -194,19 +157,19 @@ public class SystemUIManager : MonoBehaviour
 
         switch (arg)
         {
-            case WarningMode.Title:
+            case Constants.WarningMode.Title:
                 showMessage = "返回标题画面吗";
                 break;
-            case WarningMode.Quit:
+            case Constants.WarningMode.Quit:
                 showMessage = "退出游戏吗";
                 break;
-            case WarningMode.Save:
+            case Constants.WarningMode.Save:
                 showMessage = "覆盖这个存档吗";
                 break;
-            case WarningMode.Load:
+            case Constants.WarningMode.Load:
                 showMessage = "读取这个存档吗";
                 break;
-            case WarningMode.Delete:
+            case Constants.WarningMode.Delete:
                 showMessage = "删除这个存档吗";
                 break;
             default:
@@ -224,41 +187,28 @@ public class SystemUIManager : MonoBehaviour
         if (Input.GetMouseButtonUp(1)) return;
         switch (currentMode)
         {
-            case WarningMode.Title:
+            case Constants.WarningMode.Title:
                 //StartCoroutine(FadeOut(warningContainer));
                 StartCoroutine(FadeOutP());
                 ps.SwitchTo_VerifyIterative("Title_Panel");
                 break;
-            case WarningMode.Quit:
+            case Constants.WarningMode.Quit:
                 Application.Quit();
                 break;
-            case WarningMode.Save:
-                SaveData();
+            case Constants.WarningMode.Save:
+                slm.SaveData();
                 warningContainer.SetActive(false);
                 break;
-            case WarningMode.Load:
-                DataManager.GetInstance().Load(saveID);
-                //TODO:执行切换界面
-                LoadSwtich();
+            case Constants.WarningMode.Load:
+                slm.LoadData();
                 break;
-            case WarningMode.Delete:
-                DataManager.GetInstance().Delete(saveID);
+            case Constants.WarningMode.Delete:
+                slm.DeleteData();
+                warningContainer.SetActive(false);
                 break;
             default:
                 break;
         }
-    }
-
-    private void SaveData()
-    {
-        string mode = DataManager.GetInstance().gameData.MODE;
-        if (mode == "Avg模式" || mode == "侦探模式")
-        {
-            gm.sm.SaveSoundInfo();
-            gm.im.SaveImageInfo();
-        }
-        DataManager.GetInstance().Save(saveID);
-        FreshSaveTable();
     }
 
     /// <summary>
@@ -268,75 +218,6 @@ public class SystemUIManager : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(1)) return;
         warningContainer.SetActive(false);
-    }
-
-    /// <summary>
-    /// 读档时的界面复原
-    /// </summary>
-    private void LoadSwtich()
-    {
-        gm.sm.StopBGM();
-        StartCoroutine(FadeOutAndLoad());
-    }
-
-    /// <summary>
-    /// 【按钮】变更存档栏组号 1-9
-    /// </summary>
-    public void SetFileNum()
-    {
-        if (!UIToggle.current.value) return;
-        int x = UIToggle.current.GetComponent<ToggleNum>().id;
-        groupnum = x - 1;
-        FreshSaveTable();
-    }
-
-    /// <summary>
-    /// 刷新存档表格
-    /// </summary>
-    private void FreshSaveTable()
-    {
-        saveloadContainer.transform.Find("SL_Label").GetComponent<UILabel>().text = SaveMode ? "存档" : "读档";
-        savedic = DataManager.GetInstance().tempData.saveInfo;
-        savepic = DataManager.GetInstance().GetTempVar<Dictionary<string, byte[]>>("存档缩略图");
-        for (int i = 1; i <= 6; i++)
-        {
-            int saveid = groupnum * 6 + i;
-            GameObject go = saveTable.transform.Find("Saving_Box" + i).gameObject;
-            //检查 存档位 是否为空
-            if (savedic.ContainsKey(saveid) && savedic[saveid] != null)
-            {
-                //若为非空 则开启按钮
-                go.GetComponent<UIButton>().enabled = true;
-                go.transform.Find("Info_Label").GetComponent<UILabel>().text = savedic[saveid].saveText;
-                go.transform.Find("Mode_Label").GetComponent<UILabel>().text = savedic[saveid].gameMode;
-                go.transform.Find("Time_Label").GetComponent<UILabel>().text = savedic[saveid].saveTime;
-                Texture2D texture = new Texture2D(240, 135);
-                if (savepic.ContainsKey(savedic[saveid].picPath))
-                {
-                    texture.LoadImage(savepic[savedic[saveid].picPath]);
-                    Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-                    go.GetComponent<UIButton>().normalSprite2D = sp;
-                }
-            }
-            else
-            {
-                //若为空 仅存档可以开按钮
-                go.GetComponent<UIButton>().enabled = SaveMode;
-                go.transform.Find("Info_Label").GetComponent<UILabel>().text = "";
-                go.transform.Find("Mode_Label").GetComponent<UILabel>().text = "";
-                go.transform.Find("Time_Label").GetComponent<UILabel>().text = "";
-                if (SaveMode)
-                {
-                    go.GetComponent<UIButton>().normalSprite2D = Resources.Load<Sprite>("Background/Title");
-                }
-                else
-                {
-                    go.transform.Find("Save_Sprite").GetComponent<UI2DSprite>().sprite2D = Resources.LoadAll<Sprite>("Background/Title")[0];
-                }
-                go.transform.Find("Saving_Button").gameObject.SetActive(false);
-                go.transform.Find("Delete_Button").gameObject.SetActive(false);
-            }
-        }
     }
 
     private IEnumerator FadeInP(float time = 0.5f)
@@ -366,48 +247,6 @@ public class SystemUIManager : MonoBehaviour
         backlogContainer.SetActive(false);
         warningContainer.SetActive(false);
         transform.gameObject.SetActive(false);
-    }
-
-    private IEnumerator FadeOutAndLoad(float time = 0.5f)
-    {
-        UIPanel panel = transform.GetComponent<UIPanel>();
-        float x = 1;
-        while (x > 0)
-        {
-            x = Mathf.MoveTowards(x, 0, 1 / time * Time.deltaTime);
-            panel.alpha = x;
-            yield return null;
-        }
-        saveloadContainer.SetActive(false);
-        warningContainer.SetActive(false);
-        //Node复原
-        string modeName = DataManager.GetInstance().gameData.MODE;
-        Debug.Log(modeName);
-        switch (modeName)
-        {
-            case "大地图模式":
-                gm.node = NodeFactory.GetInstance().GetMapNode();
-                break;
-            case "养成模式":
-                gm.node = NodeFactory.GetInstance().GetEduNode();
-                break;
-            case "侦探模式":
-                string currentDetect = DataManager.GetInstance().inturnData.currentDetectEvent;
-                //界面复原
-                gm.im.LoadImageInfo();
-                gm.sm.LoadSoundInfo();
-                gm.node = NodeFactory.GetInstance().GetDetectJudgeNode(currentDetect);
-                break;
-            case "Avg模式":
-                string textName = DataManager.GetInstance().gameData.currentScript;
-                //界面复原
-                gm.im.LoadImageInfo();
-                gm.sm.LoadSoundInfo();
-                gm.node = NodeFactory.GetInstance().FindTextScriptNoneInit(textName);
-                break;
-        }
-        transform.gameObject.SetActive(false);
-        
     }
 
     private IEnumerator FadeIn(GameObject target, float time = 0.5f)

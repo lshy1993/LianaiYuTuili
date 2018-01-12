@@ -63,12 +63,14 @@ public class ReasoningUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        DataManager.GetInstance().blockRightClick = true;
+        DataManager.GetInstance().BlockRightClick();
+        DataManager.GetInstance().BlockClick();
     }
 
     private void OnDisable()
     {
-        DataManager.GetInstance().blockRightClick = false;
+        DataManager.GetInstance().UnblockRightClick();
+        DataManager.GetInstance().UnblockClick();
     }
 
     #region 数据绑定

@@ -8,7 +8,13 @@ Xianzhuo Game
 Unity3D  
 NGUI  
 ## Update Info  
-版本更新内容  
+版本更新内容 
+### demo 1.26  
+* 重新设计存档界面，添加删除复制功能
+* 添加新的SL子UIManager
+* 将原有直接获取bool 新增Block和UnBlock函数
+* 打字机特效产生时，禁用右键和回放
+
 ### demo 1.25  
 * EffectBuilder与ImageManager执行函数一一对应
 * 背景层添加编号-1

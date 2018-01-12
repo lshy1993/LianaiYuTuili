@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class DialogBoxUIManager : MonoBehaviour
 {
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject mainContainer, clickContainer;
     //private TypewriterEffect te;
     private TypeWriter te;
@@ -26,8 +26,8 @@ public class DialogBoxUIManager : MonoBehaviour
 
     void Awake()
     {
-        mainContainer = this.transform.Find("Main_Container").gameObject;
-        clickContainer = this.transform.Find("Click_Container").gameObject;
+        //mainContainer = this.transform.Find("Main_Container").gameObject;
+        //clickContainer = this.transform.Find("Click_Container").gameObject;
         dialogLabel = mainContainer.transform.Find("Dialog_Label").GetComponent<UILabel>();
         nameLabel = mainContainer.transform.Find("Name_Label").GetComponent<UILabel>();
 
@@ -50,6 +50,9 @@ public class DialogBoxUIManager : MonoBehaviour
     //将文字数据应用到UI上
     public void SetText(TextPiece currentPiece, string name, string dialog, string voice, string avatar = "")
     {
+        //设置成禁用右键和滚轮？
+        DataManager.GetInstance().BlockRightClick();
+        DataManager.GetInstance().BlockWheel();
         this.currentPiece = currentPiece;
         nameLabel.text = AddColor(name);
         dialogLabel.text = ChangeName(dialog);
@@ -120,6 +123,8 @@ public class DialogBoxUIManager : MonoBehaviour
     public void ShowNextIcon()
     {
         if (string.IsNullOrEmpty(dialogLabel.text) && string.IsNullOrEmpty(nameLabel.text)) return;
+        DataManager.GetInstance().UnblockRightClick();
+        DataManager.GetInstance().UnblockWheel();
         typewriting = false;
         nextIcon.SetActive(true);
         if (currentPiece != null) currentPiece.finish = true;

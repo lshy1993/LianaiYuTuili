@@ -8,15 +8,6 @@ public class Click_Next : MonoBehaviour {
     public DialogBoxUIManager uiManger;
     public ToggleAuto ta;
 
-    private bool blockClick
-    {
-        get { return DataManager.GetInstance().blockClick; }
-    }
-    private bool isAuto
-    {
-        get { return DataManager.GetInstance().isAuto; }
-    }
-
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
@@ -34,9 +25,9 @@ public class Click_Next : MonoBehaviour {
     public void ClickE()
     {
         //如果锁定点击 则直接返回
-        if (blockClick) return;
+        if (DataManager.GetInstance().IsClickBlocked()) return;
         //如果auto模式开启 则重置计时器
-        if (isAuto)
+        if (DataManager.GetInstance().isAuto)
         {
             ta.ResetTimer();
         }

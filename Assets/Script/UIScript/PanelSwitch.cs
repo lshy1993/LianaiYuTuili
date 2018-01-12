@@ -250,6 +250,8 @@ public class PanelSwitch : MonoBehaviour
                 else
                 {
                     //Debug.Log("Open Menu!");
+                    panels["Avg"].transform.Find("DialogBox_Panel").GetComponent<DialogBoxUIManager>().HideWindow();
+                    panels["System"].GetComponent<SystemUIManager>().fromAVG = true;
                     panels["System"].SetActive(true);
                     panels["System"].GetComponent<SystemUIManager>().Open();
                 }
@@ -265,8 +267,8 @@ public class PanelSwitch : MonoBehaviour
         if (panels["Avg"].activeSelf && !panels["Phone"].activeSelf)
         {
             GameObject backCon = panels["System"].transform.Find("Backlog_Container").gameObject;
-            //Backlog关闭 才能打开
-            if (!backCon.activeSelf && !DataManager.GetInstance().blockBacklog)
+            //Backlog关闭时 且 未被锁定才能打开
+            if (!backCon.activeSelf && !DataManager.GetInstance().IsBacklogBlocked())
             {
                 panels["System"].SetActive(true);
                 panels["System"].GetComponent<UIPanel>().alpha = 1;
