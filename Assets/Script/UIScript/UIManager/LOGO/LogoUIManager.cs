@@ -72,7 +72,7 @@ public class LogoUIManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / fadein * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / fadein * Time.deltaTime);
             target.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }
@@ -83,7 +83,7 @@ public class LogoUIManager : MonoBehaviour
         float t = 1;
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / fadein * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / fadein * Time.deltaTime);
             target.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }

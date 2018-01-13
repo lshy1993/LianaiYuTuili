@@ -15,8 +15,6 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
-                //——背景 后排视角教室——
-                f.FadeinBackground("classroom"),
                 f.OpenDialog(),
                 f.FadeInCharacterSprite(0,"ch4"),
                 f.t("喵星人", "呼——终于忙完了喵！"),
@@ -36,7 +34,7 @@ namespace Assets.Script.TextScripts
                 f.t("喵星人", "啊~我懂了，原来是班长啊~"),
                 f.t("李云萧", "班、班长？"),
                 f.t("喵星人", "喏，站在讲台上讲话的就是了。"),
-                f.MoveCharacterSprite(0,"right"),
+                f.MoveCharacterSprite(0,"right",0.2f),
                 //f.PreTransCharacterSprite(0,"ch4","right"),
                 f.PreTransCharacterSprite(1,"ch3","left"),
                 f.TransAll(),
@@ -46,7 +44,7 @@ namespace Assets.Script.TextScripts
                 f.t("？？？", "那么等大家发言结束后，请投一下票。"),
                 f.t("李云萧", "我知道了。"),
                 f.FadeoutCharacterSprite(1),
-                f.MoveCharacterSprite(0,"middle"),
+                f.MoveCharacterSprite(0,"middle",0.3f),
                 //f.TransCharacterSprite(0,"ch4"),
                 f.t("喵星人", "怎么？看女生看得眼睛都歪了？"),
                 f.t("李云萧", "没、没有……"),
@@ -56,9 +54,10 @@ namespace Assets.Script.TextScripts
                 f.t("李云萧", "说起来，喵星人，我旁边的这个座位是谁的？"),
                 f.t("喵星人", "就是班长她的喵。"),
                 f.t("李云萧", "啊！？不会吧……"),
-                f.CloseDialog(),
                 f.FadeoutAllChara(),
+                f.CloseDialog(),
                 f.TransBackground("sky_day"),
+                f.Wait(0.3f),
                 f.OpenDialog(),
                 f.t("李云萧", "[66ccff]（我并没有心思去听每个人的上台发言……）[-]"),
                 f.t("李云萧", "[66ccff]（夏日的午后总是这么悠闲……）[-]"),

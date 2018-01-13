@@ -23,7 +23,7 @@ namespace Assets.Script.GameStruct
         private UI2DSprite avatarSprite;
         private DataManager manager;
 
-        private GameObject timepanel, diaboxpanel, evipanel, hpui, inputpanel;
+        private GameObject timepanel, diaboxpanel, evipanel, hpui, inputpanel, sidepanel;
 
         private int id = 0;
 
@@ -37,6 +37,7 @@ namespace Assets.Script.GameStruct
             evipanel = root.transform.Find("Avg_Panel/EvidenceGet_Panel").gameObject;
             hpui = root.transform.Find("Avg_Panel/HPMP_Panel").gameObject;
             inputpanel = root.transform.Find("Avg_Panel/NameInput_Panel").gameObject;
+            sidepanel = root.transform.Find("Avg_Panel/SideLabel_Panel").gameObject;
         }
 
         #region TextPiece部分
@@ -397,14 +398,13 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 切换特效
+        /// 章节名显示
         /// </summary>
-        /// <param name="time">显示时间</param>
-        /// <param name="place">显示文字</param>
-        //public TimePiece SwitchText(string time, string place)
-        //{
-        //    return new TimePiece(id++, timepanel, time, place);
-        //}
+        /// <param name="chapter">显示内容</param>
+        public ChapterNamePiece ShowChapter(string chapter="")
+        {
+            return new ChapterNamePiece(id++, sidepanel ,chapter);
+        }
 
         #region EviPiece部分
         /// <summary>

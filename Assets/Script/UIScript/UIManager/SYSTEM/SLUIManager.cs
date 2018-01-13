@@ -23,6 +23,17 @@ public class SLUIManager : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
+    private void OnEnable()
+    {
+        DataManager.GetInstance().BlockClick();
+    }
+
+    private void OnDisable()
+    {
+        DataManager.GetInstance().UnblockClick();
+        //DataManager.GetInstance().UnblockBacklog();
+    }
+
     public void SetSaveMode()
     {
         saveMode = true;
@@ -135,10 +146,12 @@ public class SLUIManager : MonoBehaviour
                 //若为非空 则开启按钮
                 go.transform.Find("Save_Sprite").GetComponent<UIButton>().enabled = true;
                 go.transform.Find("NO_Label").GetComponent<UILabel>().text = "NO." + saveid;
+
                 go.transform.Find("Info_Label").gameObject.SetActive(true);
                 go.transform.Find("Info_Label").GetComponent<UILabel>().text = savedic[saveid].saveText;
                 go.transform.Find("Info_Label").GetComponent<UIInput>().defaultText = savedic[saveid].saveText;
-                go.transform.Find("Text_Label").GetComponent<UILabel>().text = savedic[saveid].saveText;
+
+                go.transform.Find("Text_Label").GetComponent<UILabel>().text = savedic[saveid].currentText;
                 go.transform.Find("Mode_Label").GetComponent<UILabel>().text = savedic[saveid].gameMode;
                 go.transform.Find("Time_Label").GetComponent<UILabel>().text = savedic[saveid].saveTime;
                 Texture2D texture = new Texture2D(240, 135);
@@ -174,6 +187,19 @@ public class SLUIManager : MonoBehaviour
         }
     }
 
+
+    public void ChangeSaveInfo(int i)
+    {
+        Debug.Log(i);
+        int saveid = groupnum * 6 + i;
+        GameObject go = saveTable.transform.Find("Saving_Box" + i).gameObject;
+        string str = go.transform.Find("Info_Label").GetComponent<UILabel>().text;
+        savedic[saveid].saveText = str;
+        DataManager.GetInstance().ChangeSave();
+        FreshSaveTable();
+    }
+
+
     private IEnumerator FadeOutAndLoad(float time = 0.5f)
     {
         UIPanel panel = suim.transform.GetComponent<UIPanel>();
@@ -184,8 +210,12 @@ public class SLUIManager : MonoBehaviour
             panel.alpha = x;
             yield return null;
         }
+        //关闭读档界面
         this.gameObject.SetActive(false);
+        //关闭警告框
         suim.warningContainer.SetActive(false);
+        //关闭上级的SystemUI
+        suim.gameObject.SetActive(false);
         //Node复原
         string modeName = DataManager.GetInstance().gameData.MODE;
         Debug.Log(modeName);
@@ -212,7 +242,6 @@ public class SLUIManager : MonoBehaviour
                 gm.node = NodeFactory.GetInstance().FindTextScriptNoneInit(textName);
                 break;
         }
-        transform.gameObject.SetActive(false);
     }
 
 

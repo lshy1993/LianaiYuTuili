@@ -134,9 +134,7 @@ namespace Assets.Script.GameStruct
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.BGM)
-                .TotalTime(0)
-                .Operater(SoundEffect.OperateType.Set)
-                .Clip("")
+                .Operater(SoundEffect.OperateType.Remove)
                 .Get();
             return e;
         }
@@ -188,6 +186,15 @@ namespace Assets.Script.GameStruct
                 .TotalTime(0)
                 .Loop(loop)
                 .Operater(SoundEffect.OperateType.Set)
+                .Get();
+            return e;
+        }
+
+        public static SoundEffect RemoveSE()
+        {
+            SoundBuilder builder = new SoundBuilder();
+            SoundEffect e = builder.Source(SoundEffect.SoundType.SE)
+                .Operater(SoundEffect.OperateType.Remove)
                 .Get();
             return e;
         }

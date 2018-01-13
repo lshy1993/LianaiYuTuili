@@ -137,29 +137,33 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 寻找下一脚本文件
+        /// 寻找脚本文件(自动重置文本位置)
         /// </summary>
         /// <param name="name">脚本名</param>
         /// <returns></returns>
         public TextScript FindTextScript(string name)
         {
             dm.gameData.currentTextPos = 0;
-            return FindTextScriptNoneInit(name);
+            dm.gameData.currentScript = name;
+            dm.gameData.MODE = "Avg模式";
+            return FindScript(name);
         }
 
         /// <summary>
-        /// 寻找下一脚本文件(无切换)
+        /// 寻找脚本文件(不重置文字位置)
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">脚本名</param>
         /// <returns></returns>
         public TextScript FindTextScriptNoneInit(string name)
         {
-            /* demo1.20 改动
-            manager.SetGameVar("当前脚本名", name);
-            manager.SetGameVar("MODE", "Avg模式");
-            */
             dm.gameData.currentScript = name;
             dm.gameData.MODE = "Avg模式";
+            DataManager.GetInstance().tempData.isDiaboxRecover = true;
+            return FindScript(name);
+        }
+
+        private TextScript FindScript(string name)
+        {
             string classStr = SCRIPT_PATH + "." + name;
             Type t = Type.GetType(classStr);
             object[] args = new object[] { dm, root, ps };

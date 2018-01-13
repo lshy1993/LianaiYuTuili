@@ -9,6 +9,13 @@ Unity3D
 NGUI  
 ## Update Info  
 版本更新内容 
+### demo 1.27  
+* 添加ChapterNamePiece
+* BGM名和章节名UI位置变更
+* 修改跨级开启界面的方式
+* 修改存档的简介
+* 将所有的 fixedDelta 改回delta
+
 ### demo 1.26  
 * 重新设计存档界面，添加删除复制功能
 * 添加新的SL子UIManager

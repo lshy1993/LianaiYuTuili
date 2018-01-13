@@ -40,7 +40,7 @@ namespace Assets.Script.UIScript
             {
                 for (int i = 0; i < transform.childCount; i++)
                 {
-                    float y = Mathf.MoveTowards(transform.GetChild(i).localPosition.y, destinations[i], (360 - destinations[i]) / showtime * Time.fixedDeltaTime);
+                    float y = Mathf.MoveTowards(transform.GetChild(i).localPosition.y, destinations[i], (360 - destinations[i]) / showtime * Time.deltaTime);
                     transform.GetChild(i).localPosition = new Vector3(0, y);
                 }
                 yield return null;

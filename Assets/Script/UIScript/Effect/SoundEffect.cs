@@ -20,7 +20,7 @@ namespace Assets.Script.UIScript
         public enum SoundType { BGM, SE, Voice };
         public SoundType target;
 
-        public enum OperateType { Fadeout, Fadein, Pause, Unpause, Stop, Set };
+        public enum OperateType { Fadeout, Fadein, Pause, Unpause,  Set, Remove };
         public OperateType operate;
 
         //public SingleSoundUpdate update;

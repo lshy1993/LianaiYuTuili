@@ -700,17 +700,15 @@ namespace Assets.Script.GameStruct
             byte[] picdata = (byte[])tempData.GetTempVar("缩略图");
             LoadSaveTool.CreatByteFile(LoadSaveTool.GetSavePath(picname), picdata);
             //更新存档信息
-            //Dictionary<int, SavingInfo> savedic = (Dictionary<int, SavingInfo>)datapool.GetSystemVar("存档信息");
             Dictionary<int, SavingInfo> savedic = tempData.saveInfo;
-
             //TODO: 获取状态
-            /* demo1.20 改动
-            string gamemode = GetGameVar<string>("MODE");
-            */
-            string gamemode = gameData.MODE;
-            string savetime = DateTime.Now.ToString("yyyy/MM/dd  HH:mm");
-            string customtext = "存档了！";
-            SavingInfo info = new SavingInfo(gamemode, savetime, customtext, picname);
+            SavingInfo info = new SavingInfo();
+            info.gameMode = gameData.MODE;
+            info.saveTime = DateTime.Now.ToString("yyyy/MM/dd  HH:mm");
+            info.saveText = "存档了！";
+            info.currentText = tempData.currentText;
+            info.picPath = picname;
+            //SavingInfo info = new SavingInfo(gamemode, savetime, customtext, picname);
             if (savedic.ContainsKey(i))
             {
                 savedic[i] = info;
@@ -756,101 +754,13 @@ namespace Assets.Script.GameStruct
             eventManager.UpdateEvent();
             //对临时变量重置？
             ClearHistory();
+        }
 
-            /* demo1.20 改动
-            string json;
-            Hashtable hst = JsonConvert.DeserializeObject<Hashtable>(str);
-            json = hst["GameVar"].ToString();
-            JObject gVars = JObject.Parse(json);
-            //游戏数据GameVar
-            json = gVars.Property("回合").Value.ToString();
-            int currentTurn = JsonConvert.DeserializeObject<int>(json);
-            json = gVars.Property("玩家").Value.ToString();
-            Player player = JsonConvert.DeserializeObject<Player>(json);
-            string currentEventName = gVars.Property("当前事件名").Value.ToString();
-            json = gVars.Property("事件状态表").Value.ToString();
-            Dictionary<string, int> eventStatusDict = JsonConvert.DeserializeObject<Dictionary<string, int>>(json);
-            string xing = gVars.Property("姓").Value.ToString();
-            string ming = gVars.Property("名").Value.ToString();
-            json = gVars.Property("精力总量").Value.ToString();
-            int allMP = JsonConvert.DeserializeObject<int>(json);
-            json = gVars.Property("上午课程").Value.ToString();
-            int morningSchedule = JsonConvert.DeserializeObject<int>(json);
-            json = gVars.Property("下午课程").Value.ToString();
-            int afternoonSchedule = JsonConvert.DeserializeObject<int>(json);
-            json = gVars.Property("上午指数").Value.ToString();
-            int morningRate = JsonConvert.DeserializeObject<int>(json);
-            json = gVars.Property("下午指数").Value.ToString();
-            int afternoonRate = JsonConvert.DeserializeObject<int>(json);
-            string modeName = gVars.Property("MODE").Value.ToString();
-            string textName = gVars.Property("当前脚本名").Value.ToString();
-            json = gVars.Property("文字位置").Value.ToString();
-            int currentTextId = JsonConvert.DeserializeObject<int>(json);
-            
-            if(modeName == "Avg模式" || modeName == "侦探模式")
-            {
-                string bgsprite = gVars.Property("背景图片").Value.ToString();
-                json = gVars.Property("立绘信息").Value.ToString();
-                Dictionary<int, SpriteState> fgsprite = JsonConvert.DeserializeObject<Dictionary<int, SpriteState>>(json);
-                
-                SetGameVar("背景图片", bgsprite);
-                SetGameVar("立绘信息", fgsprite);
-            }
-
-            SetGameVar("回合", currentTurn);
-            SetGameVar("玩家", player);
-            SetGameVar("事件状态表", eventStatusDict);
-            SetGameVar("当前事件名", currentEventName);
-
-            SetGameVar("姓", xing);
-            SetGameVar("名", ming);
-            SetGameVar("精力总量", allMP);
-            SetGameVar("上午课程", morningSchedule);
-            SetGameVar("下午课程", afternoonSchedule);
-            SetGameVar("上午指数", morningRate);
-            SetGameVar("下午指数", afternoonRate);
-            SetGameVar("当前脚本名", textName);
-            SetGameVar("MODE", modeName);
-            SetGameVar("文字位置", currentTextId);
-
-            //单回合内数据
-            json = hst["InTurnVar"].ToString();
-            JObject IVars = JObject.Parse(json);
-
-            //foreach (JProperty jp in IVars.Properties())
-            //{
-            //    Debug.Log(jp.Name);
-            //}
-
-            json = IVars.Property("持有证据").Value.ToString();
-            List<string> evidenceHave = JsonConvert.DeserializeObject<List<string>>(json);
-            json = IVars.Property("侦探模式").Value.ToString();
-            Constants.DETECT_STATUS currentStatus = JsonConvert.DeserializeObject<Constants.DETECT_STATUS>(json);
-            json = IVars.Property("侦探事件位置状态表").Value.ToString();
-            Dictionary<string, bool> placeDict = JsonConvert.DeserializeObject<Dictionary<string, bool>>(json);
-            json = IVars.Property("已威慑证词序号").Value.ToString();
-            List<int> pressedId = JsonConvert.DeserializeObject<List<int>>(json);
-            json = IVars.Property("侦探事件已知信息").Value.ToString();
-            List<string> knownInfo = JsonConvert.DeserializeObject<List<string>>(json);
-            string currentDetect = IVars.Property("当前侦探事件").Value.ToString();
-            string currentDetectPlace = IVars.Property("当前侦探位置").Value.ToString();
-            json = IVars.Property("当前血量").Value.ToString();
-            int currentHP = JsonConvert.DeserializeObject<int>(json);
-            string enquireId = IVars.Property("询问编号").Value.ToString();
-            json = IVars.Property("证词序号").Value.ToString();
-            int testimonyId = JsonConvert.DeserializeObject<int>(json);
-
-            SetInTurnVar("持有证据", evidenceHave);
-            SetInTurnVar("侦探模式", currentStatus);
-            SetInTurnVar("侦探事件位置状态表", placeDict);
-            SetInTurnVar("已威慑证词序号", pressedId);
-            SetInTurnVar("侦探事件已知信息", knownInfo);
-            SetInTurnVar("当前侦探事件",currentDetect);
-            SetInTurnVar("当前侦探位置", currentDetectPlace);
-            SetInTurnVar("询问编号", enquireId);
-            SetInTurnVar("证词序号", testimonyId);
-            SetInTurnVar("当前血量", currentHP);
-            */
+        public void ChangeSave()
+        {
+            string sysSave = JsonConvert.SerializeObject(tempData.saveInfo);
+            LoadSaveTool.CreateFile(LoadSaveTool.GetSavePath("datasv.sav"), sysSave);
+            RefreshSavePic();
         }
 
         public void Delete(int i)

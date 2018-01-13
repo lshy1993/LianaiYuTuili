@@ -136,6 +136,7 @@ public class SoundManager : MonoBehaviour
     public void StopSE()
     {
         currentSE.Stop();
+        currentSE.clip = null;
     }
 
     public void SetVoice(string fileName)
@@ -172,6 +173,46 @@ public class SoundManager : MonoBehaviour
 
     public void RunEffect(SoundEffect effect, Action callback)
     {
+        //选择操作类型
+        switch (effect.operate)
+        {
+            case SoundEffect.OperateType.Pause:
+                SetAim(effect);
+                aim.Pause();
+                callback();
+                break;
+            case SoundEffect.OperateType.Unpause:
+                SetAim(effect);
+                aim.UnPause();
+                callback();
+                break;
+            case SoundEffect.OperateType.Set:
+                if(effect.target == SoundEffect.SoundType.BGM)
+                {
+                    SetBGM(effect.clip, effect.loop);
+                    sideLabel.ShowBGM(currentBGM.clip.name);
+                }
+                if(effect.target == SoundEffect.SoundType.SE)
+                {
+                    SetSE(effect.clip, effect.loop);
+                }
+                callback();
+                break;
+            case SoundEffect.OperateType.Remove:
+                SetAim(effect);
+                aim.Stop();
+                aim.clip = null;
+                callback();
+                break;
+            default:
+                SetAim(effect);
+                StartCoroutine(Run(effect, callback));
+                break;
+        }
+    }
+
+    private void SetAim(SoundEffect effect)
+    {
         //决定操作源
         switch (effect.target)
         {
@@ -187,30 +228,6 @@ public class SoundManager : MonoBehaviour
             default:
                 break;
         }
-        switch (effect.operate)
-        {
-            case SoundEffect.OperateType.Pause:
-                aim.Pause();
-                callback();
-                break;
-            case SoundEffect.OperateType.Unpause:
-                aim.UnPause();
-                callback();
-                break;
-            case SoundEffect.OperateType.Stop:
-                aim.Stop();
-                callback();
-                break;
-            case SoundEffect.OperateType.Set:
-                SetBGM(effect.clip, effect.loop);
-                sideLabel.ShowBGM(currentBGM.clip.name);
-                callback();
-                break;
-            default:
-                StartCoroutine(Run(effect, callback));
-                break;
-        }
-        
     }
 
     public void SaveSoundInfo()
@@ -251,9 +268,9 @@ public class SoundManager : MonoBehaviour
         if (effect.operate == SoundEffect.OperateType.Fadeout) memoryVolume = aim.volume;
         float tweenFrom = effect.operate == SoundEffect.OperateType.Fadein ? 0 : aim.volume;
         float tweenFinal = effect.operate == SoundEffect.OperateType.Fadein ? memoryVolume : 0;
-        for (float t = 0; t <= effect.time; t += Time.fixedDeltaTime)
+        for (float t = 0; t <= effect.time; t += Time.deltaTime)
         {
-            aim.volume = Mathf.MoveTowards(aim.volume, tweenFinal, Math.Abs(tweenFinal - tweenFrom) / effect.time * Time.fixedDeltaTime);
+            aim.volume = Mathf.MoveTowards(aim.volume, tweenFinal, Math.Abs(tweenFinal - tweenFrom) / effect.time * Time.deltaTime);
             yield return null;
         }
         callback();

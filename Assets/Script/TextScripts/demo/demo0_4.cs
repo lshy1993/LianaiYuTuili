@@ -15,6 +15,7 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
+                f.ShowChapter(),
                 f.OpenDialog(),
                 //——无立绘 头像——
                 f.t("李云萧","[66ccff]（都是陌生的脸……）[-]"),
@@ -24,6 +25,7 @@ namespace Assets.Script.TextScripts
                 f.t("男生","但是这种时候还有转校吗？"),
                 f.t("? ? ?","大家安静一下——"),
                 f.t("李云萧","[66ccff]（不从是哪里传来了声音，整个教室瞬间静了下来。）[-]"),
+                f.FadeInCharacterSprite(0, "ch7"),
                 f.t("郭老师","同学们，从明天开始，新的学期就到来了。"),
                 f.t("郭老师","在开始今天的班会前，有一个消息要告诉大家。"),
                 f.t("郭老师","从今天开始，我们班将多一名新的成员。"),
@@ -37,14 +39,20 @@ namespace Assets.Script.TextScripts
                 f.t("郭老师","非常感谢李云萧同学，也希望同学们能友好相处。"),
                 f.t("郭老师","教室只剩下最后一排空着了，要么你坐靠窗的那个位置吧。"),
                 f.t("李云萧","[66ccff]（靠窗的座位，也不错……）[-]"),
-                f.FadeoutAll(),
                 //——背景 后排视角的教室——
-                f.FadeinBackground("classroom"),
-                f.OpenDialog(),
+                //f.TransBackground("classroom"),
                 f.t("郭老师","这个暑假，同学们…………"),
-                f.t("李云萧","[66ccff]（在简短的开场白后，老师开始对上个学期进行了总结。）[-]"),
+                f.FadeoutCharacterSprite(0),
+                f.t("李云萧","[66ccff]（在简短的开场白之后……）[-]"),
+                f.t("李云萧","[66ccff]（老师开始对上个学期进行了总结。）[-]"),
+                f.StopBGM(),
+                f.t("","…………"),
+                f.t("","……"),
+                f.PlayBGM("people1"),
                 f.t("？？？","哟，新来的——"),
-                f.t("李云萧","[66ccff]（果然不管在哪个学校，新学期的开场白都如此地相似。）[-]"),
+                f.t("李云萧","[66ccff]（果然不管在哪个学校……）[-]"),
+                f.t("？？？","喂，那个谁——"),
+                f.t("李云萧","[66ccff]（新学期的开场白都如此地相似。）[-]"),
                 f.t("？？？","喂！(#`O′)"),
                 f.t("李云萧","嗯？叫我吗？"),
                 f.FadeInCharacterSprite(0,"ch4"),
@@ -67,37 +75,54 @@ namespace Assets.Script.TextScripts
                 f.t("喵星人","说对了一半，华欣的确是市里的一级重点高中……"),
                 f.t("喵星人","但是我们华欣，和其他的重点高中还是有区别的。"),
                 f.t("李云萧","哦？有什么区别？"),
+                f.PauseBGM(),
                 f.TransCharacterSprite(0,"ch7"),
                 f.t("郭老师","苗星任！"),
-                f.t("喵星人","！！"),
+                f.t("喵星人","！！","ch4"),
                 f.t("郭老师","你的暑假作业做完了没有？！"),
-                f.t("喵星人","做、做完了！！！"),
+                f.t("喵星人","做、做完了！！！","ch4"),
                 f.t("郭老师","很好，等会由你带领班上的男生去领这学期的教材。"),
                 f.t("郭老师","好了，希望同学们回去好好准备下，明天开始正式上课。"),
                 f.FadeoutCharacterSprite(0),
-                f.t("喵星人","呼……差点被发现了……"),
+                f.UnpauseBGM(0.5f),
+                f.t("喵星人","呼……差点被发现了……","ch4"),
                 f.t("李云萧","让你开小差……"),
-                f.t("喵星人","还不是因为和你说话！"),
+                f.t("喵星人","还不是因为和你说话！","ch4"),
                 f.t("李云萧", "[66ccff]（明明是你转过头来和我讲话的！）[-]"),
+                f.t("喵星人","等老师讲完吧！","ch4"),
+                f.FadeoutBackground(),
+                f.t("","…………"),
+                f.t("","……"),
+                f.FadeinBackground("classroom"),
+                f.FadeInCharacterSprite(0,"ch7"),
+                f.t("郭老师","那么，同学们，今天的班会就到这里了。"),
+                f.t("郭老师","请各位好好休息，明天开始新的学期。"),
+                f.FadeoutCharacterSprite(0),
+                f.t("喵星人","终于，结束了啊！！","ch4"),
+                f.t("李云萧", "你站起来干什么？"),
                 //——CG 喵星人振臂高呼——
                 f.FadeInCharacterSprite(0,"ch4"),
                 f.t("喵星人","咳咳，男同胞们，跟我一起去领书！！"),
                 f.t("男生","又是我们几个啊……诶，走啦！走啦！"),
-                f.t("李云萧","想不到，你还蛮有号召力的。"),
-                f.t("喵星人","还有你，也一起去！"),
+                f.t("李云萧","嚯，想不到，你还蛮有号召力的。"),
+                f.t("喵星人","还有李云萧，你也和我们一起去！"),
                 f.t("李云萧","我也要去？"),
                 f.t("喵星人","当然！你已经是我们班级的人了，是男的都要去！"),
                 f.t("李云萧","知道啦！"),
                 f.t("李云萧","[66ccff]（于是，我跟随着喵星人，离开了教室……）[-]"),
-                f.t("李云萧","[66ccff]（我朝着这个新的大家庭，迈出了第一步。）[-]"),
-                f.FadeoutAll()
+                //f.t("李云萧","[66ccff]（我朝着这个新的大家庭，迈出了第一步。）[-]"),
+                f.FadeoutAll(),
+                f.Wait(0.5f),
+                //——背景 后排视角教室——
+                f.FadeinBackground("classroom")
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.FindTextScript("demo00_1");
+            return nodeFactory.GetSwitchNode("8月31日 上午", "高二（3）班 教室", "demo00_1");
+            //return nodeFactory.FindTextScript("demo00_1");
         }
 
     }

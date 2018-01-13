@@ -223,7 +223,7 @@ public class ReasoningUIManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.5f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.5f * Time.deltaTime);
             float scale = 0.5f + t / 2;
             startBackSprite.transform.localScale = new Vector3(scale, 1, 1);
             startContainer.GetComponent<UIWidget>().alpha = scale;
@@ -234,8 +234,8 @@ public class ReasoningUIManager : MonoBehaviour
         backContainer.SetActive(true);
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / 0.8f * Time.fixedDeltaTime);
-            //alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.5f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / 0.8f * Time.deltaTime);
+            //alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.5f * Time.deltaTime);
             float scale = 1 + (1 - t) * 0.2f;
             float alpha = 1 - t;
             startBackSprite.transform.localScale = new Vector3(1, scale, 1);
@@ -257,7 +257,7 @@ public class ReasoningUIManager : MonoBehaviour
         float t = 0, alpha = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.5f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.5f * Time.deltaTime);
             float scale = 2 - t;
             if (t < 0.5) alpha = t * 2;
             questionContainer.transform.localScale = new Vector3(scale, scale, 1);
@@ -278,7 +278,7 @@ public class ReasoningUIManager : MonoBehaviour
         float x = 0;
         while (x > -225)
         {
-            x = Mathf.MoveTowards(x, -225, 225 / 0.2f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, -225, 225 / 0.2f * Time.deltaTime);
             QLabel.transform.localPosition = new Vector3(x, QLabel.transform.localPosition.y);
             yield return null;
         }
@@ -304,7 +304,7 @@ public class ReasoningUIManager : MonoBehaviour
         float alpha = 1;
         while(alpha > 0)
         {
-            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.deltaTime);
             questionContainer.GetComponent<UIWidget>().alpha = alpha;
             yield return null;
         }
@@ -324,7 +324,7 @@ public class ReasoningUIManager : MonoBehaviour
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.deltaTime);
             evidenceContainer.GetComponent<UIWidget>().alpha = x;
             yield return null;
         }
@@ -343,7 +343,7 @@ public class ReasoningUIManager : MonoBehaviour
         float x = 1;
         while (x >0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.2f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 0, 1 / 0.2f * Time.deltaTime);
             evidenceContainer.GetComponent<UIWidget>().alpha = x;
             yield return null;
         }
@@ -359,7 +359,7 @@ public class ReasoningUIManager : MonoBehaviour
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.deltaTime);
             textContainer.GetComponent<UIWidget>().alpha = x;
             yield return null;
         }
@@ -378,7 +378,7 @@ public class ReasoningUIManager : MonoBehaviour
         float alpha = 1;
         while(alpha > 0)
         {
-            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.2f * Time.fixedDeltaTime);
+            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.2f * Time.deltaTime);
             
             textContainer.GetComponent<UIWidget>().alpha = 0;
             yield return null;
@@ -396,7 +396,7 @@ public class ReasoningUIManager : MonoBehaviour
         float y = 0;
         while(y < 1)
         {
-            y = Mathf.MoveTowards(y, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            y = Mathf.MoveTowards(y, 1, 1 / 0.2f * Time.deltaTime);
             breakBackSprite.transform.localScale = new Vector3(1, y, 1);
             yield return null;
         }
@@ -404,14 +404,14 @@ public class ReasoningUIManager : MonoBehaviour
         float alpha = 0;
         while (alpha < 1)
         {
-            alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.2f * Time.deltaTime);
             breakLabel.GetComponent<UIRect>().alpha = alpha;
             yield return null;
         }
         float scale = 1;
         while(scale < 1.1)
         {
-            scale = Mathf.MoveTowards(scale, 1.1f, 0.1f / 0.8f * Time.fixedDeltaTime);
+            scale = Mathf.MoveTowards(scale, 1.1f, 0.1f / 0.8f * Time.deltaTime);
             breakLabel.transform.localScale = new Vector3(scale, scale, 1);
             yield return null;
         }
@@ -420,7 +420,7 @@ public class ReasoningUIManager : MonoBehaviour
         StartCoroutine(CloseQuestion());
         while (alpha > 0)
         {
-            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.deltaTime);
             breakLabel.GetComponent<UIRect>().alpha = alpha;
             breakBackSprite.transform.localScale = new Vector3(1, alpha, 1);
             yield return null;
@@ -438,7 +438,7 @@ public class ReasoningUIManager : MonoBehaviour
         float alpha = 1;
         while(alpha > 0)
         {
-            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.3f * Time.deltaTime);
             backContainer.GetComponent<UIWidget>().alpha = alpha;
             yield return null;
         }

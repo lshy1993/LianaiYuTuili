@@ -12,17 +12,17 @@ public class Click_Next : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
-            ClickE();
+            Execute();
         }
     }
 
     void OnClick()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        ClickE();
+        Execute();
     }
 
-    public void ClickE()
+    public void Execute()
     {
         //如果锁定点击 则直接返回
         if (DataManager.GetInstance().IsClickBlocked()) return;

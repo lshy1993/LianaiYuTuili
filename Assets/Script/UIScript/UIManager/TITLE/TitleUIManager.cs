@@ -191,7 +191,7 @@ public class TitleUIManager : MonoBehaviour
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
             target.alpha = x;
             yield return null;
         }
@@ -204,7 +204,7 @@ public class TitleUIManager : MonoBehaviour
         float x = 1;
         while (x > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.deltaTime);
             target.alpha = x;
             yield return null;
         }

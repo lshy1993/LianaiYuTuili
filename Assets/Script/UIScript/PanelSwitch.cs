@@ -235,6 +235,7 @@ public class PanelSwitch : MonoBehaviour
             else
             {
                 //否则关闭菜单
+                Debug.Log("Close Menu");
                 panels["System"].GetComponent<SystemUIManager>().Close();
             }
         }
@@ -249,16 +250,38 @@ public class PanelSwitch : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("Open Menu!");
-                    panels["Avg"].transform.Find("DialogBox_Panel").GetComponent<DialogBoxUIManager>().HideWindow();
-                    panels["System"].GetComponent<SystemUIManager>().fromAVG = true;
-                    panels["System"].SetActive(true);
-                    panels["System"].GetComponent<SystemUIManager>().Open();
+                    OpenMenu();
                 }
             }
         }
 
     }
+
+    //直接打开菜单
+    public void OpenMenu()
+    {
+        //1.预截图
+        Debug.Log("Open Menu!");
+        StartCoroutine(ScreenShot());
+    }
+
+    private IEnumerator ScreenShot()
+    {
+        //开始截图
+        yield return new WaitForEndOfFrame();
+        Texture2D tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        TextureScale.Bilinear(tex, 240, 135);
+        byte[] imagebytes = tex.EncodeToPNG();
+        DataManager.GetInstance().SetTempVar("缩略图", imagebytes);
+        Destroy(tex);
+
+        panels["Avg"].transform.Find("DialogBox_Panel").GetComponent<DialogBoxUIManager>().HideWindow();
+        panels["System"].GetComponent<SystemUIManager>().quickOpen = true;
+        panels["System"].SetActive(true);
+        panels["System"].GetComponent<SystemUIManager>().Open();
+    }
+
 
     //滚轮向上操作
     public void MouseUpScroll(float delta)
@@ -270,9 +293,7 @@ public class PanelSwitch : MonoBehaviour
             //Backlog关闭时 且 未被锁定才能打开
             if (!backCon.activeSelf && !DataManager.GetInstance().IsBacklogBlocked())
             {
-                panels["System"].SetActive(true);
-                panels["System"].GetComponent<UIPanel>().alpha = 1;
-                panels["System"].GetComponent<SystemUIManager>().OpenBacklog();
+                OpenBacklog();
             }
             else
             {
@@ -285,6 +306,16 @@ public class PanelSwitch : MonoBehaviour
                
             }
         }
+    }
+
+    //开启BackLog
+    public void OpenBacklog()
+    {
+        panels["Avg"].transform.Find("DialogBox_Panel").GetComponent<DialogBoxUIManager>().HideWindow();
+        panels["System"].GetComponent<SystemUIManager>().quickOpen = true;
+        panels["System"].SetActive(true);
+        panels["System"].GetComponent<UIPanel>().alpha = 1;
+        panels["System"].GetComponent<SystemUIManager>().OpenBacklog();
     }
 
     //滚轮朝下操作
@@ -313,7 +344,7 @@ public class PanelSwitch : MonoBehaviour
             {
                 //否则 相当于左键
                 GameObject clickCon = panels["Avg"].transform.Find("DialogBox_Panel/Click_Container").gameObject;
-                clickCon.GetComponent<Click_Next>().ClickE();
+                clickCon.GetComponent<Click_Next>().Execute();
             }
 
         }

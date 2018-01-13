@@ -92,7 +92,7 @@ namespace Assets.Script.GameStruct
                 currentId = 0;
             }
             currentEvent = e;
-
+            
             SetTestimony();
             return currentEvent;
         }

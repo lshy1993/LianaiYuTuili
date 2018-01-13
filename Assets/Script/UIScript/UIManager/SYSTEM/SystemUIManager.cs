@@ -15,7 +15,10 @@ public class SystemUIManager : MonoBehaviour
 
     private Constants.WarningMode currentMode;
 
-    public bool fromAVG;
+    /// <summary>
+    /// 是否关闭了Dialog
+    /// </summary>
+    public bool quickOpen;
 
     private void Awake()
     {
@@ -31,6 +34,8 @@ public class SystemUIManager : MonoBehaviour
             go.transform.Find("Save_Sprite").GetComponent<SaveLoadButton>().uiManager = slm;
             go.transform.Find("Delete_Button").GetComponent<SaveDeleteButton>().id = i;
             go.transform.Find("Delete_Button").GetComponent<SaveDeleteButton>().uiManager = slm;
+            int num = i;
+            EventDelegate.Add(go.transform.Find("Info_Label").GetComponent<UIInput>().onChange, delegate () { slm.ChangeSaveInfo(num); });
         }
     }
 
@@ -47,24 +52,10 @@ public class SystemUIManager : MonoBehaviour
 
     public void Open()
     {
-        //1.预截图
-        StartCoroutine(ScreenShot());
-        //2.打开面板
+        //1.打开面板
         DataManager.GetInstance().BlockBacklog();
         StartCoroutine(FadeInP(0.2f));
         StartCoroutine(FadeIn(butContainer, 0.3f));
-    }
-
-    private IEnumerator ScreenShot()
-    {
-        //开始截图
-        yield return new WaitForEndOfFrame();
-        Texture2D tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-        tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
-        TextureScale.Bilinear(tex, 240, 135);
-        byte[] imagebytes = tex.EncodeToPNG();
-        DataManager.GetInstance().SetTempVar("缩略图", imagebytes);
-        Destroy(tex);
     }
 
     public void SetHelpInfo(bool ishover, string str)
@@ -79,10 +70,16 @@ public class SystemUIManager : MonoBehaviour
     {
         Close();
     }
+
+    /// <summary>
+    /// 关闭总界面
+    /// </summary>
     public void Close()
     {
         StartCoroutine(FadeOutP(0.3f));
-        if (fromAVG) dbum.ShowWindow();
+        //如果跨级开启 则恢复原界面
+        if (quickOpen) dbum.ShowWindow();
+        quickOpen = false;
     }
 
     /// <summary>
@@ -100,7 +97,8 @@ public class SystemUIManager : MonoBehaviour
     public void OpenBacklog()
     {
         DataManager.GetInstance().UnblockBacklog();
-        butContainer.SetActive(false);
+        if (quickOpen) butContainer.SetActive(false);
+        else StartCoroutine(FadeOut(butContainer, 0.3f));
         StartCoroutine(FadeIn(backlogContainer, 0.3f));
     }
 

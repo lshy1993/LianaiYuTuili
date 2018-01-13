@@ -15,13 +15,15 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
-                f.OpenDialog(),
                 f.PlayBGM("popsky",0),
+                f.ShowChapter(),
+                f.OpenDialog(),
                 f.t("", "呼……呼……终于来到这所学校了……"),
                 f.t("", "[66ccff]出现在我眼前的是私立华欣外国语学校。[-]"),
                 f.t("", "不愧是重点高中，正门都不一样……"),
                 f.t("", "[66ccff]今天是八月的最后一天，明天就正式开学了。[-]"),
                 f.t("", "[66ccff]其实，我是从其他学校转过来的，至于原因嘛，以后会讲。[-]"),
+                f.t("", "[66ccff]而我眼前的这所高中，好像有点特殊……[-]"),
                 f.t("", "华欣啊，接下来的生活就都在这里了……"),
                 f.CloseDialog(),
                 f.FadeoutBackground(),

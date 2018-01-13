@@ -30,8 +30,10 @@ namespace Assets.Script.GameStruct
             uiManager = root.transform.Find("Avg_Panel/Enquire_Panel").GetComponent<EnquireUIManager>();
             uiManager.transform.gameObject.SetActive(true);
             factory = NodeFactory.GetInstance();
+
             EnquireEvent enquireEvent = enquireManager.LoadEvent(eventName);
             List<string> visibleTestimony = enquireManager.LoadTestimony();
+            //传值给uimanager
             uiManager.SetEnquireEvent(enquireEvent, visibleTestimony);
             uiManager.SetEnquireNode(this);
         }

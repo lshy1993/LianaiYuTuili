@@ -10,11 +10,8 @@ public class SideLabelUIManager : MonoBehaviour
     public GameObject bgmCon, chapterCon;
     public UILabel bgmLabel, chapterLabel;
 
-    private const int finalX = -540;
-
-    private string labelText;
-    private float waitTime;
-    private GameObject target;
+    private const int finalX1 = -540;
+    private const int finalX2 = 490;
 
     /// <summary>
     /// 飞入BGM名称
@@ -22,48 +19,83 @@ public class SideLabelUIManager : MonoBehaviour
     public void ShowBGM(string name)
     {
         gameObject.SetActive(true);
-        waitTime = DataManager.GetInstance().configData.BGMTime;
-        target = bgmCon;
+        float waitTime = DataManager.GetInstance().configData.BGMTime;
         bgmLabel.text = name;
-        StartCoroutine(MainRoutine());
+        StartCoroutine(MainRoutine(true, waitTime));
     }
 
     /// <summary>
     /// 飞入章节名
     /// </summary>
-    public void ShowChapter()
+    public void ShowChapter(string str)
     {
         gameObject.SetActive(true);
-        waitTime = DataManager.GetInstance().configData.chapterTime;
-        target = chapterCon;
-        chapterLabel.text = DataManager.GetInstance().gameData.currentScript;
-        StartCoroutine(MainRoutine());
+        float waitTime = DataManager.GetInstance().configData.chapterTime;
+        if (str == string.Empty)
+        {
+            chapterLabel.text = DataManager.GetInstance().gameData.currentScript;
+        }
+        else
+        {
+            chapterLabel.text = str;
+        }
+        StartCoroutine(MainRoutine(false, waitTime));
     }
 
-    private IEnumerator MainRoutine()
+    private IEnumerator MainRoutine(bool isbgm, float waitTime)
     {
         //1.显示
-        yield return StartCoroutine(MoveUI(true));
+        if (isbgm)
+        {
+            yield return StartCoroutine(MoveBGM(true));
+        }
+        else
+        {
+            yield return StartCoroutine(MoveChapter(true));
+        }
+        
         //2.等待秒数
         yield return new WaitForSeconds(waitTime);
         //3.消失
-        yield return StartCoroutine(MoveUI(false));
+        if (isbgm)
+        {
+            yield return StartCoroutine(MoveBGM(false));
+        }
+        else
+        {
+            yield return StartCoroutine(MoveChapter(false));
+        }
         gameObject.SetActive(false);
     }
 
-    private IEnumerator MoveUI(bool forward)
+    private IEnumerator MoveBGM(bool forward)
     {
         float t = 0;
-        float X0 = forward ? finalX - 200 : finalX;
-        float X1 = !forward ? finalX - 200 : finalX;
+        float X0 = forward ? finalX1 - 200 : finalX1;
+        float X1 = !forward ? finalX1 - 200 : finalX1;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.deltaTime);
             float x = X0 + t * (X1 - X0);
-            target.transform.localPosition = new Vector2(x, target.transform.localPosition.y);
+            bgmCon.transform.localPosition = new Vector2(x, bgmCon.transform.localPosition.y);
             yield return null;
         }
     }
 
-   
+    private IEnumerator MoveChapter(bool forward)
+    {
+        float t = 0;
+        float X0 = forward ? finalX2 + 300 : finalX2;
+        float X1 = !forward ? finalX2 + 300 : finalX2;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.deltaTime);
+            float x = X0 + t * (X1 - X0);
+            //chapterCon.transform.localPosition = new Vector2(x, chapterCon.transform.localPosition.y);
+            chapterCon.GetComponent<UIWidget>().alpha = forward ? t : 1 - t;
+            yield return null;
+        }
+    }
+
+
 }

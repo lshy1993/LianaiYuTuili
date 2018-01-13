@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class DialogBoxUIManager : MonoBehaviour
@@ -17,6 +18,7 @@ public class DialogBoxUIManager : MonoBehaviour
     private GameObject nextIcon;
     private TextPiece currentPiece;
     private ToggleAuto toggleAuto;
+    private UI2DSprite avatarSprite;
 
     public GameObject table;
 
@@ -35,7 +37,10 @@ public class DialogBoxUIManager : MonoBehaviour
 
         //te = mainContainer.transform.Find("Dialog_Label").GetComponent<TypewriterEffect>();
         te = mainContainer.transform.Find("Dialog_Label").GetComponent<TypeWriter>();
+        te.enabled = false;
         toggleAuto = mainContainer.transform.Find("Quick_Container/Auto_Toggle").GetComponent<ToggleAuto>();
+
+        avatarSprite = mainContainer.transform.Find("Avatar_Panel/Avatar_Sprite").GetComponent<UI2DSprite>();
 
         table.transform.DestroyChildren();
         SetHeroName();
@@ -56,14 +61,52 @@ public class DialogBoxUIManager : MonoBehaviour
         this.currentPiece = currentPiece;
         nameLabel.text = AddColor(name);
         dialogLabel.text = ChangeName(dialog);
-        //TODO : 头像
+        //去掉颜色标签符号
+        Regex rx = new Regex(@"\[[^\]]+\]");
+        DataManager.GetInstance().tempData.currentText = rx.Replace(dialogLabel.text, "");
+        //头像
+        SetAvatar(avatar);
+        //打字机
+        te.enabled = true;
         te.ResetToBeginning();
         typewriting = true;
         //添加文字记录
         AddToTable(new BacklogText(name, dialog, voice));
     }
 
-    //加入文字履历
+    /// <summary>
+    /// 设置头像
+    /// </summary>
+    /// <param name="str"></param>
+    private void SetAvatar(string str)
+    {
+        if (str == string.Empty)
+        {
+            avatarSprite.sprite2D = null;
+        }
+        else
+        {
+            avatarSprite.sprite2D = Resources.Load<Sprite>("Character/" + str);
+            if (str.Contains("Icon"))
+            {
+                avatarSprite.width = 150;
+                avatarSprite.height = 150;
+            }
+            else
+            {
+                avatarSprite.MakePixelPerfect();
+            }
+            //顶边中心靠上
+            float h = avatarSprite.height;
+            avatarSprite.transform.localPosition = new Vector3(0, -h / 2 + 75);
+        }
+        
+    }
+
+    /// <summary>
+    /// 加入文字履历
+    /// </summary>
+    /// <param name="bt"></param>
     private void AddToTable(BacklogText bt)
     {
         //获取系统数据储存的数目
@@ -107,6 +150,7 @@ public class DialogBoxUIManager : MonoBehaviour
         mainContainer.SetActive(false);
         closedbox = true;
     }
+    //显示对话框
     public void ShowWindow()
     {
         mainContainer.SetActive(true);
@@ -119,9 +163,19 @@ public class DialogBoxUIManager : MonoBehaviour
         nextIcon.SetActive(false);
     }
 
+    //清空文字框内容
+    public void ClearText()
+    {
+        HideNextIcon();
+        nameLabel.text = "";
+        dialogLabel.text = "";
+        avatarSprite.sprite2D = null;
+    }
+
     //打字机完成后 调用此函数
     public void ShowNextIcon()
     {
+        te.enabled = false;
         if (string.IsNullOrEmpty(dialogLabel.text) && string.IsNullOrEmpty(nameLabel.text)) return;
         DataManager.GetInstance().UnblockRightClick();
         DataManager.GetInstance().UnblockWheel();
@@ -142,11 +196,7 @@ public class DialogBoxUIManager : MonoBehaviour
 
     public void Open(float time, Action callback)
     {
-        //te.enabled = false;
-        HideNextIcon();
-        nameLabel.text = "";
-        dialogLabel.text = "";
-        
+        ClearText();
         StartCoroutine(OpenUI(time, callback));
     }
 
@@ -188,7 +238,7 @@ public class DialogBoxUIManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / time * Time.deltaTime);
             mainContainer.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }
@@ -202,7 +252,7 @@ public class DialogBoxUIManager : MonoBehaviour
         float t = 1;
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / time * Time.deltaTime);
             mainContainer.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }

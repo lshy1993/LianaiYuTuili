@@ -120,7 +120,7 @@ public class HPMPUIManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.4f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.4f * Time.deltaTime);
             hpBar.value = origin - (origin - final) * t;
             yield return null;
         }
@@ -140,7 +140,7 @@ public class HPMPUIManager : MonoBehaviour
         float hpx;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
             hpx = -800 + 320 * x;
             hpmpContainer.transform.localPosition = new Vector3(hpx, hpmpContainer.transform.localPosition.y, 0);
             yield return null;
@@ -154,7 +154,7 @@ public class HPMPUIManager : MonoBehaviour
         float hpx;
         while (x > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.deltaTime);
             hpx = -800 + 320 * x;
             hpmpContainer.transform.localPosition = new Vector3(hpx, hpmpContainer.transform.localPosition.y, 0);
             yield return null;

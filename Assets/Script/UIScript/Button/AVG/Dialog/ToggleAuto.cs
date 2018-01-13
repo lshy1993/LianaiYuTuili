@@ -69,7 +69,7 @@ public class ToggleAuto : MonoBehaviour
             isCounting = false;
             currentTime = 0f;
             //调用Click
-            cn.ClickE();
+            cn.Execute();
         }
     }
 

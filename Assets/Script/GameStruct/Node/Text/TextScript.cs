@@ -63,18 +63,13 @@ namespace Assets.Script.GameStruct
                     SoundPiece sp = (SoundPiece)pieces[current];
                     sp.ExecAuto(new Action(() => { manager.isEffecting = false; current = sp.Next(); Update(); }));
                 }
-                else if (pieces[current].GetType() == typeof(TimePiece))
+                else if (pieces[current].GetType() == typeof(ChapterNamePiece))
                 {
-                    //地点时间切换模块
-                    manager.BlockRightClick();
-                    TimePiece tp = (TimePiece)pieces[current];
-                    tp.Exec();
-                    if (tp.finished)
-                    {
-                        current = tp.Next();
-                        manager.UnblockRightClick();
-                        Update();
-                    }
+                    //章节名显示模块
+                    ChapterNamePiece cnp = (ChapterNamePiece)pieces[current];
+                    cnp.Exec();
+                    current = cnp.Next();
+                    Update();
                 }
                 else if( pieces[current].GetType() == typeof(EviPiece))
                 {
@@ -126,7 +121,7 @@ namespace Assets.Script.GameStruct
                     TextPiece t = (TextPiece)pieces[current];
                     if (t.finish)
                     {
-                        t.HideIcon();
+                        t.Clear();
                         current = t.Next();
                         Update();
                     }

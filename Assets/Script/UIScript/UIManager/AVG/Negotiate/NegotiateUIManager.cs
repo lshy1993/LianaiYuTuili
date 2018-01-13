@@ -35,7 +35,7 @@ public class NegotiateUIManager : MonoBehaviour
         float alpha = 0;
         while (alpha < 1)
         {
-            alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.2f * Time.deltaTime);
             backContainer.GetComponent<UIWidget>().alpha = alpha;
             yield return null;
         }
@@ -44,7 +44,7 @@ public class NegotiateUIManager : MonoBehaviour
         float t = 0, leftx, rightx;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.25f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.25f * Time.deltaTime);
             leftx = -1177 + 760 * t;
             rightx = 1177 - 760 * t;
             leftP.transform.localPosition = new Vector3(leftx, 0);
@@ -61,7 +61,7 @@ public class NegotiateUIManager : MonoBehaviour
         float scale = 1;
         while (scale < 2)
         {
-            scale = Mathf.MoveTowards(scale, 2, 1 / 0.6f * Time.fixedDeltaTime);
+            scale = Mathf.MoveTowards(scale, 2, 1 / 0.6f * Time.deltaTime);
             foreach (Transform child in startContainer.transform)
             {
                 child.transform.localScale = new Vector3(0.8f + 0.2f * scale, 0.8f + 0.2f * scale, 1);  
@@ -76,7 +76,7 @@ public class NegotiateUIManager : MonoBehaviour
             float y;
             while (alpha > 0)
             {
-                alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.1f * Time.fixedDeltaTime);
+                alpha = Mathf.MoveTowards(alpha, 0, 1 / 0.1f * Time.deltaTime);
                 y = starty - 60 * (1 - alpha);
                 startContainer.transform.GetChild(i).GetComponent<UIRect>().alpha = alpha;
                 startContainer.transform.GetChild(i).transform.localPosition = new Vector3(0, y);
@@ -89,7 +89,7 @@ public class NegotiateUIManager : MonoBehaviour
         questionLabel.SetActive(true);
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / 0.3f * Time.deltaTime);
             float quy = 150 * t;
             questionLabel.transform.localPosition = new Vector3(0, quy);
             questionLabel.GetComponent<UIRect>().alpha = 1 - t;
@@ -99,7 +99,7 @@ public class NegotiateUIManager : MonoBehaviour
         //主题扩大且淡出
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.deltaTime);
             questionLabel.transform.localScale = new Vector3(1 + t, 1 + t, 1);
             questionLabel.GetComponent<UIRect>().alpha = 1 - t;
             yield return null;
@@ -109,7 +109,7 @@ public class NegotiateUIManager : MonoBehaviour
         float lefty, righty;
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / 0.2f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / 0.2f * Time.deltaTime);
             leftx = -417 - 18 * (1 - t);
             lefty = -50 * (1 - t);
             rightx = 417 + 18 * (1 - t);
@@ -121,7 +121,7 @@ public class NegotiateUIManager : MonoBehaviour
         //色块变淡
         while (alpha < 1)
         {
-            alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.2f * Time.deltaTime);
             moveContainer.GetComponent<UIWidget>().alpha = 1 - alpha / 2;
             yield return null;
         }

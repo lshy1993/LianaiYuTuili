@@ -64,7 +64,7 @@ public class EviGetUIManager : MonoBehaviour
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.25f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.25f * Time.deltaTime);
             wi.alpha = x;
             yield return null;
         }
@@ -77,7 +77,7 @@ public class EviGetUIManager : MonoBehaviour
         float x = 1;
         while (x > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.deltaTime);
             wi.alpha = x;
             yield return null;
         }
@@ -92,7 +92,7 @@ public class EviGetUIManager : MonoBehaviour
         float y = 0;
         while (y < 1)
         {
-            y = Mathf.MoveTowards(y, 1, 1 / 0.25f * Time.fixedDeltaTime);
+            y = Mathf.MoveTowards(y, 1, 1 / 0.25f * Time.deltaTime);
             wi.transform.localScale = new Vector3(1, y, 1);
             yield return null;
         }
@@ -108,7 +108,7 @@ public class EviGetUIManager : MonoBehaviour
             float t = 2;
             while (t > 1)
             {
-                t = Mathf.MoveTowards(t, 1, 1 / 0.1f * Time.fixedDeltaTime);
+                t = Mathf.MoveTowards(t, 1, 1 / 0.1f * Time.deltaTime);
                 go.transform.localScale = new Vector3(t, t, 1);
                 yield return null;
             }
@@ -123,7 +123,7 @@ public class EviGetUIManager : MonoBehaviour
         float t = 1;
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / 0.25f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / 0.25f * Time.deltaTime);
             mainCon.GetComponent<UIWidget>().alpha = t;
             subCon.transform.localScale = new Vector3(1, t, 1);
             yield return null;

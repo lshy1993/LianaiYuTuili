@@ -27,7 +27,7 @@ namespace Assets.Script.UIScript
             float fadeSpeed = Math.Abs(maxAlpha - minAlpha) / closeTime;
             while (panel.alpha > minAlpha)
             {
-                panel.alpha = Mathf.MoveTowards(panel.alpha, minAlpha, fadeSpeed * Time.fixedDeltaTime);
+                panel.alpha = Mathf.MoveTowards(panel.alpha, minAlpha, fadeSpeed * Time.deltaTime);
 
                 yield return null;
             }
@@ -43,7 +43,7 @@ namespace Assets.Script.UIScript
             float fadeSpeed = Math.Abs(maxAlpha - minAlpha) / openTime;
             while (panel.alpha < maxAlpha)
             {
-                panel.alpha = Mathf.MoveTowards(panel.alpha, maxAlpha, fadeSpeed * Time.fixedDeltaTime);
+                panel.alpha = Mathf.MoveTowards(panel.alpha, maxAlpha, fadeSpeed * Time.deltaTime);
 
                 yield return null;
             }

@@ -105,7 +105,7 @@ public class ImageManager : MonoBehaviour
         float t = 1;
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / time * Time.deltaTime);
             bgSprite.alpha = t;
             yield return null;
         }
@@ -113,7 +113,7 @@ public class ImageManager : MonoBehaviour
         bgSprite.sprite2D = sprite;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / time * Time.deltaTime);
             bgSprite.alpha = t;
             yield return null;
         }
@@ -121,7 +121,7 @@ public class ImageManager : MonoBehaviour
         t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / time * Time.deltaTime);
             fgPanel.alpha = t;
             yield return null;
         }
@@ -317,7 +317,15 @@ public class ImageManager : MonoBehaviour
         DataManager.GetInstance().SetGameVar("背景图片", bgSprite.sprite2D.name);
         DataManager.GetInstance().SetGameVar("立绘信息", charaDic);
         */
-        dm.gameData.bgSprite = bgSprite.sprite2D.name;
+        if(bgSprite.sprite2D == null)
+        {
+            dm.gameData.bgSprite = string.Empty;
+        }
+        else
+        {
+            dm.gameData.bgSprite = bgSprite.sprite2D.name;
+        }
+        
         dm.gameData.fgSprites = charaDic;
     }
 
@@ -375,7 +383,7 @@ public class ImageManager : MonoBehaviour
         float final = effect.state.spriteAlpha;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
             ui.alpha = origin + t * (final - origin);
             yield return null;
         }
@@ -390,7 +398,7 @@ public class ImageManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
             foreach (int item in transList)
             {
                 UI2DSprite transSprite = GetTransByDepth(item);
@@ -425,7 +433,7 @@ public class ImageManager : MonoBehaviour
         UI2DSprite transSprite = GetTransByDepth(effect.depth);
         //复制本体给Trans层
         transSprite.sprite2D = originSprite.sprite2D;
-        transSprite.MakePixelPerfect();
+        if (effect.depth != -1) transSprite.MakePixelPerfect();
         transSprite.alpha = originSprite.alpha;
         transSprite.depth = originSprite.depth + 1;
         yield return null;
@@ -464,9 +472,10 @@ public class ImageManager : MonoBehaviour
         float t = 0;
         float origin = trans.alpha;
         float final = 0;
+        Debug.Log(effect.time);
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
             trans.alpha = origin + t * (final - origin);
             ui.alpha = t;
             yield return null;
@@ -490,7 +499,7 @@ public class ImageManager : MonoBehaviour
         float final = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
             trans.alpha = origin + t * (final - origin);
             ui.alpha = t;
             yield return null;
@@ -516,7 +525,7 @@ public class ImageManager : MonoBehaviour
         }
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
             ui.transform.localPosition = origin + t * (final - origin);
             yield return null;
         }
@@ -547,7 +556,7 @@ public class ImageManager : MonoBehaviour
         float final = effect.state.spriteAlpha;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
             if (includeDiabox)
             {
                 float origin = originAlpha[-2];

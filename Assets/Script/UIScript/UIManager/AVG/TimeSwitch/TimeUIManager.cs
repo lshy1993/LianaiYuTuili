@@ -62,7 +62,7 @@ public class TimeUIManager : MonoBehaviour
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / fadein * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / fadein * Time.deltaTime);
             mainCon.GetComponent<UIWidget>().alpha = x;
             yield return null;
         }
@@ -93,7 +93,7 @@ public class TimeUIManager : MonoBehaviour
         float x = 1;
         while (x > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / fadeout * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 0, 1 / fadeout * Time.deltaTime);
             mainCon.GetComponent<UIWidget>().alpha = x;
             yield return null;
         }

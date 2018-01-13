@@ -15,6 +15,7 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
+                f.StopBGM(),
                 f.OpenDialog(),
                 f.t("李云萧", "[66ccff]（现场也已经调查完了，最后……）[-]"),
                 f.t("李云萧", "好了，这么说来，你应该是第一目击者。"),

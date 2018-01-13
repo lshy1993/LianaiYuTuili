@@ -14,12 +14,26 @@ namespace Assets.Script.GameStruct
     {
         private Hashtable tempVar;
 
+        /// <summary>
+        /// 文字履历
+        /// </summary>
         public Queue<BacklogText> backLog;
+
+        /// <summary>
+        /// 当前的文本
+        /// </summary>
+        public string currentText;
 
         /// <summary>
         /// 存档信息
         /// </summary>
         public Dictionary<int, SavingInfo> saveInfo;
+
+        /// <summary>
+        /// 是否需要直接弹出对话框
+        /// </summary>
+        public bool isDiaboxRecover;
+
 
         public TempData()
         {

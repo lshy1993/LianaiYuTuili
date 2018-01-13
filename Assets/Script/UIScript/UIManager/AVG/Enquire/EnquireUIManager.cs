@@ -52,7 +52,7 @@ public class EnquireUIManager : MonoBehaviour
     }
 
     private Vector3 originPosition = new Vector3(-100, 900);
-
+    //当前正在进行的询问编号
     private EnquireEvent enquireEvent;
     private EnquireNode enquireNode;
     private EnquireManager enquireManager;
@@ -80,6 +80,9 @@ public class EnquireUIManager : MonoBehaviour
 
         currentLabel = this.transform.Find("CurrentText_Label").GetComponent<UILabel>();
         speedDownSprite = this.transform.Find("SpeedDown_Sprite").gameObject;
+
+        LoadEvent(DataManager.GetInstance().inturnData.currentEnquire);
+
         isnew = true;
         coolDown = true;
         wheelMoving = false;
@@ -129,6 +132,11 @@ public class EnquireUIManager : MonoBehaviour
         enquireNode = node;
     }
 
+    private void LoadEvent(string str)
+    {
+        enquireEvent = enquireManager.LoadEvent(str);
+    }
+
     /// <summary>
     /// 设置当前的询问事件
     /// </summary>
@@ -136,7 +144,7 @@ public class EnquireUIManager : MonoBehaviour
     /// <param name="newTestimony">证词</param>
     public void SetEnquireEvent(EnquireEvent newEvent, List<string> newTestimony)
     {
-        //判断是否进入了同一个询问
+        //判断是否进入同一个询问
         if (enquireEvent != newEvent)
         {
             //全新的询问
@@ -402,7 +410,7 @@ public class EnquireUIManager : MonoBehaviour
         float x = -1280;
         while (x < 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1280 / 0.3f * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 0, 1280 / 0.3f * Time.deltaTime);
             backLine.transform.localPosition = new Vector3(x, backLine.transform.localPosition.y);
             yield return null;
         }
@@ -420,7 +428,7 @@ public class EnquireUIManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.8f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.8f * Time.deltaTime);
             float scale = 1 + t / 2;
             if (t > 0.85)
             {
@@ -448,7 +456,7 @@ public class EnquireUIManager : MonoBehaviour
         //float time = isopen ? 0.15f : 0.15f;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.deltaTime);
             y = isopen ? t : 1 - t;
             backLine.transform.localScale = new Vector3(1, y, 1);
             yield return null;
@@ -468,7 +476,7 @@ public class EnquireUIManager : MonoBehaviour
                 float alpha = 0;
                 while (alpha < 1)
                 {
-                    alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.1f * Time.fixedDeltaTime);
+                    alpha = Mathf.MoveTowards(alpha, 1, 1 / 0.1f * Time.deltaTime);
                     go.GetComponent<UIRect>().alpha = alpha;
                     yield return null;
                 }
@@ -498,7 +506,7 @@ public class EnquireUIManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.25f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.25f * Time.deltaTime);
             float eviy = EVIDENCE_Y + EVIDENCE_MOVE * t;
             evidenceContainer.transform.localPosition = new Vector3(evidenceContainer.transform.localPosition.x, eviy, 0);
             yield return null;
@@ -512,7 +520,7 @@ public class EnquireUIManager : MonoBehaviour
             t = 0;
             while (t < 1)
             {
-                t = Mathf.MoveTowards(t, 1, 1 / 0.35f * Time.fixedDeltaTime);
+                t = Mathf.MoveTowards(t, 1, 1 / 0.35f * Time.deltaTime);
                 float evix = destination[i] + 600 - t * 600;
                 evidenceGrid.transform.GetChild(i).localPosition = new Vector3(evix, 0, 0);
                 yield return null;
@@ -536,7 +544,7 @@ public class EnquireUIManager : MonoBehaviour
         currentLabel.transform.localPosition = originPosition;
         //移入证据栏和证词进度条
         float t = 0;
-        float speed = 1 / 0.25f * Time.fixedDeltaTime;
+        float speed = 1 / 0.25f * Time.deltaTime;
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, speed);
@@ -565,7 +573,7 @@ public class EnquireUIManager : MonoBehaviour
         currentLabel.transform.localPosition = originPosition;
         //移出证据栏和证词进度条
         float t = 1;
-        float speed = 1 / 0.1f * Time.fixedDeltaTime;
+        float speed = 1 / 0.1f * Time.deltaTime;
         while (t > 0)
         {
             t = Mathf.MoveTowards(t, 0, speed);
@@ -603,7 +611,8 @@ public class EnquireUIManager : MonoBehaviour
 
     private bool JudgeObjection(string UID)
     {
-        return enquireEvent.enquireBreak.evidence.Contains(UID) && enquireEvent.enquireBreak.id.Contains(currentID);
+        Debug.Log(UID + "," + currentID);
+        return enquireEvent.enquireBreak.evidence.Contains(UID) && enquireEvent.enquireBreak.id.Contains(currentID + 1);
     }
 
     private IEnumerator PresentAnimation(bool isHold)
@@ -615,7 +624,7 @@ public class EnquireUIManager : MonoBehaviour
         float t = 0, bax, bay;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.15f * Time.fixedDeltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.15f * Time.deltaTime);
             bax = 1280 - 1280 * t;
             bay = -720 + 720 * t;
             breakBack.transform.localPosition = new Vector3(bax, bay);
@@ -633,7 +642,7 @@ public class EnquireUIManager : MonoBehaviour
         float time = isHold ? 0.75f : 1f;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / time * Time.fixedDeltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / time * Time.deltaTime);
             float scale = 1 + x / 20;
             for (int i = isHold ? 1 : 4; isHold ? i < 4 : i < 8; i++)
             {

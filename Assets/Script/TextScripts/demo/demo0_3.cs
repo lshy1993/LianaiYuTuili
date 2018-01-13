@@ -15,6 +15,7 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
+                f.ShowChapter(),
                 f.OpenDialog(),
                 f.t("", "[66ccff]（将主要的入学手续办好后，我决定前往所在班级的教室。）[-]"),
                 f.t("", "[66ccff]（来的路上，问了下其他年级的学生，好像是在3楼的样子。）[-]"),
@@ -63,7 +64,7 @@ namespace Assets.Script.TextScripts
                 f.CloseDialog(),
                 f.FadeoutAll(),
                 //——背景 讲台视角的教室——
-                f.FadeinBackground("classroom")
+                f.FadeinBackground("classroom"),
             };
         }
 

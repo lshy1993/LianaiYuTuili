@@ -7,12 +7,11 @@ using Assets.Script.UIScript;
 /// </summary>
 public class DialogMenuButton : BasicButton
 {
-    public GameObject sysPanel;
+    public PanelSwitch panelSwitch;
 
     protected override void Execute()
     {
-        sysPanel.SetActive(true);
-        sysPanel.GetComponent<SystemUIManager>().Open();
+        panelSwitch.OpenMenu();
     }
 
     protected override void OnHover(bool ishover)

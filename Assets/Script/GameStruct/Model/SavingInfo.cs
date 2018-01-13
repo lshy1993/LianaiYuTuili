@@ -11,6 +11,7 @@ namespace Assets.Script.GameStruct.Model
         public string gameMode;
         public string saveText;
         public string picPath;
+        public string currentText;
 
         public SavingInfo(string mode,string time,string content,string pic)
         {
