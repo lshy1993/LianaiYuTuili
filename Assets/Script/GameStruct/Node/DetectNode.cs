@@ -75,7 +75,10 @@ namespace Assets.Script.GameStruct
 
         public override string ToString()
         {
-            return detectEvent.id.ToString();
+            string str = string.Empty;
+            str += "ID: " + detectEvent.id;
+            str += " Exit: " + detectEvent.eventExit;
+            return str;
         }
     }
 }

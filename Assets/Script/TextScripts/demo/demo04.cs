@@ -17,6 +17,7 @@ namespace Assets.Script.TextScripts
             {
                 f.FadeoutCharacterSprite(0,0),
                 f.OpenDialog(),
+                f.StopBGM(0.5f),
                 f.t("李云萧", "[66ccff]（能向喵星人询问的部分，已经差不多结束了……）[-]"),
                 f.t("李云萧", "[66ccff]（接下来就是，这让我在意的现场了……）[-]"),
                 f.t("", "[00ff00]终于可以进行【调查】了，调查就是寻找现场证据。[-]"),

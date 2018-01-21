@@ -48,6 +48,13 @@ namespace Assets.Script.UIScript
             callback();
         }
 
+        public override IEnumerator CloseSequence(UIAnimationCallback callback)
+        {
+            yield return null;
+            callback();
+            //return base.CloseSequence(callback);
+        }
+
         private bool AllAriveFinialDest()
         {
             int n = transform.childCount - 1;

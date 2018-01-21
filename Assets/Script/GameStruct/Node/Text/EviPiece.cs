@@ -43,19 +43,20 @@ namespace Assets.Script.GameStruct
 
         public override void Exec()
         {
-            //打开证据获得框
-            eviPanel.SetActive(true);
             //检查是否已经获得过证据
             if (evidenceHave.Contains(eviStr))
             {
                 finished = true;
                 return;
             }
-            //添加证据 且打开UI
+            //打开证据获得框
+            eviPanel.SetActive(true);
             Evidence getevi = evidic[eviStr];
+            //获取uiManager
             EviGetUIManager uimanager = eviPanel.GetComponent<EviGetUIManager>();
             if (uimanager.IsEffectFinished())
             {
+                //添加已知信息 与 证据
                 finished = true;
                 evidenceHave.Add(eviStr);
                 knownInfo.Add(getevi.name);
@@ -63,6 +64,7 @@ namespace Assets.Script.GameStruct
             }
             else
             {
+                //打开UI
                 uimanager.Show(getevi);
             }
 

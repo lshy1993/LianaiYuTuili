@@ -218,7 +218,7 @@ public class SLUIManager : MonoBehaviour
         suim.gameObject.SetActive(false);
         //Node复原
         string modeName = DataManager.GetInstance().gameData.MODE;
-        Debug.Log(modeName);
+        Debug.Log("读档前往：" + modeName);
         switch (modeName)
         {
             case "大地图模式":

@@ -48,14 +48,14 @@ namespace Assets.Script.GameStruct.Model
             if (id.Count != 0)
             {
                 str += "    " + (isEng ? "id" : "指证证词编号") + " : ";
-                foreach (int item in id) str += id + "  ";
+                foreach (int item in id) str += item + "  ";
                 str += "\n";
             }
 
             if (evidence.Count != 0)
             { 
                 str += "    " + (isEng ? "evidence" : "所需证据") + " : ";
-                foreach (string item in evidence) str += evidence + "  ";
+                foreach (string item in evidence) str += item + "  ";
                 str += "\n";
             }
            

@@ -254,7 +254,7 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 淡入立绘（预设位置：左 中 右）
+        /// 淡入立绘（预设坐标：左 中 右）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">需要更改的背景图片名</param>
@@ -271,7 +271,7 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 淡入立绘（带坐标）
+        /// 淡入立绘（xy坐标）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">需要更改的背景图片名</param>
@@ -289,11 +289,11 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 预渐变立绘
+        /// 预渐变立绘（预设坐标）
         /// </summary>
-        /// <param name="depth">对象图层</param>
-        /// <param name="spriteName">改变后的图像</param>
-        /// <param name="position">改变后的位置</param>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">新显示的图片名</param>
+        /// <param name="position">新图片的位置</param>
         public EffectPiece PreTransCharacterSprite(int depth, string spriteName, string position = "middle")
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
@@ -302,7 +302,21 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 直接渐变立绘
+        /// 预渐变立绘（xy坐标）
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">新显示的图片名</param>
+        /// <param name="x">x轴坐标</param>
+        /// <param name="y">y轴坐标</param>
+        public EffectPiece PreTransCharacterSprite(int depth, string spriteName, float x, float y)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, new Vector3(x, y)));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 直接渐变立绘（预设坐标）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">新显示的图片名</param>
@@ -312,6 +326,22 @@ namespace Assets.Script.GameStruct
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, position));
+            effects.Enqueue(NewEffectBuilder.TransByDepth(depth, transtime));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 直接渐变立绘（xy坐标）
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">新显示的图片名</param>
+        /// <param name="x">x轴坐标</param>
+        /// <param name="y">y轴坐标</param>
+        /// <param name="transtime">渐变时间，默认0.5s</param>
+        public EffectPiece TransCharacterSprite(int depth, string spriteName, float x, float y, float transtime = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, new Vector3(x, y)));
             effects.Enqueue(NewEffectBuilder.TransByDepth(depth, transtime));
             return new EffectPiece(id++, effects);
         }

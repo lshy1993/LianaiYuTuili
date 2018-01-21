@@ -28,12 +28,10 @@ public class DialogBoxUIManager : MonoBehaviour
 
     void Awake()
     {
-        //mainContainer = this.transform.Find("Main_Container").gameObject;
-        //clickContainer = this.transform.Find("Click_Container").gameObject;
         dialogLabel = mainContainer.transform.Find("Dialog_Label").GetComponent<UILabel>();
         nameLabel = mainContainer.transform.Find("Name_Label").GetComponent<UILabel>();
 
-        nextIcon = mainContainer.transform.Find("NextIcon_Sprite").gameObject;
+        nextIcon = mainContainer.transform.Find("Dialog_Label/NextIcon_Sprite").gameObject;
 
         //te = mainContainer.transform.Find("Dialog_Label").GetComponent<TypewriterEffect>();
         te = mainContainer.transform.Find("Dialog_Label").GetComponent<TypeWriter>();
@@ -98,7 +96,7 @@ public class DialogBoxUIManager : MonoBehaviour
             }
             //顶边中心靠上
             float h = avatarSprite.height;
-            avatarSprite.transform.localPosition = new Vector3(0, -h / 2 + 75);
+            avatarSprite.transform.localPosition = new Vector3(0, -h / 2 + 85);
         }
         
     }
@@ -142,18 +140,22 @@ public class DialogBoxUIManager : MonoBehaviour
     //隐藏对话框
     public void HideWindow()
     {
+        if (!gameObject.activeSelf) return;
         if (DataManager.GetInstance().isAuto)
         {
             toggleAuto.CancelAuto();
             return;
         }
-        mainContainer.SetActive(false);
+        Close(0.3f, () => { });
+        //mainContainer.SetActive(false);
         closedbox = true;
     }
     //显示对话框
     public void ShowWindow()
     {
-        mainContainer.SetActive(true);
+        if (!gameObject.activeSelf) return;
+        StartCoroutine(OpenUI(0.3f, () => { }));
+        //mainContainer.SetActive(true);
         closedbox = false;
     }
 
@@ -180,6 +182,14 @@ public class DialogBoxUIManager : MonoBehaviour
         DataManager.GetInstance().UnblockRightClick();
         DataManager.GetInstance().UnblockWheel();
         typewriting = false;
+        //TODO 定位
+        List<Vector3> a = new List<Vector3>();
+        dialogLabel.UpdateNGUIText();
+        NGUIText.PrintExactCharacterPositions(dialogLabel.text, a, new List<int>());
+        Vector3 vec = a[a.Count() - 1];
+        nextIcon.GetComponent<TweenPosition>().from = new Vector3(vec.x + 12, vec.y);
+        nextIcon.GetComponent<TweenPosition>().to = new Vector3(vec.x + 12, vec.y - 2);
+        nextIcon.transform.localPosition = new Vector3(vec.x + 12, vec.y);
         nextIcon.SetActive(true);
         if (currentPiece != null) currentPiece.finish = true;
     }
@@ -194,12 +204,14 @@ public class DialogBoxUIManager : MonoBehaviour
         return closedbox;
     }
 
+    //预清空 且 开启对话框
     public void Open(float time, Action callback)
     {
         ClearText();
         StartCoroutine(OpenUI(time, callback));
     }
 
+    //关闭对话框
     public void Close(float time, Action callback)
     {
         StartCoroutine(CloseUI(time, callback));
@@ -234,6 +246,7 @@ public class DialogBoxUIManager : MonoBehaviour
 
     private IEnumerator OpenUI(float time, Action callback)
     {
+        DataManager.GetInstance().isEffecting = true;
         mainContainer.SetActive(true);
         float t = 0;
         while (t < 1)
@@ -242,13 +255,13 @@ public class DialogBoxUIManager : MonoBehaviour
             mainContainer.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }
-        clickContainer.SetActive(true);
+        DataManager.GetInstance().isEffecting = false;
         callback();
     }
 
     private IEnumerator CloseUI(float time, Action callback)
     {
-        clickContainer.SetActive(false);
+        DataManager.GetInstance().isEffecting = true;
         float t = 1;
         while (t > 0)
         {
@@ -256,9 +269,8 @@ public class DialogBoxUIManager : MonoBehaviour
             mainContainer.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }
+        DataManager.GetInstance().isEffecting = false;
         mainContainer.SetActive(false);
-        dialogLabel.text = string.Empty;
-        nameLabel.text = string.Empty;
         callback();
     }
 

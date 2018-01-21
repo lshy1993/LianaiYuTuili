@@ -19,6 +19,7 @@ public class SystemUIManager : MonoBehaviour
     /// 是否关闭了Dialog
     /// </summary>
     public bool quickOpen;
+    public bool fromButton;
 
     private void Awake()
     {
@@ -87,8 +88,11 @@ public class SystemUIManager : MonoBehaviour
     /// </summary>
     public void OpenSetting()
     {
-        butContainer.SetActive(false);
+        Debug.Log("Open Setting");
+        if (!fromButton) butContainer.SetActive(false);
+        else StartCoroutine(FadeOut(butContainer, 0.3f));
         StartCoroutine(FadeIn(settingContainer, 0.3f));
+        fromButton = false;
     }
 
     /// <summary>
@@ -96,10 +100,12 @@ public class SystemUIManager : MonoBehaviour
     /// </summary>
     public void OpenBacklog()
     {
+        Debug.Log("Open Backlog");
         DataManager.GetInstance().UnblockBacklog();
-        if (quickOpen) butContainer.SetActive(false);
+        if (!fromButton) butContainer.SetActive(false);
         else StartCoroutine(FadeOut(butContainer, 0.3f));
         StartCoroutine(FadeIn(backlogContainer, 0.3f));
+        fromButton = false;
     }
 
     /// <summary>
@@ -107,6 +113,7 @@ public class SystemUIManager : MonoBehaviour
     /// </summary>
     public void OpenSave()
     {
+        Debug.Log("Open Save");
         butContainer.SetActive(false);
         slm.SetSaveMode();
         StartCoroutine(FadeIn(saveloadContainer, 0.3f));

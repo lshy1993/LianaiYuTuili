@@ -265,7 +265,7 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public int GetLogicStatus(string s)
         {
-            Debug.Log(s);
+            //Debug.Log(s);
             return logicStatus[logicName[s]];
         }
 

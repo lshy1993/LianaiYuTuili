@@ -235,8 +235,7 @@ public class PanelSwitch : MonoBehaviour
             else
             {
                 //否则关闭菜单
-                Debug.Log("Close Menu");
-                panels["System"].GetComponent<SystemUIManager>().Close();
+                CloseMenu();
             }
         }
         else
@@ -260,11 +259,16 @@ public class PanelSwitch : MonoBehaviour
     //直接打开菜单
     public void OpenMenu()
     {
-        //1.预截图
+        //Auto模式下先取消
+        if (DataManager.GetInstance().isAuto)
+        {
+            DataManager.GetInstance().isAuto = false;
+            return;
+        }
         Debug.Log("Open Menu!");
+        //预截图
         StartCoroutine(ScreenShot());
     }
-
     private IEnumerator ScreenShot()
     {
         //开始截图
@@ -275,13 +279,21 @@ public class PanelSwitch : MonoBehaviour
         byte[] imagebytes = tex.EncodeToPNG();
         DataManager.GetInstance().SetTempVar("缩略图", imagebytes);
         Destroy(tex);
-
-        panels["Avg"].transform.Find("DialogBox_Panel").GetComponent<DialogBoxUIManager>().HideWindow();
+        //隐去dialog
+        GameObject diabox = panels["Avg"].transform.Find("DialogBox_Panel").gameObject;
+        diabox.GetComponent<DialogBoxUIManager>().HideWindow();
+        //打开菜单
         panels["System"].GetComponent<SystemUIManager>().quickOpen = true;
         panels["System"].SetActive(true);
         panels["System"].GetComponent<SystemUIManager>().Open();
     }
 
+    //关闭菜单
+    private void CloseMenu()
+    {
+        Debug.Log("Close Menu");
+        panels["System"].GetComponent<SystemUIManager>().Close();
+    }
 
     //滚轮向上操作
     public void MouseUpScroll(float delta)
@@ -311,6 +323,7 @@ public class PanelSwitch : MonoBehaviour
     //开启BackLog
     public void OpenBacklog()
     {
+        if (DataManager.GetInstance().isAuto) return;
         panels["Avg"].transform.Find("DialogBox_Panel").GetComponent<DialogBoxUIManager>().HideWindow();
         panels["System"].GetComponent<SystemUIManager>().quickOpen = true;
         panels["System"].SetActive(true);
@@ -333,7 +346,7 @@ public class PanelSwitch : MonoBehaviour
                 if(!uim.IsEnoughRow() || value >= 1)
                 {
                     //当文本不足 或 滚动条到底时 关闭backlog
-                    panels["System"].GetComponent<SystemUIManager>().Close();
+                    CloseMenu();
                 }
                 else
                 {

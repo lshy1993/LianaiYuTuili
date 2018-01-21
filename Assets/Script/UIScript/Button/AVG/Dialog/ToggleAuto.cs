@@ -30,7 +30,11 @@ public class ToggleAuto : MonoBehaviour
 
     private void Update()
     {
-        if (!isAuto) return;
+        if (!isAuto)
+        {
+            CancelAuto();
+            return;
+        }
         if (isCounting)
         {
             CountDown();
@@ -82,15 +86,14 @@ public class ToggleAuto : MonoBehaviour
     {
         //切换模式
         isAuto = !isAuto;
-        this.GetComponent<UIToggle>().value = isAuto;
-        this.transform.parent.GetComponent<QuickFunctionHover>().enabled = !isAuto;
     }
 
     public void CancelAuto()
     {
         isAuto = false;
-        autoBar.gameObject.SetActive(false);
+        //autoBar.gameObject.SetActive(false);
+        currentTime = 0f;
         this.GetComponent<UIToggle>().value = false;
-        this.transform.parent.GetComponent<QuickFunctionHover>().enabled = true;
+        autoBar.gameObject.SetActive(false);
     }
 }

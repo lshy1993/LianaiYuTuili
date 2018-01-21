@@ -7,6 +7,7 @@ public class MenuSettingButton : BasicButton
 
     protected override void Execute()
     {
+        uiManager.fromButton = true;
         uiManager.OpenSetting();
     }
 

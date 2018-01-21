@@ -43,11 +43,12 @@ public class EviGetUIManager : MonoBehaviour
         icon.sprite2D = Resources.Load<Sprite>(evi.iconPath);
         title.text = getevi.name;
         intro.text = getevi.introduction;
+        StartCoroutine(OpenMain());
+        //设置对话框文字 重启打字机
         nameLabel.text = "";
         dialogLabel.text = "【" + getevi.name + "】已收入事件调查簿";
+        dialogLabel.GetComponent<TypeWriter>().enabled = true;
         dialogLabel.GetComponent<TypeWriter>().ResetToBeginning();
-        DataManager.GetInstance().isEffecting = true;
-        StartCoroutine(OpenMain());
     }
 
     public void Close()
@@ -55,8 +56,10 @@ public class EviGetUIManager : MonoBehaviour
         StartCoroutine(CloseAll());
     }
 
+    //打开主窗口
     private IEnumerator OpenMain()
     {
+        DataManager.GetInstance().isEffecting = true;
         mainCon.SetActive(true);
         subCon.SetActive(false);
         UIWidget wi = mainCon.GetComponent<UIWidget>();
@@ -70,20 +73,24 @@ public class EviGetUIManager : MonoBehaviour
         }
         yield return StartCoroutine(FadeoutHover());
     }
+    //淡出证据图片覆盖层
     private IEnumerator FadeoutHover()
     {
-        UIRect wi = iconhover.GetComponent<UIRect>();
-        wi.alpha = 1;
+        UIRect wi1 = iconhover.GetComponent<UIRect>();
+        UIRect wi2 = icon.GetComponent<UIRect>();
+        wi1.alpha = 1;
+        wi2.alpha = 0;
         float x = 1;
         while (x > 0)
         {
             x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.deltaTime);
-            wi.alpha = x;
+            wi1.alpha = x;
+            wi2.alpha = 1 - x;
             yield return null;
         }
         yield return StartCoroutine(OpenSub());
     }
-
+    //打开文字层
     private IEnumerator OpenSub()
     {
         subCon.SetActive(true);
@@ -98,7 +105,7 @@ public class EviGetUIManager : MonoBehaviour
         }
         yield return StartCoroutine(ShowText());
     }
-
+    //显示“证据获得”文字
     private IEnumerator ShowText()
     {
         for (int i = 1; i < subCon.transform.childCount; i++)
@@ -113,6 +120,7 @@ public class EviGetUIManager : MonoBehaviour
                 yield return null;
             }
         }
+        //同时保证对话框文字显示完毕
         dialogLabel.GetComponent<TypeWriter>().Finish();
         finished = true;
         DataManager.GetInstance().isEffecting = false;

@@ -81,7 +81,8 @@ public class EnquireUIManager : MonoBehaviour
         currentLabel = this.transform.Find("CurrentText_Label").GetComponent<UILabel>();
         speedDownSprite = this.transform.Find("SpeedDown_Sprite").gameObject;
 
-        LoadEvent(DataManager.GetInstance().inturnData.currentEnquire);
+        string key = DataManager.GetInstance().inturnData.currentEnquire;
+        if (key != string.Empty) LoadEvent(key);
 
         isnew = true;
         coolDown = true;
@@ -624,7 +625,7 @@ public class EnquireUIManager : MonoBehaviour
         float t = 0, bax, bay;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / 0.15f * Time.deltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.15f * Time.fixedDeltaTime);
             bax = 1280 - 1280 * t;
             bay = -720 + 720 * t;
             breakBack.transform.localPosition = new Vector3(bax, bay);
@@ -642,7 +643,7 @@ public class EnquireUIManager : MonoBehaviour
         float time = isHold ? 0.75f : 1f;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / time * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / time * Time.fixedDeltaTime);
             float scale = 1 + x / 20;
             for (int i = isHold ? 1 : 4; isHold ? i < 4 : i < 8; i++)
             {

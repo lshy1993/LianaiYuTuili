@@ -51,7 +51,7 @@ public class ImageManager : MonoBehaviour
     public static readonly Vector3 RIGHT = new Vector3(300, 0, 0);
 
     public UIPanel bgPanel, fgPanel, eviPanel;
-    public DialogBoxUIManager dUiManager;
+    public DialogBoxUIManager duiManager;
 
     private UI2DSprite bgSprite, backtransSprite;
 
@@ -61,9 +61,9 @@ public class ImageManager : MonoBehaviour
     private bool isFast = false;
 
     /// <summary>
-    /// 储存一起渐变的图层编号
+    /// 储存临时需要一起渐变的图层效果
     /// </summary>
-    private List<int> transList;
+    private Dictionary<int, NewImageEffect> transList;
 
 
     void Awake()
@@ -72,7 +72,7 @@ public class ImageManager : MonoBehaviour
         bgSprite = bgPanel.transform.Find("BackGround_Sprite").gameObject.GetComponent<UI2DSprite>();
         backtransSprite = bgPanel.transform.Find("Trans_Sprite").gameObject.GetComponent<UI2DSprite>();
         fgSprites = new Dictionary<string, UI2DSprite>();
-        transList = new List<int>();
+        transList = new Dictionary<int, NewImageEffect>();
     }
 
     public void SetFast(bool fast) { isFast = fast; }
@@ -98,7 +98,7 @@ public class ImageManager : MonoBehaviour
         }
     }
 
-    private IEnumerator DetectMoving(Sprite sprite, float time = 0.5f)
+    private IEnumerator DetectMoving(Sprite sprite, float time = 0.2f)
     {
         fgPanel.alpha = 0;
         bgSprite.alpha = 1;
@@ -285,7 +285,13 @@ public class ImageManager : MonoBehaviour
                 StartCoroutine(PreTransByDepth(effect, callback));
                 break;
             case NewImageEffect.OperateMode.TransAll:
-                StartCoroutine(TransAll(effect, callback));
+                float t=0;
+                foreach(KeyValuePair<int,NewImageEffect> kv in transList)
+                {
+                    if (kv.Value.time > t) t = kv.Value.time;
+                    StartCoroutine(TransByDepth(kv.Value, () => { }));
+                }
+                StartCoroutine(TransAll(t, callback));
                 break;
             case NewImageEffect.OperateMode.Move:
                 StartCoroutine(Move(ui, effect, callback));
@@ -313,10 +319,6 @@ public class ImageManager : MonoBehaviour
             string sprite = ui.sprite2D == null ? "" : ui.sprite2D.name;
             charaDic.Add(depth, new SpriteState(sprite, child.localPosition, ui.alpha));
         }
-        /* demo1.20 改动
-        DataManager.GetInstance().SetGameVar("背景图片", bgSprite.sprite2D.name);
-        DataManager.GetInstance().SetGameVar("立绘信息", charaDic);
-        */
         if(bgSprite.sprite2D == null)
         {
             dm.gameData.bgSprite = string.Empty;
@@ -331,16 +333,9 @@ public class ImageManager : MonoBehaviour
 
     public void LoadImageInfo()
     {
-        /* demo1.20 改动
-        string bgname = DataManager.GetInstance().GetGameVar<string>("背景图片");
-        */
         string bgname = dm.gameData.bgSprite;
         bgSprite.sprite2D = LoadBackground(bgname);
-        /* demo1.20 改动
-        Dictionary<int, SpriteState> fgdic = DataManager.GetInstance().GetGameVar<Dictionary<int, SpriteState>>("立绘信息");
-        */
         Dictionary<int, SpriteState> fgdic = dm.gameData.fgSprites;
-
 
         //遍历当前的前景图 不在字典内的删除
         foreach (Transform  child in fgPanel.transform)
@@ -393,8 +388,11 @@ public class ImageManager : MonoBehaviour
     /// <summary>
     /// 将所有已PreTrans的图层一并渐变
     /// </summary>
-    private IEnumerator TransAll(NewImageEffect effect, Action callback)
+    private IEnumerator TransAll(float t, Action callback)
     {
+        yield return new WaitForSeconds(t);
+
+        /*
         float t = 0;
         while (t < 1)
         {
@@ -416,6 +414,8 @@ public class ImageManager : MonoBehaviour
             UI2DSprite transSprite = GetTransByDepth(item);
             Destroy(transSprite.gameObject);
         }
+        */
+
         transList.Clear();
         callback();
     }
@@ -428,7 +428,7 @@ public class ImageManager : MonoBehaviour
     private IEnumerator PreTransByDepth(NewImageEffect effect, Action callback)
     {
         //向TransList添加层数
-        transList.Add(effect.depth);
+        transList.Add(effect.depth, effect);
         UI2DSprite originSprite = GetSpriteByDepth(effect.depth);
         UI2DSprite transSprite = GetTransByDepth(effect.depth);
         //复制本体给Trans层
@@ -480,7 +480,7 @@ public class ImageManager : MonoBehaviour
             ui.alpha = t;
             yield return null;
         }
-        transList.Remove(-1);
+        if (transList.ContainsKey(-1)) transList.Remove(-1);
         callback();
     }
 
@@ -506,7 +506,7 @@ public class ImageManager : MonoBehaviour
         }
         //删除trans
         DestroyObject(trans.gameObject);
-        transList.Remove(effect.depth);
+        if (transList.ContainsKey(effect.depth)) transList.Remove(effect.depth);
         callback();
     }
 
@@ -549,8 +549,8 @@ public class ImageManager : MonoBehaviour
         if (includeBack) originAlpha[-1] = bgSprite.alpha;
         if (includeDiabox)
         {
-            originAlpha[-2] = dUiManager.mainContainer.GetComponent<UIWidget>().alpha;
-            dUiManager.clickContainer.SetActive(false);
+            originAlpha[-2] = duiManager.mainContainer.GetComponent<UIWidget>().alpha;
+            duiManager.clickContainer.SetActive(false);
         }
         float t = 0;
         float final = effect.state.spriteAlpha;
@@ -561,7 +561,8 @@ public class ImageManager : MonoBehaviour
             {
                 float origin = originAlpha[-2];
                 float alpha = origin + t * (final - origin);
-                dUiManager.mainContainer.GetComponent<UIWidget>().alpha = alpha;
+                
+                duiManager.mainContainer.GetComponent<UIWidget>().alpha = alpha;
             }
             foreach (int i in GetDepthNum())
             {
@@ -584,7 +585,7 @@ public class ImageManager : MonoBehaviour
             RemoveSpriteByDepth(i);
         }
         if (includeBack) bgSprite.sprite2D = null;
-        if (includeDiabox)dUiManager.mainContainer.SetActive(false);
+        //if (includeDiabox)duiManager.mainContainer.SetActive(false);
         callback();
     }
 

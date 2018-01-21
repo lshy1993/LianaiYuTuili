@@ -8,7 +8,20 @@ Xianzhuo Game
 Unity3D  
 NGUI  
 ## Update Info  
-版本更新内容 
+版本更新内容  
+### demo 1.30  
+* 添加考试系统？
+
+### demo 1.29  
+* 添加 PreTrans 语句，支持坐标变换
+* 修复了 Auto再点击时不重置问题
+* 修复了 侦探模式 不清空状态表的问题
+
+### demo 1.28
+* 光标跟随文字  
+* 修复证据获得时的错误
+* 声音特效改为同步执行（原为执行完后继续）
+
 ### demo 1.27  
 * 添加ChapterNamePiece
 * BGM名和章节名UI位置变更

@@ -13,6 +13,13 @@ public class SideLabelUIManager : MonoBehaviour
     private const int finalX1 = -540;
     private const int finalX2 = 490;
 
+    private void OnEnable()
+    {
+        //复位
+        bgmCon.transform.localPosition = new Vector3(-740,330);
+        chapterCon.GetComponent<UIWidget>().alpha = 0;
+    }
+
     /// <summary>
     /// 飞入BGM名称
     /// </summary>

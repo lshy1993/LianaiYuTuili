@@ -265,6 +265,7 @@ public class SoundManager : MonoBehaviour
 
     private IEnumerator Run(SoundEffect effect, Action callback)
     {
+        callback();
         if (effect.operate == SoundEffect.OperateType.Fadeout) memoryVolume = aim.volume;
         float tweenFrom = effect.operate == SoundEffect.OperateType.Fadein ? 0 : aim.volume;
         float tweenFinal = effect.operate == SoundEffect.OperateType.Fadein ? memoryVolume : 0;
@@ -273,7 +274,7 @@ public class SoundManager : MonoBehaviour
             aim.volume = Mathf.MoveTowards(aim.volume, tweenFinal, Math.Abs(tweenFinal - tweenFrom) / effect.time * Time.deltaTime);
             yield return null;
         }
-        callback();
+        //callback();
     }
 
 }

@@ -83,7 +83,8 @@ public class DetectUIManager : MonoBehaviour
         if (eventID != id)
         {
             //调查大Node不同
-            Debug.Log("node不同：载入 "+node.ToString());
+            Debug.Log("node不同！");
+            Debug.Log("载入编号：" + node.ToString());
             LoadSection(sections.FirstOrDefault().Value);
             currentPlace = section.place;
             SwitchStatus(Constants.DETECT_STATUS.FREE);
@@ -92,7 +93,8 @@ public class DetectUIManager : MonoBehaviour
         else if (currentPlace != place)
         {
             //地点不同
-            Debug.Log("地点不同！当前：" + currentPlace + "即将进入 " + place);
+            Debug.Log("地点不同！当前：" + currentPlace);
+            Debug.Log("即将进入 " + place);
             currentPlace = place;
             LoadSection(sections[currentPlace]);
             SwitchStatus(Constants.DETECT_STATUS.FREE);
@@ -216,7 +218,7 @@ public class DetectUIManager : MonoBehaviour
         //DataManager.GetInstance().intSetInTurnVar("侦探模式", nextStatus);
     }
 
-    public void ShowCharaContainer()
+    private void ShowCharaContainer()
     {
         charaContainer.SetActive(true);
     }
@@ -229,10 +231,21 @@ public class DetectUIManager : MonoBehaviour
     public void MovePlace(string place)
     {
         //先消除按钮UI
+        ps.SwitchTo_VerifyIterative("Invest_Panel",() => {
+            //再触发NODE变更
+            Debug.Log("移动至地点：" + place);
+            currentDetectNode.MoveTo(place);
+        });
+    }
 
-        //再触发NODE变更
-        Debug.Log("移动至地点：" + place);
-        currentDetectNode.MoveTo(place);
+    public void ShowDialog(DetectDialog dd)
+    {
+        ps.SwitchTo_VerifyIterative("Invest_Panel", () =>
+        {
+            ShowCharaContainer();
+            currentDetectNode.SetKnown(dd.dialog);
+            currentDetectNode.ChooseNext(dd.entry);
+        });
     }
 
 }

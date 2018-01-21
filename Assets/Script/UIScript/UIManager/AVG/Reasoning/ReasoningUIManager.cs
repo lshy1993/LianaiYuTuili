@@ -64,13 +64,11 @@ public class ReasoningUIManager : MonoBehaviour
     private void OnEnable()
     {
         DataManager.GetInstance().BlockRightClick();
-        DataManager.GetInstance().BlockClick();
     }
 
     private void OnDisable()
     {
         DataManager.GetInstance().UnblockRightClick();
-        DataManager.GetInstance().UnblockClick();
     }
 
     #region 数据绑定
@@ -252,6 +250,7 @@ public class ReasoningUIManager : MonoBehaviour
     #region UI动画 显示关闭 问题
     private IEnumerator OpenQuestion()
     {
+        sm.SetBGM("puzzle");
         //3 Question框打开
         questionContainer.SetActive(true);
         float t = 0, alpha = 0;

@@ -104,7 +104,6 @@ namespace Assets.Script.GameStruct
         {
             placeStatus[place] = true;
             currentPlace = place;
-            //Debug.Log("设置currentPlace：" + place);
         }
 
         /// <summary>
@@ -134,10 +133,28 @@ namespace Assets.Script.GameStruct
             return knownInfo.Contains(dialog.info);
         }
 
+        /// <summary>
+        /// 读取侦探事件
+        /// </summary>
+        /// <param name="key">事件名</param>
         public DetectEvent LoadEvent(string key)
         {
-            currentEventName = key;
-            currentEvent = detectEvents[key];
+            //如果读取了不同的事件
+            if(currentEventName != key)
+            {
+                currentEventName = key;
+                currentEvent = detectEvents[key];
+                //设置默认的当前地点
+                currentPlace = currentEvent.sections.FirstOrDefault().Key;
+                EnterPlace(currentPlace);
+                //重新生成状态表
+                placeStatus.Clear();
+                foreach (KeyValuePair<string, DetectPlaceSection> kv in currentEvent.sections)
+                {
+                    placeStatus.Add(kv.Value.place, false);
+                }
+            }
+            /* 旧代码
             foreach (KeyValuePair<string, DetectPlaceSection> kv in currentEvent.sections)
             {
                 if (!placeStatus.ContainsKey(kv.Value.place))
@@ -149,12 +166,12 @@ namespace Assets.Script.GameStruct
                 //    placeStatus[kv.Value.place] = false;
                 //}
             }
-            //设置默认的当前地点
             if (string.IsNullOrEmpty(currentPlace))
             {
                 currentPlace = currentEvent.sections.FirstOrDefault().Key;
                 EnterPlace(currentPlace);
             }
+            */
             return currentEvent;
         }
 

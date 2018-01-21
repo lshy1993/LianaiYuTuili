@@ -68,7 +68,7 @@ namespace Assets.Script.GameStruct
         private bool blockClick = false;
 
         /// <summary>
-        /// 禁用文字履历(菜单/询问)
+        /// 锁定文字履历，不添加新文字 (菜单/询问)
         /// </summary>
         private bool blockBacklog = false;
 
@@ -752,6 +752,8 @@ namespace Assets.Script.GameStruct
             gameData = sv.gameData;
             inturnData = sv.inturnData;
             eventManager.UpdateEvent();
+            //Detect模式的复原
+            //detectManager.LoadEvent(inturnData.currentDetectEvent);
             //对临时变量重置？
             ClearHistory();
         }
