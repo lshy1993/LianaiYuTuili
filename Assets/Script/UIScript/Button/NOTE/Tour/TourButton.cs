@@ -5,10 +5,10 @@ using Assets.Script.GameStruct.Model;
 
 public class TourButton : BasicButton
 {
-    private AppTourUIManager uiManager;
+    private TourUIManager uiManager;
     public string current;
 
-    public void SetUIManager(AppTourUIManager manager)
+    public void SetUIManager(TourUIManager manager)
     {
         this.uiManager = manager;
     }

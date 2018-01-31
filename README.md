@@ -9,8 +9,13 @@ Unity3D
 NGUI  
 ## Update Info  
 版本更新内容  
-### demo 1.30  
+### demo 1.31
 * 添加考试系统？
+
+### demo 1.30  
+* 完善Extra内CG系统
+* 修改NOTE系统
+* 添加校园邮和朋友圈系统
 
 ### demo 1.29  
 * 添加 PreTrans 语句，支持坐标变换

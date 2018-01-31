@@ -7,11 +7,13 @@ using Assets.Script.GameStruct;
 
 public class RecollectionUIManager : MonoBehaviour
 {
-    private List<bool> caseTable;
+    private Dictionary<int, bool> caseTable
+    {
+        get { return DataManager.GetInstance().multiData.caseTable; }
+    }
 
     private void OnEnable()
     {
-        caseTable = DataManager.GetInstance().multiData.caseTable;
         SetRecollection();
     }
 

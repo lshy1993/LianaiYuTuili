@@ -8,37 +8,56 @@ using Assets.Script.GameStruct;
 
 public class GalleryUIManager : MonoBehaviour
 {
-    private Dictionary<int, string> cgInfoTable;
-    private List<bool> cgTable;
+    /// <summary>
+    /// 静态 CG信息表
+    /// </summary>
+    private Dictionary<int, string> cgInfoTable
+    {
+        get { return DataManager.GetInstance().staticData.cgInfo; }
+    }
 
+    /// <summary>
+    /// 多周目数据 CG开启表
+    /// </summary>
+    private Dictionary<int, bool> cgTable
+    {
+        get { return DataManager.GetInstance().multiData.cgTable; }
+    }
+
+    /// <summary>
+    /// 当前所处页面号
+    /// </summary>
     private int pageNum = 1;
 
     public UIWidget large;
     public UI2DSprite largepic;
 
-    private void OnEnable()
+    private void Awake()
     {
-        cgInfoTable = DataManager.GetInstance().staticData.cgInfo;
-        cgTable = DataManager.GetInstance().multiData.cgTable;
         SetGallery();
     }
 
+    /// <summary>
+    /// 画廊UI设置
+    /// </summary>
     private void SetGallery()
     {
-        //编辑器内设计好位置 只显示一部分 内容根据下标要改变
+        //编辑器内位置不动
         GameObject grid = transform.Find("Pic_Grid").gameObject;
         int first = (pageNum - 1) * 15;
         for (int i = 0; i < 15; i++)
         {
             GameObject go = grid.transform.GetChild(i).gameObject;
-            if(first + i >= cgInfoTable.Count || first + i >= cgTable.Count)
+            //超过CG总数则不显示任何UI
+            if(first + i >= cgInfoTable.Count)
             {
                 go.SetActive(false);
             }
             else
             {
+                go.SetActive(true);
                 UIButton btn = go.GetComponent<UIButton>();
-                if (cgTable[first + i])
+                if (cgTable.ContainsKey(first + i) && cgTable[first + i])
                 {
                     //已经开启该CG
                     btn.normalSprite2D = Resources.Load<Sprite>(cgInfoTable[first + i]);
@@ -46,8 +65,9 @@ public class GalleryUIManager : MonoBehaviour
                 else
                 {
                     //未开启
-                    btn.normalSprite2D = Resources.Load<Sprite>("Logo");
+                    btn.normalSprite2D = Resources.Load<Sprite>("Background/block");
                     btn.enabled = false;
+                    
                 }
             }
             
@@ -55,9 +75,12 @@ public class GalleryUIManager : MonoBehaviour
     }
 
     #region public按钮Gallery操作
-    public void OpenPicAt()
+    public void OpenPicAt(int x)
     {
-        //查看图片
+        int index = (pageNum - 1) * 15 + x;
+        //查看图片以ID作为索引
+        Debug.Log(x);
+        largepic.GetComponent<UI2DSprite>().sprite2D = Resources.Load<Sprite>(cgInfoTable[index]);
         StartCoroutine(FadeIn(large));
     }
     public void ClosePic()
@@ -65,10 +88,12 @@ public class GalleryUIManager : MonoBehaviour
         //关闭图片
         StartCoroutine(FadeOut(large));
     }
-    public void ChangeGroup(int num)
+    public void ChangeGroup()
     {
         //按下数字键
-        pageNum = num;
+        if (!UIToggle.current.value) return;
+        int x = UIToggle.current.GetComponent<ToggleNum>().id;
+        pageNum = x;
         SetGallery();
     }
     #endregion
@@ -79,7 +104,7 @@ public class GalleryUIManager : MonoBehaviour
         float x = 0;
         while (x < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.5f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
             target.alpha = x;
             yield return null;
         }

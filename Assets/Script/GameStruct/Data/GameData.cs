@@ -91,6 +91,19 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public string Voice;
 
+        /// <summary>
+        /// 储存发来消息的人数
+        /// </summary>
+        public List<string> messageNameList;
 
+        /// <summary>
+        /// 储存每个角色收到的信息
+        /// </summary>
+        public Dictionary<string, List<ChatMessage>> messageDic;
+
+        /// <summary>
+        /// 至当前时间点的所有朋友圈
+        /// </summary>
+        public List<Moment> momentList;
     }
 }

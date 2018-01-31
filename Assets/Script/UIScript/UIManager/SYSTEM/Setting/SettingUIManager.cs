@@ -12,6 +12,7 @@ public class SettingUIManager : MonoBehaviour
     /// </summary>
     public GameObject graphicCon, soundCon, textCon, sysCon;
     public GameObject graphicBtn, soundBtn, textBtn, sysBtn;
+    public UILabel hintLabel;
 
     private Constants.Setting_Mode settingMode
     {
@@ -26,6 +27,10 @@ public class SettingUIManager : MonoBehaviour
         SwitchTab("Graphic_Button");
     }
 
+    /// <summary>
+    /// 切换标签页
+    /// </summary>
+    /// <param name="target">点击的目标</param>
     public void SwitchTab(string target)
     {
         //原状态按钮开启
@@ -82,5 +87,30 @@ public class SettingUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 设置提示文字
+    /// </summary>
+    /// <param name="target"></param>
+    public void SetHint(string target)
+    {
+        switch (target)
+        {
+            case "Graphic_Button":
+                hintLabel.text = "游戏图像性能设置";
+                break;
+            case "Sound_Button":
+                hintLabel.text = "游戏声音相关设置";
+                break;
+            case "Text_Button":
+                hintLabel.text = "游戏文本相关设置";
+                break;
+            case "Operate_Button":
+                hintLabel.text = "暂未开放";
+                break;
+            default:
+                hintLabel.text = string.Empty;
+                break;
+        }
+    }
 
 }

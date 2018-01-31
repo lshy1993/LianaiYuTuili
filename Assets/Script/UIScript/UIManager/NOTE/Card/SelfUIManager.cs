@@ -53,9 +53,12 @@ public class SelfUIManager : MonoBehaviour
         StartCoroutine(ShowBar(tib, player.GetBasicStatus("体育"), 200));
         StartCoroutine(ShowBar(yib, player.GetBasicStatus("艺术"), 200));
         StartCoroutine(ShowBar(zhaib, player.GetBasicStatus("宅力"), 200));
-        StartCoroutine(ShowBar(energyb, player.energyPoint, 100));
+        StartCoroutine(ShowBar(energyb, player.energyPoint, 150));
     }
 
+    /// <summary>
+    /// 基本信息UI显示
+    /// </summary>
     private void SetCardInfo()
     {
         //[基本信息]设置学生证
@@ -111,13 +114,26 @@ public class SelfUIManager : MonoBehaviour
         return "当前状态：" + result;
     }
 
+    /// <summary>
+    /// 显示养成数值条
+    /// </summary>
+    /// <param name="target">对象</param>
+    /// <param name="x">数值</param>
+    /// <param name="max">最大值</param>
     private IEnumerator ShowBar(UIProgressBar target, int x, int max)
     {
         float value = 0;
-        float t = (x + 1) / (float)max;
-        while (value < t)
+        float final = (x + 1) / (float)max;
+        //默认0-0.2颜色条
+        Sprite sp = Resources.Load<Sprite>("UI/hp");
+        if (final >= 0.5)
+            sp = Resources.Load<Sprite>("UI/mp");
+
+        target.foregroundWidget.GetComponent<UI2DSprite>().sprite2D = sp;
+
+        while (value < final)
         {
-            value = Mathf.MoveTowards(value, t, t / 0.3f * Time.deltaTime);
+            value = Mathf.MoveTowards(value, final, final / 0.1f * Time.deltaTime);
             target.value = value;
             yield return null;
         }

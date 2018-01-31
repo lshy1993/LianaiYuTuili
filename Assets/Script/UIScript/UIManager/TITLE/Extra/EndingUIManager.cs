@@ -8,13 +8,16 @@ using Assets.Script.GameStruct;
 public class EndingUIManager : MonoBehaviour
 {
     private Dictionary<int, string> endingInfoTable;
-    private List<bool> endingTable;
+
+    private Dictionary<int, bool> endingTable
+    {
+        get { return DataManager.GetInstance().multiData.endingTable; }
+    }
 
     public UILabel info;
 
     private void OnEnable()
     {
-        endingTable = DataManager.GetInstance().multiData.endingTable;
         SetEnding();
     }
 

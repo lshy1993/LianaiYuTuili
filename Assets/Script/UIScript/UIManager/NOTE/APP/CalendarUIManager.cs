@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
-public class AppCalendarUIManager : MonoBehaviour
+public class CalendarUIManager : MonoBehaviour
 {
     public UILabel monthLabel;
     public GameObject dayGrid;
@@ -90,11 +90,13 @@ public class AppCalendarUIManager : MonoBehaviour
     //public方法 供按钮调用
     public void NextMonth()
     {
+        if (currentMon >= 12) return;
         SetCalendar(currentMon + 1);
     }
 
     public void PrevMonth()
     {
+        if (currentMon <= 8) return;
         SetCalendar(currentMon - 1);
     }
 }

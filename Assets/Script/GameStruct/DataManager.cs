@@ -77,6 +77,8 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private bool blockSaveLoad = false;
 
+        public readonly string version = "测试用Demo 1.30";
+
         private DataManager()
         {
             Init();
@@ -134,8 +136,13 @@ namespace Assets.Script.GameStruct
             gameData.currentTextPos = 0;
             gameData.bgSprite = string.Empty;
             gameData.fgSprites = new Dictionary<int, SpriteState>();
-            //事件状态表的重置
+            //事件状态表的初始化
             gameData.eventStatus = EventManager.LoadEventState(staticData.eventTable);
+            //游戏邮件系统的初始化
+            gameData.messageNameList = new List<string>();
+            gameData.messageDic = new Dictionary<string, List<ChatMessage>>();
+            //朋友圈系统的初始化
+            gameData.momentList = new List<Moment>();
             RandomCourse();
         }
 
@@ -295,11 +302,17 @@ namespace Assets.Script.GameStruct
             {
                 //若不存在 则生成默认数据表 
                 multiData = new MultiData();
+
+                foreach (KeyValuePair<int,string> kv in staticData.cgInfo)
+                {
+                    multiData.cgTable.Add(kv.Key, false);
+                }
+
                 #region 临时测试用 静态表
-                multiData.musicTable.Add(true);
-                multiData.cgTable.Add(true);
-                multiData.endingTable.Add(true);
-                multiData.caseTable.Add(true);
+                multiData.cgTable[0] = true;
+                multiData.cgTable[1] = true;
+                multiData.cgTable[2] = true;
+                multiData.cgTable[3] = true;
                 #endregion
 
                 //并写入本地文件
@@ -333,8 +346,11 @@ namespace Assets.Script.GameStruct
             InitApp();
             //TODO:静态表格 例如cginfo 记录文件名与键值
             Dictionary<int, string> cgInfo = new Dictionary<int, string>();
-            cgInfo.Add(0, "Logo");
-            cgInfo.Add(1, "classroom");
+            cgInfo.Add(0, "Background/sky_day");
+            cgInfo.Add(1, "Background/classroom");
+            cgInfo.Add(2, "Background/corridor");
+            cgInfo.Add(3, "Background/gate");
+            cgInfo.Add(4, "Background/sky_evening");
             staticData.cgInfo = cgInfo;
         }
 

@@ -13,11 +13,9 @@ public class MusicUIManager : MonoBehaviour
     public UILabel timelabel;
     public UISlider slider;
 
-    private List<bool> musicTable;
-
-    private void OnEnable()
+    private Dictionary<int, bool> musicTable
     {
-        musicTable = DataManager.GetInstance().multiData.musicTable;
+        get { return DataManager.GetInstance().multiData.musicTable; }
     }
 
     private void Update()

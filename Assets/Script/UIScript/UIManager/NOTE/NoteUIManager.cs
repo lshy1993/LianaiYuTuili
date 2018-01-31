@@ -13,9 +13,27 @@ using Assets.Script.GameStruct;
  */
 public class NoteUIManager : MonoBehaviour
 {
-    private GameObject indexContainer, selfContainer, loveContainer, eviContainer, helpContainer;
+    /// <summary>
+    /// 各子窗口widget
+    /// </summary>
+    private GameObject indexContainer;
+    private GameObject selfContainer;
+    private GameObject loveContainer;
+    private GameObject eviContainer;
+    private GameObject calContainer;
+    private GameObject tourContainer;
+    private GameObject wikiContainer;
+
+    private GameObject middleCon;
+    private GameObject momentCon;
+    private GameObject mailCon;
+
+    /* 暂时弃用
+    private GameObject appContainer;
+    */
+
     private Constants.NOTE_STATUS currentOpen;
-    private UILabel introText;
+    public UILabel pcTime, gameDay, seedText, introText;
 
 
     private void Awake()
@@ -24,22 +42,48 @@ public class NoteUIManager : MonoBehaviour
         selfContainer = transform.Find("Info_Container").gameObject;
         loveContainer = transform.Find("Love_Container").gameObject;
         eviContainer = transform.Find("Evidence_Container").gameObject;
-        helpContainer = transform.Find("App_Container").gameObject;
-        introText = indexContainer.transform.Find("Help_Container/Help_Label").GetComponent<UILabel>();
+        calContainer = transform.Find("Calendar_Container").gameObject;
+        tourContainer = transform.Find("Tour_Container").gameObject;
+        wikiContainer = transform.Find("Wiki_Container").gameObject;
+
+        middleCon = indexContainer.transform.Find("Middle_Container").gameObject;
+        momentCon = indexContainer.transform.Find("Moment_Container").gameObject;
+        mailCon = indexContainer.transform.Find("Mail_Container").gameObject;
+
     }
 
     private void OnEnable()
     {
-        indexContainer.SetActive(true);
-        currentOpen = Constants.NOTE_STATUS.INDEX;
         DataManager.GetInstance().BlockClick();
         DataManager.GetInstance().BlockBacklog();
+        NoteInit();
     }
 
     private void OnDisable()
     {
         DataManager.GetInstance().UnblockClick();
         DataManager.GetInstance().UnblockBacklog();
+    }
+
+    /// <summary>
+    /// 界面初始化
+    /// </summary>
+    private void NoteInit()
+    {
+        indexContainer.SetActive(true);
+        //默认开启界面
+        currentOpen = Constants.NOTE_STATUS.INDEX;
+        //设置系统时间
+        int hour = DateTime.Now.Hour;
+        int minute = DateTime.Now.Minute;
+        pcTime.text = DateTime.Now.ToString("HH:mm");
+        //游戏时间
+        DateTime gday = DataManager.GetInstance().GetToday();
+        gameDay.text = gday.ToString("MM月dd日");
+        //系统电量
+        //系统网络
+        //设置是否有new
+        SetNewIcon();
     }
 
     private void SetNewIcon()
@@ -72,29 +116,92 @@ public class NoteUIManager : MonoBehaviour
         }
     }
 
+    #region 子界面开启函数
+    /// <summary>
+    /// 打开个人信息界面
+    /// </summary>
     public void OpenSelf()
     {
-        //打开个人界面
         SwitchTo(Constants.NOTE_STATUS.SELF);
     }
 
+    /// <summary>
+    /// 打开好感度u界面
+    /// </summary>
     public void OpenLove()
     {
-        //打开好感度u界面
         SwitchTo(Constants.NOTE_STATUS.LOVE);
     }
 
+    /// <summary>
+    /// 打开证据列表
+    /// </summary>
     public void OpenEvidence()
     {
-        //打开证据列表
         SwitchTo(Constants.NOTE_STATUS.EVIDENCE);
     }
 
+    /// <summary>
+    /// 打开日历
+    /// </summary>
+    public void OpenCalendar()
+    {
+        SwitchTo(Constants.NOTE_STATUS.CALENDAR);
+    }
+
+    /// <summary>
+    /// 打开旅游资讯
+    /// </summary>
+    public void OpenTour()
+    {
+        SwitchTo(Constants.NOTE_STATUS.TOUR);
+    }
+
+    /// <summary>
+    /// 打开帮助
+    /// </summary>
+    public void OpenWiki()
+    {
+        SwitchTo(Constants.NOTE_STATUS.WIKI);
+    }
+
+    /// <summary>
+    /// 打开校内邮件
+    /// </summary>
+    public void OpenMail()
+    {
+        middleCon.SetActive(false);
+        mailCon.SetActive(true);
+        momentCon.SetActive(false);
+    }
+
+    /// <summary>
+    /// 打开朋友圈
+    /// </summary>
+    public void OpenMoment()
+    {
+        middleCon.SetActive(false);
+        mailCon.SetActive(false);
+        momentCon.SetActive(true);
+    }
+
+    /// <summary>
+    /// 查看应用
+    /// </summary>
+    public void OpenIndex()
+    {
+        middleCon.SetActive(true);
+        mailCon.SetActive(false);
+        momentCon.SetActive(false);
+    }
+
+    /* 暂时弃用APP界面
     public void OpenApp()
     {
-        //打开帮助界面
         SwitchTo(Constants.NOTE_STATUS.APP);
     }
+    */
+    #endregion
 
     public void SetHelpInfo(bool ishover, string str)
     {
@@ -118,15 +225,25 @@ public class NoteUIManager : MonoBehaviour
             case Constants.NOTE_STATUS.EVIDENCE:
                 eviContainer.SetActive(false);
                 break;
-            case Constants.NOTE_STATUS.APP:
-                helpContainer.SetActive(false);
+            case Constants.NOTE_STATUS.CALENDAR:
+                calContainer.SetActive(false);
                 break;
+            case Constants.NOTE_STATUS.TOUR:
+                tourContainer.SetActive(false);
+                break;
+            case Constants.NOTE_STATUS.WIKI:
+                wikiContainer.SetActive(false);
+                break;
+            //case Constants.NOTE_STATUS.APP:
+            //    appContainer.SetActive(false);
+            //    break;
         }
         //打开新界面
         switch (target)
         {
             case Constants.NOTE_STATUS.INDEX:
                 indexContainer.SetActive(true);
+                middleCon.SetActive(true);
                 break;
             case Constants.NOTE_STATUS.SELF:
                 selfContainer.SetActive(true);
@@ -137,9 +254,18 @@ public class NoteUIManager : MonoBehaviour
             case Constants.NOTE_STATUS.EVIDENCE:
                 eviContainer.SetActive(true);
                 break;
-            case Constants.NOTE_STATUS.APP:
-                helpContainer.SetActive(true);
+            case Constants.NOTE_STATUS.CALENDAR:
+                calContainer.SetActive(true);
                 break;
+            case Constants.NOTE_STATUS.TOUR:
+                tourContainer.SetActive(true);
+                break;
+            case Constants.NOTE_STATUS.WIKI:
+                wikiContainer.SetActive(true);
+                break;
+            //case Constants.NOTE_STATUS.APP:
+            //    appContainer.SetActive(true);
+            //    break;
         }
         currentOpen = target;
     }

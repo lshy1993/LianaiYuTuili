@@ -12,10 +12,10 @@ public class AppUIManager : MonoBehaviour
 
     void Awake()
     {
-        topContainer = this.transform.Find("Top_Container").gameObject;
-        calContainer = this.transform.Find("Calendar_Container").gameObject;
-        tourContainer = this.transform.Find("Tour_Container").gameObject;
-        helpContainer = this.transform.Find("Help_Container").gameObject;
+        //topContainer = this.transform.Find("Top_Container").gameObject;
+        //calContainer = this.transform.Find("Calendar_Container").gameObject;
+        //tourContainer = this.transform.Find("Tour_Container").gameObject;
+        //helpContainer = this.transform.Find("Help_Container").gameObject;
     }
 
     private void OnEnable()

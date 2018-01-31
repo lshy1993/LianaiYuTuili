@@ -13,12 +13,14 @@ public class TitleUIManager : MonoBehaviour
     public UIWidget title, extra, music, gallery, recollection, ending;
     public GameObject btnTable, largeCon;
     public GameObject bg;
+    public UILabel verLabel;
 
     private Constants.TITLE_STATUS status;
 
     void Awake()
     {
         status = Constants.TITLE_STATUS.TITLE;
+        verLabel.text = DataManager.GetInstance().version;
     }
 
     private void OnEnable()

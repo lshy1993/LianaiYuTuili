@@ -5,10 +5,10 @@ using Assets.Script.GameStruct;
 
 public class KeywordButton : BasicButton
 {
-    private AppHelpUIManager uiManager;
+    private WikiUIManager uiManager;
     public string current;
 
-    public void SetUIManager(AppHelpUIManager manager)
+    public void SetUIManager(WikiUIManager manager)
     {
         this.uiManager = manager;
     }

@@ -549,8 +549,9 @@ public class ImageManager : MonoBehaviour
         if (includeBack) originAlpha[-1] = bgSprite.alpha;
         if (includeDiabox)
         {
-            originAlpha[-2] = duiManager.mainContainer.GetComponent<UIWidget>().alpha;
-            duiManager.clickContainer.SetActive(false);
+            duiManager.Close(effect.time, () => { });
+            //originAlpha[-2] = duiManager.mainContainer.GetComponent<UIWidget>().alpha;
+            //duiManager.clickContainer.SetActive(false);
         }
         float t = 0;
         float final = effect.state.spriteAlpha;
@@ -559,10 +560,10 @@ public class ImageManager : MonoBehaviour
             t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
             if (includeDiabox)
             {
-                float origin = originAlpha[-2];
-                float alpha = origin + t * (final - origin);
+                //float origin = originAlpha[-2];
+                //float alpha = origin + t * (final - origin);
                 
-                duiManager.mainContainer.GetComponent<UIWidget>().alpha = alpha;
+                //duiManager.mainContainer.GetComponent<UIWidget>().alpha = alpha;
             }
             foreach (int i in GetDepthNum())
             {

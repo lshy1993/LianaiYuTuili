@@ -181,6 +181,9 @@ public class EduUIManager : MonoBehaviour
         helplabel.text = result;
     }
 
+    /// <summary>
+    /// 刷新界面
+    /// </summary>
     private void UIFresh()
     {
         //属性值显示
@@ -217,18 +220,25 @@ public class EduUIManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 设置数值条
+    /// </summary>
+    /// <param name="target">对象</param>
+    /// <param name="value">数值</param>
     private void SetBarValue(UIProgressBar target, float value)
     {
+        //默认0-0.2颜色条
+        Sprite sp = Resources.Load<Sprite>("UI/edu_bar_1");
         if (value >= 0.8)
-            target.foregroundWidget.GetComponent<UI2DSprite>().sprite2D = Resources.Load<Sprite>("UI/edu_bar_5");
-        else if (value >=0.6)
-            target.foregroundWidget.GetComponent<UI2DSprite>().sprite2D = Resources.Load<Sprite>("UI/edu_bar_4");
-        else if(value >=0.4)
-            target.foregroundWidget.GetComponent<UI2DSprite>().sprite2D = Resources.Load<Sprite>("UI/edu_bar_3");
-        else if(value >=0.2)
-            target.foregroundWidget.GetComponent<UI2DSprite>().sprite2D = Resources.Load<Sprite>("UI/edu_bar_2");
-        else
-            target.foregroundWidget.GetComponent<UI2DSprite>().sprite2D = Resources.Load<Sprite>("UI/edu_bar_1");
+            sp = Resources.Load<Sprite>("UI/edu_bar_5");
+        else if (value >= 0.6)
+            sp = Resources.Load<Sprite>("UI/edu_bar_4");
+        else if (value >= 0.4)
+            sp = Resources.Load<Sprite>("UI/edu_bar_3");
+        else if (value >= 0.2)
+            sp = Resources.Load<Sprite>("UI/edu_bar_2");
+
+        target.foregroundWidget.GetComponent<UI2DSprite>().sprite2D = sp;
         target.value = value;
     }
 

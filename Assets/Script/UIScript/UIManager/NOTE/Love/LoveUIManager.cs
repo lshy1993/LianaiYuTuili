@@ -9,32 +9,34 @@ using Assets.Script.GameStruct.Model;
 public class LoveUIManager : MonoBehaviour
 {
     private UILabel namelb, classlb, clublb, hlb, wlb, birthlb, starlb, rlb, likelb, dislb, infolb;
-    private GameObject introCon, qtabGrid, infoNumGrid;
+    private GameObject basicCon, middleCon, tabCon, qtabGrid, infoNumGrid;
     private Player player { get { return DataManager.GetInstance().gameData.player; } }
     private Dictionary<string, Girl> dic;
     private List<string> girlInfo;
 
     private void Awake()
     {
-        introCon = transform.Find("Intro_Container").gameObject;
+        basicCon = transform.Find("Basic_Container").gameObject;
+        middleCon = transform.Find("Middle_Container").gameObject;
+        tabCon = transform.Find("InfoTab_Container").gameObject;
+        //q版按钮
         qtabGrid = transform.Find("QTab_Grid").gameObject;
-
-        namelb = introCon.transform.Find("Name_Label").gameObject.GetComponent<UILabel>();
-
-        classlb = introCon.transform.Find("Table/Class_Label").gameObject.GetComponent<UILabel>();
-        clublb = introCon.transform.Find("Table/Club_Label").gameObject.GetComponent<UILabel>();
-        hlb = introCon.transform.Find("Table/Height_Label").gameObject.GetComponent<UILabel>();
-        wlb = introCon.transform.Find("Table/Weight_Label").gameObject.GetComponent<UILabel>();
-        birthlb = introCon.transform.Find("Table/Birth_Label").gameObject.GetComponent<UILabel>();
-        starlb = introCon.transform.Find("Table/Star_Label").gameObject.GetComponent<UILabel>();
-
-        rlb = introCon.transform.Find("Rank_Label").gameObject.GetComponent<UILabel>();
-        likelb = introCon.transform.Find("Like_Label").gameObject.GetComponent<UILabel>();
-        dislb = introCon.transform.Find("Dislike_Label").gameObject.GetComponent<UILabel>();
-        infolb = introCon.transform.Find("Info_Label").gameObject.GetComponent<UILabel>();
-
-        infoNumGrid = introCon.transform.Find("NumTab_Grid").gameObject;
-
+        //上方区块
+        namelb = basicCon.transform.Find("Name_Label").gameObject.GetComponent<UILabel>();
+        classlb = basicCon.transform.Find("Table/Class_Label").gameObject.GetComponent<UILabel>();
+        clublb = basicCon.transform.Find("Table/Club_Label").gameObject.GetComponent<UILabel>();
+        hlb = basicCon.transform.Find("Table/Height_Label").gameObject.GetComponent<UILabel>();
+        wlb = basicCon.transform.Find("Table/Weight_Label").gameObject.GetComponent<UILabel>();
+        birthlb = basicCon.transform.Find("Table/Birth_Label").gameObject.GetComponent<UILabel>();
+        starlb = basicCon.transform.Find("Table/Star_Label").gameObject.GetComponent<UILabel>();
+        //中间区块
+        rlb = middleCon.transform.Find("Rank_Label").gameObject.GetComponent<UILabel>();
+        likelb = middleCon.transform.Find("Like_Label").gameObject.GetComponent<UILabel>();
+        dislb = middleCon.transform.Find("Dislike_Label").gameObject.GetComponent<UILabel>();
+        //下方区块
+        infoNumGrid = tabCon.transform.Find("NumTab_Grid").gameObject;
+        infolb = tabCon.transform.Find("Info_Label").gameObject.GetComponent<UILabel>();
+        
         dic = DataManager.GetInstance().staticData.girls;
     }
 
@@ -43,7 +45,9 @@ public class LoveUIManager : MonoBehaviour
         //每次开启时调用
         SetQButton();
         //隐藏主界面
-        introCon.SetActive(false);
+        basicCon.SetActive(false);
+        middleCon.SetActive(false);
+        tabCon.SetActive(false);
     }
 
     private void SetQButton()
@@ -64,7 +68,9 @@ public class LoveUIManager : MonoBehaviour
 
     private void SetGirlInfo(string str)
     {
-        introCon.SetActive(true);
+        basicCon.SetActive(true);
+        middleCon.SetActive(true);
+        tabCon.SetActive(true);
         //设置联系人信息 根据好感度变化
         namelb.text = dic[str].name;
         classlb.text = dic[str].cla;

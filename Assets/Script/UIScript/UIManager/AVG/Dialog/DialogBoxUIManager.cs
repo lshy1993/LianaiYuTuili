@@ -256,12 +256,14 @@ public class DialogBoxUIManager : MonoBehaviour
             yield return null;
         }
         DataManager.GetInstance().isEffecting = false;
+        clickContainer.SetActive(true);
         callback();
     }
 
     private IEnumerator CloseUI(float time, Action callback)
     {
         DataManager.GetInstance().isEffecting = true;
+        clickContainer.SetActive(false);
         float t = 1;
         while (t > 0)
         {

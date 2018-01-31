@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
-public class AppTourUIManager : MonoBehaviour
+public class TourUIManager : MonoBehaviour
 {
     public GameObject tourTable;
     public UI2DSprite backSprite;

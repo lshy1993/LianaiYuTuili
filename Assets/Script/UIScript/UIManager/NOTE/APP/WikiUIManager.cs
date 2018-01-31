@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
-public class AppHelpUIManager : MonoBehaviour
+public class WikiUIManager : MonoBehaviour
 {
     public GameObject keyTable;
     public UILabel keyLabel, expLabel;

@@ -75,7 +75,7 @@ namespace Assets.Script.GameStruct
 
         public enum NOTE_STATUS
         {
-            INDEX, SELF, LOVE, EVIDENCE, APP
+            INDEX, SELF, LOVE, EVIDENCE, CALENDAR, TOUR, WIKI, //MOMENT, MAIL, APP
         }
 
         public enum Setting_Mode
