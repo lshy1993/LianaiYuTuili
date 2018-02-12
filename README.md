@@ -9,8 +9,14 @@ Unity3D
 NGUI  
 ## Update Info  
 版本更新内容  
+### demo 1.32  
+* 添加考试系统
+* 将静态数据读取整合至StaticManager
+* 修复读档BUG
+
 ### demo 1.31
-* 添加考试系统？
+* 剧情分歧系统
+* 优化了存读档时的IO
 
 ### demo 1.30  
 * 完善Extra内CG系统

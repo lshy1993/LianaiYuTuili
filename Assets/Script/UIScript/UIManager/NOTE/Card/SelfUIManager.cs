@@ -11,35 +11,38 @@ public class SelfUIManager : MonoBehaviour
 {
     private UILabel wenlb, lilb, tilb, yilb, zhailb, energylb;
     private UIProgressBar wenb, lib, tib, yib, zhaib, energyb;
-    private UILabel namelb, ranklb, moneylb, statuslb;
+    private UILabel namelb, seedlb, ranklb, moneylb, statuslb;
     private UIProgressBar lengb, koub, sib, guanb;
 
     private Player player;
 
     private void Awake()
     {
-        wenlb = transform.Find("Num_Grid/Wen_Label").gameObject.GetComponent<UILabel>();
-        lilb = transform.Find("Num_Grid/Li_Label").gameObject.GetComponent<UILabel>();
-        tilb = transform.Find("Num_Grid/Ti_Label").gameObject.GetComponent<UILabel>();
-        yilb = transform.Find("Num_Grid/Yi_Label").gameObject.GetComponent<UILabel>();
-        zhailb = transform.Find("Num_Grid/Zhai_Label").gameObject.GetComponent<UILabel>();
-        energylb = transform.Find("Num_Grid/Energy_Label").gameObject.GetComponent<UILabel>();
+        wenlb = transform.Find("StudyData_Container/Num_Grid/Wen_Label").gameObject.GetComponent<UILabel>();
+        lilb = transform.Find("StudyData_Container/Num_Grid/Li_Label").gameObject.GetComponent<UILabel>();
+        tilb = transform.Find("StudyData_Container/Num_Grid/Ti_Label").gameObject.GetComponent<UILabel>();
+        yilb = transform.Find("StudyData_Container/Num_Grid/Yi_Label").gameObject.GetComponent<UILabel>();
+        zhailb = transform.Find("StudyData_Container/Num_Grid/Zhai_Label").gameObject.GetComponent<UILabel>();
+        energylb = transform.Find("StudyData_Container/Num_Grid/Energy_Label").gameObject.GetComponent<UILabel>();
 
-        wenb = transform.Find("Bar_Grid/Wen_Bar").gameObject.GetComponent<UIProgressBar>();
-        lib = transform.Find("Bar_Grid/Li_Bar").gameObject.GetComponent<UIProgressBar>();
-        tib = transform.Find("Bar_Grid/Ti_Bar").gameObject.GetComponent<UIProgressBar>();
-        yib = transform.Find("Bar_Grid/Yi_Bar").gameObject.GetComponent<UIProgressBar>();
-        zhaib = transform.Find("Bar_Grid/Zhai_Bar").gameObject.GetComponent<UIProgressBar>();
-        energyb = transform.Find("Bar_Grid/Energy_Bar").gameObject.GetComponent<UIProgressBar>();
+        wenb = transform.Find("StudyData_Container/Bar_Grid/Wen_Bar").gameObject.GetComponent<UIProgressBar>();
+        lib = transform.Find("StudyData_Container/Bar_Grid/Li_Bar").gameObject.GetComponent<UIProgressBar>();
+        tib = transform.Find("StudyData_Container/Bar_Grid/Ti_Bar").gameObject.GetComponent<UIProgressBar>();
+        yib = transform.Find("StudyData_Container/Bar_Grid/Yi_Bar").gameObject.GetComponent<UIProgressBar>();
+        zhaib = transform.Find("StudyData_Container/Bar_Grid/Zhai_Bar").gameObject.GetComponent<UIProgressBar>();
+        energyb = transform.Find("StudyData_Container/Bar_Grid/Energy_Bar").gameObject.GetComponent<UIProgressBar>();
 
-        namelb = transform.Find("BasicInfo_Grid/Name_Label").gameObject.GetComponent<UILabel>();
+        namelb = transform.Find("Card_Container/BasicInfo_Grid/Name_Label").gameObject.GetComponent<UILabel>();
+        seedlb = transform.Find("Card_Container/StudentNumber_Label").gameObject.GetComponent<UILabel>();
+
         ranklb = transform.Find("Other_Grid/Rank_Label").gameObject.GetComponent<UILabel>();
         moneylb = transform.Find("Other_Grid/Money_Label").gameObject.GetComponent<UILabel>();
         statuslb = transform.Find("Other_Grid/Status_Label").gameObject.GetComponent<UILabel>();
-        lengb = transform.Find("Bar_Grid_H/Leng_Bar").gameObject.GetComponent<UIProgressBar>();
-        koub = transform.Find("Bar_Grid_H/Kou_Bar").gameObject.GetComponent<UIProgressBar>();
-        sib = transform.Find("Bar_Grid_H/Si_Bar").gameObject.GetComponent<UIProgressBar>();
-        guanb = transform.Find("Bar_Grid_H/Guan_Bar").gameObject.GetComponent<UIProgressBar>();
+
+        lengb = transform.Find("DetectData_Container/Bar_Grid_H/Leng_Bar").gameObject.GetComponent<UIProgressBar>();
+        koub = transform.Find("DetectData_Container/Bar_Grid_H/Kou_Bar").gameObject.GetComponent<UIProgressBar>();
+        sib = transform.Find("DetectData_Container/Bar_Grid_H/Si_Bar").gameObject.GetComponent<UIProgressBar>();
+        guanb = transform.Find("DetectData_Container/Bar_Grid_H/Guan_Bar").gameObject.GetComponent<UIProgressBar>();
 
     }
 
@@ -78,6 +81,7 @@ public class SelfUIManager : MonoBehaviour
         koub.value = player.GetLogicStatus("口才") / 10f;
         sib.value = player.GetLogicStatus("思维") / 10f;
         guanb.value = player.GetLogicStatus("观察") / 10f;
+        seedlb.text = LoadSaveTool.GetKey();
     }
 
     private string ChineseRank(int x)

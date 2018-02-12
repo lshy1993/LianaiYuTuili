@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 对峙类
+    /// </summary>
     public class NegotiateEvent
     {
     }

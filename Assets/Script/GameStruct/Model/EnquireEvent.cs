@@ -6,14 +6,34 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 询问事件类
+    /// </summary>
     public class EnquireEvent
     {
-        //private static int ID = 0;
+        /// <summary>
+        /// 唯一编号
+        /// </summary>
+        public string id;
 
+        /// <summary>
+        /// 证词类列表
+        /// </summary>
         public List<EnquireTestimony> testimony;
-        public EnquireBreak enquireBreak;
-        public string id, music;
 
+        /// <summary>
+        /// 询问跳出类
+        /// </summary>
+        public EnquireBreak enquireBreak;
+
+        /// <summary>
+        /// 音乐名
+        /// </summary>
+        public string music;
+
+        /// <summary>
+        /// 错误/循环 出口
+        /// </summary>
         public string loopExit, wrongExit;
 
         public EnquireEvent(JsonData data)

@@ -99,7 +99,7 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 储存每个角色收到的信息
         /// </summary>
-        public Dictionary<string, List<ChatMessage>> messageDic;
+        public Dictionary<string, List<int>> charaMessages;
 
         /// <summary>
         /// 至当前时间点的所有朋友圈

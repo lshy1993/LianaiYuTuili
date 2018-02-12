@@ -7,25 +7,34 @@ using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.UIScript;
 
+/// <summary>
+/// 询问UI管理
+/// </summary>
 public class EnquireUIManager : MonoBehaviour
 {
-    public SoundManager sm;
-    public HPMPUIManager hpmpManager;
+    private EnquireNode enquireNode;
+    private EnquireManager enquireManager;
 
+    #region 预设数值
     private const int TOTAL_DISTANCE = 1280;
     private const int EVIDENCE_Y = -425;
     private const int EVIDENCE_MOVE = 170;
     private const int TIME_X = 670;
     private const int TIME_MOVE = 70;
+    #endregion
 
+    #region ui组件
     private GameObject startContainer, breakContainer, backLine, breakBack;
     private GameObject evidenceContainer, timeObject;
     private GameObject evidenceGrid, speedDownSprite, hintContainer;
     private UILabel currentLabel, hintNameLabel, hintIntroLabel;
     private UIProgressBar timeBar;
+    public SoundManager sm;
+    public HPMPUIManager hpmpManager;
+    #endregion
 
+    #region ui状态参数
     //private List<float> voiceTime;//根据语音的飞行时间
-   
     private List<string> visibleTestimony;//可见证词
 
     //已经威慑过证词id
@@ -54,11 +63,11 @@ public class EnquireUIManager : MonoBehaviour
     private Vector3 originPosition = new Vector3(-100, 900);
     //当前正在进行的询问编号
     private EnquireEvent enquireEvent;
-    private EnquireNode enquireNode;
-    private EnquireManager enquireManager;
+
     private Constants.ENQUIRE_STATUS exitStatus;//当前状态
 
     private bool coolDown, isnew, wheelMoving;
+    #endregion
 
     void Awake()
     {
@@ -91,12 +100,14 @@ public class EnquireUIManager : MonoBehaviour
 
     private void OnEnable()
     {
+        Time.timeScale = 1f;
         DataManager.GetInstance().BlockRightClick();
         DataManager.GetInstance().BlockClick();
     }
 
     private void OnDisable()
     {
+        Time.timeScale = 1f;
         DataManager.GetInstance().UnblockRightClick();
         DataManager.GetInstance().UnblockClick();
     }
@@ -116,7 +127,7 @@ public class EnquireUIManager : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.LeftControl))
         {
-            Time.timeScale = 5f;
+            if (wheelMoving) Time.timeScale = 5f;
         }
         else 
         {
@@ -193,6 +204,7 @@ public class EnquireUIManager : MonoBehaviour
     private void EnquireExit(Constants.ENQUIRE_STATUS target)
     {
         wheelMoving = false;
+        Time.timeScale = 1f;
         exitStatus = target;
         switch (target)
         {

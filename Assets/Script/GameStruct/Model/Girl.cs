@@ -42,5 +42,51 @@ namespace Assets.Script.GameStruct.Model
             }
 
         }
+
+        /// <summary>
+        /// 格式化输出
+        /// </summary>
+        /// <param name="isEng">是否显示变量名</param>
+        public string ToString(bool isEng)
+        {
+            string str = string.Empty;
+
+            str += (isEng ? "name" : "姓名") + " : " + name + "\n";
+            str += (isEng ? "cla" : "班级") + " : " + cla + "\n";
+            str += (isEng ? "club" : "社团") + " : " + club + "\n";
+            str += (isEng ? "height" : "身高") + " : " + height + "\n";
+
+            str += (isEng ? "weight" : "体重") + " : " + weight + "\n";
+
+            str += (isEng ? "monthOfBirth" : "生日月份") + " : " + monthOfBirth + "\n";
+
+            str += (isEng ? "dayOfBirth" : "生日天数") + " : " + dayOfBirth + "\n";
+
+            str += (isEng ? "horoscope" : "星座") + " : " + horoscope + "\n";
+
+            str += (isEng ? "like" : "喜欢") + " : ";
+            foreach (string i in like)
+            {
+                str += i + "  ";
+            }
+            str += "\n";
+
+            str += (isEng ? "dislike" : "讨厌") + " : ";
+            foreach (string i in dislike)
+            {
+                str += i + "  ";
+            }
+            str += "\n";
+
+            str += (isEng ? "intro" : "简介") + " : \n";
+            foreach (string i in intro)
+            {
+                str += i + "\n";
+            }
+            str += "\n";
+
+            return str;
+        }
+
     }
 }

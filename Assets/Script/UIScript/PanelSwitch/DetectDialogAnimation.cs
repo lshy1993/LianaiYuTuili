@@ -18,15 +18,18 @@ namespace Assets.Script.UIScript
 
         private void InitPosition()
         {
+            //默认按钮初始位置于边框外
             foreach (Transform child in this.transform)
             {
                 child.localPosition = new Vector3(0, 410);
             }
+            //计算按钮间隔
             int n = this.transform.childCount;
             int d = (670 - 50 * n) / (n + 1);
             destinations = new int[n];
             for (int i = 0; i < destinations.Length; i++)
             {
+                //己算每个按钮的y值
                 destinations[i] = 360 - ((i + 1) * d + i * 50);
             }
         }

@@ -6,10 +6,25 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 自我推理文字选项类
+    /// </summary>
     public class ReasoningChoice
     {
-        public string text, entry;
+        /// <summary>
+        /// 选项名
+        /// </summary>
+        public string text;
+        
+        /// <summary>
+        /// 是否正解
+        /// </summary>
         public bool correct;
+        
+        /// <summary>
+        /// 入口脚本名
+        /// </summary>
+        public string entry;
 
         public ReasoningChoice(JsonData data)
         {

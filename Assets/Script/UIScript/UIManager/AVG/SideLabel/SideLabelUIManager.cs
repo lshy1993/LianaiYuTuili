@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
+/// <summary>
+/// 侧边章节BGM标签UI管理器
+/// </summary>
 public class SideLabelUIManager : MonoBehaviour
 {
     //制作淡入淡出与时间等待器

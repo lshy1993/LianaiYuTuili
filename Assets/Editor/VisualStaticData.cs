@@ -25,6 +25,9 @@ public class VisualStaticData : EditorWindow
     private Dictionary<string, Tour> tours;
     private Dictionary<string, Keyword> keywords;
     private Dictionary<int, Routine> routines;
+    private Dictionary<int, ChatMessage> mails;
+    private Dictionary<int, string> cgInfo;
+    private Dictionary<int, AchieveEnding> endingInfo;
 
     private Vector2 scrollPosition;
     private string content;
@@ -48,6 +51,9 @@ public class VisualStaticData : EditorWindow
         tours = DataManager.GetInstance().staticData.tours;
         keywords = DataManager.GetInstance().staticData.keywords;
         routines = DataManager.GetInstance().staticData.routines;
+        mails = DataManager.GetInstance().staticData.mails;
+        cgInfo = DataManager.GetInstance().staticData.cgInfo;
+        endingInfo = DataManager.GetInstance().staticData.endingInfo;
     }
 
     public void OnGUI()
@@ -75,6 +81,7 @@ public class VisualStaticData : EditorWindow
             Reset(toggleNum = 5);
         }
         GUILayout.EndHorizontal();
+        //第二行
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("APP-女主角"))
         {
@@ -92,9 +99,20 @@ public class VisualStaticData : EditorWindow
         {
             Reset(toggleNum = 9);
         }
-        if (GUILayout.Button("养成"))
+        if (GUILayout.Button("APP-校内邮"))
         {
             Reset(toggleNum = 10);
+        }
+        GUILayout.EndHorizontal();
+        //第三行
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("EXTRA-画廊"))
+        {
+            Reset(toggleNum = 11);
+        }
+        if (GUILayout.Button("EXTRA-成就"))
+        {
+            Reset(toggleNum = 12);
         }
         GUILayout.EndHorizontal();
         isEng = GUILayout.Toggle(isEng, "显示变量名");
@@ -132,8 +150,23 @@ public class VisualStaticData : EditorWindow
                 SetEvidence();
                 break;
             case 6:
+                SetGirls();
                 break;
             case 7:
+                SetTours();
+                break;
+            case 8:
+                SetKeywords();
+                break;
+            case 9:
+                break;
+            case 10:
+                SetMails();
+                break;
+            case 11:
+                break;
+            case 12:
+                SetEndings();
                 break;
         }
         Repaint();
@@ -190,4 +223,58 @@ public class VisualStaticData : EditorWindow
         }
     }
 
+    void SetMails()
+    {
+        content = string.Empty;
+        foreach (KeyValuePair<int, ChatMessage> kv in mails)
+        {
+            ChatMessage cm = kv.Value;
+            content += cm.ToString(isEng);
+            content += "\n\n";
+        }
+    }
+
+    void SetGirls()
+    {
+        content = string.Empty;
+        foreach (KeyValuePair<string, Girl> kv in girls)
+        {
+            Girl gl = kv.Value;
+            content += gl.ToString(isEng);
+            content += "\n\n";
+        }
+    }
+
+    void SetTours()
+    {
+        content = string.Empty;
+        foreach (KeyValuePair<string, Tour> kv in tours)
+        {
+            Tour t = kv.Value;
+            content += t.ToString(isEng);
+            content += "\n\n";
+        }
+    }
+
+    void SetKeywords()
+    {
+        content = string.Empty;
+        foreach (KeyValuePair<string, Keyword> kv in keywords)
+        {
+            Keyword kw = kv.Value;
+            content += kw.ToString(isEng);
+            content += "\n\n";
+        }
+    }
+
+    void SetEndings()
+    {
+        content = string.Empty;
+        foreach (KeyValuePair<string, Girl> kv in girls)
+        {
+            Girl gl = kv.Value;
+            content += gl.ToString(isEng);
+            content += "\n\n";
+        }
+    }
 }

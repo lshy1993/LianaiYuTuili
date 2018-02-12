@@ -6,13 +6,39 @@ using System.Text;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 单一场景 侦探事件类
+    /// </summary>
     public class DetectPlaceSection
     {
+        /// <summary>
+        /// 地点名
+        /// </summary>
         public string place;
+
+        /// <summary>
+        /// 首次进入地点触发脚本名
+        /// </summary>
         public string entry;
+
+        /// <summary>
+        /// 场景背景图片
+        /// </summary>
         public string imagename;
+
+        /// <summary>
+        /// 对话类
+        /// </summary>
         public List<DetectInvest> invests;
+
+        /// <summary>
+        /// 现场调查类
+        /// </summary>
         public List<DetectDialog> dialogs;
+
+        /// <summary>
+        /// 移动目的地
+        /// </summary>
         public List<string> moves;
 
         public DetectPlaceSection(JsonData data)

@@ -7,6 +7,9 @@ namespace Assets.Script.GameStruct
 {
     public static class Constants
     {
+        /// <summary>
+        /// 是否处于开发模式
+        /// </summary>
         public static readonly bool DEBUG = true;
 
         public static readonly int TURN_MIN = 0;
@@ -30,6 +33,9 @@ namespace Assets.Script.GameStruct
         public static readonly string EDU_PATH = ROOT_PATH + "EduConfig/";
         public static readonly string REASONING_PATH = ROOT_PATH + "ReasoningConfig/";
         public static readonly string ENQUIRE_PATH = ROOT_PATH + "EnquireConfig/";
+        public static readonly string TEST_PATH = ROOT_PATH + "TestConfig/";
+        public static readonly string APP_PATH = ROOT_PATH + "AppConfig/";
+        public static readonly string EXAM_PATH = ROOT_PATH + "ExamConfig/";
 
         //DEBUG paths
         public static readonly string DEBUG_PATH = ROOT_PATH + "TestEvents/";
@@ -38,6 +44,10 @@ namespace Assets.Script.GameStruct
         public static readonly string EDU_DEBUG_PATH = ROOT_PATH + "EduDebug/";
         public static readonly string REASONING_DEBUG_PATH = ROOT_PATH + "ReasoningDebug/";
         public static readonly string ENQUIRE_DEBUG_PATH = ROOT_PATH + "EnquireDebug/";
+        public static readonly string TEST_DEBUG_PATH = ROOT_PATH + "TestDebug/";
+        public static readonly string APP_DEBUG_PATH = ROOT_PATH + "AppDebug/";
+        public static readonly string EXAM_DEBUG_PATH = ROOT_PATH + "ExamDebug/";
+
 
         internal static readonly int MONEY_MIN = 0;
         internal static readonly int MONEY_MAX = int.MaxValue;

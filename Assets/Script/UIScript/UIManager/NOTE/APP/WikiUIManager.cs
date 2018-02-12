@@ -36,7 +36,7 @@ public class WikiUIManager : MonoBehaviour
     private void OnEnable()
     {
         //清空显示内容
-        backSprite.sprite2D = null;
+        //backSprite.sprite2D = null;
         keyLabel.text = "";
         expLabel.text = "点击词条查看解释";
     }

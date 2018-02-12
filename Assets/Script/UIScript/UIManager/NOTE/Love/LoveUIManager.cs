@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
+/// <summary>
+/// NOTE-联系人界面管理
+/// </summary>
 public class LoveUIManager : MonoBehaviour
 {
     private UILabel namelb, classlb, clublb, hlb, wlb, birthlb, starlb, rlb, likelb, dislb, infolb;
@@ -84,7 +85,7 @@ public class LoveUIManager : MonoBehaviour
         string horoStr = player.GetGirlPoint(str) >= 2 ? dic[str].horoscope : "???";
         birthlb.text = "生日：" +birthM  + "月" + birthD + "日";
         starlb.text = "星座：" + horoStr;
-        //rlb.text = "排名：年级" + gm.girl[x].graderank + "名 全省" + gm.girl[x].provencerank + "名";
+        rlb.text = "排名：年级" + 2 + "名 全省" + 12 + "名";
         string likeStr = "??????";
         if (player.GetGirlPoint(str) >= 3)
         {
@@ -114,6 +115,10 @@ public class LoveUIManager : MonoBehaviour
         ShowGirlIntro("");
     }
 
+    /// <summary>
+    /// 显示女孩标签页
+    /// </summary>
+    /// <param name="btnname">标签号</param>
     public void ShowGirlIntro(string btnname)
     {
         switch (btnname)

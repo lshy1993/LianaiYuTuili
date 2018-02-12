@@ -6,15 +6,24 @@ using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.UIScript;
 
+/// <summary>
+/// 自我推理UI管理
+/// </summary>
 public class ReasoningUIManager : MonoBehaviour
 {
-    public SoundManager sm;
-    public HPMPUIManager hpmpManager;
+    private ReasoningNode reasoningNode;
+    private ReasoningManager reasoningManager;
 
+    #region ui组件
     private GameObject backContainer, startContainer, breakContainer, questionContainer, textContainer, evidenceContainer;
     private GameObject startBackSprite, startLabel, breakBackSprite, breakLabel, QLabel;
     private GameObject buttonGrid, questionLabel, infoLabel;
+    public SoundManager sm;
+    public HPMPUIManager hpmpManager;
+    #endregion
 
+    #region ui状态参数
+    // 文字选项
     private List<GameObject> textChoices;
 
     private Dictionary<string, Evidence> eviDic
@@ -27,11 +36,11 @@ public class ReasoningUIManager : MonoBehaviour
         get { return reasoningManager.eviNameList; }
     }
 
-    private ReasoningNode reasoningNode;
+    //当前所处自我推理事件
     private ReasoningEvent reasoningEvent;
-    private ReasoningManager reasoningManager;
 
     private bool ifevi, isnew, isend;
+    #endregion
 
     void Awake()
     {

@@ -50,7 +50,7 @@ public class EvidenceUIManager : MonoBehaviour
             enl.text = evi.name;
 
             UI2DSprite eis = eviBtn.transform.Find("EvidenceIcon_Sprite").GetComponent<UI2DSprite>();
-            eis.sprite2D = Resources.Load<Sprite>(evi.iconPath);
+            //eis.sprite2D = Resources.Load<Sprite>(evi.iconPath);
 
         }
         eviGrid.GetComponent<UIGrid>().Reposition();

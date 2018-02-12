@@ -6,12 +6,31 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 自我推理事件类
+    /// </summary>
     public class ReasoningEvent
     {
         public string id;
+
+        /// <summary>
+        /// 问题
+        /// </summary>
         public string question;
+
+        /// <summary>
+        /// 出口脚本名
+        /// </summary>
         public string exit;
+
+        /// <summary>
+        /// 文字选项
+        /// </summary>
         public List<ReasoningChoice> choice;
+
+        /// <summary>
+        /// 证物选项
+        /// </summary>
         public ReasoningEvidence answerEvi;
 
         public ReasoningEvent(JsonData data)

@@ -7,10 +7,13 @@ using UnityEngine;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
+/// <summary>
+/// 证据获得UI管理
+/// </summary>
 public class EviGetUIManager : MonoBehaviour
 {
     private Evidence getevi;
-    private GameObject mainCon, subCon;
+    private GameObject mainCon, subCon, iconCon;
     private UI2DSprite icon, iconhover;
     private UILabel title, intro;
 
@@ -22,8 +25,11 @@ public class EviGetUIManager : MonoBehaviour
     {
         mainCon = this.transform.Find("Main_Container").gameObject;
         subCon = this.transform.Find("Sub_Container").gameObject;
-        icon = mainCon.transform.Find("EvidenceIcon_Sprite").GetComponent<UI2DSprite>();
-        iconhover = mainCon.transform.Find("EvidenceIcon_Sprite/Hover_Sprite").GetComponent<UI2DSprite>();
+
+        iconCon = mainCon.transform.Find("EvidenceIcon_Container").gameObject;
+        icon = iconCon.transform.Find("Icon_Sprite").GetComponent<UI2DSprite>();
+        iconhover = iconCon.transform.Find("Hover_Sprite").GetComponent<UI2DSprite>();
+
         title = mainCon.transform.Find("EvidenceName_Label").GetComponent<UILabel>();
         intro = mainCon.transform.Find("EvidenceInfo_Label").GetComponent<UILabel>();
     }
@@ -36,21 +42,28 @@ public class EviGetUIManager : MonoBehaviour
         return finished;
     }
 
+    /// <summary>
+    /// 显示证据获得框
+    /// </summary>
+    /// <param name="evi">获得的证据</param>
     public void Show(Evidence evi)
     {
         this.getevi = evi;
         finished = false;
         icon.sprite2D = Resources.Load<Sprite>(evi.iconPath);
-        title.text = getevi.name;
-        intro.text = getevi.introduction;
+        title.text = evi.name;
+        intro.text = evi.introduction;
         StartCoroutine(OpenMain());
         //设置对话框文字 重启打字机
         nameLabel.text = "";
-        dialogLabel.text = "【" + getevi.name + "】已收入事件调查簿";
+        dialogLabel.text = "【" + evi.name + "】已收入事件调查簿";
         dialogLabel.GetComponent<TypeWriter>().enabled = true;
         dialogLabel.GetComponent<TypeWriter>().ResetToBeginning();
     }
 
+    /// <summary>
+    /// 关闭窗口
+    /// </summary>
     public void Close()
     {
         StartCoroutine(CloseAll());
@@ -60,6 +73,7 @@ public class EviGetUIManager : MonoBehaviour
     private IEnumerator OpenMain()
     {
         DataManager.GetInstance().isEffecting = true;
+        iconCon.SetActive(false);
         mainCon.SetActive(true);
         subCon.SetActive(false);
         UIWidget wi = mainCon.GetComponent<UIWidget>();
@@ -71,25 +85,32 @@ public class EviGetUIManager : MonoBehaviour
             wi.alpha = x;
             yield return null;
         }
-        yield return StartCoroutine(FadeoutHover());
+        //yield return
+        StartCoroutine(ShowHover());
     }
-    //淡出证据图片覆盖层
-    private IEnumerator FadeoutHover()
+    //证据图片显示
+    private IEnumerator ShowHover()
     {
-        UIRect wi1 = iconhover.GetComponent<UIRect>();
-        UIRect wi2 = icon.GetComponent<UIRect>();
-        wi1.alpha = 1;
-        wi2.alpha = 0;
-        float x = 1;
-        while (x > 0)
+        iconCon.SetActive(true);
+        iconCon.GetComponent<UIWidget>().alpha = 0;
+        iconhover.alpha = 1;
+        float t = 0;
+        while (t < 1)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.deltaTime);
-            wi1.alpha = x;
-            wi2.alpha = 1 - x;
+            t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.deltaTime);
+            iconCon.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }
-        yield return StartCoroutine(OpenSub());
+        float x = 0;
+        while (x < 1)
+        {
+            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
+            iconhover.alpha = 1 - x;
+            yield return null;
+        }
+        StartCoroutine(OpenSub());
     }
+
     //打开文字层
     private IEnumerator OpenSub()
     {

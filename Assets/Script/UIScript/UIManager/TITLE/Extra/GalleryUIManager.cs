@@ -79,7 +79,6 @@ public class GalleryUIManager : MonoBehaviour
     {
         int index = (pageNum - 1) * 15 + x;
         //查看图片以ID作为索引
-        Debug.Log(x);
         largepic.GetComponent<UI2DSprite>().sprite2D = Resources.Load<Sprite>(cgInfoTable[index]);
         StartCoroutine(FadeIn(large));
     }

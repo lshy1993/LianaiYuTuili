@@ -96,7 +96,7 @@ public class DialogBoxUIManager : MonoBehaviour
             }
             //顶边中心靠上
             float h = avatarSprite.height;
-            avatarSprite.transform.localPosition = new Vector3(0, -h / 2 + 85);
+            avatarSprite.transform.localPosition = new Vector3(0, -h / 2 + 140);
         }
         
     }

@@ -7,14 +7,34 @@ using UnityEngine;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 现场调查类
+    /// </summary>
     public class DetectInvest
     {
-        private static readonly string ICON_PATH = "Icon/";
-        //public string position;
+        /// <summary>
+        /// 调查点名称
+        /// </summary>
         public string info;
+
+        /// <summary>
+        /// 坐标
+        /// </summary>
         public Vector3 coordinate;
-        public Sprite icon, iconHover;
-        public string entry, normal, hover;
+
+        /// <summary>
+        /// 按钮正常/悬停图片名
+        /// </summary>
+        public string normal, hover;
+
+        /// <summary>
+        /// 入口脚本名
+        /// </summary>
+        public string entry;
+
+        /// <summary>
+        /// 出现前置条件
+        /// </summary>
         public List<string> condition;
 
         public DetectInvest(JsonData data)
@@ -25,9 +45,6 @@ namespace Assets.Script.GameStruct.Model
 
             normal = (string)data["正常图片"];
             hover = (string)data["悬停图片"];
-
-            icon = Resources.Load(ICON_PATH + normal) as Sprite;
-            iconHover = Resources.Load(ICON_PATH + hover) as Sprite;
 
             entry = (string)data["事件"];
             condition = new List<string>();

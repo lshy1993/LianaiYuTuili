@@ -57,12 +57,33 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 
+        /// 进入考试模式
+        /// </summary>
+        /// <returns></returns>
+        public TestNode GetTestNode()
+        {
+            return new TestNode(dm, root, ps);
+        }
+
+        /// <summary>
+        /// 时间转场
         /// </summary>
         /// <returns></returns>
         public TimeSwitchNode GetSwitchNode(string time,string place,string exit)
         {
             return new TimeSwitchNode(dm, root, ps, time, place, exit);
+        }
+
+        /// <summary>
+        /// 选择分歧
+        /// </summary>
+        /// <param name="dic">分歧项</param>
+        /// <param name="cd">倒计时</param>
+        /// <param name="cdexit">时间为零时出口</param>
+        /// <returns></returns>
+        public SelectNode GetSelectNode(Dictionary<string, string> dic, float cd = 0f, string cdexit="")
+        {
+            return new SelectNode(dm, root, ps, dic, cd, cdexit);
         }
 
         /// <summary>

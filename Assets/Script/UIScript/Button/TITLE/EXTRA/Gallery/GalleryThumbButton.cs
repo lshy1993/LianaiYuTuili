@@ -2,6 +2,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Extra 画廊 缩略图按钮
+/// </summary>
 public class GalleryThumbButton : BasicButton
 {
     public GalleryUIManager uiManager;

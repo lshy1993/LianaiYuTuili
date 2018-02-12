@@ -42,6 +42,11 @@ namespace Assets.Script.GameStruct
         public Dictionary<string, Girl> girls;
 
         /// <summary>
+        /// 考试题库集
+        /// </summary>
+        public Dictionary<int, Question> exams;
+
+        /// <summary>
         /// 旅游资讯表
         /// </summary>
         public Dictionary<string, Tour> tours;
@@ -56,7 +61,23 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public Dictionary<int, Routine> routines;
 
+        /// <summary>
+        /// 邮件系统所有消息
+        /// </summary>
+        public Dictionary<int, ChatMessage> mails;
+
+        /// <summary>
+        /// CG编号表
+        /// </summary>
         public Dictionary<int, string> cgInfo;
+
+        /// <summary>
+        /// 结局成就表
+        /// </summary>
+        public Dictionary<int, AchieveEnding> endingInfo;
+
+
+
 
         public Dictionary<string, Character> characters;
 

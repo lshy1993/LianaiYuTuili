@@ -4,15 +4,14 @@ using System;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
 using System.Collections.Generic;
-//using Assets.Script.UIScript;
 
-/**
- * EduManager: 
- * 整个游戏只允许一个，作为EduPanel的组件，不能被删除
- * 控制EduPanel下面的各部分与之交互
- * 提供方法供旗下按钮调用，并修改游戏数据
- * 实现与AVG模块的互动，推动游戏进程
- */
+/// <summary>
+/// EduManager: 
+/// 整个游戏只允许一个，作为EduPanel的组件，不能被删除
+/// 控制EduPanel下面的各部分与之交互
+/// 提供方法供旗下按钮调用，并修改游戏数据
+/// 实现与AVG模块的互动，推动游戏进程
+/// </summary>
 public class EduUIManager : MonoBehaviour
 {
     private UILabel daylabel, datelabel, moneylabel;
@@ -31,10 +30,7 @@ public class EduUIManager : MonoBehaviour
 
     private DateTime date
     {
-        get
-        {
-            return dm.GetToday();
-        }
+        get { return dm.GetToday(); }
     }
 
     private List<EduEvent> allEvents;
@@ -262,7 +258,7 @@ public class EduUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 养成按钮得触发
+    /// 养成按钮触发
     /// </summary>
     /// <param name="x">养成按钮编号</param>
     public void Execute(int x)
@@ -386,6 +382,9 @@ public class EduUIManager : MonoBehaviour
         showlabel.text += "\r\n请点击任意地方进入下一天";
     }
 
+    /// <summary>
+    /// 结束养成 进入下一天
+    /// </summary>
     public void NextDay()
     {
         //供调试调用
@@ -397,6 +396,9 @@ public class EduUIManager : MonoBehaviour
         //animate.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// 进入地图选择模式
+    /// </summary>
     public void ReturnMap()
     {
         currentNode.ReturnMap();

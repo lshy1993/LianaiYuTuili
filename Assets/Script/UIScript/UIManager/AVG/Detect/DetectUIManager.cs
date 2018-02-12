@@ -8,8 +8,7 @@ using Assets.Script.UIScript;
 using System.Linq;
 
 /// <summary>
-/// 
-/// 
+/// 侦探模式UI管理
 /// 操作顺序：
 /// 1. 读取调查，对话，移动信息
 /// 2. 根据当前状态切换panel
@@ -19,27 +18,28 @@ using System.Linq;
 /// </summary>
 public class DetectUIManager : MonoBehaviour
 {
-    //private GameObject investObject;
-    //private UIPanel investPanel;
-
-    private int eventID;
-    private string currentPlace;
-    private DetectPlaceSection section;
     private DetectManager detectManager;
     private DetectNode currentDetectNode;
 
+    #region ui组件
     public GameObject charaContainer;
     private GameObject functionContainer, investContainer, dialogContainer, moveContainer, cancelButton;
     private UILabel hintinfoLabel;
+    public PanelSwitch ps;
+    public ImageManager im;
+    #endregion
+
+    #region ui状态参数
+    private int eventID;
+    private string currentPlace;
+    private DetectPlaceSection section;
 
     public Constants.DETECT_STATUS status
     {
         get { return DataManager.GetInstance().inturnData.detectMode; }
         set { DataManager.GetInstance().inturnData.detectMode = value; }
     }
-
-    public PanelSwitch ps;
-    public ImageManager im;
+    #endregion
 
     void Awake()
     {
@@ -63,7 +63,7 @@ public class DetectUIManager : MonoBehaviour
     private void LoadSection(DetectPlaceSection section)
     {
         this.section = section;
-        //TODO: 更换背景
+        //更换背景
         ChangeBackground(section.imagename);
         SetInvest();
         SetDialog();
@@ -106,6 +106,9 @@ public class DetectUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 设置调查点
+    /// </summary>
     private void SetInvest()
     {
         investContainer.transform.DestroyChildren();
@@ -124,10 +127,10 @@ public class DetectUIManager : MonoBehaviour
             investBtn.transform.localPosition = invest.coordinate;
 
             /*
-             * 测试用删除
+             * 测试时隐去
              * UIButton btn = investBtn.GetComponent<UIButton>();
-             * btn.normalSprite2D = invest.icon;
-             * btn.hoverSprite2D = invest.iconHover;
+             * btn.normalSprite2D =  Resources.Load<Sprite>(ICON_PATH + normal);
+             * btn.hoverSprite2D = Resources.Load<Sprite>(ICON_PATH + hover);
              * btn.pressedSprite2D = invest.iconHover;
             */
 
@@ -137,31 +140,39 @@ public class DetectUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 设置对话选项
+    /// </summary>
     private void SetDialog()
     {
-        dialogContainer.transform.DestroyChildren();
+        //关闭功能按钮
         if (section.dialogs == null || section.dialogs.Count == 0)
         {
             functionContainer.transform.Find("But_Dialog").gameObject.SetActive(false);
             return;
         }
         functionContainer.transform.Find("But_Dialog").gameObject.SetActive(true);
+        //重新加载UI
+        dialogContainer.transform.DestroyChildren();
         foreach (DetectDialog dialog in section.dialogs)
         {
             if (!detectManager.IsVisible(dialog)) return;
             GameObject dialogBtn = Resources.Load("Prefab/Dialog_Choice") as GameObject;
             dialogBtn = NGUITools.AddChild(dialogContainer, dialogBtn);
 
-            dialogBtn.transform.Find("Label").GetComponent<UILabel>().text = dialog.dialog;
-            //如果已经阅读过则标识
+            dialogBtn.transform.Find("Label").GetComponent<UILabel>().text = dialog.title;
+            //如果已经阅读过则开启标记
             dialogBtn.transform.Find("Readed_Label").gameObject.SetActive(detectManager.IsReaded(dialog));
-
+            //对按钮挂载本体和语句标记
             DialogButton script = dialogBtn.GetComponent<DialogButton>();
             script.dialog = dialog;
             script.AssignDetectNode(currentDetectNode);
         }
     }
 
+    /// <summary>
+    /// 设置移动选项
+    /// </summary>
     private void SetMove()
     {
         moveContainer.transform.DestroyChildren();
@@ -215,7 +226,6 @@ public class DetectUIManager : MonoBehaviour
                 break;
         }
         this.status = nextStatus;
-        //DataManager.GetInstance().intSetInTurnVar("侦探模式", nextStatus);
     }
 
     private void ShowCharaContainer()
@@ -243,7 +253,9 @@ public class DetectUIManager : MonoBehaviour
         ps.SwitchTo_VerifyIterative("Invest_Panel", () =>
         {
             ShowCharaContainer();
-            currentDetectNode.SetKnown(dd.dialog);
+            //添加已知信息
+            currentDetectNode.SetKnown(dd.title);
+            //转换脚本入口
             currentDetectNode.ChooseNext(dd.entry);
         });
     }

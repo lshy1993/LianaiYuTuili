@@ -6,11 +6,29 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 询问跳出类
+    /// </summary>
     public class EnquireBreak
     {
+        /// <summary>
+        /// 目标证词编号
+        /// </summary>
         public List<int> id;
+
+        /// <summary>
+        /// 所需证据（或）
+        /// </summary>
         public List<string> evidence;
+
+        /// <summary>
+        /// 正确出口
+        /// </summary>
         public string outEvent;
+
+        /// <summary>
+        /// 全威慑所需编号
+        /// </summary>
         public List<int> conditions;
 
         public EnquireBreak(JsonData data)

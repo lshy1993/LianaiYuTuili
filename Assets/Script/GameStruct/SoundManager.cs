@@ -5,6 +5,9 @@ using Assets.Script.UIScript;
 using System;
 using Assets.Script.GameStruct;
 
+/// <summary>
+/// 全局声音控制
+/// </summary>
 public class SoundManager : MonoBehaviour
 {
     /// <summary>
