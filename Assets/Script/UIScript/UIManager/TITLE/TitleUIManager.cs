@@ -221,7 +221,8 @@ public class TitleUIManager : MonoBehaviour
         while (x < 1)
         {
             x = Mathf.MoveTowards(x, 1, 1 / 0.5f * Time.deltaTime);
-            float y = isback ? 420 - 700 * (1 - x) : 420 - 700 * x;
+            //float y = isback ? 420 - 700 * (1 - x) : 420 - 700 * x;
+            float y = isback ? 633 - 920 * (1 - x) : 420 - 920 * x;
             bg.transform.localPosition = new Vector3(0, y, 0);
             yield return null;
         }

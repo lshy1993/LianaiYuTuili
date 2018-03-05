@@ -64,9 +64,18 @@ public class GraphicSettingUIManager : MonoBehaviour
     public void SwitchFullScreen()
     {
         //由于是切换状态，所以按钮与当前状态相反
-        SetTogglePressed(Screen.fullScreen ? fullBtn : winBtn);
-        SetToggleAvailable(Screen.fullScreen ? winBtn : fullBtn);
-        Screen.SetResolution(1280, 720, !Screen.fullScreen);
+        SetTogglePressed(Screen.fullScreen ? winBtn : fullBtn);
+        SetToggleAvailable(Screen.fullScreen ? fullBtn : winBtn);
+
+        if (Screen.fullScreen)
+        {
+            Screen.SetResolution(1280, 720, false);
+        }
+        else
+        {
+            Screen.SetResolution(1920, 1080, true);
+        }
+ 
     }
 
     public void SwitchFading()

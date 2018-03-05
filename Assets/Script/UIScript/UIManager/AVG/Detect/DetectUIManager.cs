@@ -30,9 +30,27 @@ public class DetectUIManager : MonoBehaviour
     #endregion
 
     #region ui状态参数
+    /// <summary>
+    /// 当前侦探事件ID
+    /// </summary>
     private int eventID;
-    private string currentPlace;
-    private DetectPlaceSection section;
+    //{
+    //    get { return DataManager.GetInstance().tempData.GetDetectID(); }
+    //}
+
+    /// <summary>
+    /// 当前所处的地点
+    /// </summary>
+    private string currentPlace
+    {
+        get { return detectManager.currentPlace; }
+        set { detectManager.currentPlace = value; }
+    }
+
+    /// <summary>
+    /// 当前所处子节点
+    /// </summary>
+    private DetectPlaceSection currentSection;
 
     public Constants.DETECT_STATUS status
     {
@@ -56,24 +74,8 @@ public class DetectUIManager : MonoBehaviour
         detectManager = DetectManager.GetInstance();
 
         //status = Constants.DETECT_STATUS.FREE;
-        eventID = -1;
+        //eventID = -1;
 
-    }
-
-    private void LoadSection(DetectPlaceSection section)
-    {
-        this.section = section;
-        //更换背景
-        ChangeBackground(section.imagename);
-        SetInvest();
-        SetDialog();
-        SetMove();
-    }
-
-    private void ChangeBackground(string name)
-    {
-        //移动所需的图层变化
-        im.MoveInit(name);
     }
 
     #region 数据绑定
@@ -85,8 +87,10 @@ public class DetectUIManager : MonoBehaviour
             //调查大Node不同
             Debug.Log("node不同！");
             Debug.Log("载入编号：" + node.ToString());
+            //进入默认子节点
             LoadSection(sections.FirstOrDefault().Value);
-            currentPlace = section.place;
+            currentPlace = currentSection.place;
+            im.MoveInit(currentSection.imagename, currentSection.charaimage);
             SwitchStatus(Constants.DETECT_STATUS.FREE);
             eventID = id;
         }
@@ -95,8 +99,11 @@ public class DetectUIManager : MonoBehaviour
             //地点不同
             Debug.Log("地点不同！当前：" + currentPlace);
             Debug.Log("即将进入 " + place);
+            //更换子节点
+            LoadSection(sections[place]);
             currentPlace = place;
-            LoadSection(sections[currentPlace]);
+            //更换背景与前景
+            im.MoveInit(currentSection.imagename, currentSection.charaimage);
             SwitchStatus(Constants.DETECT_STATUS.FREE);
         }
         else
@@ -106,19 +113,28 @@ public class DetectUIManager : MonoBehaviour
         }
     }
 
+    private void LoadSection(DetectPlaceSection section)
+    {
+        currentSection = section;
+        //重置三大功能内容
+        SetInvest();
+        SetDialog();
+        SetMove();
+    }
+
     /// <summary>
     /// 设置调查点
     /// </summary>
     private void SetInvest()
     {
         investContainer.transform.DestroyChildren();
-        if(section.invests == null || section.invests.Count == 0)
+        if(currentSection.invests == null || currentSection.invests.Count == 0)
         {
             functionContainer.transform.Find("But_Invest").gameObject.SetActive(false);
             return;
         }
         functionContainer.transform.Find("But_Invest").gameObject.SetActive(true);
-        foreach (DetectInvest invest in section.invests)
+        foreach (DetectInvest invest in currentSection.invests)
         {
             //载入调查点
             if (!detectManager.IsVisible(invest)) return;
@@ -146,7 +162,7 @@ public class DetectUIManager : MonoBehaviour
     private void SetDialog()
     {
         //关闭功能按钮
-        if (section.dialogs == null || section.dialogs.Count == 0)
+        if (currentSection.dialogs == null || currentSection.dialogs.Count == 0)
         {
             functionContainer.transform.Find("But_Dialog").gameObject.SetActive(false);
             return;
@@ -154,7 +170,7 @@ public class DetectUIManager : MonoBehaviour
         functionContainer.transform.Find("But_Dialog").gameObject.SetActive(true);
         //重新加载UI
         dialogContainer.transform.DestroyChildren();
-        foreach (DetectDialog dialog in section.dialogs)
+        foreach (DetectDialog dialog in currentSection.dialogs)
         {
             if (!detectManager.IsVisible(dialog)) return;
             GameObject dialogBtn = Resources.Load("Prefab/Dialog_Choice") as GameObject;
@@ -176,14 +192,14 @@ public class DetectUIManager : MonoBehaviour
     private void SetMove()
     {
         moveContainer.transform.DestroyChildren();
-        if (section.moves == null || section.moves.Count == 0)
+        if (currentSection.moves == null || currentSection.moves.Count == 0)
         {
             functionContainer.transform.Find("But_Move").gameObject.SetActive(false);
             return;
         }
 
         functionContainer.transform.Find("But_Move").gameObject.SetActive(true);
-        foreach (string move in section.moves)
+        foreach (string move in currentSection.moves)
         {
             GameObject moveBtn = Resources.Load("Prefab/Move_Choice") as GameObject;
             moveBtn = NGUITools.AddChild(moveContainer, moveBtn);

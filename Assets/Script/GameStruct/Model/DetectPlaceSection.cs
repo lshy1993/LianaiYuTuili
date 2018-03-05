@@ -27,6 +27,11 @@ namespace Assets.Script.GameStruct.Model
         public string imagename;
 
         /// <summary>
+        /// 默认角色图片
+        /// </summary>
+        public string charaimage;
+
+        /// <summary>
         /// 对话类
         /// </summary>
         public List<DetectInvest> invests;
@@ -45,6 +50,9 @@ namespace Assets.Script.GameStruct.Model
         {
             place = (string)data["地点"];
             imagename = (string)data["背景图片"];
+
+            if (data.Contains("角色图片")) charaimage = (string)data["角色图片"];
+            
             if (data.Contains("进入事件")) entry = (string)data["进入事件"];
             
             dialogs = new List<DetectDialog>();

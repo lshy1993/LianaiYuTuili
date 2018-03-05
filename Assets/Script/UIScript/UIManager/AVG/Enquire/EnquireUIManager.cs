@@ -102,14 +102,16 @@ public class EnquireUIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         DataManager.GetInstance().BlockRightClick();
-        DataManager.GetInstance().BlockClick();
+        DataManager.GetInstance().BlockSaveLoad();
+        DataManager.GetInstance().BlockWheel();
     }
 
     private void OnDisable()
     {
         Time.timeScale = 1f;
         DataManager.GetInstance().UnblockRightClick();
-        DataManager.GetInstance().UnblockClick();
+        DataManager.GetInstance().UnblockSaveLoad();
+        DataManager.GetInstance().BlockWheel();
     }
 
     void Update()

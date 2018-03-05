@@ -33,14 +33,14 @@ public class MapUIManager : MonoBehaviour
         daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
         datelabel = transform.Find("Time_Container/Date_Label").gameObject.GetComponent<UILabel>();
 
-        moneylabel = transform.Find("CharaInfo_Container/Number_Container/Money_Label").gameObject.GetComponent<UILabel>();
-        wenlabel = transform.Find("CharaInfo_Container/Number_Container/Wen_Label").gameObject.GetComponent<UILabel>();
-        lilabel = transform.Find("CharaInfo_Container/Number_Container/Li_Label").gameObject.GetComponent<UILabel>();
-        tilabel = transform.Find("CharaInfo_Container/Number_Container/Ti_Label").gameObject.GetComponent<UILabel>();
-        yilabel = transform.Find("CharaInfo_Container/Number_Container/Yi_Label").gameObject.GetComponent<UILabel>();
-        zhailabel = transform.Find("CharaInfo_Container/Number_Container/Zhai_Label").gameObject.GetComponent<UILabel>();
-        energylabel = transform.Find("CharaInfo_Container/Number_Container/Energy_Label").gameObject.GetComponent<UILabel>();
-        ranklabel = transform.Find("CharaInfo_Container/Number_Container/Rank_Label").gameObject.GetComponent<UILabel>();
+        moneylabel = transform.Find("CharaInfo_Container/Num_Grid/Money_Label").gameObject.GetComponent<UILabel>();
+        wenlabel = transform.Find("CharaInfo_Container/Num_Grid/Wen_Label").gameObject.GetComponent<UILabel>();
+        lilabel = transform.Find("CharaInfo_Container/Num_Grid/Li_Label").gameObject.GetComponent<UILabel>();
+        tilabel = transform.Find("CharaInfo_Container/Num_Grid/Ti_Label").gameObject.GetComponent<UILabel>();
+        yilabel = transform.Find("CharaInfo_Container/Num_Grid/Yi_Label").gameObject.GetComponent<UILabel>();
+        zhailabel = transform.Find("CharaInfo_Container/Num_Grid/Zhai_Label").gameObject.GetComponent<UILabel>();
+        energylabel = transform.Find("CharaInfo_Container/Num_Grid/Energy_Label").gameObject.GetComponent<UILabel>();
+        ranklabel = transform.Find("CharaInfo_Container/Rank_Label").gameObject.GetComponent<UILabel>();
 
         uiLabelPlace = transform.Find("PlaceInfo_Container/PlaceName_Text").GetComponent<UILabel>();
         uiLabelInfo = transform.Find("PlaceInfo_Container/PlaceInfo_Text").GetComponent<UILabel>();
@@ -100,10 +100,6 @@ public class MapUIManager : MonoBehaviour
 
     private void UIFresh()
     {
-        //transform.Find("PlaceInfo_Container").gameObject.transform.localPosition = new Vector3(-815, 60);
-        /* demo1.20 改动
-        Player player = DataManager.GetInstance().GetGameVar<Player>("玩家");
-        */
         Player player = DataManager.GetInstance().gameData.player;
 
         if (date.Month == 8 && date.Day == 31)

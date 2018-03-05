@@ -88,6 +88,28 @@ namespace Assets.Script.UIScript
 
 
         #region 背景图相关操作
+        public static NewImageEffect Shutter(string sprite, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Source(sprite)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.Shutter)
+                .Get();
+            return e;
+        }
+
+
+        public static NewImageEffect Blur()
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Operate(NewImageEffect.OperateMode.Blur)
+                .Get();
+            return e;
+        }
+
+
         public static NewImageEffect SetAlphaBackSprite(float alpha)
         {
             NewEffectBuilder builder = new NewEffectBuilder();

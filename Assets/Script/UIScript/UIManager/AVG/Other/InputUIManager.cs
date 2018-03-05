@@ -27,6 +27,18 @@ public class InputUIManager : MonoBehaviour
         clickCon = transform.parent.Find("DialogBox_Panel/Click_Container").gameObject;
     }
 
+    private void OnEnable()
+    {
+        DataManager.GetInstance().BlockClick();
+        DataManager.GetInstance().BlockWheel();
+    }
+
+    private void OnDisable()
+    {
+        DataManager.GetInstance().UnblockClick();
+        DataManager.GetInstance().UnblockWheel();
+    }
+
     public void SetCallBack(Action callback)
     {
         this.callback = callback;
@@ -51,7 +63,7 @@ public class InputUIManager : MonoBehaviour
 
     public  void ConfirmYes()
     {
-        //确认姓名 写入游戏
+        //确认姓名 写入游戏数据
         DataManager.GetInstance().gameData.heroXing = xing;
         DataManager.GetInstance().gameData.heroMing = ming;
         duiManager.SetHeroName();

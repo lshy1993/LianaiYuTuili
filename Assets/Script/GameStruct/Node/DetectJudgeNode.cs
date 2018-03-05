@@ -23,10 +23,16 @@ namespace Assets.Script.GameStruct
 
             factory = NodeFactory.GetInstance();
 
-            if (detectManager.IsCurrentEventFinished()) { Update(); }
+            if (detectManager.IsCurrentEventFinished())
+            {
+                //侦探事件已经全部完成
+                ps.SwitchTo_VerifyIterative_WithOpenCallback("Avg_Panel", Update);
+                //Update();
+            }
             else
             {
-                ps.SwitchTo_VerifyIterative("Invest_Panel", Update);
+                //切换至调查模式
+                ps.SwitchTo_VerifyIterative_WithOpenCallback("Invest_Panel", Update);
             }
             
         }

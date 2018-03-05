@@ -9,17 +9,35 @@ namespace Assets.Script.UIScript
 {
     class TitleAnimation : PanelAnimation
     {
+        /// <summary>
+        /// 中间主按钮
+        /// </summary>
         private GameObject btnTable;
-        private GameObject backSprite, titleLabel, copyLabel, versionLabel;
+
+        /// <summary>
+        /// 底部外链按钮
+        /// </summary>
+        private GameObject subTabel;
+
+        /// <summary>
+        /// 侧边标签容器
+        /// </summary>
+        private GameObject sideLabelCon;
+
+        private GameObject backSprite;
+        private GameObject titleLabel, titleEngLabel, sideLabel;
 
         public override void Init()
         {
-            btnTable = this.transform.Find("Title_Container/Button_Table").gameObject;
+            btnTable = this.transform.Find("Title_Container/MainButton_Table").gameObject;
+            subTabel = this.transform.Find("Title_Container/MainButton_Table").gameObject;
+            sideLabelCon = this.transform.Find("Title_Container/SideLabel_Container").gameObject;
 
             backSprite = this.transform.Find("Back_Sprite").gameObject;
             titleLabel = this.transform.Find("Title_Container/TitleText_Label").gameObject;
-            copyLabel = this.transform.Find("Title_Container/CopyRight_Label").gameObject;
-            versionLabel = this.transform.Find("Title_Container/Version_Label").gameObject;
+            titleEngLabel = this.transform.Find("Title_Container/TitleTextEng_Label").gameObject;
+            sideLabel = this.transform.Find("Title_Container/SideTextEng_Label").gameObject;
+
             base.Init();
         }
 
@@ -48,42 +66,23 @@ namespace Assets.Script.UIScript
         }
 
         public override IEnumerator OpenSequence(UIAnimationCallback callback)
-        {
-            //backSprite.GetComponent<UIRect>().alpha = 0;
-            //backSprite.SetActive(true);
-            btnTable.SetActive(false);
-            for (int i = 0; i < btnTable.transform.childCount; i++)
-            {
-                btnTable.transform.GetChild(i).GetComponent<UIRect>().alpha = 0;
-            }
-            titleLabel.GetComponent<UIRect>().alpha = 0;
-            copyLabel.SetActive(false);
-            versionLabel.SetActive(false);
-
+        {            
+            InitBtn();
+            BlockBtn(false);
+            InitLabel();
+            
             return base.OpenSequence(() =>
             {
                 StartCoroutine(ShowText());
                 StartCoroutine(ShowBtn());
                 callback();
             });
-
-
-            //panel.alpha = 1;
-
-            //float x = 0;
-            //while (x < 1)
-            //{
-            //    x = Mathf.MoveTowards(x, 1, 1 / openTime * Time.deltaTime);
-            //    backSprite.GetComponent<UIRect>().alpha = x;
-            //    yield return null;
-            //}
-            //StartCoroutine(ShowText());
-            //StartCoroutine(ShowBtn());
-            //callback();
         }
 
+        //文字显示动画
         private IEnumerator ShowText()
         {
+            sideLabelCon.SetActive(true);
             float x = 0;
             while (x < 1)
             {
@@ -91,13 +90,19 @@ namespace Assets.Script.UIScript
                 titleLabel.GetComponent<UIRect>().alpha = x;
                 yield return null;
             }
-            copyLabel.SetActive(true);
-            versionLabel.SetActive(true);
+            x = 0;
+            while (x < 1)
+            {
+                x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.deltaTime);
+                titleEngLabel.GetComponent<UIRect>().alpha = x;
+                sideLabel.GetComponent<UIRect>().alpha = x;
+                yield return null;
+            }
         }
 
+        //按钮显示动画
         private IEnumerator ShowBtn()
         {
-            BlockBtn(false);
             btnTable.SetActive(true);
             for (int i = 0; i < btnTable.transform.childCount; i++)
             {
@@ -124,5 +129,27 @@ namespace Assets.Script.UIScript
             }
         }
 
+        /// <summary>
+        /// 初始化按钮状态，透明且关闭
+        /// </summary>
+        private void InitBtn()
+        {
+            btnTable.SetActive(false);
+            for (int i = 0; i < btnTable.transform.childCount; i++)
+            {
+                btnTable.transform.GetChild(i).GetComponent<UIRect>().alpha = 0;
+            }
+        }
+
+        /// <summary>
+        /// 初始化文字标签，透明
+        /// </summary>
+        private void InitLabel()
+        {
+            titleLabel.GetComponent<UIRect>().alpha = 0;
+            titleEngLabel.GetComponent<UIRect>().alpha = 0;
+            sideLabel.GetComponent<UIRect>().alpha = 0;
+            sideLabelCon.SetActive(false);
+        }
     }
 }

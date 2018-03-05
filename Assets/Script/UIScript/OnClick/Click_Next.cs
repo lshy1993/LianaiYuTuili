@@ -25,20 +25,28 @@ public class Click_Next : MonoBehaviour {
     public void Execute()
     {
         //如果锁定点击 则直接返回
-        if (DataManager.GetInstance().IsClickBlocked()) return;
-        //如果auto模式开启 则重置计时器
-        if (DataManager.GetInstance().isAuto)
+        if (DataManager.GetInstance().IsClickBlocked())
         {
+            Debug.Log("blocked");
+            return;
+        }
+        //如果auto模式开启 则重置计时器
+        else if (DataManager.GetInstance().isAuto)
+        {
+            Debug.Log("刷新计时器");
             ta.ResetTimer();
         }
         //如果对话框被隐藏
-        if (uiManger.IsBoxClosed())
+        else if (uiManger.IsBoxClosed())
         {
+            Debug.Log("显示对话框");
             uiManger.ShowWindow();
             return;
         }
         //否则根据Script类型执行Update
-        if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
+        else if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
             gm.GetCurrentNode().Update();
+
+        //Debug.Log("无效点击");
     }
 }

@@ -86,7 +86,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 200, y: 50}
+  m_Size: {x: 300, y: 80}
 --- !u!114 &114214302916248820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -117,14 +117,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 200
-  mHeight: 50
+  mWidth: 300
+  mHeight: 80
   mDepth: 1
   mMat: {fileID: 0}
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 4
+  aspectRatio: 3.75
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -211,8 +211,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 60
-  mHeight: 30
+  mWidth: 96
+  mHeight: 48
   mDepth: 3
   mMat: {fileID: 0}
   autoResizeBoxCollider: 1
@@ -223,7 +223,7 @@ MonoBehaviour:
   mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
   mFont: {fileID: 0}
   mText: cafe
-  mFontSize: 30
+  mFontSize: 48
   mFontStyle: 0
   mAlignment: 0
   mEncoding: 1

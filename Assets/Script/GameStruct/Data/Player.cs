@@ -77,6 +77,11 @@ namespace Assets.Script.GameStruct
             get { return basicStatus[basicName["体力"]]; }
         }
 
+        /// <summary>
+        /// 学习兴致状态
+        /// </summary>
+        public int studyStatus;
+
         public void ResetEnergyPoint()
         {
             energyPoint = Constants.MOVE_MAX;
@@ -93,6 +98,7 @@ namespace Assets.Script.GameStruct
             basicStatus = new int[8] { 50, 50, 50, 50, 50, 100, 150000, 100 };
             girls = new int[5] { 0, 0, 0, 0, 0 };
             logicStatus = new int[5] { 3, 4, 4, 3, 5 };
+            studyStatus = 0;
             /*
             basicStatus = new Dictionary<string, int>();
             girls = new Dictionary<string, int>();

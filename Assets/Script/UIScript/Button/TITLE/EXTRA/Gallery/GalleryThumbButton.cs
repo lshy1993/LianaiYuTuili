@@ -1,5 +1,6 @@
 ﻿using Assets.Script.GameStruct;
 using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +9,7 @@ using UnityEngine;
 public class GalleryThumbButton : BasicButton
 {
     public GalleryUIManager uiManager;
+
     protected override void SE_Hover()
     {
         //base.SE_Hover();
@@ -15,7 +17,7 @@ public class GalleryThumbButton : BasicButton
 
     protected override void Execute()
     {
-        int x = Convert.ToInt32(gameObject.name);
+        int x = Convert.ToInt32(Regex.Replace(gameObject.name, @"[^\d.\d]", ""));
         uiManager.OpenPicAt(x);
     }
 

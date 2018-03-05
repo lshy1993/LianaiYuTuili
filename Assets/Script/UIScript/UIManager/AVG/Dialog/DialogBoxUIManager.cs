@@ -146,7 +146,7 @@ public class DialogBoxUIManager : MonoBehaviour
             toggleAuto.CancelAuto();
             return;
         }
-        Close(0.3f, () => { });
+        Close(0.1f, () => { clickContainer.SetActive(true); });
         //mainContainer.SetActive(false);
         closedbox = true;
     }
@@ -154,7 +154,7 @@ public class DialogBoxUIManager : MonoBehaviour
     public void ShowWindow()
     {
         if (!gameObject.activeSelf) return;
-        StartCoroutine(OpenUI(0.3f, () => { }));
+        StartCoroutine(OpenUI(0.1f, () => { }));
         //mainContainer.SetActive(true);
         closedbox = false;
     }

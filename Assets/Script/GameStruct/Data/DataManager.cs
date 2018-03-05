@@ -28,8 +28,6 @@ namespace Assets.Script.GameStruct
         }
 
         //各类数据管理器
-        private EventManager eventManager;
-
         public GameData gameData = new GameData();
         public InTurnData inturnData = new InTurnData();
         public StaticData staticData = new StaticData();
@@ -72,7 +70,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private bool blockSaveLoad = false;
 
-        public readonly string version = "测试用Demo 1.32";
+        public readonly string version = "测试用Demo 1.40";
 
         private DataManager()
         {
@@ -168,20 +166,20 @@ namespace Assets.Script.GameStruct
         private void InitSystem()
         {
             string filename = "config.sav";
-            string savepath = LoadSaveTool.GetSavePath(filename);
-            if (!LoadSaveTool.IsFileExists(savepath))
+            string savepath = SaveLoadTool.GetSavePath(filename);
+            if (!SaveLoadTool.IsFileExists(savepath))
             {
                 //若不存在则创建默认数据
                 ResetSysConfig();
                 string toSave = JsonConvert.SerializeObject(configData);
-                LoadSaveTool.SaveFile(savepath, toSave);
+                SaveLoadTool.SaveFile(savepath, toSave);
             }
             else
             {
                 try
                 {
                     //读取config
-                    string toLoad = LoadSaveTool.LoadFile(savepath);
+                    string toLoad = SaveLoadTool.LoadFile(savepath);
                     configData = JsonConvert.DeserializeObject<ConfigData>(toLoad);
                 }
                 catch
@@ -190,7 +188,7 @@ namespace Assets.Script.GameStruct
                     //出错则采用默认 并覆盖原文件
                     ResetSysConfig();
                     string toSave = JsonConvert.SerializeObject(configData);
-                    LoadSaveTool.SaveFile(savepath, toSave);
+                    SaveLoadTool.SaveFile(savepath, toSave);
                 }
                 
             }
@@ -224,11 +222,11 @@ namespace Assets.Script.GameStruct
         {
             Dictionary<int, SavingInfo> list = new Dictionary<int, SavingInfo>();
             string filename = "datasv.sav";
-            string savepath = LoadSaveTool.GetSavePath(filename);
-            if (LoadSaveTool.IsFileExists(savepath))
+            string savepath = SaveLoadTool.GetSavePath(filename);
+            if (SaveLoadTool.IsFileExists(savepath))
             {
                 //读取存档列表
-                string toLoad = LoadSaveTool.LoadFile(savepath);
+                string toLoad = SaveLoadTool.LoadFile(savepath);
                 list = JsonConvert.DeserializeObject<Dictionary<int, SavingInfo>>(toLoad);
             }
             tempData.saveInfo = list;
@@ -246,7 +244,7 @@ namespace Assets.Script.GameStruct
             foreach (KeyValuePair<int, SavingInfo> kv in list)
             {
                 string picname = "data" + kv.Key + ".png";
-                string picpath = LoadSaveTool.GetSavePath(picname);
+                string picpath = SaveLoadTool.GetSavePath(picname);
                 FileStream fs = new FileStream(picpath, FileMode.Open, FileAccess.Read);
                 byte[] bytes = new byte[fs.Length];
                 fs.Read(bytes, 0, (int)fs.Length);
@@ -264,23 +262,23 @@ namespace Assets.Script.GameStruct
         private void InitMultiplay()
         {
             string filename = "datamp.sav";
-            string savepath = LoadSaveTool.GetSavePath(filename);
+            string savepath = SaveLoadTool.GetSavePath(filename);
 
             //判断是否含有datamp文件
-            if (!LoadSaveTool.IsFileExists(savepath))
+            if (!SaveLoadTool.IsFileExists(savepath))
             {
                 //若不存在 则生成默认数据表 
                 DefaultMultiData();
                 //并写入本地文件
                 string toSave = JsonConvert.SerializeObject(multiData);
-                LoadSaveTool.SaveFile(savepath, toSave);
+                SaveLoadTool.SaveFile(savepath, toSave);
             }
             else
             {
                 try
                 {
                     //若文件存在 则读取二周目数据
-                    string toLoad = LoadSaveTool.LoadFile(savepath);
+                    string toLoad = SaveLoadTool.LoadFile(savepath);
                     multiData = JsonConvert.DeserializeObject<MultiData>(toLoad);
                 }
                 catch
@@ -289,7 +287,7 @@ namespace Assets.Script.GameStruct
                     //出差错则覆盖本地文件
                     DefaultMultiData();
                     string toSave = JsonConvert.SerializeObject(multiData);
-                    LoadSaveTool.SaveFile(savepath, toSave);
+                    SaveLoadTool.SaveFile(savepath, toSave);
                 }
                 
             }
@@ -428,36 +426,33 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private void InitEvents()
         {
-            staticData.eventTable = EventManager.GetStaticEvent();
+            staticData.eventTable = StaticManager.GetStaticEvent();
 
             //datapool.WriteGameVar("事件状态表", EventManager.LoadEventState(events));
             //gameData.eventStatus = EventManager.LoadEventState(events);
 
-            eventManager = EventManager.GetInstance();
-            /*
-            eventManager.Init(
-                (Dictionary<string, MapEvent>)datapool.GetStaticVar("事件表"),
-                this);
-                */
-            eventManager.Init(staticData.eventTable, this);
+            EventManager.GetInstance().Init(this);
         }
         #endregion
 
         #region Block 函数
         /// <summary>
-        /// 锁定右键功能
+        /// 禁用右键功能
         /// </summary>
         public void BlockRightClick()
         {
             blockRightClick = true;
         }
         /// <summary>
-        /// 锁定左键点击
+        /// 禁用左键点击功能（含滚轮）
         /// </summary>
         public void BlockClick()
         {
             blockClick = true;
         }
+        /// <summary>
+        /// 禁用鼠标滚轮
+        /// </summary>
         public void BlockWheel()
         {
             blockWheel = true;
@@ -470,7 +465,7 @@ namespace Assets.Script.GameStruct
             blockBacklog = true;
         }
         /// <summary>
-        /// 锁定存读档
+        /// 禁用存读档
         /// </summary>
         public void BlockSaveLoad()
         {
@@ -490,6 +485,9 @@ namespace Assets.Script.GameStruct
         {
             blockClick = false;
         }
+        /// <summary>
+        /// 解锁鼠标滚轮
+        /// </summary>
         public void UnblockWheel()
         {
             blockWheel = false;
@@ -673,11 +671,11 @@ namespace Assets.Script.GameStruct
         {
             string toSave = DataToJsonString();
             string filename = "data" + i + ".sav";
-            LoadSaveTool.SaveFile(LoadSaveTool.GetSavePath(filename), toSave);
+            SaveLoadTool.SaveFile(SaveLoadTool.GetSavePath(filename), toSave);
             //储存截图
             string picname = "data" + i + ".png";
             byte[] picdata = (byte[])tempData.GetTempVar("缩略图");
-            LoadSaveTool.CreatByteFile(LoadSaveTool.GetSavePath(picname), picdata);
+            SaveLoadTool.CreatByteFile(SaveLoadTool.GetSavePath(picname), picdata);
             //更新存档信息
             Dictionary<int, SavingInfo> savedic = tempData.saveInfo;
             //TODO: 获取状态
@@ -698,7 +696,7 @@ namespace Assets.Script.GameStruct
             }
             //写入系统存档
             string sysSave = JsonConvert.SerializeObject(savedic);
-            LoadSaveTool.SaveFile(LoadSaveTool.GetSavePath("datasv.sav"), sysSave);
+            SaveLoadTool.SaveFile(SaveLoadTool.GetSavePath("datasv.sav"), sysSave);
             RefreshSavePic();
         }
 
@@ -714,7 +712,7 @@ namespace Assets.Script.GameStruct
         public void Load(int i)
         {
             string filename = "data" + i + ".sav";
-            string toLoad = LoadSaveTool.LoadFile(LoadSaveTool.GetSavePath(filename));
+            string toLoad = SaveLoadTool.LoadFile(SaveLoadTool.GetSavePath(filename));
             LoadDataFromJson(toLoad);
         }
 
@@ -723,12 +721,12 @@ namespace Assets.Script.GameStruct
             SaveData sv = JsonConvert.DeserializeObject<SaveData>(str);
             gameData = sv.gameData;
             inturnData = sv.inturnData;
-            eventManager.UpdateEvent();
+            EventManager.GetInstance().UpdateEvent();
             //Detect模式的复原
-            if(gameData.MODE == "侦探模式")
+            if (gameData.MODE == "侦探模式")
             {
                 DetectEvent de = staticData.detectEvents[inturnData.currentDetectEvent];
-                SetTempVar("当前侦探事件", de);
+                tempData.currentDetectEvent = de;
             }
             //对临时变量重置？
             ClearHistory();
@@ -737,7 +735,7 @@ namespace Assets.Script.GameStruct
         public void ChangeSave()
         {
             string sysSave = JsonConvert.SerializeObject(tempData.saveInfo);
-            LoadSaveTool.SaveFile(LoadSaveTool.GetSavePath("datasv.sav"), sysSave);
+            SaveLoadTool.SaveFile(SaveLoadTool.GetSavePath("datasv.sav"), sysSave);
             RefreshSavePic();
         }
 
@@ -745,10 +743,10 @@ namespace Assets.Script.GameStruct
         {
             //删除存档
             string filename = "data" + i + ".sav";
-            LoadSaveTool.DeleteFile(LoadSaveTool.GetSavePath(filename));
+            SaveLoadTool.DeleteFile(SaveLoadTool.GetSavePath(filename));
             //删除截图
             string picname = "data" + i + ".png";
-            LoadSaveTool.DeleteFile(LoadSaveTool.GetSavePath(picname));
+            SaveLoadTool.DeleteFile(SaveLoadTool.GetSavePath(picname));
             //更新存档信息
             Dictionary<int, SavingInfo> savedic = tempData.saveInfo;
 
@@ -758,7 +756,7 @@ namespace Assets.Script.GameStruct
             }
             //写入系统存档
             string sysSave = JsonConvert.SerializeObject(savedic);
-            LoadSaveTool.SaveFile(LoadSaveTool.GetSavePath("datasv.sav"), sysSave);
+            SaveLoadTool.SaveFile(SaveLoadTool.GetSavePath("datasv.sav"), sysSave);
             RefreshSavePic();
         }
         #endregion

@@ -9,18 +9,25 @@ using Assets.Script.GameStruct.Model;
 
 public class HPMPUIManager : MonoBehaviour
 {
+    private GameObject hpCon, mpCon;
     private UIProgressBar hpBar, mpBar;
-    private GameObject hpmpContainer;
-    private DataManager dm;
 
+    private DataManager dm;
     public SoundManager sm;
 
     private int nowhp, allhp, nowmp, allmp;
 
-    //是否已经开启界面
+    /// <summary>
+    /// 是否已经开启界面
+    /// </summary>
     private bool opened;
 
+    /// <summary>
+    /// 是否完成了减血动画
+    /// </summary>
     private bool finished;
+
+    private bool hpOn, mpOn;
 
     /// <summary>
     /// hpBar的数值
@@ -38,18 +45,25 @@ public class HPMPUIManager : MonoBehaviour
         get { return mpBar.value; }
     }
 
+    private const int startX = -1200;
+    private const int moveX = 500;
+    private const int Y_hp = 440;
+    private const int Y_mp = 380;
+
     private void Awake()
     {
         dm = DataManager.GetInstance();
-        hpmpContainer = this.transform.Find("HPMP_Container").gameObject;
-        hpBar = hpmpContainer.transform.Find("HP_Sprite").GetComponent<UIProgressBar>();
-        mpBar = hpmpContainer.transform.Find("MP_Sprite").GetComponent<UIProgressBar>();
+
+        hpCon = this.transform.Find("HP_Container").gameObject;
+        mpCon = this.transform.Find("MP_Container").gameObject;
+
+        hpBar = hpCon.transform.Find("HP_Bar").GetComponent<UIProgressBar>();
+        mpBar = mpCon.transform.Find("MP_Bar").GetComponent<UIProgressBar>();
         SetHPMP();
     }
 
     private void SetHPMP()
     {
-
         nowhp = dm.inturnData.currentHP;
         allhp = dm.gameData.player.LimitHP;
         hpValue = (float)nowhp / (float)allhp;
@@ -67,13 +81,19 @@ public class HPMPUIManager : MonoBehaviour
         return finished;
     }
 
+    /// <summary>
+    /// 判断是否归零
+    /// </summary>
+    /// <returns></returns>
     public bool IsZeroMP()
     {
         return nowmp == 0;
     }
 
-    public void ShowBar()
+    public void ShowBar(bool hpOn = true, bool mpOn = true)
     {
+        this.hpOn = hpOn;
+        this.mpOn = mpOn;
         gameObject.SetActive(true);
         SetHPMP();
         StartCoroutine(OpenUI());
@@ -136,13 +156,14 @@ public class HPMPUIManager : MonoBehaviour
 
     private IEnumerator OpenUI()
     {
-        float x = 0;
-        float hpx;
-        while (x < 1)
+        float barx;
+        float t = 0;
+        while (t < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.3f * Time.deltaTime);
-            hpx = -800 + 320 * x;
-            hpmpContainer.transform.localPosition = new Vector3(hpx, hpmpContainer.transform.localPosition.y, 0);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.deltaTime);
+            barx = startX + moveX * t;
+            if (hpOn) hpCon.transform.localPosition = new Vector3(barx, Y_hp);
+            if (mpOn) mpCon.transform.localPosition = new Vector3(barx, Y_mp);
             yield return null;
         }
         opened = true;
@@ -150,13 +171,14 @@ public class HPMPUIManager : MonoBehaviour
 
     private IEnumerator CloseUI()
     {
-        float x = 1;
-        float hpx;
-        while (x > 0)
+        float barx;
+        float t = 1;
+        while (t > 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1 / 0.3f * Time.deltaTime);
-            hpx = -800 + 320 * x;
-            hpmpContainer.transform.localPosition = new Vector3(hpx, hpmpContainer.transform.localPosition.y, 0);
+            t = Mathf.MoveTowards(t, 0, 1 / 0.3f * Time.deltaTime);
+            barx = startX + moveX * t;
+            if (hpOn) hpCon.transform.localPosition = new Vector3(barx, Y_hp);
+            if (mpOn) mpCon.transform.localPosition = new Vector3(barx, Y_mp);
             yield return null;
         }
         finished = false;

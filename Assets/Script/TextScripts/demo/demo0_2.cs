@@ -11,6 +11,7 @@ namespace Assets.Script.TextScripts
     public class demo0_2 : TextScript
     {
         public demo0_2(DataManager manager, GameObject root, PanelSwitch ps):base(manager, root, ps) { }
+
         public override void InitText()
         {
             pieces = new List<Piece>()
@@ -19,7 +20,9 @@ namespace Assets.Script.TextScripts
                 f.ShowChapter(),
                 f.OpenDialog(),
                 f.t("", "呼……呼……终于来到这所学校了……"),
+                f.Blur(),
                 f.t("", "[66ccff]出现在我眼前的是私立华欣外国语学校。[-]"),
+                f.Shutter("corridor"),
                 f.t("", "不愧是重点高中，正门都不一样……"),
                 f.t("", "[66ccff]今天是八月的最后一天，明天就正式开学了。[-]"),
                 f.t("", "[66ccff]其实，我是从其他学校转过来的，至于原因嘛，以后会讲。[-]"),

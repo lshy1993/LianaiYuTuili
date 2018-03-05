@@ -34,12 +34,17 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public bool isDiaboxRecover;
 
+        /// <summary>
+        /// 当前所处的事件
+        /// </summary>
+        public DetectEvent currentDetectEvent;
+
 
         public TempData()
         {
             tempVar = new Hashtable();
         }
-
+ 
         /// <summary>
         /// 获取临时数据
         /// </summary>
@@ -74,5 +79,8 @@ namespace Assets.Script.GameStruct
         {
             tempVar.Clear();
         }
+
+
+
     }
 }

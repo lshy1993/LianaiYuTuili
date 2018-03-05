@@ -12,7 +12,6 @@ using Assets.Script.GameStruct.Model;
 /// </summary>
 public class EviGetUIManager : MonoBehaviour
 {
-    private Evidence getevi;
     private GameObject mainCon, subCon, iconCon;
     private UI2DSprite icon, iconhover;
     private UILabel title, intro;
@@ -48,7 +47,6 @@ public class EviGetUIManager : MonoBehaviour
     /// <param name="evi">获得的证据</param>
     public void Show(Evidence evi)
     {
-        this.getevi = evi;
         finished = false;
         icon.sprite2D = Resources.Load<Sprite>(evi.iconPath);
         title.text = evi.name;

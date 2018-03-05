@@ -19,7 +19,7 @@ namespace Assets.Script.GameStruct
         public static readonly int MOVE_MAX = 250;
 
         public static readonly int BASIC_MIN = 0;
-        public static readonly int BASIC_MAX = 250;
+        public static readonly int BASIC_MAX = 500;
 
         public static readonly int RANK_MAX = 300000;
         public static readonly int RANK_MIN = 1;
@@ -27,7 +27,7 @@ namespace Assets.Script.GameStruct
         public static readonly string ROOT_PATH = "JSON/";
 
         public static readonly string DEFAULT_PATH = ROOT_PATH + "MapEvents/";
-        public static readonly string LOCATION_PATH = ROOT_PATH + "ButtonConfig/";
+        public static readonly string LOCATION_PATH = ROOT_PATH + "MapButtonConfig/";
         public static readonly string DETECT_PATH = ROOT_PATH + "Detect/";
         public static readonly string EVIDENCE_PATH = ROOT_PATH + "EvidenceConfig/";
         public static readonly string EDU_PATH = ROOT_PATH + "EduConfig/";

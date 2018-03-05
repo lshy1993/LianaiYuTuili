@@ -9,19 +9,28 @@ namespace Assets.Script.UIScript
 {
     class EduAnimation : PanelAnimation
     {
-        private GameObject backgroundContainer, timeContainer, charaContainer, selectionContainer, scheduleContainer;
+        private GameObject backgroundContainer, timeContainer, charaContainer;
+        private GameObject selectionContainer, scheduleContainer, bottomContainer;
         private GameObject buttonContainer, spriteContainer;
+
+        private const int startY_time = 585;
+        private const int Y_time = 90;
+        private const int startX_cha = 1426;
+        private const int X_cha = 933;
+        private const int startX_slc = -1401;
+        private const int X_slc = 882;
+        private const int startY_hint = -580;
+        private const int Y_hint = 80;
+
         public override void Init()
         {
             backgroundContainer = this.transform.Find("BackGround_Container").gameObject;
             timeContainer = this.transform.Find("Time_Container").gameObject;
 
-            //charaContainer = this.transform.Find("CharaInfo_Container").gameObject;
-            //selectionContainer = this.transform.Find("Selection_Container").gameObject;
-
             charaContainer = this.transform.Find("NewCharaInfo_Container").gameObject;
             selectionContainer = this.transform.Find("NewSelection_Container").gameObject;
             scheduleContainer = this.transform.Find("Schedule_Container").gameObject;
+            bottomContainer = this.transform.Find("BottomHint_Container").gameObject;
 
             spriteContainer = selectionContainer.transform.Find("QSprite_Container").gameObject;
             buttonContainer = selectionContainer.transform.Find("Button_Container").gameObject;
@@ -62,25 +71,27 @@ namespace Assets.Script.UIScript
         private IEnumerator ShowClose()
         {
             spriteContainer.SetActive(false);
-            float timey, charax, selectx;
-            float x = 1;
-            while (x > 0)
+            float timey, charax, selectx, hinty;
+            float t = 1;
+            while (t > 0)
             {
-                x = Mathf.MoveTowards(x, 0, 1 / closeTime * Time.deltaTime);
-                timey = 400 - 70 * x;
-                charax = 951 - 622 * x;
-                selectx = -934 + 588 * x;
+                t = Mathf.MoveTowards(t, 0, 1 / closeTime * Time.deltaTime);
+                timey = startY_time - Y_time * t;
+                charax = startX_cha - X_cha * t;
+                selectx = startX_slc + X_slc * t;
+                hinty = startY_hint + Y_hint * t;
 
-                timeContainer.transform.localPosition = new Vector3(160, timey);
+                timeContainer.transform.localPosition = new Vector3(390, timey);
                 charaContainer.transform.localPosition = new Vector3(charax, 0);
                 selectionContainer.transform.localPosition = new Vector3(selectx, 0);
+                bottomContainer.transform.localPosition = new Vector3(0, hinty);
 
-                scheduleContainer.GetComponent<UIWidget>().alpha = x;
-                //charaContainer.GetComponent<UIWidget>().alpha = x;
-                //selectionContainer.GetComponent<UIWidget>().alpha = x;
+                scheduleContainer.GetComponent<UIWidget>().alpha = t;
                 yield return null;
             }
             selectionContainer.SetActive(false);
+            charaContainer.SetActive(false);
+            scheduleContainer.SetActive(false);
         }
 
         private IEnumerator ShowOpen()
@@ -93,21 +104,19 @@ namespace Assets.Script.UIScript
             scheduleContainer.GetComponent<UIWidget>().alpha = 0;
 
             float timey, charax, selectx;
-            float x = 0;
-            while (x < 1)
+            float t = 0;
+            while (t < 1)
             {
-                x = Mathf.MoveTowards(x, 1, 1 / openTime * Time.deltaTime);
-                timey = 400 - 70 * x;
-                charax = 951 - 622 * x;
-                selectx = -934 + 588 * x;
+                t = Mathf.MoveTowards(t, 1, 1 / openTime * Time.deltaTime);
+                timey = startY_time - Y_time * t;
+                charax = startX_cha - X_cha * t;
+                selectx = startX_slc + X_slc * t;
 
-                timeContainer.transform.localPosition = new Vector3(160, timey);
+                timeContainer.transform.localPosition = new Vector3(390, timey);
                 charaContainer.transform.localPosition = new Vector3(charax, 0);
                 selectionContainer.transform.localPosition = new Vector3(selectx, 0);
 
-                scheduleContainer.GetComponent<UIWidget>().alpha = x;
-                //charaContainer.GetComponent<UIWidget>().alpha = x;
-                //selectionContainer.GetComponent<UIWidget>().alpha = x;
+                scheduleContainer.GetComponent<UIWidget>().alpha = t;
                 yield return null;
             }
         }

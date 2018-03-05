@@ -62,7 +62,7 @@ public class ReasoningUIManager : MonoBehaviour
         questionLabel = questionContainer.transform.Find("Question_Label").gameObject;
         QLabel = questionContainer.transform.Find("Q_Label").gameObject;
 
-        buttonGrid = this.transform.Find("EvidenceSelect_Container/List_Panel/Grid").gameObject;
+        buttonGrid = this.transform.Find("EvidenceSelect_Container/Button_Container/List_Panel/Grid").gameObject;
         infoLabel = this.transform.Find("EvidenceSelect_Container/Hint_Container/Info_Label").gameObject;
 
         textContainer = this.transform.Find("TextSelect_Container").gameObject;
@@ -73,11 +73,13 @@ public class ReasoningUIManager : MonoBehaviour
     private void OnEnable()
     {
         DataManager.GetInstance().BlockRightClick();
+        DataManager.GetInstance().BlockSaveLoad();
     }
 
     private void OnDisable()
     {
         DataManager.GetInstance().UnblockRightClick();
+        DataManager.GetInstance().UnblockSaveLoad();
     }
 
     #region 数据绑定
@@ -138,12 +140,13 @@ public class ReasoningUIManager : MonoBehaviour
         //文字选项初始化
         textContainer.transform.DestroyChildren();
         int n = reasoningEvent.choice.Count;
-        int d = (300 - n * 50) / (n - 1);
+        //计算选项间隔
+        int d = (600 - n * 75) / (n + 1);
         for (int i = 0; i < reasoningEvent.choice.Count; i++)
         {
             GameObject textBtn = Resources.Load("Prefab/Choice_Reasoning") as GameObject;
             textBtn = NGUITools.AddChild(textContainer, textBtn);
-            textBtn.transform.localPosition = new Vector3(0, 125 - i * (50 + d));
+            textBtn.transform.localPosition = new Vector3(0, 330 - (i + 1) * (75 + d));
             textBtn.GetComponent<UIButton>().enabled = false;
             textBtn.transform.Find("Label").GetComponent<UILabel>().text = reasoningEvent.choice[i].text;
             ReasoningTextButton rtb = textBtn.transform.GetComponent<ReasoningTextButton>();
@@ -260,6 +263,10 @@ public class ReasoningUIManager : MonoBehaviour
     private IEnumerator OpenQuestion()
     {
         sm.SetBGM("puzzle");
+        //恢复默认位置
+        QLabel.transform.localPosition = Vector3.zero;
+        QLabel.GetComponent<UILabel>().text = "Question " + reasoningEvent.num;
+        QLabel.SetActive(false);
         //3 Question框打开
         questionContainer.SetActive(true);
         float t = 0, alpha = 0;
@@ -283,10 +290,11 @@ public class ReasoningUIManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         //移动Qustion到指定位置
-        float x = 0;
-        while (x > -225)
+        t = 0;
+        while (t < 1)
         {
-            x = Mathf.MoveTowards(x, -225, 225 / 0.2f * Time.deltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.deltaTime);
+            float x = t * -360;
             QLabel.transform.localPosition = new Vector3(x, QLabel.transform.localPosition.y);
             yield return null;
         }
@@ -294,6 +302,7 @@ public class ReasoningUIManager : MonoBehaviour
         questionLabel.GetComponent<UILabel>().text = reasoningEvent.question;
         questionLabel.SetActive(true);
         TypewriterEffect te = questionLabel.GetComponent<TypewriterEffect>();
+        te.ResetToBeginning();
         while (te.isActive)
         {
             yield return null;
@@ -303,7 +312,7 @@ public class ReasoningUIManager : MonoBehaviour
         StartCoroutine(ifevi ? ShowEvidence() : ShowChoice());
         //6 *血条展示
         hpmpManager.gameObject.SetActive(true);
-        hpmpManager.ShowBar();
+        hpmpManager.ShowBar(true, false);
     }
 
     private IEnumerator CloseQuestion()

@@ -63,6 +63,14 @@ public class VisualDynamicData : EditorWindow
         {
             index = 1;
         }
+        if (GUILayout.Button("地点默认事件", GUILayout.MaxWidth(100)))
+        {
+            index = 6;
+        }
+        if (GUILayout.Button("强制事件表", GUILayout.MaxWidth(100)))
+        {
+            index = 7;
+        }
         EditorGUILayout.LabelField("背景图片", dm.gameData.bgSprite);
         if(GUILayout.Button("立绘信息", GUILayout.MaxWidth(100)))
         {
@@ -176,6 +184,12 @@ public class VisualDynamicData : EditorWindow
             case 5:
                 ShowDetect();
                 break;
+            case 6:
+                ShowDefault();
+                break;
+            case 7:
+                ShowForce();
+                break;
         }
     }
 
@@ -183,7 +197,7 @@ public class VisualDynamicData : EditorWindow
     {
         detitle = "可触发事件";
         content = string.Empty;
-        Dictionary<string, List<MapEvent>> locationEvents = EventManager.GetInstance().getLocationEvents();
+        Dictionary<string, List<MapEvent>> locationEvents = EventManager.GetInstance().GetAvailableEvents();
         foreach(string item in locationEvents.Keys)
         {
             content += item + " : ";
@@ -193,7 +207,34 @@ public class VisualDynamicData : EditorWindow
             }
             content += "\n";
         }
-}
+    }
+
+    void ShowDefault()
+    {
+        detitle = "默认事件";
+        content = string.Empty;
+        Dictionary<string, List<MapEvent>> defaultEvents = EventManager.GetInstance().GetDefaultEvents();
+        foreach (string item in defaultEvents.Keys)
+        {
+            content += item + " : ";
+            foreach (MapEvent e in defaultEvents[item])
+            {
+                content += e.name + "  ";
+            }
+            content += "\n";
+        }
+    }
+
+    void ShowForce()
+    {
+        detitle = "强制事件表";
+        content = string.Empty;
+        Dictionary<string, MapEvent> fe = EventManager.GetInstance().GetForceEvents();
+        foreach (string item in fe.Keys)
+        {
+            content += item + "\n";
+        }
+    }
 
     void ShowEvidence()
     {

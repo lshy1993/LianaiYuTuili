@@ -9,8 +9,8 @@ namespace Assets.Script.UIScript
 {
     public class FunctionAnimation : PanelAnimation
     {
-        private int origin = -385;
-        private int final = -335;
+        private int origin = -580;
+        private int final = -500;
 
         public UIButton move, dialog, invest;
 

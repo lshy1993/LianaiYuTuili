@@ -272,7 +272,104 @@ namespace Assets.Script.GameStruct
             return dic;
         }
 
+        /// <summary>
+        /// 读取事件表
+        /// </summary>
+        public static Dictionary<string, MapEvent> GetStaticEvent()
+        {
+            string path = (Constants.DEBUG ? Constants.DEBUG_PATH : Constants.DEFAULT_PATH) + "Events/";
+            Dictionary<string, MapEvent> eventTable = new Dictionary<string, MapEvent>();
 
+            Debug.Log("读取事件表");
+            foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
+            {
+                Debug.Log("读取：" + text.name);
+                JsonData alldata = JsonMapper.ToObject(text.text);
+                foreach (JsonData data in alldata)
+                {
+                    if (data.Contains("事件"))
+                    {
+                        MapEvent e = new MapEvent(data);
+                        eventTable.Add(e.name, e);
+                    }
+                }
+            }
+            //【注意】具体事件逻辑添加
+            LoadStaticEventLogic(eventTable);
+            return eventTable;
+        }
+
+        /// <summary>
+        /// 初始化事件的内在逻辑
+        /// </summary>
+        private static void LoadStaticEventLogic(Dictionary<string, MapEvent> eventTable)
+        {
+            // 读入事件逻辑文件
+            string path = (Constants.DEBUG ? Constants.DEBUG_PATH : Constants.DEFAULT_PATH) + "EventLogic/";
+
+            foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
+            {
+                JsonData alldata = JsonMapper.ToObject(text.text);
+                if (alldata.Contains("线性事件"))
+                {
+                    // 线性事件链的处理，对于i > 0, 将前一事件加入后事件的conditionAndEvent中
+                    JsonData eventChain = alldata["线性事件"];
+                    for (int i = 1; i < eventChain.Count; i++)
+                    {
+                        string eName = (string)eventChain[i];
+                        string prevName = (string)eventChain[i - 1];
+                        eventTable[eName].conditionAndEvents.Add(prevName);
+                    }
+                }
+                else if (alldata.Contains("特殊条件"))
+                {
+                    JsonData nonChainEvents = alldata["特殊条件"];
+                    foreach (JsonData data in nonChainEvents)
+                    {
+                        addSingleEventLogic(data, eventTable);
+                    }
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// 为单个事件添加逻辑条件
+        /// </summary>
+        /// <param name="data">json文件</param>
+        /// <param name="eventTable">静态事件总表</param>
+        private static MapEvent addSingleEventLogic(JsonData data, Dictionary<string, MapEvent> eventTable)
+        {
+            MapEvent me = null;
+            if (data != null)
+            {
+                if (data.IsString)
+                {
+                    me = eventTable[(string)data];
+                }
+                else if (data.IsObject && data.Contains("事件"))
+                {
+                    me = eventTable[(string)data["事件"]];
+
+                    if (data.Contains("前置与"))
+                    {
+                        foreach (JsonData eventName in data["前置与"])
+                        {
+                            me.conditionAndEvents.Add((string)eventName);
+                        }
+                    }
+
+                    if (data.Contains("前置或"))
+                    {
+                        foreach (JsonData eventName in data["前置或"])
+                        {
+                            me.conditionOrEvents.Add((string)eventName);
+                        }
+                    }
+                }
+            }
+            return me;
+        }
 
     }
 }

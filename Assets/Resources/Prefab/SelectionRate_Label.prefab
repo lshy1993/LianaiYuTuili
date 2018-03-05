@@ -82,7 +82,7 @@ MonoBehaviour:
   mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
   mFont: {fileID: 0}
   mText: 40.2%
-  mFontSize: 24
+  mFontSize: 36
   mFontStyle: 0
   mAlignment: 0
   mEncoding: 1

@@ -7,63 +7,127 @@ using System.Collections.Generic;
 public class LogoUIManager : MonoBehaviour
 {
     //private GameObject root;
-    private GameObject logoContainer, animationContainer, baseContainer;
-    private GameObject logoG, logoS, logoT;
-    private float fadein = 0.5f, fadeout = 0.5f;
+    private GameObject animationContainer, baseContainer, clickCon;
+    private GameObject logo1, logo2, logo3;
+
+    private const float fadeInTime = 0.5f;
+    private const float fadeOutTime = 0.5f;
 
     public SoundManager sm;
     public PanelSwitch ps;
 
     private bool loadfinish;
+    private int currentStep;
 
     void Awake()
     {
         //root = GameObject.Find("UI Root");
         baseContainer = this.transform.Find("Base_Container").gameObject;
-        logoG = this.transform.Find("LogoG_Container").gameObject;
-        logoT = this.transform.Find("LogoT_Container").gameObject;
-        logoS = this.transform.Find("LogoS_Container").gameObject;
-        //logoContainer = this.transform.Find("Logo_Container").gameObject;
+        logo1 = this.transform.Find("Logo1_Container").gameObject;
+        logo2 = this.transform.Find("Logo2_Container").gameObject;
+        logo3 = this.transform.Find("Logo3_Container").gameObject;
+        clickCon = this.transform.Find("Click_Container").gameObject;
         loadfinish = false;
     }
 
     void OnEnable()
     {
         //Debug.Log("Start!");
-        //StartCoroutine(FadeInLogo());
-        StartCoroutine(OpenAnimate());
+        StartCoroutine(OpenAnimate(0));
     }
 
-
-    private IEnumerator OpenAnimate()
+    /// <summary>
+    /// 跳过
+    /// </summary>
+    public void Skip()
     {
-        //运行加载？
-        StartCoroutine(LoadText());
-        DataLoad();
-        yield return new WaitForSeconds(0.5f);
-        //淡入游戏制作组Logo
-        yield return StartCoroutine(FadeInLogo(logoG));
-        yield return new WaitForSeconds(1.5f);
-        //淡出
-        yield return StartCoroutine(FadeOutLogo(logoG));
-        yield return new WaitForSeconds(0.5f);
-        //淡入学校Logo
-        yield return StartCoroutine(FadeInLogo(logoS));
-        yield return new WaitForSeconds(1.5f);
-        //淡出
-        yield return StartCoroutine(FadeOutLogo(logoS));
-        yield return new WaitForSeconds(0.5f);
-        //淡入其他组Logo
-        //yield return StartCoroutine(FadeInLogo(logoT));
-        //yield return new WaitForSeconds(1f);
-        //淡出
-        //yield return StartCoroutine(FadeOutLogo(logoT));
-        //yield return new WaitForSeconds(0.5f);
-
-        
+        if (currentStep == 0) return;
+        if (currentStep == 2) return;
+        if (currentStep == 4) return;
         StopAllCoroutines();
-        //切换至标题画面
-        ps.SwitchTo_VerifyIterative("Title_Panel");
+        StartCoroutine(SkipAnimate(currentStep));
+    }
+
+    private IEnumerator SkipAnimate(int step)
+    {
+        Debug.Log("step:" + step);
+        switch (step)
+        {
+            case 1:
+                currentStep = 2;
+                yield return StartCoroutine(FadeOutLogo(logo1, true));
+                StartCoroutine(OpenAnimate(3));
+                break;
+            case 3:
+                currentStep = 4;
+                yield return StartCoroutine(FadeOutLogo(logo2, true));
+                StartCoroutine(OpenAnimate(7));
+                break;
+            case 5:
+                yield return StartCoroutine(FadeOutLogo(logo3, true));
+                StartCoroutine(OpenAnimate(6));
+                break;
+        }
+    }
+
+    private IEnumerator OpenAnimate(int step)
+    {
+        currentStep = step;
+        switch (step)
+        {
+            case 0:
+                //运行加载？
+                DataLoad();
+                yield return StartCoroutine(LoadText());
+                yield return new WaitForSeconds(0.5f);
+                StartCoroutine(OpenAnimate(1));
+                break;
+            case 1:
+                //淡入游戏制作组Logo
+                yield return StartCoroutine(FadeInLogo(logo1));
+                yield return new WaitForSeconds(1.5f);
+                StartCoroutine(OpenAnimate(2));
+                break;
+            case 2:
+                //淡出
+                yield return StartCoroutine(FadeOutLogo(logo1));
+                yield return new WaitForSeconds(0.5f);
+                StartCoroutine(OpenAnimate(3));
+                break;
+            case 3:
+                //淡入学校Logo
+                yield return StartCoroutine(FadeInLogo(logo2));
+                yield return new WaitForSeconds(1.5f);
+                StartCoroutine(OpenAnimate(4));
+                break;
+            case 4:
+                //淡出
+                yield return StartCoroutine(FadeOutLogo(logo2));
+                yield return new WaitForSeconds(0.5f);
+                StartCoroutine(OpenAnimate(7));
+                break;
+            case 5:
+                //淡入其他组Logo
+                //yield return StartCoroutine(FadeInLogo(logo3));
+                //yield return new WaitForSeconds(1f);
+                StartCoroutine(OpenAnimate(6));
+                break;
+            case 6:
+                //淡出
+                //yield return StartCoroutine(FadeOutLogo(logo3));
+                //yield return new WaitForSeconds(0.5f);
+                StartCoroutine(OpenAnimate(7));
+                break;
+            case 7:
+                StopAllCoroutines();
+                clickCon.SetActive(false);
+                //切换至标题画面
+                ps.SwitchTo_VerifyIterative("Title_Panel");
+                break;
+
+        }
+
+
     }
 
     private IEnumerator FadeInLogo(GameObject target)
@@ -72,18 +136,19 @@ public class LogoUIManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t = Mathf.MoveTowards(t, 1, 1 / fadein * Time.deltaTime);
+            t = Mathf.MoveTowards(t, 1, 1 / fadeInTime * Time.deltaTime);
             target.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }
     }
 
-    private IEnumerator FadeOutLogo(GameObject target)
+    private IEnumerator FadeOutLogo(GameObject target, bool fast=false)
     {
         float t = 1;
+        float tall = fast ? 0.2f : fadeOutTime;
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / fadein * Time.deltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / tall * Time.deltaTime);
             target.GetComponent<UIWidget>().alpha = t;
             yield return null;
         }

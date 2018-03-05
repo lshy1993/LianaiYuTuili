@@ -13,13 +13,15 @@ public class SideLabelUIManager : MonoBehaviour
     public GameObject bgmCon, chapterCon;
     public UILabel bgmLabel, chapterLabel;
 
-    private const int finalX1 = -540;
-    private const int finalX2 = 490;
+    private const int originX_bgm = -1110;
+    private const int X_bgm = 300;
+    private const int originY_bgm = 495;
+    //private const int finalX2 = finalX1 - 300;
 
     private void OnEnable()
     {
         //复位
-        bgmCon.transform.localPosition = new Vector3(-740,330);
+        bgmCon.transform.localPosition = new Vector3(originX_bgm, originY_bgm);
         chapterCon.GetComponent<UIWidget>().alpha = 0;
     }
 
@@ -62,8 +64,7 @@ public class SideLabelUIManager : MonoBehaviour
         else
         {
             yield return StartCoroutine(MoveChapter(true));
-        }
-        
+        }        
         //2.等待秒数
         yield return new WaitForSeconds(waitTime);
         //3.消失
@@ -78,15 +79,20 @@ public class SideLabelUIManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private IEnumerator MoveBGM(bool forward)
+    /// <summary>
+    /// 移动BGM标签
+    /// </summary>
+    /// <param name="isMoveIn">是否飞入</param>
+    /// <returns></returns>
+    private IEnumerator MoveBGM(bool isMoveIn)
     {
+        float x0 = isMoveIn ? originX_bgm : originX_bgm - X_bgm;
+
         float t = 0;
-        float X0 = forward ? finalX1 - 200 : finalX1;
-        float X1 = !forward ? finalX1 - 200 : finalX1;
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.deltaTime);
-            float x = X0 + t * (X1 - X0);
+            float x = isMoveIn ? x0 + t * X_bgm : x0 - t * X_bgm;
             bgmCon.transform.localPosition = new Vector2(x, bgmCon.transform.localPosition.y);
             yield return null;
         }
@@ -95,12 +101,12 @@ public class SideLabelUIManager : MonoBehaviour
     private IEnumerator MoveChapter(bool forward)
     {
         float t = 0;
-        float X0 = forward ? finalX2 + 300 : finalX2;
-        float X1 = !forward ? finalX2 + 300 : finalX2;
+        //float X0 = forward ? finalX2 + 300 : finalX2;
+        //float X1 = !forward ? finalX2 + 300 : finalX2;
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / 0.3f * Time.deltaTime);
-            float x = X0 + t * (X1 - X0);
+            //float x = X0 + t * (X1 - X0);
             //chapterCon.transform.localPosition = new Vector2(x, chapterCon.transform.localPosition.y);
             chapterCon.GetComponent<UIWidget>().alpha = forward ? t : 1 - t;
             yield return null;

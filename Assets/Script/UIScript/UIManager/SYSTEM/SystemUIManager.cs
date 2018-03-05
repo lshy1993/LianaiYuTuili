@@ -9,7 +9,10 @@ public class SystemUIManager : MonoBehaviour
     private SLUIManager slm;
 
     public PanelSwitch ps;
-    public GameObject butContainer, saveloadContainer, settingContainer, backlogContainer, warningContainer;
+    public GameObject butContainer, saveloadContainer, settingContainer, backlogContainer;
+    public GameObject warningContainer, warnBlockCon;
+    public UIButton saveBtn, loadBtn;
+
     public DialogBoxUIManager dbum;
     public UILabel sysIndexInfo;
 
@@ -43,12 +46,15 @@ public class SystemUIManager : MonoBehaviour
     private void OnEnable()
     {
         DataManager.GetInstance().BlockClick();
+        bool slBlock = DataManager.GetInstance().IsSaveLoadBlocked();
+        saveBtn.enabled = !slBlock;
+        loadBtn.enabled = !slBlock;
     }
 
     private void OnDisable()
     {
         DataManager.GetInstance().UnblockClick();
-        DataManager.GetInstance().UnblockBacklog();
+        //DataManager.GetInstance().UnblockBacklog();
     }
 
     public void Open()
@@ -154,12 +160,13 @@ public class SystemUIManager : MonoBehaviour
     /// <param name="arg">警告框类型</param>
     public void OpenWarning(Constants.WarningMode arg)
     {
-        if (Input.GetMouseButtonUp(1)) return;
+        //if (Input.GetMouseButtonUp(1)) return;
+        //解除警告按钮锁定
+        warnBlockCon.SetActive(false);
         warningContainer.GetComponent<UIWidget>().alpha = 1;
 
         string showMessage = "";
         currentMode = arg;
-
         switch (arg)
         {
             case Constants.WarningMode.Title:
@@ -189,7 +196,9 @@ public class SystemUIManager : MonoBehaviour
     /// </summary>
     public void WarningComfirm()
     {
-        if (Input.GetMouseButtonUp(1)) return;
+        //if (Input.GetMouseButtonUp(1)) return;
+        //锁定警告框
+        warnBlockCon.SetActive(true);
         switch (currentMode)
         {
             case Constants.WarningMode.Title:

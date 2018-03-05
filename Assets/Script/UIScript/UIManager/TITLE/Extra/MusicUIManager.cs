@@ -13,6 +13,7 @@ public class MusicUIManager : MonoBehaviour
 
     public UILabel timelabel;
     public UIProgressBar timeBar;
+    public GameObject playBtn, pauseBtn;
 
     private Dictionary<int, bool> musicTable
     {
@@ -24,7 +25,7 @@ public class MusicUIManager : MonoBehaviour
         TimeSpan nowts = new TimeSpan(0, 0, 0);
         TimeSpan allts = new TimeSpan(0, 0, 0);
         timelabel.text = nowts.ToString() + "/" + allts.ToString();
-        timeBar.value = 1;
+        timeBar.value = 0;
         SetMusic();
     }
 
@@ -39,7 +40,7 @@ public class MusicUIManager : MonoBehaviour
             TimeSpan nowts = new TimeSpan(0, 0, tnow);
             TimeSpan allts = new TimeSpan(0, 0, tall);
             timelabel.text = nowts.ToString() + "/" + allts.ToString();
-            timeBar.value = 1 - (float)tnow / tall;
+            timeBar.value = (float)tnow / tall;
         }  
     }
 
@@ -68,21 +69,21 @@ public class MusicUIManager : MonoBehaviour
     public void PlayMusicAt(string fileName)
     {
         sm.SetBGM(fileName);
-        transform.Find("Control_Container/Play_Button").gameObject.SetActive(false);
-        transform.Find("Control_Container/Pause_Button").gameObject.SetActive(true);
+        playBtn.SetActive(false);
+        pauseBtn.SetActive(true);
     }
     public void PlayMusic()
     {
         //继续播放
         sm.PlayBGM();
-        transform.Find("Control_Container/Play_Button").gameObject.SetActive(false);
-        transform.Find("Control_Container/Pause_Button").gameObject.SetActive(true);
+        playBtn.SetActive(false);
+        pauseBtn.SetActive(true);
     }
 
     public void PauseMusic()
     {
-        transform.Find("Control_Container/Play_Button").gameObject.SetActive(true);
-        transform.Find("Control_Container/Pause_Button").gameObject.SetActive(false);
+        playBtn.SetActive(true);
+        pauseBtn.SetActive(false);
         sm.PauseBGM();
     }
 
@@ -101,8 +102,8 @@ public class MusicUIManager : MonoBehaviour
     }
     public void StopMusic()
     {
-        transform.Find("Control_Container/Play_Button").gameObject.SetActive(true);
-        transform.Find("Control_Container/Pause_Button").gameObject.SetActive(false);
+        playBtn.gameObject.SetActive(true);
+        pauseBtn.SetActive(false);
         sm.StopBGM();
     }
 

@@ -14,14 +14,45 @@ using System.Collections.Generic;
 /// </summary>
 public class EduUIManager : MonoBehaviour
 {
-    private UILabel daylabel, datelabel, moneylabel;
-    private UILabel wenlabel, lilabel, tilabel, yilabel, zhailabel, energylabel;
-    private UILabel showlabel, helplabel, foreindexlabel, afterindexlabel;
-    private UIProgressBar wenbar, libar, tibar, yibar, zhaibar, energybar;
+    private UILabel dateLabel, weekLabel, moneyLabel;
+    private UILabel statusLabel, energyLabel;
+
+    /// <summary>
+    /// 养成数值标签 文理艺体宅
+    /// </summary>
+    private UILabel[] numLabels = new UILabel[5];
+
+    /// <summary>
+    /// 养成数值增减标签 文理艺体宅
+    /// </summary>
+    private UILabel[] changeLabels = new UILabel[5];
+    
+    /// <summary>
+    /// 结算标签
+    /// </summary>
+    private UILabel showLabel;
+
+    /// <summary>
+    /// 提示标签 选择/属性
+    /// </summary>
+    private UILabel selectHintLabel, infoHintLabel;
+
+    /// <summary>
+    /// 加成数值标签
+    /// </summary>
+    private UILabel foreindexLabel, afterindexLabel;
+
+    /// <summary>
+    /// 养成数值条 文理艺体宅
+    /// </summary>
+    private UIProgressBar[] numBars = new UIProgressBar[5];
+
+    private UIProgressBar energyBar;
+
     private UI2DSprite foreicon, aftericon, animate;
 
-    private GameObject functionContainer, scheduleContainer, acgo;
-    private GameObject btnTable, spriteContainer, buttonContainer;
+    private GameObject changeTable, btnTable, functionTable, scheduleContainer, acgo;
+    private GameObject qspriteContainer, buttonContainer, bottomContainer;
 
     public SoundManager sm;
     private DataManager dm;
@@ -34,54 +65,64 @@ public class EduUIManager : MonoBehaviour
     }
 
     private List<EduEvent> allEvents;
-    private string foreclass, afterclass, forename, aftername;
-    private int foreindex, afterindex;
+    //private string foreclass, afterclass, forename, aftername;
+    private int forenoon, afternoon, foreindex, afterindex;
 
     private EduNode currentNode;
 
-
-    private string[] defaultSchedule = { "文科", "理科", "艺术", "体育" };
-    private string[] defaultFileName = { "wen", "li", "yi", "ti" };
+    private string[] defaultEnum = { "文科", "理科", "艺术", "体育", "宅力" };
+    private string[] defaultFileName = { "wen", "li", "yi", "ti", "zhai" };
 
     void Awake()
     {
         dm = DataManager.GetInstance();
 
-        daylabel = transform.Find("Time_Container/Day_Label").gameObject.GetComponent<UILabel>();
-        datelabel = transform.Find("Time_Container/Date_Label").gameObject.GetComponent<UILabel>();
-        moneylabel = transform.Find("Time_Container/Money_Label").gameObject.GetComponent<UILabel>();
+        dateLabel = transform.Find("Time_Container/Date_Label").GetComponent<UILabel>();
+        weekLabel = transform.Find("Time_Container/Week_Label").GetComponent<UILabel>();
+        moneyLabel = transform.Find("Time_Container/Money_Label").GetComponent<UILabel>();
 
-        wenlabel = transform.Find("NewCharaInfo_Container/Num_Grid/Wen_Label").gameObject.GetComponent<UILabel>();
-        lilabel = transform.Find("NewCharaInfo_Container/Num_Grid/Li_Label").gameObject.GetComponent<UILabel>();
-        tilabel = transform.Find("NewCharaInfo_Container/Num_Grid/Ti_Label").gameObject.GetComponent<UILabel>();
-        yilabel = transform.Find("NewCharaInfo_Container/Num_Grid/Yi_Label").gameObject.GetComponent<UILabel>();
-        zhailabel = transform.Find("NewCharaInfo_Container/Num_Grid/Zhai_Label").gameObject.GetComponent<UILabel>();
-        energylabel = transform.Find("NewCharaInfo_Container/Num_Grid/Energy_Label").gameObject.GetComponent<UILabel>();
+        Transform ntr = transform.Find("NewCharaInfo_Container/Num_Grid");
+        for(int i = 0; i < 5; i++)
+        {
+            numLabels[i] = ntr.GetChild(i).GetComponent<UILabel>();
+        }
 
-        wenbar = transform.Find("NewCharaInfo_Container/Bar_Grid/Wen_Bar").gameObject.GetComponent<UIProgressBar>();
-        libar = transform.Find("NewCharaInfo_Container/Bar_Grid/Li_Bar").gameObject.GetComponent<UIProgressBar>();
-        tibar = transform.Find("NewCharaInfo_Container/Bar_Grid/Ti_Bar").gameObject.GetComponent<UIProgressBar>();
-        yibar = transform.Find("NewCharaInfo_Container/Bar_Grid/Yi_Bar").gameObject.GetComponent<UIProgressBar>();
-        zhaibar = transform.Find("NewCharaInfo_Container/Bar_Grid/Zhai_Bar").gameObject.GetComponent<UIProgressBar>();
-        energybar = transform.Find("NewCharaInfo_Container/Bar_Grid/Energy_Bar").gameObject.GetComponent<UIProgressBar>();
+        changeTable = transform.Find("NewCharaInfo_Container/ChangeNum_Grid").gameObject;
+        for (int i = 0; i < 5; i++)
+        {
+            changeLabels[i] = changeTable.transform.GetChild(i).GetComponent<UILabel>();
+        }
 
-        helplabel = transform.Find("NewSelection_Container/Help_Label").GetComponent<UILabel>();
+        energyBar = transform.Find("NewCharaInfo_Container/EnergyStatus_Container/Energy_Bar").GetComponent<UIProgressBar>();
+        statusLabel = transform.Find("NewCharaInfo_Container/EnergyStatus_Container/Status_Label").GetComponent<UILabel>();
+        energyLabel = energyBar.transform.Find("Energy_Label").GetComponent<UILabel>();
+
+        Transform tr = transform.Find("NewCharaInfo_Container/Bar_Grid");
+        for(int i = 0; i < 5; i++)
+        {
+            numBars[i] = tr.GetChild(i).GetComponent<UIProgressBar>();
+        }
+
+        showLabel = transform.Find("BottomHint_Container/Label").gameObject.GetComponent<UILabel>();
+
+        selectHintLabel = transform.Find("NewSelection_Container/Hint_Label").GetComponent<UILabel>();
+        infoHintLabel = transform.Find("NewCharaInfo_Container/Hint_Label").GetComponent<UILabel>();
 
         scheduleContainer = transform.Find("Schedule_Container").gameObject;
-        foreindexlabel = scheduleContainer.transform.Find("Fore_Container/ForeIndex_Label").GetComponent<UILabel>();
-        afterindexlabel = scheduleContainer.transform.Find("After_Container/AfterIndex_Label").GetComponent<UILabel>();
+        foreindexLabel = scheduleContainer.transform.Find("Fore_Container/ForeIndex_Label").GetComponent<UILabel>();
+        afterindexLabel = scheduleContainer.transform.Find("After_Container/AfterIndex_Label").GetComponent<UILabel>();
         foreicon = scheduleContainer.transform.Find("Fore_Container/ForeIcon_Sprite").GetComponent<UI2DSprite>();
         aftericon = scheduleContainer.transform.Find("After_Container/AfterIcon_Sprite").GetComponent<UI2DSprite>();
 
-        spriteContainer = transform.Find("NewSelection_Container/QSprite_Container").gameObject;
+        qspriteContainer = transform.Find("NewSelection_Container/QSprite_Container").gameObject;
         buttonContainer = transform.Find("NewSelection_Container/Button_Container").gameObject;
+        bottomContainer = transform.Find("BottomHint_Container").gameObject;
 
-        functionContainer = buttonContainer.transform.Find("Function_Container").gameObject;
+        functionTable = buttonContainer.transform.Find("Function_Container").gameObject;
         btnTable = buttonContainer.transform.Find("Grid").gameObject;
 
-        acgo = spriteContainer.transform.Find("Container").gameObject;
-        showlabel = spriteContainer.transform.Find("Show_Label").gameObject.GetComponent<UILabel>();
-        animate = spriteContainer.transform.Find("Animate_Sprite").gameObject.GetComponent<UI2DSprite>();
+        acgo = qspriteContainer.transform.Find("Container").gameObject;
+        animate = qspriteContainer.transform.Find("Animate_Sprite").GetComponent<UI2DSprite>();
 
         SetEduButton();
     }
@@ -89,25 +130,20 @@ public class EduUIManager : MonoBehaviour
     void OnEnable()
     {
         player = dm.gameData.player;
-        int forenoon = dm.gameData.morningSchedule;
-        int afternoon = dm.gameData.afternoonSchedule;
-        foreclass = defaultSchedule[forenoon];
-        afterclass = defaultSchedule[afternoon];
-        forename = defaultFileName[forenoon];
-        aftername = defaultFileName[afternoon];
+        forenoon = dm.gameData.morningSchedule;
+        afternoon = dm.gameData.afternoonSchedule;
         foreindex = (int)dm.gameData.morningRate;
         afterindex = (int)dm.gameData.afternoonRate;
         //TODO:加上对节日的判断
         if (date.Month == 8 && date.Day == 31)
         {
             //8.31日教学关关闭function
-            functionContainer.SetActive(false);
+            functionTable.SetActive(false);
         }
         else
         {
-            functionContainer.SetActive(true);
+            functionTable.SetActive(true);
         }
-        //根据时间播放音乐
         SetBGM();
         UIFresh();
     }
@@ -122,8 +158,12 @@ public class EduUIManager : MonoBehaviour
         this.allEvents = es;
     }
 
+    /// <summary>
+    /// 播放背景音乐
+    /// </summary>
     private void SetBGM()
     {
+        //TODO:根据游戏时间播放不同的音乐
         string ptr = "watashi-time";
         sm.SetBGM(ptr);
     }
@@ -151,12 +191,12 @@ public class EduUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 提示鼠标悬停
+    /// 养成按钮悬停提示
     /// </summary>
     /// <param name="x">参数，-3闲逛，-2休息，-1空白</param>
     public void SetHelp(int x)
     {
-        string result = "";
+        string result = string.Empty;
         if (x == -3)
         {
             result = "在校园内闲逛";
@@ -174,7 +214,64 @@ public class EduUIManager : MonoBehaviour
             result += allEvents[x].name + " 熟练度等级：" + new string('★', allEvents[x].level);
             result += "\n消耗活力：" + -allEvents[x].ap;
         }
-        helplabel.text = result;
+        selectHintLabel.text = result;
+    }
+
+    /// <summary>
+    /// 养成信息悬停提示
+    /// </summary>
+    /// <param name="x">参数-1空白-2体力-3状态</param>
+    public void SetInfoHelp(int x)
+    {
+        string result = string.Empty;
+        if(x == -2)
+        {
+            result += "体力：" + JudgeEnergy();
+        }
+        else if (x == -3)
+        {
+            result += "学习状态：" + JudgeStatus();
+        }
+        else if (x != -1)
+        {
+            result += defaultEnum[x] + "：" + JudgeScore(player.GetBasicStatus(defaultEnum[x]));
+        }
+        infoHintLabel.text = result;
+    }
+    //评价成绩
+    private string JudgeScore(int x)
+    {
+        string str = x.ToString();
+        if (x > 430) return str + "  顶尖的水准！";//S
+        if (x >= 360) return str + "  非常优异的成绩！";//A
+        if (x >= 290) return str + "  优秀的成绩！";//B
+        if (x >= 220) return str + "  良好的成绩！";//C
+        if (x >= 150) return str + "  合格了！！";//D
+        if (x >= 90) return str + "  勉勉强强的成绩！";//E
+        return str + "  还需要加把劲！";//F
+    }
+    private string JudgeEnergy()
+    {
+        string str = player.energyPoint.ToString();
+        if (player.energyPoint >= 100) return str += "体力充沛！尽情享受吧！";
+        if(player.energyPoint >= 50) return str += "注意：学习的效率会随着体力而变化！";
+        return str += "体力不支，请及时休息！";
+    }
+    private string JudgeStatus()
+    {
+        if(player.studyStatus == -1)
+        {
+            return "消极  节省体力，但是效果偏差！";
+        }
+        if (player.studyStatus == 0)
+        {
+            return "普通  体力和效果没有什么变化！";
+        }
+        if (player.studyStatus == 1)
+        {
+            return "积极  效果较好，但耗费更多的体力！";
+        }
+        return string.Empty;
     }
 
     /// <summary>
@@ -183,31 +280,37 @@ public class EduUIManager : MonoBehaviour
     private void UIFresh()
     {
         //属性值显示
-        daylabel.text = date.Month + "月" + date.Day + "日";
-        datelabel.text = Constants.WEEK_DAYS[Convert.ToInt16(date.DayOfWeek)];
-        moneylabel.text = "金钱: " + player.GetBasicStatus("金钱");
+        dateLabel.text = date.Month + "月" + date.Day + "日";
+        weekLabel.text = Constants.WEEK_DAYS[Convert.ToInt16(date.DayOfWeek)];
+        moneyLabel.text = "金钱: " + player.GetBasicStatus("金钱");
 
-        wenlabel.text = player.GetBasicStatus("文科").ToString();
-        lilabel.text = player.GetBasicStatus("理科").ToString();
-        yilabel.text = player.GetBasicStatus("艺术").ToString();
-        tilabel.text = player.GetBasicStatus("体育").ToString();
-        zhailabel.text = player.GetBasicStatus("宅力").ToString();
-        energylabel.text = player.energyPoint.ToString();
-
-        SetBarValue(wenbar, player.GetBasicStatus("文科") / 200f);
-        SetBarValue(libar, player.GetBasicStatus("理科") / 200f);
-        SetBarValue(yibar, player.GetBasicStatus("艺术") / 200f);
-        SetBarValue(tibar, player.GetBasicStatus("体育") / 200f);
-        SetBarValue(zhaibar, player.GetBasicStatus("宅力") / 200f);
-        SetBarValue(energybar, player.energyPoint / 150f);
+        for(int i = 0; i < 5; i++)
+        {
+            numLabels[i].text = player.GetBasicStatus(defaultEnum[i]).ToString();
+            numBars[i].value = player.GetBasicStatus(defaultEnum[i]) / 500f;
+        }
+        energyLabel.text = player.energyPoint.ToString();
+        if (player.studyStatus == 1)
+        {
+            statusLabel.text = "积极";
+        }
+        else if (player.studyStatus == -1)
+        {
+            statusLabel.text = "消极";
+        }
+        else
+        {
+            statusLabel.text = "普通";
+        }
+        energyBar.value = player.energyPoint / 150f;
 
         //课表加成的显示 假日的判定
         if (!DataManager.GetInstance().IsHoliday())
         {
-            foreindexlabel.text = "加成" + foreindex.ToString("0.0");
-            afterindexlabel.text = "加成" + afterindex.ToString("0.0");
-            foreicon.sprite2D = Resources.Load<Sprite>("UI/icon_" + forename);
-            aftericon.sprite2D = Resources.Load<Sprite>("UI/icon_" + aftername);
+            foreindexLabel.text = "加成" + foreindex.ToString("0.0");
+            afterindexLabel.text = "加成" + afterindex.ToString("0.0");
+            foreicon.sprite2D = Resources.Load<Sprite>("UI/icon_" + defaultFileName[forenoon]);
+            aftericon.sprite2D = Resources.Load<Sprite>("UI/icon_" + defaultFileName[afternoon]);
         }
         else
         {
@@ -217,42 +320,22 @@ public class EduUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 设置数值条
-    /// </summary>
-    /// <param name="target">对象</param>
-    /// <param name="value">数值</param>
-    private void SetBarValue(UIProgressBar target, float value)
-    {
-        //默认0-0.2颜色条
-        Sprite sp = Resources.Load<Sprite>("UI/edu_bar_1");
-        if (value >= 0.8)
-            sp = Resources.Load<Sprite>("UI/edu_bar_5");
-        else if (value >= 0.6)
-            sp = Resources.Load<Sprite>("UI/edu_bar_4");
-        else if (value >= 0.4)
-            sp = Resources.Load<Sprite>("UI/edu_bar_3");
-        else if (value >= 0.2)
-            sp = Resources.Load<Sprite>("UI/edu_bar_2");
-
-        target.foregroundWidget.GetComponent<UI2DSprite>().sprite2D = sp;
-        target.value = value;
-    }
-
-    /// <summary>
     /// 休息按钮的触发操作
     /// </summary>
     public void RelaxExecute()
     {
-        //由体力决定成功率（体力即成功率）
+        //由体力决定成功率
         float successrate = player.energyPoint * 0.9f;
         //是否成功计算
         float seed = UnityEngine.Random.Range(0, 1);
         bool success = seed < successrate;
-        //系数1
+        //系数1 失败则减半
         float index1 = success ? 1f : 0.5f;
+        //体力恢复初始范围
         float delta = UnityEngine.Random.Range(5, 10);
         float final = delta * index1;
-        int energyGet = (int)final;
+        int energyGet = (int)Math.Round(final);
+        //动画显示（养成Q版与数值跳跃）
         StartCoroutine(ShowResult(energyGet, success));
         player.AddEnergy(energyGet);
     }
@@ -264,91 +347,94 @@ public class EduUIManager : MonoBehaviour
     public void Execute(int x)
     {
         Debug.Log("你选择了" + allEvents[x].name);
-        //执行计算并更改
         EduEvent selectEvent = allEvents[x];
-        //由体力决定成功率（体力即成功率）
+        string foreclass = defaultEnum[forenoon];
+        string afterclass = defaultEnum[afternoon];
+        //由体力决定成功率
         float successrate = player.energyPoint * 0.9f;
-        if (selectEvent.name.Contains(foreclass) || selectEvent.name.Contains(afterclass))
+        //符合课表 增加成功率
+        if (selectEvent.name.Contains(foreclass) 
+            || selectEvent.name.Contains(afterclass))
         {
             successrate += 0.1f;
         }
-        //成功则加倍 失败减半
         float seed = UnityEngine.Random.Range(0f, 1f);
         bool success = seed < successrate;
-        //系数1 成功
-        float index1 = success ? 1.5f : 0.5f;
+        //系数1 成功则1.5倍 失败减半
+        float index1 = success ? 1.51f : 0.5f;
         //系数2 课表加成
         float index2 = 1f;
-        //TODO:假日的判定有课才加倍
+        //TODO:假日的判定有课才加倍？
         if (!DataManager.GetInstance().IsHoliday())
         {
             if (selectEvent.name.Contains(foreclass)) index2 = foreindex;
             if (selectEvent.name.Contains(afterclass)) index2 = afterindex;
         }
         //执行各项属性值 加倍
-        Dictionary<string, int> change = new Dictionary<string, int>();
+        int[] change = new int[5] { 0, 0, 0, 0, 0 };
         foreach (KeyValuePair<string, EduStatistic> kv in selectEvent.statistic)
         {
-            if (kv.Value != null)
+            EduStatistic es = kv.Value;
+            if (es == null) continue;
+            //养成初始区间内随机值
+            float final = UnityEngine.Random.Range(es.min, es.max);
+            //正数 才乘以系数
+            if (final > 0)
             {
-                //养成区间内随机值
-                float final = UnityEngine.Random.Range(kv.Value.min, kv.Value.max);
-                //正数 才乘以系数
-                if (final > 0)
-                {
-                    final *= index1;
-                    if (kv.Key == foreclass || kv.Key == afterclass) final *= index2;
-                }
-                change.Add(kv.Key, (int)final);
+                final *= index1;
+                if (kv.Key == foreclass || kv.Key == afterclass) final *= index2;
             }
+            int i = Array.IndexOf(defaultEnum, kv.Key);
+            change[i] = (int)Math.Round(final);
         }
         int energyCost = selectEvent.ap;
-        //养成Q版动画显示
+        //动画显示（养成Q版与数值跳跃）
         StartCoroutine(ShowResult(selectEvent.name, change, energyCost, success));
         //数值更新
-        foreach (KeyValuePair<string, int> kv in change)
+        for(int i = 0; i < 5; i++)
         {
-            player.AddBasicStatus(kv.Key, kv.Value);
+            player.AddBasicStatus(defaultEnum[i], change[i]);
         }
         player.AddEnergy(energyCost);
     }
 
-
-    private IEnumerator ShowResult(string name, Dictionary<string, int> change, int cost, bool success = false)
+    private IEnumerator ShowResult(string name, int[] change, int cost, bool success = false)
     {
+        //关闭选项框
         buttonContainer.SetActive(false);
-        spriteContainer.SetActive(true);
+        //打开动画窗
+        qspriteContainer.SetActive(true);
         animate.gameObject.SetActive(true);
-
+        selectHintLabel.text = string.Empty;
+        //帧动画文件名
         if (name.Contains("文科")) name = "wen";
         if (name.Contains("理科")) name = "li";
         if (name.Contains("艺术")) name = "yi";
         if (name.Contains("体育")) name = "ti";
         if (name.Contains("动漫")) name = "zhai";
-
+        //等待3s动画
         int i = 0;
         while (i < 9)
         {
-            animate.sprite2D = (Sprite)Resources.Load<Sprite>("UI/Q_" + name + "_" + i % 3);
+            animate.sprite2D = Resources.Load<Sprite>("UI/Q_" + name + "_" + i % 3);
             i++;
             yield return new WaitForSeconds(0.25f);
         }
-        if (success)
+        StartCoroutine(ShowChangeNum(change));
+        string fileName = "UI/Q_" + name + (success ? "_o" : "_x");
+        animate.sprite2D = Resources.Load<Sprite>(fileName);
+        //结算的文字
+        selectHintLabel.text = "消耗体力" + (-cost).ToString() + "\n请点击任意地方进入下一天";
+        showLabel.text = "结算显示：成功" + (success ? "1.5倍！" : "0.5倍");
+        for(int j = 0; j < 5; j++)
         {
-            animate.sprite2D = (Sprite)Resources.Load<Sprite>("UI/Q_" + name + "_o");
-            showlabel.text = "结算显示：成功1.5倍！\r\n";
+            if (change[j] != 0)
+            {
+                showLabel.text += "  " + defaultEnum[j] + "：" + change[j];
+            }
         }
-        else
-        {
-            animate.sprite2D = (Sprite)Resources.Load<Sprite>("UI/Q_" + name + "_x");
-            showlabel.text = "结算显示：失败0.5倍！\r\n";
-        }
-        foreach (KeyValuePair<string, int> kv in change)
-        {
-            showlabel.text += kv.Key + "：" + kv.Value + "  ";
-        }
-        showlabel.text += "消耗活力" + (-cost).ToString() + "点";
-        showlabel.text += "\r\n请点击任意地方进入下一天";
+        StartCoroutine(ShowHintLabel());
+        //等待点击
         acgo.SetActive(true);
         UIFresh();
     }
@@ -357,8 +443,9 @@ public class EduUIManager : MonoBehaviour
     private IEnumerator ShowResult(int cost, bool success = false)
     {
         buttonContainer.SetActive(false);
-        spriteContainer.SetActive(true);
+        qspriteContainer.SetActive(true);
         animate.gameObject.SetActive(true);
+        selectHintLabel.text = string.Empty;
         int i = 0;
         while (i < 9)
         {
@@ -366,20 +453,55 @@ public class EduUIManager : MonoBehaviour
             i++;
             yield return new WaitForSeconds(0.25f);
         }
-        if (success)
-        {
-            animate.sprite2D = (Sprite)Resources.Load<Sprite>("UI/Q_re_o");
-            showlabel.text = "结算显示：成功1.5倍！\r\n";
-        }
-        else
-        {
-            animate.sprite2D = (Sprite)Resources.Load<Sprite>("UI/Q_re_x");
-            showlabel.text = "结算显示：失败0.5倍！\r\n";
-        }
+        string fileName = "UI/Q_re" + (success ? "_o" : "_x");
+        animate.sprite2D = Resources.Load<Sprite>(fileName);
+        //结算文字
+        selectHintLabel.text = "恢复活力" + cost.ToString() + "\n请点击任意地方进入下一天";
+        showLabel.text = "结算显示：成功" + (success ? "1.5倍！" : "0.5倍！");
+        StartCoroutine(ShowHintLabel());
+        //等待点击
         acgo.SetActive(true);
         UIFresh();
-        showlabel.text = "恢复活力" + cost;
-        showlabel.text += "\r\n请点击任意地方进入下一天";
+    }
+
+    private IEnumerator ShowHintLabel()
+    {
+        float t = 0, y;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.deltaTime);
+            y = -580 + 80 * t;
+            bottomContainer.transform.localPosition = new Vector3(0,y);
+            yield return null;
+        }
+    }
+
+    private IEnumerator ShowChangeNum(int[] change, int cost = 0)
+    {
+        for(int i = 0; i < 5; i++)
+        {
+            changeLabels[i].color = change[i] > 0 ? Color.green : Color.red;
+            changeLabels[i].text = ChangeToString(change[i]);
+        }
+        changeTable.SetActive(true);
+        float t = 0, y;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.deltaTime);
+            y = -65 + 10 * t;
+            changeTable.transform.localPosition = new Vector3(370, y);
+            for(int i = 0; i < 5; i++)
+            {
+                changeLabels[i].alpha = t;
+            }
+            yield return null;
+        }
+    }
+    private string ChangeToString(int x)
+    {
+        if (x > 0) return "+" + x.ToString();
+        if (x < 0) return x.ToString();
+        return "";
     }
 
     /// <summary>
@@ -390,6 +512,7 @@ public class EduUIManager : MonoBehaviour
         //供调试调用
         acgo.SetActive(false);
         currentNode.EduExit();
+        changeTable.SetActive(false);
         //spriteContainer.SetActive(false);
         //animate.sprite2D = null;
         //showlabel.text = "";

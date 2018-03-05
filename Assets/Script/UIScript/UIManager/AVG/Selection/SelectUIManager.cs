@@ -101,8 +101,8 @@ public class SelectUIManager : MonoBehaviour
     {
         //计算按钮间隔
         int n = selections.Count;
-        int d = (480 - 50 * n) / (n + 1);
-        int i = 0;
+        int d = (720 - 80 * n) / (n + 1);
+        int i = 1;
         //预清空
         listCon.transform.DestroyChildren();
         hintCon.transform.DestroyChildren();
@@ -111,14 +111,14 @@ public class SelectUIManager : MonoBehaviour
             //生成选项按钮
             GameObject go = Resources.Load("Prefab/TextSelection_Button") as GameObject;
             go = NGUITools.AddChild(listCon, go);
-            go.transform.localPosition = new Vector3(0, 240 - ((i + 1) * d + i * 50));
+            go.transform.localPosition = new Vector3(0, 400 - (i * d + i * 80));
             go.transform.Find("Label").GetComponent<UILabel>().text = str;
             go.GetComponent<SelectButton>().SetUIManager(this);
             go.GetComponent<SelectButton>().SetText(str);
             //百分比统计
             go = Resources.Load("Prefab/SelectionRate_Label") as GameObject;
             go = NGUITools.AddChild(hintCon, go);
-            go.transform.localPosition = new Vector3(0, 240 - ((i + 1) * d + i * 50));
+            go.transform.localPosition = new Vector3(0, 400 - (i * d + i * 80));
             //TODO:向网络获取统计资料？
             //go.GetComponent<UILabel>().text = rates[str].ToString("p");
             go.GetComponent<UILabel>().text = 0.25.ToString("p");
@@ -170,7 +170,7 @@ public class SelectUIManager : MonoBehaviour
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.deltaTime);
-            y = (int)(t * 480);
+            y = (int)(t * 720);
             selectCon.GetComponent<UI2DSprite>().alpha = t;
             selectCon.GetComponent<UI2DSprite>().height = y;
             yield return null;

@@ -185,11 +185,24 @@ namespace Assets.Script.GameStruct
 
         private TextScript FindScript(string name)
         {
-            string classStr = SCRIPT_PATH + "." + name;
-            Type t = Type.GetType(classStr);
-            object[] args = new object[] { dm, root, ps };
-            TextScript script = (TextScript)Activator.CreateInstance(t, args);
-            return script;
+            try
+            {
+                string classStr = SCRIPT_PATH + "." + name;
+                Type t = Type.GetType(classStr);
+                object[] args = new object[] { dm, root, ps };
+                TextScript script = (TextScript)Activator.CreateInstance(t, args);
+                return script;
+            }
+            catch
+            {
+                Debug.LogError("未找到对应入口文件！");
+                return null;
+            }
+            //string classStr = SCRIPT_PATH + "." + name;
+            //Type t = Type.GetType(classStr);
+            //object[] args = new object[] { dm, root, ps };
+            //TextScript script = (TextScript)Activator.CreateInstance(t, args);
+            //return script;
         }
 
     }

@@ -187,7 +187,10 @@ public class SLUIManager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// 修改存档标签
+    /// </summary>
+    /// <param name="i">存档栏位置1-6</param>
     public void ChangeSaveInfo(int i)
     {
         Debug.Log(i);

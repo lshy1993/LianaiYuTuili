@@ -95,7 +95,27 @@ namespace Assets.Script.GameStruct
         #endregion
 
         #region EffectPiece部分
+        public EffectPiece Shutter(string spriteName, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Shutter(spriteName, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
 
+        public EffectPiece Blur()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Blur());
+            return new EffectPiece(id++, effects);
+        }
+
+
+
+        /// <summary>
+        /// 等待
+        /// </summary>
+        /// <param name="time">时长s</param>
         public EffectPiece Wait(float time)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();

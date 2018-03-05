@@ -14,6 +14,11 @@ namespace Assets.Script.GameStruct.Model
         public string id;
 
         /// <summary>
+        /// 连续问题的编号
+        /// </summary>
+        public int num;
+
+        /// <summary>
         /// 问题
         /// </summary>
         public string question;
@@ -36,6 +41,7 @@ namespace Assets.Script.GameStruct.Model
         public ReasoningEvent(JsonData data)
         {
             id = (string)data["ID"];
+            if (data.Contains("编号")) num = (int)data["编号"];
             question = (string)data["问题"];
 
             exit = data.Contains("出口") ? (string)data["出口"] : "";

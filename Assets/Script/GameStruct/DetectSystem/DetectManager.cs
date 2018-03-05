@@ -31,8 +31,8 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private DetectEvent currentEvent
         {
-            set { manager.SetTempVar("当前侦探事件", value); }
-            get { return manager.GetTempVar<DetectEvent>("当前侦探事件"); }
+            set { manager.tempData.currentDetectEvent = value; }
+            get { return manager.tempData.currentDetectEvent; }
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 当前地点
         /// </summary>
-        private string currentPlace
+        public string currentPlace
         {
             set { manager.inturnData.currentDetectPos = value; }
             get { return manager.inturnData.currentDetectPos; }
@@ -86,12 +86,12 @@ namespace Assets.Script.GameStruct
 
         //------------------------------------------------------
 
-        public DetectEvent GetCurrentEvent()
+        private DetectEvent GetCurrentEvent()
         {
             return currentEvent;
         }
 
-        public string CurrentPlace()
+        private string CurrentPlace()
         {
             return currentPlace;
         }
