@@ -290,6 +290,36 @@ public class ImageManager : MonoBehaviour
             case NewImageEffect.OperateMode.Shutter:
                 StartCoroutine(Shutter(effect, callback));
                 break;
+            case NewImageEffect.OperateMode.Mask:
+                StartCoroutine(Mask(effect, callback));
+                break;
+            case NewImageEffect.OperateMode.Scroll:
+                StartCoroutine(Scroll(effect, false, callback));
+                break;
+            case NewImageEffect.OperateMode.ScrollBoth:
+                StartCoroutine(Scroll(effect, true, callback));
+                break;
+            case NewImageEffect.OperateMode.Circle:
+                StartCoroutine(Circle(effect, callback));
+                break;
+            case NewImageEffect.OperateMode.RotateFade:
+                StartCoroutine(RotateFade(effect, callback));
+                break;
+            case NewImageEffect.OperateMode.SideFade:
+                StartCoroutine(SideFade(effect, callback));
+                break;
+            case NewImageEffect.OperateMode.Mosaic:
+                GetSpriteByDepth(effect.depth).shader = Shader.Find("Custom/Mosaic");
+                callback();
+                break;
+            case NewImageEffect.OperateMode.Gray:
+                GetSpriteByDepth(effect.depth).shader = Shader.Find("Custom/Gray");
+                callback();
+                break;
+            case NewImageEffect.OperateMode.OldPhoto:
+                GetSpriteByDepth(effect.depth).shader = Shader.Find("Custom/OldPhoto");
+                callback();
+                break;
         }
     }
 
@@ -351,9 +381,85 @@ public class ImageManager : MonoBehaviour
             t = Mathf.MoveTowards(t, 1, 1 / 0.1f * Time.deltaTime);
             float value = isBlur ? t * 0.005f : (1 - t) * 0.005f;
             //Debug.Log(value);
-
             Shader.SetGlobalFloat("uvOffset", value);
-            //Shader.SetGlobalFloat("uvOffset", value);
+            yield return null;
+        }
+        callback();
+    }
+
+    private IEnumerator RotateFade(NewImageEffect effect, Action callback)
+    {
+        //设置shader
+        UI2DSprite ui = GetSpriteByDepth(effect.depth);
+        ui.shader = Shader.Find("Custom/RotateFade");
+        Texture2D te = LoadBackground(effect.state.spriteName).texture;
+        Shader.SetGlobalTexture("_NewTex", te);
+        //正反向
+        Shader.SetGlobalInt("inverse", effect.inverse ? 1 : 0);
+        //效果
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
+            Shader.SetGlobalFloat("currentT", t);
+            yield return null;
+        }
+        callback();
+    }
+
+    private IEnumerator SideFade(NewImageEffect effect, Action callback)
+    {
+        //设置shader
+        UI2DSprite ui = GetSpriteByDepth(effect.depth);
+        ui.shader = Shader.Find("Custom/SideFade");
+        Texture2D te = LoadBackground(effect.state.spriteName).texture;
+        Shader.SetGlobalTexture("_NewTex", te);
+        Shader.SetGlobalInt("_Direction", (int)effect.direction);
+        //效果
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
+            Shader.SetGlobalFloat("currentT", t);
+            yield return null;
+        }
+        callback();
+    }
+
+    private IEnumerator Circle(NewImageEffect effect, Action callback)
+    {
+        //设置shader
+        UI2DSprite ui = GetSpriteByDepth(effect.depth);
+        ui.shader = Shader.Find("Custom/CircleHole");
+        Texture2D te = LoadBackground(effect.state.spriteName).texture;
+        Shader.SetGlobalTexture("_NewTex", te);
+        //正反向
+        Shader.SetGlobalInt("inverse", effect.inverse ? 1 : 0);
+        //效果
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
+            Shader.SetGlobalFloat("currentT", t);
+            yield return null;
+        }
+        callback();
+    }
+
+    private IEnumerator Scroll(NewImageEffect effect, bool isBoth, Action callback)
+    {
+        //设置shader
+        UI2DSprite ui = GetSpriteByDepth(effect.depth);
+        ui.shader = Shader.Find(isBoth ? "Custom/ScrollBoth" : "Custom/Scroll");
+        Texture2D te = LoadBackground(effect.state.spriteName).texture;
+        Shader.SetGlobalTexture("_NewTex", te);
+        Shader.SetGlobalInt("_Direction", (int)effect.direction);
+        //效果
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
+            Shader.SetGlobalFloat("currentT", t);
             yield return null;
         }
         callback();
@@ -366,6 +472,7 @@ public class ImageManager : MonoBehaviour
         ui.shader = Shader.Find("Custom/Shutter");
         Texture2D te = LoadBackground(effect.state.spriteName).texture;
         Shader.SetGlobalTexture("_NewTex", te);
+        Shader.SetGlobalInt("_Direction", (int)effect.direction);
         //效果
         float t = 0;
         while (t < 1)
@@ -376,7 +483,71 @@ public class ImageManager : MonoBehaviour
         }
         callback();
     }
+
+    private IEnumerator Mask(NewImageEffect effect, Action callback)
+    {
+        //设置shader
+        UI2DSprite ui = GetSpriteByDepth(effect.depth);
+        ui.shader = Shader.Find("Custom/Mask");
+        Texture2D te = LoadBackground(effect.state.spriteName).texture;
+        Shader.SetGlobalTexture("_NewTex", te);
+        Texture2D mk = LoadImage("Rule/", effect.maskImage).texture;
+        Shader.SetGlobalTexture("_MaskTex", mk);
+        //效果
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
+            Shader.SetGlobalFloat("currentT", t);
+            yield return null;
+        }
+        callback();
+    }
+
+    private IEnumerator Mosaic(NewImageEffect effect, Action callback)
+    {
+        //设置shader
+        UI2DSprite ui = GetSpriteByDepth(effect.depth);
+        ui.shader = Shader.Find("Custom/Mosaic");
+        yield return null;
+        callback();
+    }
+
+    private IEnumerator Gray(NewImageEffect effect, Action callback)
+    {
+        //设置shader
+        UI2DSprite ui = GetSpriteByDepth(effect.depth);
+        ui.shader = Shader.Find("Custom/Gray");
+        yield return null;
+        callback();
+    }
+
     #endregion
+
+    /// <summary>
+    /// 获取方向四元向量
+    /// </summary>
+    /// <param name="direction">方向枚举</param>
+    private Vector4 GetDirectVector(int direction)
+    {
+        switch (direction)
+        {
+            case 0:
+                //"left"
+                return new Vector4(1, 0, 0, 0);
+            case 1:
+                //"right"
+                return new Vector4(-1, 0, 0, 0);
+            case 2:
+                //"top"
+                return new Vector4(0, 1, 0, 0);
+            case 3:
+                //"bottom"
+                return new Vector4(0, -1, 0, 0);
+            default:
+                return new Vector4(1, 0, 0, 0);
+        }
+    }
 
     /// <summary>
     /// 等待所有Trans完成

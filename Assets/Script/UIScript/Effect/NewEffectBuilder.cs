@@ -45,6 +45,32 @@ namespace Assets.Script.UIScript
             return this;
         }
 
+        public NewEffectBuilder Mask(string image)
+        {
+            imageEffect.maskImage = image;
+            return this;
+        }
+
+        public NewEffectBuilder Direction(string direction)
+        {
+            imageEffect.direction = NewImageEffect.Direction.Left;
+            if (direction.Equals("left",StringComparison.OrdinalIgnoreCase))
+                imageEffect.direction = NewImageEffect.Direction.Left;
+            if (direction.Equals("right", StringComparison.OrdinalIgnoreCase))
+                imageEffect.direction = NewImageEffect.Direction.Right;
+            if (direction.Equals("top", StringComparison.OrdinalIgnoreCase))
+                imageEffect.direction = NewImageEffect.Direction.Top;
+            if (direction.Equals("bottom", StringComparison.OrdinalIgnoreCase))
+                imageEffect.direction = NewImageEffect.Direction.Bottom;
+            return this;
+        }
+
+        public NewEffectBuilder Direction(bool inverse)
+        {
+            imageEffect.inverse = inverse;
+            return this;
+        }
+
         public NewEffectBuilder FinalAlpha(float alpha)
         {
             imageEffect.state.spriteAlpha = alpha;
@@ -88,18 +114,90 @@ namespace Assets.Script.UIScript
 
 
         #region 背景图相关操作
-        public static NewImageEffect Shutter(string sprite, float time)
+        public static NewImageEffect RotateFade(string sprite, bool inverse, float time)
         {
             NewEffectBuilder builder = new NewEffectBuilder();
             NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
                 .Source(sprite)
                 .TotalTime(time)
-                .Operate(NewImageEffect.OperateMode.Shutter)
+                .Direction(inverse)
+                .Operate(NewImageEffect.OperateMode.RotateFade)
                 .Get();
             return e;
         }
 
+        public static NewImageEffect SideFade(string sprite, string direction, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Source(sprite)
+                .TotalTime(time)
+                .Direction(direction)
+                .Operate(NewImageEffect.OperateMode.SideFade)
+                .Get();
+            return e;
+        }
 
+        public static NewImageEffect Circle(string sprite, bool inverse, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Source(sprite)
+                .TotalTime(time)
+                .Direction(inverse)
+                .Operate(NewImageEffect.OperateMode.Circle)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect Scroll(string sprite, string direction, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Source(sprite)
+                .TotalTime(time)
+                .Direction(direction)
+                .Operate(NewImageEffect.OperateMode.Scroll)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect ScrollBoth(string sprite, string direction, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Source(sprite)
+                .TotalTime(time)
+                .Direction(direction)
+                .Operate(NewImageEffect.OperateMode.ScrollBoth)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect Mask(string sprite, string mask, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Source(sprite)
+                .TotalTime(time)
+                .Mask(mask)
+                .Operate(NewImageEffect.OperateMode.Mask)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect Shutter(string sprite, string direction, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Source(sprite)
+                .TotalTime(time)
+                .Direction(direction)
+                .Operate(NewImageEffect.OperateMode.Shutter)
+                .Get();
+            return e;
+        }
+        
         public static NewImageEffect Blur()
         {
             NewEffectBuilder builder = new NewEffectBuilder();
@@ -109,6 +207,32 @@ namespace Assets.Script.UIScript
             return e;
         }
 
+        public static NewImageEffect Mosaic()
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Operate(NewImageEffect.OperateMode.Mosaic)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect Gray()
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Operate(NewImageEffect.OperateMode.Gray)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect OldPhoto()
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.Back)
+                .Operate(NewImageEffect.OperateMode.OldPhoto)
+                .Get();
+            return e;
+        }
 
         public static NewImageEffect SetAlphaBackSprite(float alpha)
         {

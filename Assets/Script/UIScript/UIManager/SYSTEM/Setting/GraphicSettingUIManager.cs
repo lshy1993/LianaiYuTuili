@@ -70,10 +70,12 @@ public class GraphicSettingUIManager : MonoBehaviour
         if (Screen.fullScreen)
         {
             Screen.SetResolution(1280, 720, false);
+            Shader.SetGlobalVector("_TexSize", new Vector4(1280, 720, 0, 0));
         }
         else
         {
             Screen.SetResolution(1920, 1080, true);
+            Shader.SetGlobalVector("_TexSize", new Vector4(1920, 1080, 0, 0));
         }
  
     }

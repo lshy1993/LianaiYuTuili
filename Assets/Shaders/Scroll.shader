@@ -1,4 +1,4 @@
-﻿Shader "Custom/Fade" {
+﻿Shader "Custom/Scroll" {
 	Properties {
 		_MainTex ("Old Texture", 2D) = "white" {}
 		_TexSize("Texture Size", vector) = (1920, 1080, 0, 0)
@@ -20,6 +20,8 @@
 			sampler2D _NewTex;
 			float4 _TexSize;
 
+			//方向
+			int _Direction;
 			//进度
 			float currentT;
 
@@ -36,22 +38,40 @@
 				return o;
 			}
 
-			float changeval(float x)
-			{
-				if (x > 1) x = 1;
-				if (x < 0) x = 0;
-				return x;
-			}
-
 			float4 frag(v2f i) : COLOR
 			{
 				//当前进度(0-1)
 				float progress = currentT;
-				//贴图混合
-				float4 oldp = tex2D(_MainTex, i.uv);
-				float4 newp = tex2D(_NewTex, i.uv);
-				float3 outp = oldp.rgb*(1 - progress) + newp.rgb* progress;
-				return float4(outp, 1);
+				float2 nuv;
+				float rate;
+				//左
+				if (_Direction == 0)
+				{
+					rate = i.uv.x;
+					nuv = float2(1 - progress + i.uv.x, i.uv.y);
+				}
+				//右
+				if (_Direction == 1)
+				{
+					rate = 1 - i.uv.x;
+					nuv = float2(i.uv.x - 1 + progress, i.uv.y);
+				}
+				//上
+				if (_Direction == 2)
+				{
+					rate = 1 - i.uv.y;
+					nuv = float2(i.uv.x, i.uv.y - 1 + progress);
+				}
+				//下
+				if (_Direction == 3)
+				{
+					rate = i.uv.y;
+					nuv = float2(i.uv.x, 1 - progress + i.uv.y);
+				}				
+				if (progress < rate)
+					return tex2D(_MainTex, i.uv);
+				else
+					return tex2D(_NewTex, nuv);
 
 			}
 			ENDCG

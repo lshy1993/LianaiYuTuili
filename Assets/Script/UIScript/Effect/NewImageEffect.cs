@@ -18,12 +18,12 @@ namespace Assets.Script.UIScript
         /// <summary>
         /// 特效持续时间
         /// </summary>
-        public float time;
+        public float time = 0;
 
         /// <summary>
         /// 特效应用层级
         /// </summary>
-        public int depth;
+        public int depth = -1;
 
         /// <summary>
         /// 是否循环
@@ -39,7 +39,7 @@ namespace Assets.Script.UIScript
         /// <summary>
         /// 目标应用对象
         /// </summary>
-        public ImageType target;
+        public ImageType target = 0;
 
         public enum OperateMode
         {
@@ -47,21 +47,41 @@ namespace Assets.Script.UIScript
             Delete,
             Wait,
             PreTrans, Trans, TransAll,
-            Fade, Move,
-            Blur, Shutter
+            Fade, Move, Shutter, Twirl, Vortex,
+            Blur, Mosaic, Gray, OldPhoto,
+            Scroll, ScrollBoth, Circle, RotateFade,
+            SideFade,
+            Mask
+            
         };
         /// <summary>
         /// 特效模式
         /// </summary>
-        public OperateMode operate;
+        public OperateMode operate = 0;
+
+        public enum Direction
+        {
+            Left, Right, Top, Bottom
+        }
+        /// <summary>
+        /// 特效方向
+        /// </summary>
+        public Direction direction = 0;
+
+        /// <summary>
+        /// 正反向
+        /// </summary>
+        public bool inverse;
+
+        public string maskImage;
 
         public NewImageEffect()
         {
-            time = 0;
-            depth = -1;
+            //time = 0;
+            //depth = -1;
 
-            target = ImageType.Back;
-            operate = OperateMode.SetSprite;
+            //target = ImageType.Back;
+            //operate = OperateMode.SetSprite;
         }
 
 

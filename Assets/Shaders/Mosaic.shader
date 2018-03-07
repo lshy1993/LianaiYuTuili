@@ -5,8 +5,8 @@ Shader "Custom/Mosaic"
     Properties
     {
         _MainTex ("Base (RGB), Alpha (A)", 2D) = "black" {}
-        _SquareWidth("Square Width", Range(1, 30)) = 8
-        _TexSize("Texture Size", vector) = (256,256,0,0)
+        _SquareWidth("Square Width", Range(1, 30)) = 16
+        _TexSize("Texture Size", vector) = (1920,1080,0,0)
     }
     
     SubShader
@@ -67,6 +67,7 @@ Shader "Custom/Mosaic"
             {
                 float pixelX = int(IN.uv.x * _TexSize.x / _SquareWidth) * _SquareWidth;
                 float pixelY = int(IN.uv.y * _TexSize.y / _SquareWidth) * _SquareWidth;
+
                 float2 uv = float2(pixelX / _TexSize.x, pixelY / _TexSize.y);
                 fixed4 col = tex2D(_MainTex, uv);
                 return col;

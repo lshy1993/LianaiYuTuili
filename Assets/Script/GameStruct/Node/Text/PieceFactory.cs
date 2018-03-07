@@ -95,14 +95,95 @@ namespace Assets.Script.GameStruct
         #endregion
 
         #region EffectPiece部分
-        public EffectPiece Shutter(string spriteName, float time = 0.5f)
+        /// <summary>
+        /// 圆形旋转渐变特效（顺时针）
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="inverse">是否逆向（默认否）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece RotateFade(string spriteName, bool inverse = false, float time = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            effects.Enqueue(NewEffectBuilder.Shutter(spriteName, time));
+            effects.Enqueue(NewEffectBuilder.RotateFade(spriteName, inverse, time));
             effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
             return new EffectPiece(id++, effects);
         }
 
+        /// <summary>
+        /// 单侧渐变特效
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="direction">方向（默认：左）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece SideFade(string spriteName, string direction ="left", float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.SideFade(spriteName, direction, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 圆形展开特效（由内而外）
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="inverse">是否逆向（默认否）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece Circle(string spriteName, bool inverse = false, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Circle(spriteName, inverse, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 卷动特效
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="direction">方向（默认：左）</param>
+        /// <param name="isBoth">是否两图同时卷动</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece Scroll(string spriteName, string direction = "left", bool isBoth = false, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            if (isBoth) effects.Enqueue(NewEffectBuilder.ScrollBoth(spriteName, direction, time));
+            else effects.Enqueue(NewEffectBuilder.Scroll(spriteName, direction, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 蒙版特效
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="direction">方向（默认：左）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece Mask(string spriteName, string maskName, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Mask(spriteName, maskName, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 百叶窗特效
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="direction">方向（默认：左）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece Shutter(string spriteName, string direction = "left", float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Shutter(spriteName, direction, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 模糊特效
+        /// </summary>
         public EffectPiece Blur()
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
@@ -110,7 +191,35 @@ namespace Assets.Script.GameStruct
             return new EffectPiece(id++, effects);
         }
 
+        /// <summary>
+        /// 马赛克特效
+        /// </summary>
+        public EffectPiece Mosaic()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Mosaic());
+            return new EffectPiece(id++, effects);
+        }
 
+        /// <summary>
+        /// 灰度化特效
+        /// </summary>
+        public EffectPiece Gray()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Gray());
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 老照片效果
+        /// </summary>
+        public EffectPiece OldPhoto()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.OldPhoto());
+            return new EffectPiece(id++, effects);
+        }
 
         /// <summary>
         /// 等待
@@ -126,7 +235,7 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 淡出所有立绘【需要与RemoveAllChara连用】
         /// </summary>
-        /// <param name="fadeout">淡出时间，默认0.3s</param>
+        /// <param name="fadeout">淡出时间s（默认0.3s）</param>
         public EffectPiece FadeoutAllChara(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
@@ -137,7 +246,7 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 淡出所有图片【需要与RemoveAllPic连用】
         /// </summary>
-        /// <param name="fadeout">淡出时间，默认0.3s</param>
+        /// <param name="fadeout">淡出时间s（默认0.3s）</param>
         public EffectPiece FadeoutAllPic(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
@@ -148,7 +257,7 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 淡出所有（包括对话框）【需要与RemoveAll连用】
         /// </summary>
-        /// <param name="fadeout">淡出时间，默认0.3s</param>
+        /// <param name="fadeout">淡出时间s（默认0.3s）</param>
         public EffectPiece FadeoutAll(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
@@ -162,7 +271,6 @@ namespace Assets.Script.GameStruct
             effects.Enqueue(NewEffectBuilder.TransAll(transtime));
             return new EffectPiece(id++, effects);
         }
-
 
         /// <summary>
         /// 设置背景（不带有转换特效）

@@ -1,8 +1,6 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Custom/Blur" {
     Properties {
-        _MainTex ("Base (RGB)", 2D) = "white" {}
+        _MainTex ("Old Texture", 2D) = "white" {}
     }
     SubShader
     {
