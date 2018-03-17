@@ -17,6 +17,8 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 //——背景 商场——
+                f.FadeinBackground("square_day"),
+                f.OpenDialog(),
                 f.t("【李云萧】", "（去买点要用的东西吧……）"),
                 //——SE 人声——
                 f.t("【李云萧】", "（双休日的时候，人就是多啊……）"),

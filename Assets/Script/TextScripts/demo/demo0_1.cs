@@ -30,7 +30,8 @@ namespace Assets.Script.TextScripts
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetSwitchNode("8月31日 上午", "华欣外国语学校 校门", "demo0_2");
+            return nodeFactory.GetNegotiateNode("N0001");
+            //return nodeFactory.GetSwitchNode("8月31日 上午", "华欣外国语学校 校门", "demo0_2");
         }
 
     }

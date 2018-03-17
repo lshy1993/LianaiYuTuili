@@ -76,7 +76,15 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public Dictionary<int, AchieveEnding> endingInfo;
 
+        /// <summary>
+        /// 对峙事件表
+        /// </summary>
+        public Dictionary<string, NegotiateEvent> negotiateEvents;
 
+        /// <summary>
+        /// 对峙正文表
+        /// </summary>
+        public Dictionary<int, Negotiate> negotiateTexts;
 
 
         public Dictionary<string, Character> characters;

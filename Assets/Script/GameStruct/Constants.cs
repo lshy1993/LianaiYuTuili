@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Script.GameStruct
 {
@@ -33,6 +34,7 @@ namespace Assets.Script.GameStruct
         public static readonly string EDU_PATH = ROOT_PATH + "EduConfig/";
         public static readonly string REASONING_PATH = ROOT_PATH + "ReasoningConfig/";
         public static readonly string ENQUIRE_PATH = ROOT_PATH + "EnquireConfig/";
+        public static readonly string NEGOTIATE_PATH = ROOT_PATH + "NegotiateConfig/";
         public static readonly string TEST_PATH = ROOT_PATH + "TestConfig/";
         public static readonly string APP_PATH = ROOT_PATH + "AppConfig/";
         public static readonly string EXAM_PATH = ROOT_PATH + "ExamConfig/";
@@ -44,6 +46,7 @@ namespace Assets.Script.GameStruct
         public static readonly string EDU_DEBUG_PATH = ROOT_PATH + "EduDebug/";
         public static readonly string REASONING_DEBUG_PATH = ROOT_PATH + "ReasoningDebug/";
         public static readonly string ENQUIRE_DEBUG_PATH = ROOT_PATH + "EnquireDebug/";
+        public static readonly string NEGOTIATE_DEBUG_PATH = ROOT_PATH + "NegotiateDebug/";
         public static readonly string TEST_DEBUG_PATH = ROOT_PATH + "TestDebug/";
         public static readonly string APP_DEBUG_PATH = ROOT_PATH + "AppDebug/";
         public static readonly string EXAM_DEBUG_PATH = ROOT_PATH + "ExamDebug/";

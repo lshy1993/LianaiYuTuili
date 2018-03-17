@@ -242,7 +242,7 @@ public class EnquireUIManager : MonoBehaviour
     private void SetPositionX(GameObject go, float x)
     {
         float y = go.transform.localPosition.y;
-        go.transform.localPosition = new Vector3(x, y, 0);
+        go.transform.localPosition = new Vector3(x, y);
     }
 
     /// <summary>
@@ -251,7 +251,7 @@ public class EnquireUIManager : MonoBehaviour
     private void SetPositionY(GameObject go,float y)
     {
         float x = go.transform.localPosition.x;
-        go.transform.localPosition = new Vector3(x, y, 0);
+        go.transform.localPosition = new Vector3(x, y);
     }
 
 

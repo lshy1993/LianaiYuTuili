@@ -8,25 +8,79 @@ public class TitleUIManager : MonoBehaviour
 {
     public GameManager gm;
     public SystemUIManager sysm;
-    //public SoundManager sm;
 
-    public UIWidget title, extra, music, gallery, recollection, ending;
-    public GameObject btnTable, largeCon;
-    public GameObject bg;
-    public UILabel verLabel;
+    public Vector2 offset = new Vector2(0.05f, 0.05f);
+
+    private UIWidget titleCon, extraCon;
+    private UIWidget musicCon, galleryCon, recollectionCon, endingCon;
+    private GameObject btnTable, largeCon, particleCon;
+    private GameObject bg;
+    private UILabel verLabel;
+
+    /// <summary>
+    /// 动态背景
+    /// </summary>
+    private bool dynamicBackgrund = true;
+
+    /// <summary>
+    /// 动态粒子特效
+    /// </summary>
+    private bool dynamicParticle = true;
 
     private Constants.TITLE_STATUS status;
 
     void Awake()
     {
         status = Constants.TITLE_STATUS.TITLE;
-        verLabel.text = DataManager.GetInstance().version;
+
+        titleCon = transform.Find("Title_Container").GetComponent<UIWidget>();
+        extraCon = transform.Find("ExtraButton_Container").GetComponent<UIWidget>();
+        musicCon = transform.Find("Music_Container").GetComponent<UIWidget>();
+        galleryCon = transform.Find("Gallery_Container").GetComponent<UIWidget>();
+        recollectionCon = transform.Find("Recollection_Container").GetComponent<UIWidget>();
+        endingCon = transform.Find("Ending_Container").GetComponent<UIWidget>();
+
+        btnTable = titleCon.transform.Find("MainButton_Table").gameObject;
+        largeCon = galleryCon.transform.Find("Large_Container").gameObject;
+        particleCon = titleCon.transform.Find("Particle_Container").gameObject;
+
+        bg = transform.Find("Back_Sprite").gameObject;
+        verLabel = transform.Find("Title_Container/SideLabel_Container/Version_Label").GetComponent<UILabel>();
+
     }
 
     private void OnEnable()
     {
         //初始化时播放BGM
         gm.sm.SetBGM("Title");
+        verLabel.text = DataManager.GetInstance().version;
+        //粒子特效
+        //if(dynamicParticle)
+    }
+
+    private void Update()
+    {
+        if (dynamicBackgrund) DynamicMouse();
+    }
+
+    //计算动态背景位置
+    private void DynamicMouse()
+    {
+        //获取鼠标相对偏移位置（中心为0,0）
+        float mouseX = GetScreenOffset((Input.mousePosition.x - 960) / 1920f);
+        float mouseY = GetScreenOffset((Input.mousePosition.y - 540) / 1080f);
+        //Debug.Log(mouseX.ToString() + mouseY.ToString());
+        Vector2 originPoint = new Vector2(0, 630);
+        float bgX = originPoint.x - mouseX * 1920 * offset.x;
+        float bgY = originPoint.y - mouseY * 1080 * offset.y;
+        bg.transform.localPosition = new Vector2(bgX, bgY);
+    }
+
+    private float GetScreenOffset(float t)
+    {
+        if (t < -0.5f) return -0.5f;
+        if (t > 0.5f) return 0.5f;
+        return t;
     }
 
     public Constants.TITLE_STATUS GetStatus()
@@ -44,7 +98,7 @@ public class TitleUIManager : MonoBehaviour
             case Constants.TITLE_STATUS.GALLERY:
                 if (largeCon.activeSelf)
                 {
-                    gallery.GetComponent<GalleryUIManager>().ClosePic();
+                    galleryCon.GetComponent<GalleryUIManager>().ClosePic();
                 }
                 else
                 {
@@ -113,16 +167,16 @@ public class TitleUIManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             status = Constants.TITLE_STATUS.MUSIC;
-            StartCoroutine(FadeOut(extra));
-            StartCoroutine(FadeIn(music));
+            StartCoroutine(FadeOut(extraCon));
+            StartCoroutine(FadeIn(musicCon));
             gm.sm.StopBGM();
         }
     }
     public void CloseMusic()
     {
         status = Constants.TITLE_STATUS.EXTRA;
-        StartCoroutine(FadeOut(music));
-        StartCoroutine(FadeIn(extra));
+        StartCoroutine(FadeOut(musicCon));
+        StartCoroutine(FadeIn(extraCon));
         gm.sm.SetBGM("Title");
     }
     public void OpenGallery()
@@ -130,65 +184,65 @@ public class TitleUIManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             status = Constants.TITLE_STATUS.GALLERY;
-            StartCoroutine(FadeOut(extra));
-            StartCoroutine(FadeIn(gallery));
+            StartCoroutine(FadeOut(extraCon));
+            StartCoroutine(FadeIn(galleryCon));
         }
     }
     public void CloseGallery()
     {
         status = Constants.TITLE_STATUS.EXTRA;
-        StartCoroutine(FadeOut(gallery));
-        StartCoroutine(FadeIn(extra));
+        StartCoroutine(FadeOut(galleryCon));
+        StartCoroutine(FadeIn(extraCon));
     }
     public void OpenRecollection()
     {
         if (Input.GetMouseButtonUp(0))
         {
             status = Constants.TITLE_STATUS.RECOLL;
-            StartCoroutine(FadeOut(extra));
-            StartCoroutine(FadeIn(recollection));
+            StartCoroutine(FadeOut(extraCon));
+            StartCoroutine(FadeIn(recollectionCon));
         }
     }
     public void CloseRecollection()
     {
         status = Constants.TITLE_STATUS.EXTRA;
-        StartCoroutine(FadeOut(recollection));
-        StartCoroutine(FadeIn(extra));
+        StartCoroutine(FadeOut(recollectionCon));
+        StartCoroutine(FadeIn(extraCon));
     }
     public void OpenEnding()
     {
         if (Input.GetMouseButtonUp(0))
         {
             status = Constants.TITLE_STATUS.ENDING;
-            StartCoroutine(FadeOut(extra));
-            StartCoroutine(FadeIn(ending));
+            StartCoroutine(FadeOut(extraCon));
+            StartCoroutine(FadeIn(endingCon));
         }
     }
     public void CloseEnding()
     {
         status = Constants.TITLE_STATUS.EXTRA;
-        StartCoroutine(FadeOut(ending));
-        StartCoroutine(FadeIn(extra));
+        StartCoroutine(FadeOut(endingCon));
+        StartCoroutine(FadeIn(extraCon));
     }
     #endregion
 
     private IEnumerator OpenExtra()
     {
         StartCoroutine(MoveBG(false));
-        yield return StartCoroutine(FadeOut(title));
-        StartCoroutine(FadeIn(extra));
+        yield return StartCoroutine(FadeOut(titleCon));
+        StartCoroutine(FadeIn(extraCon));
     }
     private IEnumerator CloseExtra()
     {
         StartCoroutine(MoveBG(true));
-        yield return StartCoroutine(FadeOut(extra));
-        StartCoroutine(FadeIn(title));
+        yield return StartCoroutine(FadeOut(extraCon));
+        StartCoroutine(FadeIn(titleCon));
     }
 
     private IEnumerator FadeIn(UIWidget target)
     {
         DataManager.GetInstance().BlockRightClick();
-        if (target == title) BlockBtn(false);
+        if (target == titleCon) BlockBtn(false);
         target.transform.gameObject.SetActive(true);
         float x = 0;
         while (x < 1)
@@ -197,12 +251,12 @@ public class TitleUIManager : MonoBehaviour
             target.alpha = x;
             yield return null;
         }
-        if (target == title) BlockBtn(true);
+        if (target == titleCon) BlockBtn(true);
         DataManager.GetInstance().UnblockRightClick();
     }
     private IEnumerator FadeOut(UIWidget target)
     {
-        if (target == title) BlockBtn(false);
+        if (target == titleCon) BlockBtn(false);
         float x = 1;
         while (x > 0)
         {
@@ -211,23 +265,25 @@ public class TitleUIManager : MonoBehaviour
             yield return null;
         }
         target.transform.gameObject.SetActive(false);
-        if (target == title) BlockBtn(true);
+        if (target == titleCon) BlockBtn(true);
     }
 
     private IEnumerator MoveBG(bool isback)
     {
+        dynamicBackgrund = false;
         DataManager.GetInstance().BlockRightClick();
-        float x = 0;
-        while (x < 1)
+        float x = bg.transform.localPosition.x;
+        float t = 0;
+        while (t < 1)
         {
-            x = Mathf.MoveTowards(x, 1, 1 / 0.5f * Time.deltaTime);
-            //float y = isback ? 420 - 700 * (1 - x) : 420 - 700 * x;
-            float y = isback ? 633 - 920 * (1 - x) : 420 - 920 * x;
-            bg.transform.localPosition = new Vector3(0, y, 0);
+            t = Mathf.MoveTowards(t, 1, 1 / 0.5f * Time.deltaTime);
+            float y = 630 - 920 * (isback ? (1 - t) : t);
+            bg.transform.localPosition = new Vector3(x, y);
             yield return null;
         }
-        title.transform.gameObject.SetActive(isback);
+        titleCon.transform.gameObject.SetActive(isback);
         DataManager.GetInstance().UnblockRightClick();
+        if (isback) dynamicBackgrund = true;
     }
 
     private void BlockBtn(bool blocked)

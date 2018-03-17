@@ -256,6 +256,44 @@ namespace Assets.Script.GameStruct
         }
         #endregion
 
+        #region 对峙静态数据
+        /// <summary>
+        /// 读取所有对峙事件
+        /// </summary>
+        public static Dictionary<string, NegotiateEvent> GetStaticNegotiateEvents()
+        {
+            Dictionary<string, NegotiateEvent> events = new Dictionary<string, NegotiateEvent>();
+            string path = Constants.DEBUG ? Constants.NEGOTIATE_DEBUG_PATH : Constants.NEGOTIATE_PATH;
+            Debug.Log("读取对峙事件");
+            TextAsset text = Resources.Load<TextAsset>(path + "events");
+            JsonData jsondata = JsonMapper.ToObject(text.text);
+            foreach (JsonData jd in jsondata)
+            {
+                NegotiateEvent ne = new NegotiateEvent(jd);
+                events.Add(ne.id, ne);
+            }
+            return events;
+        }
+
+        /// <summary>
+        /// 读取所有对峙文本
+        /// </summary>
+        public static Dictionary<int, Negotiate> GetStaticNegotiateList()
+        {
+            Dictionary<int, Negotiate> events = new Dictionary<int, Negotiate>();
+            string path = Constants.DEBUG ? Constants.NEGOTIATE_DEBUG_PATH : Constants.NEGOTIATE_PATH;
+            Debug.Log("读取对峙文本");
+            TextAsset text = Resources.Load<TextAsset>(path + "texts");
+            JsonData jsondata = JsonMapper.ToObject(text.text);
+            foreach (JsonData jd in jsondata)
+            {
+                Negotiate nt = new Negotiate(jd);
+                events.Add(nt.UID, nt);
+            }
+            return events;
+        }
+        #endregion
+
         public static Dictionary<int,Question> GetStaticQuestiones()
         {
             Dictionary<int, Question> dic = new Dictionary<int, Question>();

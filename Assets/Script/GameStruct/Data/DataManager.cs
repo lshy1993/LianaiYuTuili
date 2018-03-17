@@ -332,6 +332,7 @@ namespace Assets.Script.GameStruct
             InitReasoning();
             InitEdu();
             InitEvidence();
+            InitNegotiate();
             InitExam();
             InitApp();
             //TODO:静态表格 例如cginfo 记录键值与文件全路径
@@ -419,6 +420,15 @@ namespace Assets.Script.GameStruct
         {
             staticData.reasonEvents = StaticManager.GetStaticReasoningEvents();
             ReasoningManager.GetInstance().Init(this);
+        }
+
+        /// <summary>
+        /// 初始化【对峙模式】数据
+        /// </summary>
+        private void InitNegotiate()
+        {
+            staticData.negotiateEvents = StaticManager.GetStaticNegotiateEvents();
+            staticData.negotiateTexts = StaticManager.GetStaticNegotiateList();
         }
 
         /// <summary>

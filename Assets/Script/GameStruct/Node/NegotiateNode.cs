@@ -9,7 +9,6 @@ namespace Assets.Script.GameStruct
 {
     public class NegotiateNode : GameNode
     {
-        //private EnquireManager enquireManager;
         private NegotiateUIManager uiManager;
         private NegotiateEvent enquireEvent;
         private GameNode next;
@@ -22,11 +21,14 @@ namespace Assets.Script.GameStruct
             ps.SwitchTo_VerifyIterative("Avg_Panel", uiManager.OpenUI);
         }
 
-        public void Init(string detectEvent)
+        public void Init(string negotiateName)
         {
-            //detectManager = DetectManager.GetInstance();
             uiManager = root.transform.Find("Avg_Panel/Negotiate_Panel").GetComponent<NegotiateUIManager>();
             uiManager.transform.gameObject.SetActive(true);
+
+            enquireEvent = DataManager.GetInstance().staticData.negotiateEvents[negotiateName];
+
+            uiManager.SetCurrentEvent(enquireEvent);
             factory = NodeFactory.GetInstance();
         }
 
