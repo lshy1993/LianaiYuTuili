@@ -82,7 +82,7 @@ namespace Assets.Script.GameStruct.Model
             }
             else
             {
-                str += (isEng ? "evidence" : "正确证据") + " : " + "\n";
+                str += (isEng ? "evidence" : "证据选项") + " : " + "\n";
                 str += answerEvi.ToString(isEng);
             }
 

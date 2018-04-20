@@ -70,7 +70,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private bool blockSaveLoad = false;
 
-        public readonly string version = "测试用Demo 1.40";
+        public readonly string version = "测试用Demo 1.42";
 
         private DataManager()
         {

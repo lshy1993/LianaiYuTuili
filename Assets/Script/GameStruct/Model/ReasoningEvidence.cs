@@ -39,7 +39,7 @@ namespace Assets.Script.GameStruct.Model
             str += "    " + (isEng ? "evi" : "需要证据") + " : ";
             foreach(string item in evi)
             {
-                str += evi + "  ";
+                str += item + "  ";
             }
             str += "\n";
             str += "    " + (isEng ? "curretEntry" : "正确进入脚本") + " : " + curretEntry + "\n";

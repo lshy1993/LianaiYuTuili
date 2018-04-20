@@ -15,7 +15,10 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
-                f.ShowChapter(),
+                //——背景 讲台视角的教室——
+                f.FadeinBackground("classroom"),
+                f.TimeSwitch("8月31日 上午", "高二（3）班 教室"),
+                f.ShowChapter("Chapter 0-1"),
                 f.OpenDialog(),
                 //——无立绘 头像——
                 f.t("李云萧","[66ccff]（都是陌生的脸……）[-]"),
@@ -70,10 +73,10 @@ namespace Assets.Script.TextScripts
                 f.t("李云萧","你这个算是恶意卖萌吗？"),
                 f.t("喵星人","你说呢？╮(╯▽╰)╭"),
                 f.t("李云萧","[66ccff]（颜文字都出来了啊，喂！）[-]"),
-                f.t("喵星人","你才刚来，可能对华欣不太熟悉。"),
+                f.t("喵星人","你才刚来，可能对枫溪不太熟悉。"),
                 f.t("李云萧","我只知道是有名的重点中学，其他的事情就不太清楚了。"),
-                f.t("喵星人","说对了一半，华欣的确是市里的一级重点高中……"),
-                f.t("喵星人","但是我们华欣，和其他的重点高中还是有区别的。"),
+                f.t("喵星人","说对了一半，枫溪的确是市里的一级重点高中……"),
+                f.t("喵星人","但是我们枫溪，和其他的重点高中还是有区别的。"),
                 f.t("李云萧","哦？有什么区别？"),
                 f.PauseBGM(),
                 f.TransCharacterSprite(0,"ch7"),
@@ -113,16 +116,13 @@ namespace Assets.Script.TextScripts
                 //f.t("李云萧","[66ccff]（我朝着这个新的大家庭，迈出了第一步。）[-]"),
                 f.FadeoutAll(),
                 f.Wait(0.5f),
-                //——背景 后排视角教室——
-                f.FadeinBackground("classroom")
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetSwitchNode("8月31日 上午", "高二（3）班 教室", "demo00_1");
-            //return nodeFactory.FindTextScript("demo00_1");
+            return nodeFactory.FindTextScript("demo00_1");
         }
 
     }

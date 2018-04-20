@@ -17,6 +17,7 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 //——背景：新华书店——
+                f.ChangeBackground(""),
                 f.OpenDialog(),
                 f.t("【李云萧】", "好，今天就是来补充知识的！"),
                 f.t("【李云萧】", "那么，要做什么呢？")

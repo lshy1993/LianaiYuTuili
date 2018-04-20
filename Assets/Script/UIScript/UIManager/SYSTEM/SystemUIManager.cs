@@ -1,32 +1,46 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.GameStruct;
 using Assets.Script.GameStruct.Model;
 
+/// <summary>
+/// 系统界面管理器
+/// 0.菜单
+/// 1.SL
+/// 2.设置
+/// 3.文字记录
+/// 4.警告窗口
+/// </summary>
 public class SystemUIManager : MonoBehaviour
 {
-    private SLUIManager slm;
+    private SaveLoadUIManager slm;
 
     public PanelSwitch ps;
     public GameObject butContainer, saveloadContainer, settingContainer, backlogContainer;
-    public GameObject warningContainer, warnBlockCon;
+    public GameObject warningContainer;
     public UIButton saveBtn, loadBtn;
 
     public DialogBoxUIManager dbum;
     public UILabel sysIndexInfo;
 
+    public string currentContainer;
     private Constants.WarningMode currentMode;
 
     /// <summary>
     /// 是否关闭了Dialog
     /// </summary>
     public bool quickOpen;
+
+    /// <summary>
+    /// 是否从菜单按钮进入
+    /// </summary>
     public bool fromButton;
 
     private void Awake()
     {
-        slm = saveloadContainer.GetComponent<SLUIManager>();
+        slm = saveloadContainer.GetComponent<SaveLoadUIManager>();
         //生成存档界面表格
         slm.saveTable.transform.DestroyChildren();
         for (int i = 1; i <= 6; i++)
@@ -83,7 +97,7 @@ public class SystemUIManager : MonoBehaviour
     /// </summary>
     public void Close()
     {
-        StartCoroutine(FadeOutP(0.3f));
+        StartCoroutine(FadeOutP(() => { }, 0.3f));
         //如果跨级开启 则恢复原界面
         if (quickOpen) dbum.ShowWindow();
         quickOpen = false;
@@ -95,9 +109,17 @@ public class SystemUIManager : MonoBehaviour
     public void OpenSetting()
     {
         Debug.Log("Open Setting");
-        if (!fromButton) butContainer.SetActive(false);
-        else StartCoroutine(FadeOut(butContainer, 0.3f));
-        StartCoroutine(FadeIn(settingContainer, 0.3f));
+        //淡出菜单
+        if (!fromButton)
+        {
+            butContainer.SetActive(false);
+            StartCoroutine(FadeIn(settingContainer));
+        }
+        else
+        {
+            //淡入设置
+            StartCoroutine(FadeOutWithCallback(butContainer, () => { StartCoroutine(FadeIn(settingContainer, 0.3f)); }));
+        }
         fromButton = false;
     }
 
@@ -108,9 +130,14 @@ public class SystemUIManager : MonoBehaviour
     {
         Debug.Log("Open Backlog");
         DataManager.GetInstance().UnblockBacklog();
-        if (!fromButton) butContainer.SetActive(false);
-        else StartCoroutine(FadeOut(butContainer, 0.3f));
-        StartCoroutine(FadeIn(backlogContainer, 0.3f));
+        if (!fromButton)
+        {
+            butContainer.SetActive(false);
+            StartCoroutine(FadeIn(backlogContainer));
+        }else
+        {
+            StartCoroutine(FadeOutWithCallback(butContainer, () => { StartCoroutine(FadeIn(backlogContainer)); }));
+        }
         fromButton = false;
     }
 
@@ -160,9 +187,9 @@ public class SystemUIManager : MonoBehaviour
     /// <param name="arg">警告框类型</param>
     public void OpenWarning(Constants.WarningMode arg)
     {
-        //if (Input.GetMouseButtonUp(1)) return;
         //解除警告按钮锁定
-        warnBlockCon.SetActive(false);
+        //warnBlockCon.SetActive(false);
+        warningContainer.transform.Find("Block_Container").gameObject.SetActive(false);
         warningContainer.GetComponent<UIWidget>().alpha = 1;
 
         string showMessage = "";
@@ -196,15 +223,15 @@ public class SystemUIManager : MonoBehaviour
     /// </summary>
     public void WarningComfirm()
     {
-        //if (Input.GetMouseButtonUp(1)) return;
         //锁定警告框
-        warnBlockCon.SetActive(true);
+        warningContainer.transform.Find("Block_Container").gameObject.SetActive(true);
         switch (currentMode)
         {
             case Constants.WarningMode.Title:
                 //StartCoroutine(FadeOut(warningContainer));
-                StartCoroutine(FadeOutP());
-                ps.SwitchTo_VerifyIterative("Title_Panel");
+                warningContainer.SetActive(false);
+                StartCoroutine(FadeOutP(() => { ps.SwitchTo_VerifyIterative("Title_Panel"); }));
+
                 break;
             case Constants.WarningMode.Quit:
                 Application.Quit();
@@ -245,8 +272,11 @@ public class SystemUIManager : MonoBehaviour
             yield return null;
         }
     }
-    private IEnumerator FadeOutP(float time = 0.5f)
+
+    //淡出整个system panel
+    private IEnumerator FadeOutP(Action callback, float time = 0.5f)
     {
+        Debug.Log("fadeoutp");
         UIPanel panel = transform.GetComponent<UIPanel>();
         float x = 1;
         while (x > 0)
@@ -255,17 +285,21 @@ public class SystemUIManager : MonoBehaviour
             panel.alpha = x;
             yield return null;
         }
-        butContainer.SetActive(false);
-        saveloadContainer.SetActive(false);
+
         settingContainer.SetActive(false);
+        saveloadContainer.SetActive(false);
         backlogContainer.SetActive(false);
+        butContainer.SetActive(false);
         warningContainer.SetActive(false);
         transform.gameObject.SetActive(false);
+        callback();
     }
 
-    private IEnumerator FadeIn(GameObject target, float time = 0.5f)
+    private IEnumerator FadeIn(GameObject target, float time = 0.3f)
     {
         target.SetActive(true);
+        currentContainer = target.name;
+        if (target.transform.Find("Block_Container") != null) target.transform.Find("Block_Container").gameObject.SetActive(true);
         UIWidget widget = target.GetComponent<UIWidget>();
         float x = 0;
         while (x < 1)
@@ -274,9 +308,12 @@ public class SystemUIManager : MonoBehaviour
             widget.alpha = x;
             yield return null;
         }
+        if (target.transform.Find("Block_Container") != null) target.transform.Find("Block_Container").gameObject.SetActive(false);
     }
-    private IEnumerator FadeOut(GameObject target, float time = 0.5f)
+
+    private IEnumerator FadeOut(GameObject target, float time = 0.3f)
     {
+        if (target.transform.Find("Block_Container") != null) target.transform.Find("Block_Container").gameObject.SetActive(true);
         UIWidget widget = target.GetComponent<UIWidget>();
         float x = 1;
         while (x > 0)
@@ -285,8 +322,24 @@ public class SystemUIManager : MonoBehaviour
             widget.alpha = x;
             yield return null;
         }
+        currentContainer = string.Empty;
         target.SetActive(false);
         //if (final != null) final.SetActive(true);
+    }
+
+    private IEnumerator FadeOutWithCallback(GameObject target, Action callback, float time = 0.3f)
+    {
+        if (target.transform.Find("Block_Container") != null) target.transform.Find("Block_Container").gameObject.SetActive(true);
+        float x = 1;
+        while (x > 0)
+        {
+            x = Mathf.MoveTowards(x, 0, 1 / time * Time.deltaTime);
+            target.GetComponent<UIWidget>().alpha = x;
+            yield return null;
+        }
+        currentContainer = string.Empty;
+        target.SetActive(false);
+        callback();
     }
 
 }

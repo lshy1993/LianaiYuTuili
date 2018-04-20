@@ -128,16 +128,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
-        //0 重置gameVar
+        //重置gameVar
         dm.InitGame();
-        //1 刷新事件
+        //刷新事件池
         em.UpdateEvent();
         //获取强制事件
         MapEvent e = em.GetCurrentForceEvent();
         em.currentEvent = e;
         dm.gameData.currentEvent = e.name;
         node = nodeFactory.FindTextScript(e.entryNode);
-        //清空文字记录
+        //清空原先的文字记录
         dm.ClearHistory();
     }
 
@@ -153,10 +153,18 @@ public class GameManager : MonoBehaviour
     {
         root = GameObject.Find("UI Root");
         //ps初始化
-        if (ps == null) ps = transform.GetComponent<PanelSwitch>();
+        if (ps == null)
+        {
+            ps = transform.GetComponent<PanelSwitch>();
+            Debug.Log("PanelSwitch 再获取");
+        }
         ps.Init();
         //im初始化
-        if (im == null) im = transform.GetComponent<ImageManager>();
+        if (im == null)
+        {
+            im = transform.GetComponent<ImageManager>();
+            Debug.Log("ImageManager 再获取");
+        }
         //dm初始化
         dm = DataManager.GetInstance();
         //em初始化

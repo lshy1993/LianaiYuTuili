@@ -11,15 +11,17 @@ public class NegotiateUIManager : MonoBehaviour
 {
     public SoundManager sm;
 
-    private GameObject backContainer, startContainer, moveContainer;
+    private GameObject backContainer, startContainer, endContainer, moveContainer;
     private GameObject leftLabel, rightLabel, selectionContainer;
     private GameObject leftP, rightP, goalLabel, subGoalLabel;
-    private GameObject topicContainer, topicGrid;
+    private GameObject topicContainer, topicGrid, hintContainer, hintLabel;
 
     /// <summary>
     /// 当前所处的事件
     /// </summary>
     private NegotiateEvent currentEvent;
+
+    private NegotiateNode currentNode;
 
     /// <summary>
     /// 当前所显示的文本
@@ -28,11 +30,14 @@ public class NegotiateUIManager : MonoBehaviour
 
     private List<string> topics;
 
+    private string currentHoverTopic;
+
     private void Awake()
     {
         //基础UI面板
         backContainer = transform.Find("Black_Sprite").gameObject;
         startContainer = transform.Find("Start_Container").gameObject;
+        endContainer = transform.Find("End_Container").gameObject;
         moveContainer = transform.Find("Moving_Container").gameObject;
 
         //背景块
@@ -47,7 +52,9 @@ public class NegotiateUIManager : MonoBehaviour
 
         //话题列表
         topicContainer = transform.Find("TopicList_Container").gameObject;
-        topicGrid = transform.Find("TopicList_Container/Grid_Container").gameObject;
+        topicGrid = topicContainer.transform.Find("Grid_Container").gameObject;
+        hintContainer = topicContainer.transform.Find("Hint_Container").gameObject;
+        hintLabel = hintContainer.transform.Find("Hint_Label").gameObject;
 
         //选项按钮
         selectionContainer = transform.Find("Selection_Container").gameObject;
@@ -69,6 +76,11 @@ public class NegotiateUIManager : MonoBehaviour
     public void SetCurrentEvent(NegotiateEvent ne)
     {
         currentEvent = ne;
+    }
+
+    public void SetCurrentNode(NegotiateNode nd)
+    {
+        currentNode = nd;
     }
 
     /// <summary>
@@ -122,6 +134,7 @@ public class NegotiateUIManager : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
             startContainer.transform.GetChild(i).localPosition = new Vector3(0, pos_y[i]);
         }
+        //放大4字
         float scale = 1;
         while (scale < 2)
         {
@@ -146,7 +159,11 @@ public class NegotiateUIManager : MonoBehaviour
                 startContainer.transform.GetChild(i).transform.localPosition = new Vector3(0, y);
                 yield return null;
             }
+            //不显示且复原
             startContainer.transform.GetChild(i).gameObject.SetActive(false);
+            startContainer.transform.GetChild(i).GetComponent<UIRect>().alpha = 1;
+            startContainer.transform.GetChild(i).transform.localScale = new Vector3(1, 1, 1);
+            startContainer.transform.GetChild(i).transform.localPosition = new Vector3(0, 800);
         }
         startContainer.SetActive(false);
         //移动并淡入问题
@@ -184,7 +201,9 @@ public class NegotiateUIManager : MonoBehaviour
             subGoalLabel.GetComponent<UIRect>().alpha = 1 - t;
             yield return null;
         }
+        //不显示且复原
         goalLabel.SetActive(false);
+        goalLabel.transform.localScale = new Vector3(1, 1, 1);
         subGoalLabel.SetActive(false);
         //色块分别移动归位
         float lefty, righty;
@@ -297,6 +316,12 @@ public class NegotiateUIManager : MonoBehaviour
             if (currentText.nextNum == 0) break;
             currentText = DataManager.GetInstance().staticData.negotiateTexts[currentText.nextNum];
         }
+        yield return new WaitForSeconds(2f);
+        leftLabel.SetActive(false);
+        rightLabel.SetActive(false);
+        sm.StopBGM();
+        //结束对峙动画
+        StartCoroutine(ExitNegotiate());
     }
 
     /// <summary>
@@ -311,10 +336,14 @@ public class NegotiateUIManager : MonoBehaviour
         {
             //加载Label
             GameObject go = Resources.Load("Prefab/Topic_Label") as GameObject;
-            go = NGUITools.AddChild(topicGrid, go);
+            go = NGUITools.AddChild(topicGrid, go);            
             //默认位置于边框外
             go.transform.localPosition = new Vector3(-200, 100 + 200 * i);
             go.transform.GetComponent<UILabel>().text = topics[i];
+            //挂在uimanager
+            go.GetComponent<TopicHintLabel>().SetUIManager(this);
+            go.GetComponent<TopicHintLabel>().SetTopic(topics[i]);
+
         }
         //显示
         yield return null;
@@ -430,6 +459,105 @@ public class NegotiateUIManager : MonoBehaviour
             right_vect.x = right_x + t * currentText.move * 70;
             leftP.transform.localPosition = left_vect;
             rightP.transform.localPosition = right_vect;
+            yield return null;
+        }
+    }
+
+    private IEnumerator ExitNegotiate()
+    {
+        //色块透明度100%
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.1f * Time.deltaTime);
+            moveContainer.GetComponent<UIWidget>().alpha = 0.9f + 0.1f * t;
+            yield return null;
+        }
+        //色块分别移动
+        float ori_Lx = leftP.transform.localPosition.x;
+        float ori_Rx = rightP.transform.localPosition.x;
+        float leftx, lefty, rightx, righty;
+        t = 1;
+        while (t > 0)
+        {
+            t = Mathf.MoveTowards(t, 0, 1 / 0.1f * Time.deltaTime);
+            leftx = ori_Lx - 18 * (t-1);
+            lefty = -50 * t;
+            rightx = ori_Rx + 18 * (t-1);
+            righty = 50 * t;
+            leftP.transform.localPosition = new Vector3(leftx, lefty);
+            rightP.transform.localPosition = new Vector3(rightx, righty);
+            yield return null;
+        }
+        //todo:依次显示成功四个字
+        endContainer.SetActive(true);
+        t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.deltaTime);
+            endContainer.GetComponent<UIWidget>().alpha = t;
+            yield return null;
+        }
+        yield return new WaitForSeconds(1.5f);
+        t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.deltaTime);
+            endContainer.GetComponent<UIWidget>().alpha = 1-t;
+            yield return null;
+        }
+        endContainer.SetActive(false);
+        //淡出整个panel
+        t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.2f * Time.deltaTime);
+            this.GetComponent<UIPanel>().alpha = 1 - t;
+            yield return null;
+        }
+        //关闭整个panel
+        this.gameObject.SetActive(false);
+        //归位复原
+        topicContainer.SetActive(false);
+        this.GetComponent<UIPanel>().alpha = 1;
+        leftP.transform.localPosition = new Vector3(-1177, 0);
+        rightP.transform.localPosition = new Vector3(1177, 0);
+        //出口脚本
+        currentNode.NegotiateExit();
+    }
+
+
+    /// <summary>
+    /// 显示话题提示
+    /// </summary>
+    /// <param name="name"></param>
+    public void ShowTopicHint(string name, int y)
+    {
+        currentHoverTopic = name;
+        //TODO：根据话题显示
+        Vector2 vect = hintContainer.transform.localPosition;
+        vect.y = y;
+        hintContainer.transform.localPosition = vect;
+        hintLabel.GetComponent<UILabel>().text = "这里显示提示";
+        currentHoverTopic = name;
+        StartCoroutine(ShowHintCon(true));
+    }
+
+    /// <summary>
+    /// 隐藏话题提示
+    /// </summary>
+    public void HideTopicHint(string name)
+    {
+        if (currentHoverTopic == name) StartCoroutine(ShowHintCon(false));
+    }
+
+    private IEnumerator ShowHintCon(bool isIN)
+    {
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / 0.1f * Time.deltaTime);
+            hintContainer.GetComponent<UIWidget>().alpha = isIN ? t : 1 - t;
             yield return null;
         }
     }

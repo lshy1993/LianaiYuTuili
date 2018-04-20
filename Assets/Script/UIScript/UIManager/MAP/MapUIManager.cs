@@ -100,9 +100,8 @@ public class MapUIManager : MonoBehaviour
 
     private void UIFresh()
     {
-        Player player = DataManager.GetInstance().gameData.player;
 
-        if (date.Month == 8 && date.Day == 31)
+        if(DataManager.GetInstance().gameData.gameTurn==0)
         {
             funContainer.SetActive(false);
         }
@@ -114,6 +113,7 @@ public class MapUIManager : MonoBehaviour
         daylabel.text = date.Month + "月" + date.Day + "日";
         datelabel.text = Constants.WEEK_DAYS[Convert.ToInt16(date.DayOfWeek)];
 
+        Player player = DataManager.GetInstance().gameData.player;
         moneylabel.text = player.GetBasicStatus("金钱").ToString();
         wenlabel.text = player.GetBasicStatus("文科").ToString();
         lilabel.text = player.GetBasicStatus("理科").ToString();

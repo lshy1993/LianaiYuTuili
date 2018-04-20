@@ -16,13 +16,15 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
-                f.t("【李云萧】", "上吧，我的双手！"),
-                f.t("【李云萧】", "……"),
-                f.t("【李云萧】", "…………"),
+                f.OpenDialog(),
+                f.t("李云萧", "上吧，我的双手！"),
+                f.t("李云萧", "……"),
+                f.t("李云萧", "…………"),
                 //——背景：电玩 傍晚——
-                f.t("【李云萧】", "好累啊，打电玩也是需要体力的。"),
-                f.t("【李云萧】", "今天到这里吧。"),
-                f.t("【李云萧】", "（感觉到自己的宅力又提升了。）")
+                f.t("李云萧", "好累啊，打电玩也是需要体力的。"),
+                f.t("李云萧", "今天到这里吧。"),
+                f.t("李云萧", "（感觉到自己的宅力又提升了。）"),
+                f.FadeoutAll()
             };
         }
 
@@ -30,6 +32,7 @@ namespace Assets.Script.TextScripts
         {
             Finish();
             //TODO:随机增加宅
+            DataManager.GetInstance().gameData.player.AddRandom("宅力", 5, 10);
             return nodeFactory.GetEndTurnNode();
         }
 

@@ -8,6 +8,9 @@ using Assets.Script.GameStruct.Model;
 
 namespace Assets.Script.GameStruct
 {
+    /// <summary>
+    /// HP减少动画块
+    /// </summary>
     public class HPPiece : Piece
     {
         private GameObject hpPanel;

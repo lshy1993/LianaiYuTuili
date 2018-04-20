@@ -40,7 +40,6 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public MapNode GetMapNode()
         {
-            //dm.SetGameVar("MODE", "大地图模式");
             dm.gameData.MODE = "大地图模式";
             return new MapNode(dm, root, ps);
         }
@@ -51,7 +50,6 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public EduNode GetEduNode()
         {
-            //dm.SetGameVar("MODE", "养成模式");
             dm.gameData.MODE = "养成模式";
             return new EduNode(dm, root, ps);
         }
@@ -83,6 +81,7 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public SelectNode GetSelectNode(Dictionary<string, string> dic, float cd = 0f, string cdexit="")
         {
+            dm.gameData.MODE = "选择分歧";
             return new SelectNode(dm, root, ps, dic, cd, cdexit);
         }
 

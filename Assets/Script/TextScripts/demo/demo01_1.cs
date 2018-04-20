@@ -15,6 +15,9 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
+                f.FadeinBackground("office"),
+                f.TimeSwitch("？月？日", "办公室"),
+                f.ShowChapter("Chapter01"),
                 f.OpenDialog(),
                 f.t("李云萧","[66ccff]（这现场真是凌乱啊……）[-]"),
                 f.t("喵星人", "这是办公室，我为什么不能来？","ch4"),

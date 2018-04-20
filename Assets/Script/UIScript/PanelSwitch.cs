@@ -16,30 +16,39 @@ using Assets.Script.GameStruct;
  * System_Panel 系统大块
  * Map_Panel 地图模式大块
  * Edu_Panel 养成模式大块
+ * Exam_Panel 考试模式
+ * Shop_Panel 购物系统
  * Phone_Panel 电子手册大块
  */
 public class PanelSwitch : MonoBehaviour
 {
-
     private GameObject root;
 
     /// <summary>
     /// 存储面板名称
     /// </summary>
-    public readonly List<String> PANEL_NAMES = new List<String>()
+    public readonly List<string> PANEL_NAMES = new List<string>()
     {
         "Avg",
         "Title",
         "System",
         "Map",
         "Edu",
+        "Exam",
+        "Shop",
         "Phone",
         "Fin"
     };
 
     Dictionary<string, GameObject> panels;
     private string current;
-    private List<string> currentPanelPath;
+    //记录当前已开启的面板
+    private List<string> currentPanelPath
+    {
+        get { return DataManager.GetInstance().tempData.panelChain; }
+        set { DataManager.GetInstance().tempData.panelChain = value; }
+    }
+
     private FadeTreeIterator iterator;
 
     public void HidePanel(string name)
@@ -275,7 +284,7 @@ public class PanelSwitch : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Texture2D tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
         tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
-        TextureScale.Bilinear(tex, 240, 135);
+        TextureScale.Bilinear(tex, 540, 303);
         byte[] imagebytes = tex.EncodeToPNG();
         DataManager.GetInstance().SetTempVar("缩略图", imagebytes);
         Destroy(tex);

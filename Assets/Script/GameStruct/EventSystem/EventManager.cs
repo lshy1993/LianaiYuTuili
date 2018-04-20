@@ -165,7 +165,7 @@ namespace Assets.Script.GameStruct.EventSystem
 
 
         /// <summary>
-        /// 获取强制事件
+        /// 获取当前条件下可以触发的强制事件
         /// </summary>
         public MapEvent GetCurrentForceEvent()
         {
@@ -199,12 +199,14 @@ namespace Assets.Script.GameStruct.EventSystem
             Debug.Log("检测的地点名：" + location);
             if (availableEvents[location].Count == 0)
             {
+                if (dataManager.gameData.gameTurn == 0) return null;
                 //当没有其他事件时，才触发默认事件
                 int ranNum = UnityEngine.Random.Range(0, defaultEvents[location].Count);
                 return defaultEvents[location][ranNum];
             }
             else
             {
+                //否侧抽取事件池
                 int ranNum = UnityEngine.Random.Range(0, availableEvents[location].Count);
                 return availableEvents[location][ranNum];
             }
@@ -259,47 +261,82 @@ namespace Assets.Script.GameStruct.EventSystem
                 if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
             }
 
-            // 不满足前置回合数
+            // 不满足回合数
             if (turn > e.conditionTurn.GetMax() || turn < e.conditionTurn.GetMin())
             {
                 return false;
             }
 
-            // 不满足前置属性
-            if (e.conditionStatus != null && e.conditionStatus.Count > 0)
+            if (!Constants.DEBUG)
             {
-                foreach (KeyValuePair<string, Range> kv in e.conditionStatus)
+                // 不满足前置属性
+                if (e.conditionStatus != null && e.conditionStatus.Count > 0)
                 {
-                    int bstatus = player.GetBasicStatus(kv.Key);
-                    if ((kv.Value.GetMin() > bstatus || bstatus > kv.Value.GetMax()))
-                        return false;
-                    /* 暂时去掉了侦探属性限制
-                    int lstatus = player.GetLogicStatus(kv.Key);
-                    if ((kv.Value.GetMin() > lstatus  || lstatus > kv.Value.GetMax()))
-                        return false;
-                    */
+                    foreach (KeyValuePair<string, Range> kv in e.conditionStatus)
+                    {
+                        int bstatus = player.GetBasicStatus(kv.Key);
+                        if ((kv.Value.GetMin() > bstatus || bstatus > kv.Value.GetMax()))
+                            return false;
+                        /* 暂时去掉了侦探属性限制
+                        int lstatus = player.GetLogicStatus(kv.Key);
+                        if ((kv.Value.GetMin() > lstatus  || lstatus > kv.Value.GetMax()))
+                            return false;
+                        */
+                    }
+                }
+
+                // 好感度
+                if (e.conditionGirls != null && e.conditionGirls.Count > 0)
+                {
+                    foreach (KeyValuePair<string, Range> kv in e.conditionGirls)
+                    {
+                        int gstatus = player.GetGirlPoint(kv.Key);
+                        if ((kv.Value.GetMin() > gstatus || gstatus > kv.Value.GetMax()))
+                            return false;
+                    }
                 }
             }
 
-            // 不满足前置事件
+            //前置【非】事件锁
+            if (e.conditionNotEvents != null && e.conditionNotEvents.Count > 0)
+            {
+                foreach(string eventName in e.conditionNotEvents)
+                {
+                    if (!eventState.ContainsKey(eventName))
+                    {
+                        Debug.LogError("无key：" + eventName);
+                    }
+                    if (eventState[eventName] == STATE_RUNNED) return false;
+                }
+            }
+
+            //前置【与】事件判断
             if (e.conditionAndEvents != null && e.conditionAndEvents.Count > 0)
             {
                 foreach (string eventName in e.conditionAndEvents)
                 {
+                    if (!eventState.ContainsKey(eventName))
+                    {
+                        Debug.LogError("无key：" + eventName);
+                    }
                     if (eventState[eventName] == STATE_NOT_RUNNED) return false;
                 }
             }
 
-            // 好感度
-            if (e.conditionGirls != null && e.conditionGirls.Count > 0)
+            //前置【或】事件判断
+            if (e.conditionOrEvents != null && e.conditionOrEvents.Count > 0)
             {
-                foreach (KeyValuePair<string, Range> kv in e.conditionGirls)
+                foreach (string eventName in e.conditionOrEvents)
                 {
-                    int gstatus = player.GetGirlPoint(kv.Key);
-                    if ((kv.Value.GetMin() > gstatus || gstatus> kv.Value.GetMax()))
-                        return false;
+                    if (!eventState.ContainsKey(eventName))
+                    {
+                        Debug.LogError("无key：" + eventName);
+                    }
+                    if (eventState[eventName] == STATE_RUNNED) return true;
                 }
+                return false;
             }
+
             return true;
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveDeleteButton : BasicButton {
 
-    public SLUIManager uiManager;
+    public SaveLoadUIManager uiManager;
     public int id;
 
     protected override void SE_Click()

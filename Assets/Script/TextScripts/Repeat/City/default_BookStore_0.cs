@@ -16,6 +16,7 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
+                f.OpenDialog(),
                 f.t("【李云萧】", "好，就是你了！（随手抓了一本书）"),
                 f.t("【李云萧】", "……"),
                 f.t("【李云萧】", "…………"),
@@ -35,6 +36,7 @@ namespace Assets.Script.TextScripts
         {
             Finish();
             //TODO：属性的随机少量增加
+            DataManager.GetInstance().gameData.player.RandomAdd(4, 10);
             return nodeFactory.GetEndTurnNode();
         }
 

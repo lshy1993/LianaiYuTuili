@@ -17,6 +17,7 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 //——背景：体育馆外景——
+                f.ChangeBackground("stadium_day"),
                 f.OpenDialog(),
                 f.t("【李云萧】", "好多人！今天什么情况？"),
                 f.t("【男】", "今天是夕云队的主场！"),

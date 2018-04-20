@@ -67,11 +67,11 @@ namespace Assets.Script.GameStruct
                     current = cnp.Next();
                     Update();
                 }
-                else if( pieces[current].GetType() == typeof(EviPiece))
+                else if( pieces[current].GetType() == typeof(EviGetPiece))
                 {
                     //证据显示处理块
                     manager.BlockRightClick();
-                    EviPiece ev = (EviPiece)pieces[current];
+                    EviGetPiece ev = (EviGetPiece)pieces[current];
                     ev.Exec();
                     if (ev.finished)
                     {
@@ -110,6 +110,24 @@ namespace Assets.Script.GameStruct
                     InputPiece ip = (InputPiece)pieces[current];
                     ip.ExecAuto(new Action(() => { manager.isEffecting = false; manager.UnblockRightClick(); Update(); }));
                     current = ip.Next();
+                }
+                else if (pieces[current].GetType() == typeof(TimeSwitchPiece))
+                {
+                    //地点转换模块
+                    manager.BlockRightClick();
+                    TimeSwitchPiece tsp= (TimeSwitchPiece)pieces[current];
+                    if (tsp.finished)
+                    {
+                        tsp.ExecAuto(() => {
+                            manager.UnblockRightClick();
+                            Update();
+                        });
+                        current = tsp.Next();
+                    }
+                    else
+                    {
+                        tsp.Exec();
+                    }
                 }
                 else
                 {

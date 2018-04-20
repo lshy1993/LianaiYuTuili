@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4511680968690748}
   - component: {fileID: 114949855136813998}
+  - component: {fileID: 114171675179476996}
+  - component: {fileID: 61603419584146932}
   m_Layer: 5
   m_Name: Answer_Button
   m_TagString: Untagged
@@ -63,13 +65,52 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1106264547759518}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -125, y: 60, z: 0}
+  m_LocalPosition: {x: -200, y: 75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4232228958259330}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &61603419584146932
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1106264547759518}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 300, y: 80}
+--- !u!114 &114171675179476996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1106264547759518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdca5042b1d12a4890ec1bd4f04290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenTarget: {fileID: 1106264547759518}
+  hover: {r: 1, g: 1, b: 1, a: 1}
+  pressed: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  duration: 0.2
+  dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  hoverSprite2D: {fileID: 21300000, guid: 33b2b470b7e3ab0489b625a3fc40458a, type: 3}
+  pressedSprite2D: {fileID: 0}
+  disabledSprite2D: {fileID: 0}
+  pixelSnap: 0
+  onClick: []
 --- !u!114 &114377520257098478
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98,10 +139,10 @@ MonoBehaviour:
     relative: 1
     absolute: 0
   updateAnchors: 1
-  mColor: {r: 0, g: 0, b: 0, a: 1}
+  mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 30
-  mHeight: 30
+  mWidth: 48
+  mHeight: 48
   mDepth: 14
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
@@ -112,7 +153,7 @@ MonoBehaviour:
   mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
   mFont: {fileID: 0}
   mText: 45
-  mFontSize: 30
+  mFontSize: 48
   mFontStyle: 0
   mAlignment: 0
   mEncoding: 1
@@ -168,14 +209,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 200
-  mHeight: 50
+  mWidth: 300
+  mHeight: 80
   mDepth: 13
   mMat: {fileID: 0}
-  autoResizeBoxCollider: 0
+  autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 4
+  aspectRatio: 3.75
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -189,7 +230,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mSprite: {fileID: 21300000, guid: 1aed4e233ad8c9e46bee7f5b45ff3456, type: 3}
+  mSprite: {fileID: 21300000, guid: 6b729b28a3a1c4b42bbe787d8a1259d0, type: 3}
   mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
   mBorder: {x: 0, y: 0, z: 0, w: 0}
   mFixedAspect: 0

@@ -26,7 +26,7 @@ namespace Assets.Script.UIScript
         public int depth = -1;
 
         /// <summary>
-        /// 是否循环
+        /// 是否无限循环
         /// </summary>
         public bool loop = false;
 
@@ -51,8 +51,8 @@ namespace Assets.Script.UIScript
             Blur, Mosaic, Gray, OldPhoto,
             Scroll, ScrollBoth, Circle, RotateFade,
             SideFade,
-            Mask
-            
+            Mask,
+            Shake,WinShake
         };
         /// <summary>
         /// 特效模式
@@ -72,6 +72,16 @@ namespace Assets.Script.UIScript
         /// 正反向
         /// </summary>
         public bool inverse;
+
+        /// <summary>
+        /// 震动量
+        /// </summary>
+        public float v;
+
+        /// <summary>
+        /// 震动频率
+        /// </summary>
+        public int freq;
 
         public string maskImage;
 

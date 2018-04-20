@@ -5,7 +5,7 @@ using Assets.Script.GameStruct;
 
 public class SaveLoadButton : BasicButton
 {
-    public SLUIManager uiManager;
+    public SaveLoadUIManager uiManager;
     public int id;
 
     protected override void SE_Click()

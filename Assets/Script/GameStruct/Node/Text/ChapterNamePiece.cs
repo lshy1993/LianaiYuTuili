@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Assets.Script.GameStruct
 {
+    /// <summary>
+    /// 章节名显示块
+    /// </summary>
     public class ChapterNamePiece : Piece
     {
         private GameObject sideLabelPanel;

@@ -10,7 +10,7 @@ namespace Assets.Script.GameStruct
     public class NegotiateNode : GameNode
     {
         private NegotiateUIManager uiManager;
-        private NegotiateEvent enquireEvent;
+        private NegotiateEvent negotiateEvent;
         private GameNode next;
         private NodeFactory factory;
 
@@ -26,18 +26,19 @@ namespace Assets.Script.GameStruct
             uiManager = root.transform.Find("Avg_Panel/Negotiate_Panel").GetComponent<NegotiateUIManager>();
             uiManager.transform.gameObject.SetActive(true);
 
-            enquireEvent = DataManager.GetInstance().staticData.negotiateEvents[negotiateName];
+            negotiateEvent = DataManager.GetInstance().staticData.negotiateEvents[negotiateName];
 
-            uiManager.SetCurrentEvent(enquireEvent);
+            uiManager.SetCurrentEvent(negotiateEvent);
+            uiManager.SetCurrentNode(this);
             factory = NodeFactory.GetInstance();
         }
 
         public override void Update()
         { }
 
-        public void NegotiateExit(string entry)
+        public void NegotiateExit()
         {
-            next = factory.FindTextScript(entry);
+            next = factory.FindTextScript(negotiateEvent.exit);
             end = true;
         }
 

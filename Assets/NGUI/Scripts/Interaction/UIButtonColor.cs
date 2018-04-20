@@ -222,6 +222,7 @@ public class UIButtonColor : UIWidgetContainer
 
 	protected virtual void OnPress (bool isPressed)
 	{
+        if (UICamera.currentTouchID != -1) return;
 		if (isEnabled && UICamera.currentTouch != null)
 		{
 			if (!mInitDone) OnInit();

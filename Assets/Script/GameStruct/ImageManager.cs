@@ -53,6 +53,8 @@ public class ImageManager : MonoBehaviour
     public UIPanel bgPanel, fgPanel, eviPanel;
     public DialogBoxUIManager duiManager;
 
+    public Camera mianCam;
+
     private DataManager dm;
 
     /// <summary>
@@ -319,6 +321,12 @@ public class ImageManager : MonoBehaviour
             case NewImageEffect.OperateMode.OldPhoto:
                 GetSpriteByDepth(effect.depth).shader = Shader.Find("Custom/OldPhoto");
                 callback();
+                break;
+            case NewImageEffect.OperateMode.WinShake:
+                StartCoroutine(WinShake(effect,callback));
+                break;
+            case NewImageEffect.OperateMode.Shake:
+                StartCoroutine(Shake(effect,callback));
                 break;
         }
     }
@@ -669,15 +677,22 @@ public class ImageManager : MonoBehaviour
             yield return null;
         }
         //删除trans
-        DestroyObject(trans.gameObject);
-        if (transList.ContainsKey(effect.depth)) transList.Remove(effect.depth);
+        if (effect.depth != -1)
+        {
+            DestroyObject(trans.gameObject);
+        }
+        if (transList.ContainsKey(effect.depth))
+        {
+            transList.Remove(effect.depth);
+        }
+
         callback();
     }
 
     private IEnumerator Fade(NewImageEffect effect, Action callback)
     {
         UI2DSprite ui = GetSpriteByDepth(effect.depth);
-        ui.shader = Shader.Find("Unity/Transparent Colored");
+        //ui.shader = Shader.Find("Unity/Transparent Colored");
         float origin = ui.alpha;
         float final = effect.state.spriteAlpha;
 
@@ -769,6 +784,40 @@ public class ImageManager : MonoBehaviour
         }
         if (includeBack) bgSprite.sprite2D = null;
         //if (includeDiabox)duiManager.mainContainer.SetActive(false);
+        callback();
+    }
+
+    private IEnumerator Shake(NewImageEffect effect, Action callback)
+    {
+        //Debug.Log(effect.depth);
+        float shakeDelta = effect.v;
+        UI2DSprite sp = GetSpriteByDepth(effect.depth);
+        Vector3 oriPos = sp.transform.localPosition;
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
+            float x = oriPos.x + shakeDelta * UnityEngine.Random.Range(-1, 1);
+            float y = oriPos.y + shakeDelta * UnityEngine.Random.Range(-1, 1);
+            sp.transform.localPosition = new Vector3(x, y);
+            yield return null;
+        }
+        sp.transform.localPosition = oriPos;
+        yield return null;
+        callback();
+    }
+
+    private IEnumerator WinShake(NewImageEffect effect, Action callback)
+    {
+        float shakeDelta = effect.v;
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
+            mianCam.rect = new Rect(shakeDelta * (-1.0f + 2.0f * UnityEngine.Random.value), shakeDelta * (-1.0f + 2.0f * UnityEngine.Random.value), 1.0f, 1.0f);
+            yield return null;
+        }
+        mianCam.rect = new Rect(0f, 0f, 1.0f, 1.0f);
         callback();
     }
 

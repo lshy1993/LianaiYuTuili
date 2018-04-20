@@ -39,10 +39,16 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public DetectEvent currentDetectEvent;
 
+        /// <summary>
+        /// 界面面板链
+        /// </summary>
+        public List<string> panelChain;
+
 
         public TempData()
         {
             tempVar = new Hashtable();
+            panelChain = new List<string>();
         }
  
         /// <summary>

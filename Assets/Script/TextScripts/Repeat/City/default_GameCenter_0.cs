@@ -16,7 +16,7 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
-                //——背景：电玩——
+                f.OpenDialog(),
                 f.t("【李云萧】", "算了，这回还是不进去玩了。"),
                 f.t("", "（在周边地区漫无目的地逛了一个下午。）"),
                 //——背景：电玩 傍晚——

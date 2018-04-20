@@ -545,8 +545,47 @@ namespace Assets.Script.GameStruct
             effects.Enqueue(NewEffectBuilder.MoveByDepth(depth, new Vector3(x, y), time));
             return new EffectPiece(id++, effects);
         }
+
+        /// <summary>
+        /// 立绘摇动
+        /// </summary>
+        /// <param name="time"></param>
+        public EffectPiece SpriteShake()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            //effects.Enqueue(NewEffectBuilder.SpriteShakeByDepth(freq, v, freq, time));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 立绘震动
+        /// </summary>
+        /// <param name="depth">震动对象</param>
+        /// <param name="v">震动量</param>
+        /// <param name="speed">每秒震动次数</param>
+        /// <param name="time">持续时间</param>
+        public EffectPiece SpriteVibration(int depth, float v=10f, int freq = 100 , float time=0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.SpriteShakeByDepth(depth, v, freq, time));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 窗口抖动（含UI）
+        /// </summary>
+        /// <param name="v">震动量</param>
+        /// <param name="speed">每秒震动次数</param>
+        /// <param name="time">持续时间s，0则为永久</param>
+        public EffectPiece WindowVibration(float v = 0.01f, int freq = 100, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.WindowShake(v, freq, time));
+            return new EffectPiece(id++, effects);
+        }
         #endregion
 
+        #region 其他功能Piece
         /// <summary>
         /// 打开姓名输入框
         /// </summary>
@@ -564,18 +603,25 @@ namespace Assets.Script.GameStruct
             return new ChapterNamePiece(id++, sidepanel ,chapter);
         }
 
-        #region EviPiece部分
+        /// <summary>
+        /// 时间切换特效
+        /// </summary>
+        /// <param name="time">显示时间</param>
+        /// <param name="place">显示文字</param>
+        public TimeSwitchPiece TimeSwitch(string time, string place)
+        {
+            return new TimeSwitchPiece(id++, timepanel, time, place);
+        }
+
         /// <summary>
         /// 获得证据
         /// </summary>
         /// <param name="eviName">证据唯一ID</param>
-        public EviPiece GetEvidence(string eviName)
+        public EviGetPiece GetEvidence(string eviName)
         {
-            return new EviPiece(id++, evipanel, eviName);
+            return new EviGetPiece(id++, evipanel, eviName);
         }
-        #endregion
 
-        #region HPPiece部分
         /// <summary>
         ///  扣血
         /// </summary>
@@ -584,9 +630,7 @@ namespace Assets.Script.GameStruct
         {
             return new HPPiece(id++, hpui, x);
         }
-        #endregion
 
-        #region DiaboxPiece部分
         /// <summary>
         /// 隐去对话框
         /// </summary>
@@ -605,12 +649,6 @@ namespace Assets.Script.GameStruct
             return new DiaboxPiece(id++, diaboxpanel, true, time);
         }
         #endregion
-
-        //立绘震动
-        public EffectPiece CharacterSpriteVariation()
-        {
-            return null;
-        }
 
         #region SoundPiece部分
         /// <summary>
@@ -696,13 +734,5 @@ namespace Assets.Script.GameStruct
         }
         #endregion
         
-        //播放语音
-        public SoundPiece PlayVoice()
-        {
-            //SoundManager.GetInstance().SetVoice("");
-            return null;
-        }
-        
-
     }
 }

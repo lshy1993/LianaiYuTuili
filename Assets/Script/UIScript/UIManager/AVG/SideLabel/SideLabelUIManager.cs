@@ -30,8 +30,9 @@ public class SideLabelUIManager : MonoBehaviour
     /// </summary>
     public void ShowBGM(string name)
     {
-        gameObject.SetActive(true);
         float waitTime = DataManager.GetInstance().configData.BGMTime;
+        if (waitTime == 0) return;
+        gameObject.SetActive(true);
         bgmLabel.text = name;
         StartCoroutine(MainRoutine(true, waitTime));
     }
@@ -41,8 +42,9 @@ public class SideLabelUIManager : MonoBehaviour
     /// </summary>
     public void ShowChapter(string str)
     {
-        gameObject.SetActive(true);
         float waitTime = DataManager.GetInstance().configData.chapterTime;
+        if (waitTime == 0) return;
+        gameObject.SetActive(true);
         if (str == string.Empty)
         {
             chapterLabel.text = DataManager.GetInstance().gameData.currentScript;

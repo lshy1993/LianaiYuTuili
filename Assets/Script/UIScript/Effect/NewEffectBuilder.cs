@@ -89,6 +89,18 @@ namespace Assets.Script.UIScript
             return this;
         }
 
+        public NewEffectBuilder Frequency(int freq)
+        {
+            imageEffect.freq = freq;
+            return this;
+        }
+
+        public NewEffectBuilder Variation(float v)
+        {
+            imageEffect.v = v;
+            return this;
+        }
+
         public NewImageEffect Get() { return imageEffect; }
 
 
@@ -428,6 +440,30 @@ namespace Assets.Script.UIScript
             return e;
         }
         #endregion
+
+        public static NewImageEffect SpriteShakeByDepth(int depth, float v, int freq, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(depth)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.Shake)
+                .Variation(v)
+                .Frequency(freq)
+                .Get();
+            return e;
+        }
+
+        public static NewImageEffect WindowShake(float v, int freq, float time)
+        {
+            NewEffectBuilder builder = new NewEffectBuilder();
+            NewImageEffect e = builder.UI(NewImageEffect.ImageType.All)
+                .TotalTime(time)
+                .Operate(NewImageEffect.OperateMode.WinShake)
+                .Variation(v)
+                .Frequency(freq)
+                .Get();
+            return e;
+        }
 
         public static NewImageEffect FadeOutAll(float time)
         {

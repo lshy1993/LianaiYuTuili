@@ -45,6 +45,8 @@ public class VisualDynamicData : EditorWindow
             index = -1;
         }
         GUILayout.Space(5);
+        EditorGUILayout.LabelField("面板链", ShowChain());
+        GUILayout.Space(5);
         GUILayout.BeginHorizontal();
         //game var
         GUILayout.BeginVertical(GUILayout.MaxWidth(300));
@@ -55,7 +57,7 @@ public class VisualDynamicData : EditorWindow
         EditorGUILayout.LabelField("当前事件名", dm.gameData.currentEvent);
         EditorGUILayout.LabelField("当前脚本名", dm.gameData.currentScript);
         EditorGUILayout.LabelField("文字位置", dm.gameData.currentTextPos.ToString());
-        if(GUILayout.Button("事件状态表", GUILayout.MaxWidth(100)))
+        if(GUILayout.Button("全事件状态表", GUILayout.MaxWidth(100)))
         {
             index = 0;
         }
@@ -63,7 +65,7 @@ public class VisualDynamicData : EditorWindow
         {
             index = 1;
         }
-        if (GUILayout.Button("地点默认事件", GUILayout.MaxWidth(100)))
+        if (GUILayout.Button("重复默认事件", GUILayout.MaxWidth(100)))
         {
             index = 6;
         }
@@ -157,6 +159,16 @@ public class VisualDynamicData : EditorWindow
         GUILayout.EndVertical();
         //end
         GUILayout.EndHorizontal();
+    }
+
+    string ShowChain()
+    {
+        string result = "";
+        foreach(string ss in dm.tempData.panelChain)
+        {
+            result += ss + ">";
+        }
+        return result;
     }
 
     void ReShowContent()

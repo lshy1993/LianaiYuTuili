@@ -17,6 +17,8 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 //——背景：广场——
+                f.ChangeBackground("square_day"),
+                f.OpenDialog(),
                 f.t("【李云萧】", "……"),
                 f.t("【李云萧】", "…………"),
                 f.t("【李云萧】", "感觉一个人来，少了一些什么。"),
@@ -24,7 +26,8 @@ namespace Assets.Script.TextScripts
                 f.t("【李云萧】", "…………"),
                 f.t("【李云萧】", "真可惜，什么事也没发生。"),
                 f.t("【李云萧】", "既然这样，还是离开这里吧."),
-                f.t("【李云萧】", "一天就这样过去了……")
+                f.t("【李云萧】", "一天就这样过去了……"),
+                f.FadeoutAll()
                 //——背景 消失——
             };
         }

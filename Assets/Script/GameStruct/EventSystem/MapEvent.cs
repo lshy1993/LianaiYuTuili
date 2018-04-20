@@ -30,6 +30,11 @@ namespace Assets.Script.GameStruct
         public string entryNode { set; get; }
 
         /// <summary>
+        /// 前置【非】事件列表
+        /// </summary>
+        public List<string> conditionNotEvents;
+
+        /// <summary>
         /// 前置【与】事件列表
         /// </summary>
         public List<string> conditionAndEvents;
@@ -70,6 +75,7 @@ namespace Assets.Script.GameStruct
             this.entryNode = entryNode;
             conditionAndEvents = new List<string>();
             conditionOrEvents = new List<string>();
+            conditionNotEvents = new List<string>();
             conditionStatus = new Dictionary<string, Range>();
             conditionGirls = new Dictionary<string, Range>();
             conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
@@ -86,6 +92,7 @@ namespace Assets.Script.GameStruct
             entryNode = (string)data["入口"];
             conditionAndEvents = new List<string>();
             conditionOrEvents = new List<string>();
+            conditionNotEvents = new List<string>();
             conditionStatus = new Dictionary<string, Range>();
             conditionGirls = new Dictionary<string, Range>();
             conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);

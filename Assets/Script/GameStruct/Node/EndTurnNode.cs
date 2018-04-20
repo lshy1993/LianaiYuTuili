@@ -32,29 +32,27 @@ namespace Assets.Script.GameStruct.Node
 
         public override GameNode NextNode()
         {
+            GameObject.Find("GameManager").GetComponent<SoundManager>().StopBGM();
             //如果有强制事件 则执行
             if (em.GetCurrentForceEvent() != null)
             {
-                GameObject.Find("GameManager").GetComponent<SoundManager>().StopBGM();
                 return em.RunForceEvent();
             }
-            /* demo1.20 改动
-            int turn = DataManager.GetInstance().GetGameVar<int>("回合");
-            */
             int turn = dm.gameData.gameTurn;
+
             //满足180回合 进入不同的结局
-            if (turn == 20)
+            if (turn == 150)
             {
-                GameObject.Find("GameManager").GetComponent<SoundManager>().StopBGM();
                 return em.RunFinEvent();
             }
             //否则按照日历进行
             DateTime date = DataManager.START_DAY.AddDays(turn);
             int week = Convert.ToInt32(date.DayOfWeek);
-            //TODO : 对节日判断
+
+            //TODO : 对特殊节日判断
             if (week == 6 || week == 0)
             {
-                //进入双休日剧情 考虑日后废弃 直接进入Map
+                //进入双休日剧情 考虑废弃 直接进入Map
                 return factory.FindTextScript("S0000");
             }
             else

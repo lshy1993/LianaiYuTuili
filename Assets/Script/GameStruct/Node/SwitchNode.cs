@@ -24,7 +24,7 @@ namespace Assets.Script.GameStruct
             factory = NodeFactory.GetInstance();
             uiManager.SetNode(this);
             uiManager.SetLabel(time, place, next);
-            ps.SwitchTo_VerifyIterative("Avg_Panel", uiManager.Show);
+            //ps.SwitchTo_VerifyIterative("Avg_Panel", uiManager.Show);
         }
 
         public override void Update()

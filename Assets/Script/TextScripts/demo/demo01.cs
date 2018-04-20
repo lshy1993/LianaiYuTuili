@@ -21,24 +21,27 @@ namespace Assets.Script.TextScripts
                 f.SetBackground("corridor"),
                 f.t("李云萧","！！！"),
                 f.FadeInCharacterSprite(0,"su00_2"),
+                f.SpriteVibration(-1),
                 f.t("苏梦忆","李云萧，不好了！","","voice_test"),
                 f.t("李云萧","是苏梦忆啊？怎么了，什么不好了？"),
+                f.SpriteVibration(0),
                 f.t("苏梦忆","喵星人被抓了！","","voice_test2"),
                 f.t("李云萧","喵星人被抓了？什么意思？"),
                 f.t("苏梦忆","喵星人好像去偷试卷，但被人抓住了。"),
                 f.t("李云萧","偷试卷？你没搞错？再怎么说这也太……"),
                 f.t("苏梦忆","是真的！总之你快点和我走啦！"),
                 f.t("李云萧","[66ccff]（说完，她一把抓起我的手，拽着我走向走廊另一侧。）[-]"),
-                f.t("李云萧","喂，你等……等一……"),
                 f.FadeoutAllChara(),
-                f.TransBackground("office")
+                f.t("李云萧","喂，你等……等一……"),
+                f.CloseDialog(),
+                f.FadeoutAll()
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetSwitchNode("？月？日", "办公室", "demo01_1");
+            return nodeFactory.FindTextScript("demo01_1");
         }
 
     }

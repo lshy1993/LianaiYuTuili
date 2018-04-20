@@ -24,6 +24,7 @@ namespace Assets.Script.TextScripts
                 f.t("","[00ff00]话有点多，那么请开始游玩吧！祝你游戏愉快！[-]"),
                 f.CloseDialog(),
                 f.FadeinBackground("gate")
+                
             };
         }
 

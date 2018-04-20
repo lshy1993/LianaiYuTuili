@@ -240,6 +240,29 @@ namespace Assets.Script.GameStruct
             if (basicStatus[basicName[s]] < MIN) basicStatus[basicName[s]] = MIN;
         }
 
+        /// <summary>
+        /// 随机某项属性增加随机值
+        /// </summary>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        public void RandomAdd(int min, int max)
+        {
+            int seed = UnityEngine.Random.Range(0, 4);
+            int change = UnityEngine.Random.Range(min, max);
+            basicStatus[seed] += change;
+        }
+
+        /// <summary>
+        /// 对某一项属性随机增加
+        /// </summary>
+        /// <param name="bs">文科，理科，艺术，体育，宅力</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        public void AddRandom(string s, int min, int max)
+        {
+            int change = UnityEngine.Random.Range(min, max);
+            basicStatus[basicName[s]] += change;
+        }
 
         /// <summary>
         /// 好感度

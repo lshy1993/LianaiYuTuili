@@ -17,6 +17,7 @@ namespace Assets.Script.TextScripts
             pieces = new List<Piece>()
             {
                 //——背景：游乐园 白天——
+                f.ChangeBackground("themepark_day"),
                 f.OpenDialog(),
                 f.t("【李云萧】", "远方的过山车传来了人们的叫喊声。"),
                 f.t("【李云萧】", "感觉一个人来，少了些什么。"),

@@ -15,6 +15,9 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
+                //——背景 后排视角教室——
+                f.FadeinBackground("classroom"),
+                f.TimeSwitch("8月31日 上午", "高二（3）班 教室"),
                 f.OpenDialog(),
                 f.FadeInCharacterSprite(0,"ch4"),
                 f.t("喵星人", "呼——终于忙完了喵！"),
@@ -95,7 +98,7 @@ namespace Assets.Script.TextScripts
                 f.t("喵星人", "只要把鼠标移到按钮上，就能看到这个地点的详细介绍。"),
                 f.t("喵星人", "好了！讲完了，我们去吧。"),
                 f.t("李云萧", "……"),
-                f.t("喵星人", "2号寝室楼，别搞错了。"),
+                f.t("喵星人", "2号寝室楼，别搞错了。")
             };
         }
 

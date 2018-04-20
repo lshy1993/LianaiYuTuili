@@ -7,9 +7,9 @@ public class EduIconButton : MonoBehaviour {
     public EduUIManager uiManager;
     public int eduID;
 
-    void OnHover(bool isHover)
+    void OnHover(bool isOver)
     {
-        if (isHover)
+        if (isOver)
         {
             uiManager.SetInfoHelp(eduID);
         }

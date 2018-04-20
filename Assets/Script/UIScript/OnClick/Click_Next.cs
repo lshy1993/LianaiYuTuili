@@ -19,11 +19,6 @@ public class Click_Next : MonoBehaviour {
     void OnClick()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        Execute();
-    }
-
-    public void Execute()
-    {
         //如果锁定点击 则直接返回
         if (DataManager.GetInstance().IsClickBlocked())
         {
@@ -43,10 +38,15 @@ public class Click_Next : MonoBehaviour {
             uiManger.ShowWindow();
             return;
         }
-        //否则根据Script类型执行Update
-        else if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
-            gm.GetCurrentNode().Update();
+        else Execute();
+    }
 
-        //Debug.Log("无效点击");
+    public void Execute()
+    {
+        //否则根据Script类型执行Update
+       if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
+            gm.GetCurrentNode().Update();
+       else
+            Debug.Log("无效点击");
     }
 }

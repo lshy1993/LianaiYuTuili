@@ -15,6 +15,9 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
+                //——背景 走廊——
+                f.FadeinBackground("corridor"),
+                f.TimeSwitch("8月31日 上午", "1号教学楼3楼 走廊"),
                 f.ShowChapter(),
                 f.OpenDialog(),
                 f.t("", "[66ccff]（将主要的入学手续办好后，我决定前往所在班级的教室。）[-]"),
@@ -62,16 +65,14 @@ namespace Assets.Script.TextScripts
                 f.t("郭老师", "时间也差不多了，你和我一起去吧。"),
                 f.t("李云萧", "好的。"),
                 f.CloseDialog(),
-                f.FadeoutAll(),
-                //——背景 讲台视角的教室——
-                f.FadeinBackground("classroom"),
+                f.FadeoutAll()
             };
         }
 
         public override GameNode NextNode()
         {
             Finish();
-            return nodeFactory.GetSwitchNode("8月31日 上午", "高二（3）班 教室", "demo0_4");
+            return nodeFactory.FindTextScript("demo0_4");
         }
 
     }

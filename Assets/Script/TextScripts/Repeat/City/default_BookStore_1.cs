@@ -16,9 +16,11 @@ namespace Assets.Script.TextScripts
         {
             pieces = new List<Piece>()
             {
+                f.OpenDialog(),
                 f.t("【李云萧】", "那么，准备买什么类型的书呢？"),
-                f.t("", "本系统还未制作完善，自动进入看书")
+                f.t("", "本系统还未制作完善，自动进入看书"),
                 //——背景 消失——
+                f.FadeoutAll()
             };
         }
 

@@ -27,7 +27,7 @@ namespace Assets.Script.GameStruct
 
         public static readonly string ROOT_PATH = "JSON/";
 
-        public static readonly string DEFAULT_PATH = ROOT_PATH + "MapEvents/";
+        public static readonly string DEFAULT_PATH = ROOT_PATH + "Events/";
         public static readonly string LOCATION_PATH = ROOT_PATH + "MapButtonConfig/";
         public static readonly string DETECT_PATH = ROOT_PATH + "Detect/";
         public static readonly string EVIDENCE_PATH = ROOT_PATH + "EvidenceConfig/";
