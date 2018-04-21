@@ -147,6 +147,7 @@ public class SelectUIManager : MonoBehaviour
     /// <param name="str">选择</param>
     public void Select(string str)
     {
+        listCon.SetActive(false);
         selectCon.SetActive(false);
         countCon.SetActive(false);
         selectNode.NodeExit(selections[str]);
@@ -175,6 +176,7 @@ public class SelectUIManager : MonoBehaviour
             selectCon.GetComponent<UI2DSprite>().height = y;
             yield return null;
         }
+        
         //调用加载选项
         InitSelectPos();
     }

@@ -33,6 +33,12 @@ public class EviGetUIManager : MonoBehaviour
         intro = mainCon.transform.Find("EvidenceInfo_Label").GetComponent<UILabel>();
     }
 
+    private void OnDisable()
+    {
+        mainCon.SetActive(false);
+        subCon.SetActive(false);
+    }
+
     /// <summary>
     /// 证据获得特效是否完成
     /// </summary>
@@ -163,7 +169,7 @@ public class EviGetUIManager : MonoBehaviour
             go.SetActive(false);
         }
         finished = false;
-        this.transform.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
 }

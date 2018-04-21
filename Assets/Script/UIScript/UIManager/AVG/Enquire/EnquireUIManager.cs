@@ -16,11 +16,26 @@ public class EnquireUIManager : MonoBehaviour
     private EnquireManager enquireManager;
 
     #region 预设数值
-    private const int TOTAL_DISTANCE = 1280;
-    private const int EVIDENCE_Y = -425;
-    private const int EVIDENCE_MOVE = 170;
-    private const int TIME_X = 670;
-    private const int TIME_MOVE = 70;
+    /// <summary>
+    /// 证词飞行距离
+    /// </summary>
+    private const int TOTAL_DISTANCE = 1920;
+    /// <summary>
+    /// 证据框初始Y
+    /// </summary>
+    private const int EVIDENCE_Y = -700;
+    /// <summary>
+    /// 上升高度
+    /// </summary>
+    private const int EVIDENCE_MOVE = 260;
+    /// <summary>
+    /// 时间轴初始X
+    /// </summary>
+    private const int TIME_X = 1000;
+    /// <summary>
+    /// 时间轴移动距离
+    /// </summary>
+    private const int TIME_MOVE = 100;
     #endregion
 
     #region ui组件
@@ -284,13 +299,17 @@ public class EnquireUIManager : MonoBehaviour
 
     public void SetHint(bool show, Evidence evi)
     {
-        //hintContainer.SetActive(show);
-        hintNameLabel.text = show ? evi.name  : "";
-        hintIntroLabel.text = show ? evi.introduction : "";
-        int w = hintIntroLabel.width;
-        hintIntroLabel.transform.GetComponent<TweenPosition>().from = new Vector3(260 + w / 2, 0);
-        hintIntroLabel.transform.GetComponent<TweenPosition>().to = new Vector3(-260 - w / 2, 0);
-        hintIntroLabel.transform.GetComponent<TweenPosition>().ResetToBeginning();
+        hintContainer.SetActive(show);
+        if (show)
+        {
+            hintNameLabel.text = evi.name;
+            hintIntroLabel.text = evi.introduction;
+            int w = hintIntroLabel.width;
+            hintIntroLabel.transform.GetComponent<TweenPosition>().from = new Vector3((700 + w) / 2, 0);
+            hintIntroLabel.transform.GetComponent<TweenPosition>().to = new Vector3(-(700 + w) / 2, 0);
+            hintIntroLabel.transform.GetComponent<TweenPosition>().ResetToBeginning();
+        }
+        
     }
 
     /// <summary>
@@ -310,6 +329,7 @@ public class EnquireUIManager : MonoBehaviour
     /// <param name="evidence">用哪个证据</param>
     public void EnquirePresent(Evidence evidence)
     {
+        hintContainer.SetActive(false);
         StopAllCoroutines();
         //指证动画
         StartCoroutine(ObjectionAnimation(evidence));
@@ -361,14 +381,14 @@ public class EnquireUIManager : MonoBehaviour
         while (value < i + 1)
         {
             value = Mathf.MoveTowards(value, i + 1, 10 * Time.deltaTime);
-            timeBar.value = value / visibleTestimony.Count;
+            timeBar.value = value / (visibleTestimony.Count+1);
             yield return null;
         }
     }
 
     private IEnumerator Moving(float time)
     {
-        return Moving(time, new Vector3(-640 + currentLabel.localSize.x / 2, UnityEngine.Random.Range(-100, 150)));
+        return Moving(time, new Vector3(-960 + currentLabel.localSize.x / 2, UnityEngine.Random.Range(-100, 150)));
     }
 
     private IEnumerator Moving(float time, Vector3 position)
@@ -378,11 +398,11 @@ public class EnquireUIManager : MonoBehaviour
         //float h = currentLabel.localSize.y;
         float w = currentLabel.localSize.x;
         //弹幕右侧与屏幕右侧距离 当小于100时开始淡出
-        float right = 640 - (w / 2 + x);
+        float right = 960 - (w / 2 + x);
         //弹幕左侧与屏幕左侧距离 当大于100时开始淡入
-        float left = 640 - (w / 2 - x);
-        float start = -640 + w / 2;
-        float final = 640 - w / 2;
+        float left = 960 - (w / 2 - x);
+        float start = -960 + w / 2;
+        float final = 960 - w / 2;
         float alpha = 0;
         currentLabel.transform.localPosition = new Vector3(start, y, 0);
         while (x < final)
@@ -407,8 +427,8 @@ public class EnquireUIManager : MonoBehaviour
             currentLabel.transform.localPosition = new Vector3(x, y, 0);
             currentLabel.GetComponent<UIRect>().alpha = alpha;
             //重新计算
-            left = 640 - (w / 2 - x);
-            right = 640 - (w / 2 + x);
+            left = 960 - (w / 2 - x);
+            right = 960 - (w / 2 + x);
             yield return null;
         }
         exitStatus = Constants.ENQUIRE_STATUS.LOOP;
@@ -425,7 +445,7 @@ public class EnquireUIManager : MonoBehaviour
         float x = -1280;
         while (x < 0)
         {
-            x = Mathf.MoveTowards(x, 0, 1280 / 0.3f * Time.deltaTime);
+            x = Mathf.MoveTowards(x, 0, 1920 / 0.3f * Time.deltaTime);
             backLine.transform.localPosition = new Vector3(x, backLine.transform.localPosition.y);
             yield return null;
         }
@@ -476,7 +496,7 @@ public class EnquireUIManager : MonoBehaviour
             backLine.transform.localScale = new Vector3(1, y, 1);
             yield return null;
         }
-        if (!isopen) backLine.transform.localPosition = new Vector3(-1280, backLine.transform.localPosition.y);
+        if (!isopen) backLine.transform.localPosition = new Vector3(-1920, backLine.transform.localPosition.y);
     }
 
     private IEnumerator StartText(bool isopen)
@@ -515,7 +535,7 @@ public class EnquireUIManager : MonoBehaviour
         {
             destination.Add(child.localPosition.x);
             child.GetComponent<UIButton>().enabled = false;
-            child.localPosition = new Vector3(child.localPosition.x + 600, 0);
+            child.localPosition = new Vector3(child.localPosition.x + 1020, 0);
         }
         //1.出现证据框
         float t = 0;
@@ -523,7 +543,7 @@ public class EnquireUIManager : MonoBehaviour
         {
             t = Mathf.MoveTowards(t, 1, 1 / 0.25f * Time.deltaTime);
             float eviy = EVIDENCE_Y + EVIDENCE_MOVE * t;
-            evidenceContainer.transform.localPosition = new Vector3(evidenceContainer.transform.localPosition.x, eviy, 0);
+            SetPositionY(evidenceContainer, eviy);
             yield return null;
         }
         //2.证据一个个出现
@@ -536,7 +556,7 @@ public class EnquireUIManager : MonoBehaviour
             while (t < 1)
             {
                 t = Mathf.MoveTowards(t, 1, 1 / 0.35f * Time.deltaTime);
-                float evix = destination[i] + 600 - t * 600;
+                float evix = destination[i] + (1 - t) * 1020;
                 evidenceGrid.transform.GetChild(i).localPosition = new Vector3(evix, 0, 0);
                 yield return null;
             }
@@ -640,8 +660,8 @@ public class EnquireUIManager : MonoBehaviour
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / 0.15f * Time.fixedDeltaTime);
-            bax = 1280 - 1280 * t;
-            bay = -720 + 720 * t;
+            bax = 1920 * (1 - t);
+            bay = 1080 * (t - 1);
             breakBack.transform.localPosition = new Vector3(bax, bay);
             yield return null;
         }
@@ -672,7 +692,7 @@ public class EnquireUIManager : MonoBehaviour
             GameObject go = breakContainer.transform.GetChild(i).gameObject;
             go.SetActive(false);
         }
-        breakBack.transform.localPosition = new Vector3(1280, -720);
+        breakBack.transform.localPosition = new Vector3(1920, -1080);
         breakBack.SetActive(false);
         breakContainer.SetActive(false);
     }

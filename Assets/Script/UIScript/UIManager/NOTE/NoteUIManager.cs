@@ -46,9 +46,9 @@ public class NoteUIManager : MonoBehaviour
         tourContainer = transform.Find("Tour_Container").gameObject;
         wikiContainer = transform.Find("Wiki_Container").gameObject;
 
-        middleCon = indexContainer.transform.Find("Middle_Container").gameObject;
-        momentCon = indexContainer.transform.Find("Moment_Container").gameObject;
-        mailCon = indexContainer.transform.Find("Mail_Container").gameObject;
+        middleCon = indexContainer.transform.Find("Container/Middle_Container").gameObject;
+        momentCon = indexContainer.transform.Find("Container/Moment_Container").gameObject;
+        mailCon = indexContainer.transform.Find("Container/Mail_Container").gameObject;
 
     }
 
@@ -96,12 +96,14 @@ public class NoteUIManager : MonoBehaviour
 
     public void OpenNote()
     {
-        StartCoroutine(Fadein(0.2f));
+        //StartCoroutine(Fadein(0.2f));
+        StartCoroutine(RotateIn(0.2f));
     }
 
     private void CloseNote()
     {
-        StartCoroutine(Fadeout(0.2f));
+        //StartCoroutine(Fadeout(0.2f));
+        StartCoroutine(RotateOut(0.2f));
     }
 
     public void ReturnIndex()
@@ -268,6 +270,32 @@ public class NoteUIManager : MonoBehaviour
             //    break;
         }
         currentOpen = target;
+    }
+
+    private IEnumerator RotateIn(float time)
+    {
+        yield return new WaitForSeconds(0.2f);
+        transform.gameObject.SetActive(true);
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / time * Time.deltaTime);
+            indexContainer.transform.localRotation = Quaternion.Euler(0, 0, -90 * (1 - t));
+            yield return null;
+        }
+    }
+
+    private IEnumerator RotateOut(float time)
+    {
+        transform.gameObject.SetActive(true);
+        float t = 0;
+        while (t < 1)
+        {
+            t = Mathf.MoveTowards(t, 1, 1 / time * Time.deltaTime);
+            indexContainer.transform.localRotation = Quaternion.Euler(0, 0, -90 * t);
+            yield return null;
+        }
+        transform.gameObject.SetActive(false);
     }
 
     private IEnumerator Fadein(float time)

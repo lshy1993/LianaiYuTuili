@@ -24,9 +24,10 @@ namespace Assets.Script.TextScripts
         {
             Finish();
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            dic.Add("对峙测试", "demo0_1");
+            dic.Add("对峙系统测试", "demo0_1");
+            dic.Add("侦探案件测试", "demo01");
+            dic.Add("ED动画测试", "demo_fin");
             dic.Add("观看序章", "demo0_2");
-            dic.Add("结局测试", "demo_fin");
             dic.Add("跳过", "demo_jump");
             return nodeFactory.GetSelectNode(dic);
         }

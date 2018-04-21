@@ -24,6 +24,11 @@ namespace Assets.Script.UIScript
         /// </summary>
         private GameObject sideLabelCon;
 
+        /// <summary>
+        /// 粒子特效容器
+        /// </summary>
+        private GameObject particleCon;
+
         private GameObject backSprite;
         private GameObject titleLabel, titleEngLabel, sideLabel;
 
@@ -32,6 +37,8 @@ namespace Assets.Script.UIScript
             btnTable = this.transform.Find("Title_Container/MainButton_Table").gameObject;
             subTabel = this.transform.Find("Title_Container/MainButton_Table").gameObject;
             sideLabelCon = this.transform.Find("Title_Container/SideLabel_Container").gameObject;
+
+            particleCon = this.transform.Find("Title_Container/Particle_Container").gameObject;
 
             backSprite = this.transform.Find("Back_Sprite").gameObject;
             titleLabel = this.transform.Find("Title_Container/TitleText_Label").gameObject;
@@ -74,7 +81,8 @@ namespace Assets.Script.UIScript
             return base.OpenSequence(() =>
             {
                 StartCoroutine(ShowText());
-                StartCoroutine(ShowBtn());
+                
+                
                 callback();
             });
         }
@@ -86,10 +94,11 @@ namespace Assets.Script.UIScript
             float x = 0;
             while (x < 1)
             {
-                x = Mathf.MoveTowards(x, 1, 1 / 0.5f * Time.deltaTime);
+                x = Mathf.MoveTowards(x, 1, 1 / 0.2f * Time.deltaTime);
                 titleLabel.GetComponent<UIRect>().alpha = x;
                 yield return null;
             }
+            StartCoroutine(ShowParticle());
             x = 0;
             while (x < 1)
             {
@@ -98,6 +107,7 @@ namespace Assets.Script.UIScript
                 sideLabel.GetComponent<UIRect>().alpha = x;
                 yield return null;
             }
+            StartCoroutine(ShowBtn());
         }
 
         //按钮显示动画
@@ -119,6 +129,19 @@ namespace Assets.Script.UIScript
                 }
             }
             BlockBtn(true);
+        }
+
+        //粒子效果层动画
+        private IEnumerator ShowParticle()
+        {
+            particleCon.SetActive(true);
+            float x = 0;
+            while (x < 1)
+            {
+                x = Mathf.MoveTowards(x, 1, 1 / 1.0f * Time.deltaTime);
+                particleCon.GetComponent<UIRect>().alpha = x;
+                yield return null;
+            }
         }
 
         private void BlockBtn(bool blocked)

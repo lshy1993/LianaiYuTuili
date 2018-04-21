@@ -571,13 +571,13 @@ namespace Assets.Script.GameStruct
             return new EffectPiece(id++, effects);
         }
 
-        /// <summary>
-        /// 窗口抖动（含UI）
-        /// </summary>
-        /// <param name="v">震动量</param>
-        /// <param name="speed">每秒震动次数</param>
-        /// <param name="time">持续时间s，0则为永久</param>
-        public EffectPiece WindowVibration(float v = 0.01f, int freq = 100, float time = 0.5f)
+            /// <summary>
+            /// 窗口抖动（含UI）
+            /// </summary>
+            /// <param name="time">持续时间s，0则为永久</param>
+            /// <param name="v">震动量</param>
+            /// <param name="freq">每秒震动次数</param>
+        public EffectPiece WindowVibration(float time = 0.5f, float v = 0.01f, int freq = 100)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.WindowShake(v, freq, time));

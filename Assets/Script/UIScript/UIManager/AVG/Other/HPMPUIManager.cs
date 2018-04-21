@@ -175,7 +175,7 @@ public class HPMPUIManager : MonoBehaviour
         float t = 1;
         while (t > 0)
         {
-            t = Mathf.MoveTowards(t, 0, 1 / 0.3f * Time.deltaTime);
+            t = Mathf.MoveTowards(t, 0, 1 / 0.1f * Time.deltaTime);
             barx = startX + moveX * t;
             if (hpOn) hpCon.transform.localPosition = new Vector3(barx, Y_hp);
             if (mpOn) mpCon.transform.localPosition = new Vector3(barx, Y_mp);

@@ -10,6 +10,7 @@ public class EnquireEvidenceButton : BasicButton
 {
     private EnquireUIManager uiManager;
 
+    private bool _currentOverState = false;
     public Evidence evidence;
     //private DetectNode detectNode;
 
@@ -18,9 +19,12 @@ public class EnquireEvidenceButton : BasicButton
         this.uiManager = manager;
     }
 
-    protected override void Hover(bool ishover)
+    protected override void Hover(bool isOver)
     {
-        uiManager.SetHint(ishover, evidence);
+        if (_currentOverState == isOver)
+            return;
+        _currentOverState = isOver;
+        uiManager.SetHint(isOver, evidence);
     }
 
     protected override void SE_Click()
@@ -30,8 +34,6 @@ public class EnquireEvidenceButton : BasicButton
 
     protected override void Execute()
     {
-        //Debug.Log("Igiari!");
-        //Debug.Log(uiManager == null);
         uiManager.EnquirePresent(evidence);
     }
 }

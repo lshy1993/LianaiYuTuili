@@ -112,7 +112,7 @@ public class ImageManager : MonoBehaviour
     {
         Sprite nextSprite = null, nextChara = null;
         //先判断背景层是否需要改变
-        nextSprite = LoadBackground(bgName);
+        if (bgSprite.sprite2D.name != bgName) nextSprite = LoadBackground(bgName);
         if (!string.IsNullOrEmpty(charaName))
         {
             nextChara = LoadCharacter(charaName);
@@ -132,7 +132,7 @@ public class ImageManager : MonoBehaviour
             yield return null;
         }
         //预处理
-        bgSprite.sprite2D = nextSprite;
+        if (nextSprite != null) bgSprite.sprite2D = nextSprite;
         fgPanel.transform.DestroyChildren();
         if (nextChara != null)
         {

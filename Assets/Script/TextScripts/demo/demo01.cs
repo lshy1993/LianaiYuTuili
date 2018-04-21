@@ -41,6 +41,7 @@ namespace Assets.Script.TextScripts
         public override GameNode NextNode()
         {
             Finish();
+            manager.inturnData.currentHP = manager.gameData.player.LimitHP;
             return nodeFactory.FindTextScript("demo01_1");
         }
 
