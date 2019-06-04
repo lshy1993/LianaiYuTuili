@@ -13,7 +13,7 @@ namespace Assets.Script.GameStruct.EventSystem
 {
     public class EventManager
     {
-        private static EventManager instance;
+        private static EventManager instance = new EventManager();
 
         private static readonly int STATE_NOT_RUNNED = 0;
         private static readonly int STATE_RUNNED = 1;
@@ -32,6 +32,14 @@ namespace Assets.Script.GameStruct.EventSystem
         private Dictionary<string, int> eventState
         {
             get { return dataManager.gameData.eventStatus; }
+        }
+
+        /// <summary>
+        /// 选项开关
+        /// </summary>
+        private List<string> selectionSwitch
+        {
+            get { return dataManager.gameData.selectionSwitch; }
         }
 
         /// <summary>
@@ -58,7 +66,7 @@ namespace Assets.Script.GameStruct.EventSystem
 
         public static EventManager GetInstance()
         {
-            if (instance == null) instance = new EventManager();
+            //if (instance == null) instance = new EventManager();
             return instance;
         }
 
@@ -254,11 +262,16 @@ namespace Assets.Script.GameStruct.EventSystem
             Player player = dataManager.gameData.player;
             int turn = dataManager.gameData.gameTurn;
 
-            //如果该事件未在eventState内 则跳过
-            if (eventState.ContainsKey(e.name))
+            //如果该事件未在eventState内
+            if (!eventState.ContainsKey(e.name))
             {
-                //如果该事件已经执行过
-                if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED) return false;
+                DebugLog.LogError("该事件未在状态表中，key=" + e.name);
+            }
+
+            //如果该事件已经执行过
+            if (!e.isdefault && eventState[e.name] != STATE_NOT_RUNNED)
+            {
+                return false;
             }
 
             // 不满足回合数
@@ -292,7 +305,10 @@ namespace Assets.Script.GameStruct.EventSystem
                     {
                         int gstatus = player.GetGirlPoint(kv.Key);
                         if ((kv.Value.GetMin() > gstatus || gstatus > kv.Value.GetMax()))
+                        {
                             return false;
+                        }
+                            
                     }
                 }
             }
@@ -304,9 +320,13 @@ namespace Assets.Script.GameStruct.EventSystem
                 {
                     if (!eventState.ContainsKey(eventName))
                     {
-                        Debug.LogError("无key：" + eventName);
+                        DebugLog.LogError("前置非事件未在事件表中！key=" + eventName);
+                        continue;
                     }
-                    if (eventState[eventName] == STATE_RUNNED) return false;
+                    if (eventState[eventName] == STATE_RUNNED)
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -317,9 +337,13 @@ namespace Assets.Script.GameStruct.EventSystem
                 {
                     if (!eventState.ContainsKey(eventName))
                     {
-                        Debug.LogError("无key：" + eventName);
+                        DebugLog.LogError("前置与事件未在事件表中！key=" + eventName);
+                        continue;
                     }
-                    if (eventState[eventName] == STATE_NOT_RUNNED) return false;
+                    if (eventState[eventName] == STATE_NOT_RUNNED)
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -330,12 +354,30 @@ namespace Assets.Script.GameStruct.EventSystem
                 {
                     if (!eventState.ContainsKey(eventName))
                     {
-                        Debug.LogError("无key：" + eventName);
+                        DebugLog.LogError("前置或事件未在事件表中！key=" + eventName);
+                        continue;
                     }
-                    if (eventState[eventName] == STATE_RUNNED) return true;
+                    if (eventState[eventName] == STATE_RUNNED)
+                    {
+                        return true;
+                    }
                 }
                 return false;
             }
+
+            //选项判断
+            if (e.conditionSelection != null && e.conditionSelection.Count > 0)
+            {
+                foreach (string eventName in e.conditionSelection)
+                {
+                    if (selectionSwitch.Contains(eventName))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
 
             return true;
         }

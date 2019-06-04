@@ -14,7 +14,7 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class ReasoningManager
     {
-        private static ReasoningManager instance;
+        private static ReasoningManager instance = new ReasoningManager();
         private DataManager manager;
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Assets.Script.GameStruct
 
         public static ReasoningManager GetInstance()
         {
-            if (instance == null) instance = new ReasoningManager();
+            //if (instance == null) instance = new ReasoningManager();
             return instance;
         }
 

@@ -61,6 +61,31 @@ namespace Assets.Script.GameStruct
         public int diaboxAlpha;
 
         /// <summary>
+        /// 主音量
+        /// </summary>
+        public float masterVolume;
+
+        /// <summary>
+        /// BGＭ音量
+        /// </summary>
+        public float userBGMVolume;
+
+        /// <summary>
+        /// SE音量
+        /// </summary>
+        public float userSEVolume;
+
+        /// <summary>
+        /// 系统效果音量
+        /// </summary>
+        public float userSysSEVolume;
+
+        /// <summary>
+        /// 角色语音音量
+        /// </summary>
+        public float userVoiceVolume;
+
+        /// <summary>
         /// 角色语音默认显示项
         /// </summary>
         public int defaultCharaNum;
@@ -78,7 +103,7 @@ namespace Assets.Script.GameStruct
         public ConfigData()
         {
             settingMode = Constants.Setting_Mode.Graphic;
-            fullScreen = false;
+            fullScreen = true;
             fadingSwitch = true;
             animateSwitch = true;
             avatarSwitch = true;
@@ -88,6 +113,11 @@ namespace Assets.Script.GameStruct
             waitTime = 1.5f;
             diaboxAlpha = 75;
             defaultCharaNum = 0;
+            masterVolume = 1f;
+            userBGMVolume = 0.5f;
+            userSEVolume = 0.75f;
+            userSysSEVolume = 0.75f;
+            userVoiceVolume = 1f;
             charaVoiceVolume = new float[] { 1, 1, 1, 1, 1, 1 };
             charaVoice = new bool[] { true, true, true, true, true, true };
 

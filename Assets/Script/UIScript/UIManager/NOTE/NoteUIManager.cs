@@ -28,6 +28,8 @@ public class NoteUIManager : MonoBehaviour
     private GameObject momentCon;
     private GameObject mailCon;
 
+    private GameObject closeButton;
+
     /* 暂时弃用
     private GameObject appContainer;
     */
@@ -49,7 +51,7 @@ public class NoteUIManager : MonoBehaviour
         middleCon = indexContainer.transform.Find("Container/Middle_Container").gameObject;
         momentCon = indexContainer.transform.Find("Container/Moment_Container").gameObject;
         mailCon = indexContainer.transform.Find("Container/Mail_Container").gameObject;
-
+        closeButton = transform.Find("Close_Button").gameObject;
     }
 
     private void OnEnable()
@@ -283,10 +285,12 @@ public class NoteUIManager : MonoBehaviour
             indexContainer.transform.localRotation = Quaternion.Euler(0, 0, -90 * (1 - t));
             yield return null;
         }
+        closeButton.SetActive(true);
     }
 
     private IEnumerator RotateOut(float time)
     {
+        closeButton.SetActive(false);
         transform.gameObject.SetActive(true);
         float t = 0;
         while (t < 1)

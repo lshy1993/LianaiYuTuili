@@ -52,10 +52,11 @@ namespace Assets.Script.UIScript
             Scroll, ScrollBoth, Circle, RotateFade,
             SideFade,
             Mask,
-            Shake,WinShake
+            Shake,WinShake,
+            SetLive2D,ChangeMotion,ChangePos
         };
         /// <summary>
-        /// 特效模式
+        /// 特效执行模式
         /// </summary>
         public OperateMode operate = 0;
 

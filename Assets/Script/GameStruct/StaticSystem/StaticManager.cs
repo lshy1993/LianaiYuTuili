@@ -14,10 +14,14 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class StaticManager
     {
-        private static StaticManager instance;
+        private static StaticManager instance = new StaticManager();
+
         public static StaticManager GetInstance()
         {
-            if (instance == null) instance = new StaticManager();
+            //if (instance == null)
+            //{
+            //    instance = new StaticManager();
+            //}
             return instance;
         }
 
@@ -52,7 +56,7 @@ namespace Assets.Script.GameStruct
             Dictionary<string, Girl> infos = new Dictionary<string, Girl>();
             string path = Constants.DEBUG ? Constants.APP_DEBUG_PATH : Constants.APP_PATH;
             TextAsset text = Resources.Load<TextAsset>(path + "girls");
-            Debug.Log("读取女孩信息表");
+            DebugLog.Log("读取女孩信息表");
             JsonData jsondata = JsonMapper.ToObject(text.text);
             foreach (JsonData da in jsondata)
             {
@@ -167,7 +171,7 @@ namespace Assets.Script.GameStruct
         {
             Dictionary<string, Evidence> dic = new Dictionary<string, Evidence>();
             string path = Constants.DEBUG ? Constants.EVIDENCE_DEBUG_PATH : Constants.EVIDENCE_PATH;
-            Debug.Log("读取证据列表");
+            DebugLog.Log("读取证据列表");
             int uid = 0;
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
@@ -176,7 +180,7 @@ namespace Assets.Script.GameStruct
                 {
                     uid++;
                     Evidence ee = new Evidence(jd);
-                    //Debug.Log("读取：" + ee.name);
+                    DebugLog.LogDone("读取：" + ee.name);
                     dic.Add(ee.UID, ee);
                 }
             }
@@ -215,10 +219,10 @@ namespace Assets.Script.GameStruct
         {
             Dictionary<string, DetectEvent> events = new Dictionary<string, DetectEvent>();
             string path = Constants.DEBUG ? Constants.DETECT_DEBUG_PATH : Constants.DETECT_PATH;
-            Debug.Log("读取侦探表");
+            DebugLog.Log("读取侦探表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
-                //Debug.Log("读取：" + text.name);
+                DebugLog.LogDone("读取：" + text.name);
                 events.Add(text.name, LoadSingleDetectEvent(text));
             }
 
@@ -241,14 +245,14 @@ namespace Assets.Script.GameStruct
         {
             Dictionary<string, ReasoningEvent> events = new Dictionary<string, ReasoningEvent>();
             string path = Constants.DEBUG ? Constants.REASONING_DEBUG_PATH : Constants.REASONING_PATH;
-            Debug.Log("读取自我推理表");
+            DebugLog.Log("读取自我推理表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
                 JsonData jsondata = JsonMapper.ToObject(text.text);
                 foreach (JsonData jd in jsondata)
                 {
                     ReasoningEvent ee = new ReasoningEvent(jd);
-                    //Debug.Log("读取：" + ee.id);
+                    DebugLog.LogDone("读取：" + ee.id);
                     events.Add(ee.id, ee);
                 }
             }
@@ -264,7 +268,7 @@ namespace Assets.Script.GameStruct
         {
             Dictionary<string, NegotiateEvent> events = new Dictionary<string, NegotiateEvent>();
             string path = Constants.DEBUG ? Constants.NEGOTIATE_DEBUG_PATH : Constants.NEGOTIATE_PATH;
-            Debug.Log("读取对峙事件");
+            DebugLog.Log("读取对峙事件");
             TextAsset text = Resources.Load<TextAsset>(path + "events");
             JsonData jsondata = JsonMapper.ToObject(text.text);
             foreach (JsonData jd in jsondata)
@@ -282,7 +286,7 @@ namespace Assets.Script.GameStruct
         {
             Dictionary<int, Negotiate> events = new Dictionary<int, Negotiate>();
             string path = Constants.DEBUG ? Constants.NEGOTIATE_DEBUG_PATH : Constants.NEGOTIATE_PATH;
-            Debug.Log("读取对峙文本");
+            DebugLog.Log("读取对峙文本");
             TextAsset text = Resources.Load<TextAsset>(path + "texts");
             JsonData jsondata = JsonMapper.ToObject(text.text);
             foreach (JsonData jd in jsondata)
@@ -294,20 +298,19 @@ namespace Assets.Script.GameStruct
         }
         #endregion
 
-        public static Dictionary<int,Question> GetStaticQuestiones()
+        public static Dictionary<string, Selection> GetStaticSelections()
         {
-            Dictionary<int, Question> dic = new Dictionary<int, Question>();
-            string path = Constants.DEBUG ? Constants.EXAM_DEBUG_PATH : Constants.EXAM_PATH;
-            TextAsset text = Resources.Load<TextAsset>(path + "exam");
-            Debug.Log("读取考试题库");
+            Dictionary<string, Selection> selections = new Dictionary<string, Selection>();
+            string path = Constants.DEBUG ? Constants.EVENT_DEBUG_PATH : Constants.EVENT_PATH;
+            DebugLog.Log("读取选项分歧列表");
+            TextAsset text = Resources.Load<TextAsset>(path + "selections");
             JsonData jsondata = JsonMapper.ToObject(text.text);
             foreach (JsonData jd in jsondata)
             {
-                Question ee = new Question(jd);
-                //Debug.Log("读取：" + ee.id);
-                dic.Add(ee.UID, ee);
+                Selection se = new Selection(jd);
+                selections.Add(se.uid, se);
             }
-            return dic;
+            return selections;
         }
 
         /// <summary>
@@ -315,13 +318,13 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public static Dictionary<string, MapEvent> GetStaticEvent()
         {
-            string path = (Constants.DEBUG ? Constants.DEBUG_PATH : Constants.DEFAULT_PATH) + "Events/";
+            string path = (Constants.DEBUG ? Constants.EVENT_DEBUG_PATH : Constants.EVENT_PATH) + "Events/";
             Dictionary<string, MapEvent> eventTable = new Dictionary<string, MapEvent>();
 
-            Debug.Log("读取事件表");
+            DebugLog.Log("读取事件表");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
-                Debug.Log("    读取：" + text.name);
+                DebugLog.LogDone("读取：" + text.name);
                 JsonData alldata = JsonMapper.ToObject(text.text);
                 foreach (JsonData data in alldata)
                 {
@@ -334,7 +337,7 @@ namespace Assets.Script.GameStruct
                         }
                         catch (Exception ee)
                         {
-                            Debug.LogError("事件重名，key：" + e.name);
+                            DebugLog.LogError(ee + "事件重名，key：" + e.name);
                         }
                     }
                 }
@@ -350,12 +353,12 @@ namespace Assets.Script.GameStruct
         private static void LoadStaticEventLogic(Dictionary<string, MapEvent> eventTable)
         {
             // 读入事件逻辑文件
-            string path = (Constants.DEBUG ? Constants.DEBUG_PATH : Constants.DEFAULT_PATH) + "EventLogic/";
+            string path = (Constants.DEBUG ? Constants.EVENT_DEBUG_PATH : Constants.EVENT_PATH) + "EventLogic/";
 
-            Debug.Log("读取事件逻辑");
+            DebugLog.Log("读取事件逻辑");
             foreach (TextAsset text in Resources.LoadAll<TextAsset>(path))
             {
-                Debug.Log("    读取：" + text.name);
+                DebugLog.LogDone("读取：" + text.name);
                 JsonData alldata = JsonMapper.ToObject(text.text);
                 if (alldata.Contains("线性事件"))
                 {
@@ -364,9 +367,16 @@ namespace Assets.Script.GameStruct
                     for (int i = 1; i < eventChain.Count; i++)
                     {
                         string eName = (string)eventChain[i];
-                        if(!eventTable.ContainsKey(eName))Debug.LogError("该事件未在库中，key：" + eName);
+                        if (!eventTable.ContainsKey(eName))
+                        {
+                            DebugLog.LogError("该事件未在库中，key：" + eName);
+                        }
+                            
                         string prevName = (string)eventChain[i - 1];
-                        if (!eventTable.ContainsKey(prevName)) Debug.LogError("后置事件未在库中，key：" + eName);
+                        if (!eventTable.ContainsKey(prevName))
+                        {
+                            DebugLog.LogError("后置事件未在库中，key：" + eName);
+                        }
                         eventTable[eName].conditionAndEvents.Add(prevName);
                     }
                 }
@@ -378,7 +388,7 @@ namespace Assets.Script.GameStruct
                         string eName = (string)data["事件"];
                         if (!eventTable.ContainsKey(eName))
                         {
-                            Debug.LogError("该事件未定义，key：" + eName);
+                            DebugLog.LogError("该事件未定义，key：" + eName);
                             continue;
                         }
                         MapEvent me = eventTable[eName];
@@ -386,8 +396,11 @@ namespace Assets.Script.GameStruct
                         {
                             foreach (JsonData eventName in data["前置与"])
                             {
-                                if (!eventTable.ContainsKey(eName)) Debug.LogError("前置与事件未在库中，key：" + eName);
-                                me.conditionAndEvents.Add((string)eventName);
+                                if (!eventTable.ContainsKey((string)eventName))
+                                {
+                                    DebugLog.LogError("前置与事件未在库中，key：" + eventName);
+                                }
+                                me.AddAndEvent((string)eventName);
                             }
                         }
 
@@ -395,8 +408,11 @@ namespace Assets.Script.GameStruct
                         {
                             foreach (JsonData eventName in data["前置或"])
                             {
-                                if (!eventTable.ContainsKey(eName)) Debug.LogError("前置或事件未在库中，key：" + eName);
-                                me.conditionOrEvents.Add((string)eventName);
+                                if (!eventTable.ContainsKey((string)eventName))
+                                {
+                                    DebugLog.LogError("前置非事件未在库中，key：" + eventName);
+                                }
+                                me.AddOrEvent((string)eventName);
                             }
                         }
 
@@ -404,8 +420,19 @@ namespace Assets.Script.GameStruct
                         {
                             foreach (JsonData eventName in data["前置非"])
                             {
-                                if (!eventTable.ContainsKey(eName)) Debug.LogError("前置非事件未在库中，key：" + eName);
-                                me.conditionNotEvents.Add((string)eventName);
+                                if (!eventTable.ContainsKey((string)eventName))
+                                {
+                                    DebugLog.LogError("前置或事件未在库中，key：" + eventName);
+                                }
+                                me.AddNotEvent((string)eventName);
+                            }
+                        }
+
+                        if (data.Contains("选项需求"))
+                        {
+                            foreach(JsonData selectName in data["选项需求"])
+                            {
+                                me.AddSelection((string)selectName);
                             }
                         }
 

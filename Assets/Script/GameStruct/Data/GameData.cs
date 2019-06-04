@@ -77,6 +77,16 @@ namespace Assets.Script.GameStruct
         public Dictionary<string, int> eventStatus;
 
         /// <summary>
+        /// 选项开启状态
+        /// </summary>
+        public List<string> selectionSwitch;
+        
+        /// <summary>
+        /// 当前所处于的选项ID
+        /// </summary>
+        public string selectID;
+
+        /// <summary>
         /// 当前播放的BGM曲名
         /// </summary>
         public string BGM;

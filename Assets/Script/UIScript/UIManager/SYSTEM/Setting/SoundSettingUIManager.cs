@@ -10,12 +10,18 @@ public class SoundSettingUIManager : MonoBehaviour
     ///用于控制游戏声音的设置
     public GameObject charaGrid;
     public GameObject onBtn, offBtn, testBtn;
+    public UISlider bgmSlider, seSlider, voiceSlider, sysSeSlider;
     public GameObject volumeSlider;
     private int defaultNum;
 
     private void OnEnable()
     {
         //初始化
+        bgmSlider.value = DataManager.GetInstance().configData.userBGMVolume;
+        seSlider.value = DataManager.GetInstance().configData.userSEVolume;
+        sysSeSlider.value = DataManager.GetInstance().configData.userSysSEVolume;
+        voiceSlider.value = DataManager.GetInstance().configData.userVoiceVolume;
+
         defaultNum = DataManager.GetInstance().configData.defaultCharaNum;
         //读取相应的数据 并挂到组件上
         SetCharaButton(defaultNum);

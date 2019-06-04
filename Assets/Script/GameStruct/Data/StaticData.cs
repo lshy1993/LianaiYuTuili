@@ -44,7 +44,7 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 考试题库集
         /// </summary>
-        public Dictionary<int, Question> exams;
+        public Dictionary<int, Question> examList;
 
         /// <summary>
         /// 旅游资讯表
@@ -86,6 +86,12 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public Dictionary<int, Negotiate> negotiateTexts;
 
+        /// <summary>
+        /// 选项分支
+        /// </summary>
+        public Dictionary<string, Selection> selections;
+
+        public Dictionary<string, string> bgmTitleList;
 
         public Dictionary<string, Character> characters;
 

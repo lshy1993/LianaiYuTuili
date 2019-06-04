@@ -68,7 +68,7 @@ public class ToggleAuto : MonoBehaviour
         else
         {
             autoBar.gameObject.SetActive(false);
-            if (sm.currentVoice.isPlaying) return;
+            if (sm.IsVoicePlaying()) return;
             //计时器关闭且重置
             isCounting = false;
             currentTime = 0f;

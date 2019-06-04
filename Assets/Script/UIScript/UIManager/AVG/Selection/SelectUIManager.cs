@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Assets.Script.GameStruct;
+using UnityEngine;
+using UnityEngine.Networking;
+using LitJson;
+using Assets.Script.GameStruct.Model;
 
 /// <summary>
 /// 选项分歧UI管理器
 /// </summary>
 public class SelectUIManager : MonoBehaviour
 {
+    //网络模块
+    public HttpManager hm;
     //选项与倒计时
     public GameObject countCon, selectCon;
 
@@ -16,6 +21,7 @@ public class SelectUIManager : MonoBehaviour
     /// </summary>
     public GameObject listCon;
 
+    public GameObject hintBtn;
     /// <summary>
     /// 网络统计块
     /// </summary>
@@ -24,14 +30,17 @@ public class SelectUIManager : MonoBehaviour
     public UIProgressBar countBar;
 
     private SelectNode selectNode;
+
     /// <summary>
-    /// 选项《选项，目标脚本》
+    /// 选项
+    /// </summary>
+    private Selection currentSelect;
+
+    /// <summary>
+    ///  选项《选项，目标脚本》
     /// </summary>
     private Dictionary<string, string> selections;
-    /// <summary>
-    /// 选项统计结果《选项，比例》
-    /// </summary>
-    private Dictionary<string, float> rates;
+
     private float cd, currentTime;
     private string cdexit;
     private bool flag;
@@ -53,12 +62,32 @@ public class SelectUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 设置选项分支
+    /// 设置选项分支（无网络连接）
     /// </summary>
     /// <param name="dic">分支项</param>
     public void SetSelects(Dictionary<string, string> dic)
     {
-        this.selections = dic;
+        currentSelect = new Selection();
+        currentSelect.nums = dic.Count;
+        foreach(KeyValuePair<string,string> kv in dic)
+        {
+            currentSelect.select.Add(kv.Key);
+            currentSelect.entrance.Add(kv.Value);
+        }
+        hintBtn.SetActive(false);
+        //this.selections = dic;
+    }
+
+    /// <summary>
+    /// 设置选项分支（含网络）
+    /// </summary>
+    /// <param name="selectid">预定义编号</param>
+    public void SetSelects(string selectid)
+    {
+        Selection se =  DataManager.GetInstance().staticData.selections[selectid];
+        this.currentSelect = se;
+        //SetCountDown((float)se.cd, se.cdexit);
+        hintBtn.SetActive(true);
     }
 
     private void Update()
@@ -100,29 +129,25 @@ public class SelectUIManager : MonoBehaviour
     private void InitSelectPos()
     {
         //计算按钮间隔
-        int n = selections.Count;
+        int n = currentSelect.nums;
         int d = (720 - 80 * n) / (n + 1);
-        int i = 1;
         //预清空
         listCon.transform.DestroyChildren();
         hintCon.transform.DestroyChildren();
-        foreach(string str in selections.Keys)
+        for(int i=1;i<=n;i++)
         {
             //生成选项按钮
             GameObject go = Resources.Load("Prefab/TextSelection_Button") as GameObject;
             go = NGUITools.AddChild(listCon, go);
             go.transform.localPosition = new Vector3(0, 400 - (i * d + i * 80));
-            go.transform.Find("Label").GetComponent<UILabel>().text = str;
+            go.transform.Find("Label").GetComponent<UILabel>().text = currentSelect.select[i - 1];
             go.GetComponent<SelectButton>().SetUIManager(this);
-            go.GetComponent<SelectButton>().SetText(str);
+            go.GetComponent<SelectButton>().SetID(i);
             //百分比统计
             go = Resources.Load("Prefab/SelectionRate_Label") as GameObject;
             go = NGUITools.AddChild(hintCon, go);
             go.transform.localPosition = new Vector3(0, 400 - (i * d + i * 80));
-            //TODO:向网络获取统计资料？
-            //go.GetComponent<UILabel>().text = rates[str].ToString("p");
-            go.GetComponent<UILabel>().text = 0.25.ToString("p");
-            i++;
+            go.GetComponent<UILabel>().text = "??";
         }
         listCon.SetActive(true);
         CountDown();
@@ -144,20 +169,59 @@ public class SelectUIManager : MonoBehaviour
     /// <summary>
     /// 按钮调用 选择某项
     /// </summary>
-    /// <param name="str">选择</param>
-    public void Select(string str)
+    public void Select(int i)
     {
+        //清空prefab 关闭UI
         listCon.SetActive(false);
+        listCon.transform.DestroyChildren();
         selectCon.SetActive(false);
         countCon.SetActive(false);
-        selectNode.NodeExit(selections[str]);
+        //写入数据
+        DataManager.GetInstance().gameData.selectionSwitch.Add(currentSelect.select[i - 1]);
+        //网络统计+1
+        if (!string.IsNullOrEmpty(currentSelect.uid))
+        {
+            Debug.Log("post");
+            hm.PostSelect(currentSelect.uid, i);
+            //StartCoroutine(HttpPostSelect(currentSelect.uid, i));
+        }
+        //退出Node
+        selectNode.NodeExit(currentSelect.entrance[i-1]);
     }
 
     /// <summary>
-    /// 按钮调用 显示网络统计
+    /// 提示按钮调用
     /// </summary>
     public void Hint()
     {
+        //向网络获取统计资料
+        StartCoroutine(HttpGetSelect(currentSelect.uid));
+    }
+
+    private IEnumerator HttpGetSelect(string id)
+    {
+        //string url = "http://localhost:3000/lt/select/" + id;
+        string url = "http://api.liantui.xyz/lt/select/" + id;
+
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        yield return request.SendWebRequest();
+        if (request.isHttpError || request.isNetworkError)
+        {
+            Debug.Log("net error");
+        }
+        else
+        {
+            var json = request.downloadHandler.text;
+            JsonData jd =  JsonMapper.ToObject(json);
+            int i = 0;
+            foreach(JsonData pp in jd)
+            {
+                double p = (double)pp;
+                Transform go = hintCon.transform.GetChild(i);
+                go.GetComponent<UILabel>().text = p.ToString("p");
+                i++;
+            }
+        }
         hintCon.SetActive(true);
     }
 

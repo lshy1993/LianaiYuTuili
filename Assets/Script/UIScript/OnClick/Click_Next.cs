@@ -38,11 +38,15 @@ public class Click_Next : MonoBehaviour {
             uiManger.ShowWindow();
             return;
         }
-        else Execute();
+        else
+        {
+            Execute();
+        }
     }
 
     public void Execute()
     {
+        if (DataManager.GetInstance().IsClickBlocked()) return;
         //否则根据Script类型执行Update
        if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
             gm.GetCurrentNode().Update();

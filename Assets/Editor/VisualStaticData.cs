@@ -28,6 +28,8 @@ public class VisualStaticData : EditorWindow
     private Dictionary<int, ChatMessage> mails;
     private Dictionary<int, string> cgInfo;
     private Dictionary<int, AchieveEnding> endingInfo;
+    private Dictionary<int, Question> examList;
+    private Dictionary<string, string> bgmList;
 
     private Vector2 scrollPosition;
     private string content;
@@ -42,18 +44,22 @@ public class VisualStaticData : EditorWindow
 
     private void OnEnable()
     {
-        evidences = DataManager.GetInstance().staticData.evidenceDic;
-        events = DataManager.GetInstance().staticData.eventTable;
-        detects = DataManager.GetInstance().staticData.detectEvents;
-        enquires = DataManager.GetInstance().staticData.enquireEvents;
-        reasons = DataManager.GetInstance().staticData.reasonEvents;
-        girls = DataManager.GetInstance().staticData.girls;
-        tours = DataManager.GetInstance().staticData.tours;
-        keywords = DataManager.GetInstance().staticData.keywords;
-        routines = DataManager.GetInstance().staticData.routines;
-        mails = DataManager.GetInstance().staticData.mails;
-        cgInfo = DataManager.GetInstance().staticData.cgInfo;
-        endingInfo = DataManager.GetInstance().staticData.endingInfo;
+        Debug.Log("visual static data enable");
+        var staticData = DataManager.GetInstance().staticData;
+        evidences = staticData.evidenceDic;
+        events = staticData.eventTable;
+        detects = staticData.detectEvents;
+        enquires = staticData.enquireEvents;
+        reasons = staticData.reasonEvents;
+        girls = staticData.girls;
+        tours = staticData.tours;
+        keywords = staticData.keywords;
+        routines = staticData.routines;
+        mails = staticData.mails;
+        cgInfo = staticData.cgInfo;
+        endingInfo = staticData.endingInfo;
+        examList = staticData.examList;
+        bgmList = staticData.bgmTitleList;
     }
 
     public void OnGUI()
@@ -114,6 +120,14 @@ public class VisualStaticData : EditorWindow
         {
             Reset(toggleNum = 12);
         }
+        if (GUILayout.Button("BGM标题表"))
+        {
+            Reset(toggleNum = 13);
+        }
+        if (GUILayout.Button("题库"))
+        {
+            Reset(toggleNum = 14);
+        }
         GUILayout.EndHorizontal();
         isEng = GUILayout.Toggle(isEng, "显示变量名");
         if (isEng)
@@ -168,6 +182,13 @@ public class VisualStaticData : EditorWindow
             case 12:
                 SetEndings();
                 break;
+            case 13:
+                SetBGMList();
+                break;
+            case 14:
+                SetExamList();
+                break;
+
         }
         Repaint();
     }
@@ -270,10 +291,30 @@ public class VisualStaticData : EditorWindow
     void SetEndings()
     {
         content = string.Empty;
-        foreach (KeyValuePair<string, Girl> kv in girls)
+        foreach (KeyValuePair<int, AchieveEnding> kv in endingInfo)
         {
-            Girl gl = kv.Value;
-            content += gl.ToString(isEng);
+            AchieveEnding ae = kv.Value;
+            content += ae.ToString(isEng);
+            content += "\n\n";
+        }
+    }
+
+    void SetBGMList()
+    {
+        content = string.Empty;
+        foreach (KeyValuePair<string,string> kv in bgmList)
+        {
+            content += kv.Key + ":" + kv.Value;
+            content += "\n\n";
+        }
+    }
+
+    void SetExamList()
+    {
+        content = string.Empty;
+        foreach (KeyValuePair<int, Question> kv in examList)
+        {
+            content += kv.Value.ToString(isEng);
             content += "\n\n";
         }
     }

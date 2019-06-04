@@ -14,7 +14,7 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class EnquireManager
     {
-        private static EnquireManager instance;
+        private static EnquireManager instance = new EnquireManager();
 
         private DataManager manager;
 
@@ -82,7 +82,7 @@ namespace Assets.Script.GameStruct
 
         public static EnquireManager GetInstance()
         {
-            if (instance == null) instance = new EnquireManager();
+            //if (instance == null) instance = new EnquireManager();
             return instance;
         }
 

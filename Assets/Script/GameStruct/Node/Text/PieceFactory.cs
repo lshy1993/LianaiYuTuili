@@ -661,8 +661,8 @@ namespace Assets.Script.GameStruct
         public SoundPiece PlayBGM(string name, float fadein = 0.5f, bool loop = true)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            effectsq.Enqueue(SoundBuilder.SetBGM(name, loop));
-            effectsq.Enqueue(SoundBuilder.FadeInBGM(fadein));
+            effectsq.Enqueue(SoundBuilder.SetBGM(name, fadein, loop));
+            //effectsq.Enqueue(SoundBuilder.FadeInBGM(fadein));
             return new SoundPiece(id++, effectsq);
         }
 
@@ -674,7 +674,7 @@ namespace Assets.Script.GameStruct
         public SoundPiece StopBGM(float fadeout = 0.5f)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            effectsq.Enqueue(SoundBuilder.FadeOutBGM(fadeout));
+            if (fadeout != 0f) effectsq.Enqueue(SoundBuilder.VolumeDownBGM(fadeout, 1));
             effectsq.Enqueue(SoundBuilder.RemoveBGM());
             return new SoundPiece(id++, effectsq);
         }
@@ -687,7 +687,7 @@ namespace Assets.Script.GameStruct
         public SoundPiece PauseBGM(float fadeout = 0f)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            if (fadeout != 0f) effectsq.Enqueue(SoundBuilder.FadeOutBGM(fadeout));
+            if (fadeout != 0f) effectsq.Enqueue(SoundBuilder.VolumeDownBGM(fadeout, 1));
             effectsq.Enqueue(SoundBuilder.PauseBGM());
             return new SoundPiece(id++, effectsq);
             //return null;
@@ -702,7 +702,14 @@ namespace Assets.Script.GameStruct
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
             effectsq.Enqueue(SoundBuilder.UnpauseBGM());
-            if (fadein != 0f) effectsq.Enqueue(SoundBuilder.FadeInBGM(fadein));
+            if (fadein != 0f) effectsq.Enqueue(SoundBuilder.VolumeUpBGM(fadein, 1));
+            return new SoundPiece(id++, effectsq);
+        }
+
+        public SoundPiece ChangeVolumeBGM(float time,float p)
+        {
+            Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
+            effectsq.Enqueue(SoundBuilder.VolumeUpBGM(time, p));
             return new SoundPiece(id++, effectsq);
         }
 
@@ -716,8 +723,8 @@ namespace Assets.Script.GameStruct
         public SoundPiece PlaySE(string name, float fadein = 0f, bool loop = false)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            effectsq.Enqueue(SoundBuilder.SetSE(name, loop));
-            effectsq.Enqueue(SoundBuilder.FadeInSE(fadein));
+            effectsq.Enqueue(SoundBuilder.SetSE(name, fadein, loop));
+            //effectsq.Enqueue(SoundBuilder.FadeInSE(fadein));
             return new SoundPiece(id++, effectsq);
         }
 
@@ -729,7 +736,8 @@ namespace Assets.Script.GameStruct
         public SoundPiece StopSE(float fadeout = 0f)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            effectsq.Enqueue(SoundBuilder.FadeOutSE(fadeout));
+            if (fadeout != 0f) effectsq.Enqueue(SoundBuilder.VolumeDownSE(fadeout, 1));
+            effectsq.Enqueue(SoundBuilder.RemoveSE());
             return new SoundPiece(id++, effectsq);
         }
         #endregion

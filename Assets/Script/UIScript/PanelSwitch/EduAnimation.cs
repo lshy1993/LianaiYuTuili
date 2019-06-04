@@ -84,7 +84,10 @@ namespace Assets.Script.UIScript
                 timeContainer.transform.localPosition = new Vector3(390, timey);
                 charaContainer.transform.localPosition = new Vector3(charax, 0);
                 selectionContainer.transform.localPosition = new Vector3(selectx, 0);
-                bottomContainer.transform.localPosition = new Vector3(0, hinty);
+                if (bottomContainer.transform.localPosition.y > -580)
+                {
+                    bottomContainer.transform.localPosition = new Vector3(0, hinty);
+                }
 
                 scheduleContainer.GetComponent<UIWidget>().alpha = t;
                 yield return null;

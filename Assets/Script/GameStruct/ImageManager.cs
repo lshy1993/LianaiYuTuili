@@ -102,7 +102,7 @@ public class ImageManager : MonoBehaviour
     public Sprite LoadBackground(string name) { return LoadImage(BG_PATH, name); }
     public Sprite LoadCharacter(string name) { return LoadImage(CHARA_PATH, name); }
 
-
+    #region 侦探模式复原
     /// <summary>
     ///  切换至侦探模式时，图片的初始化
     /// </summary>
@@ -141,7 +141,7 @@ public class ImageManager : MonoBehaviour
             sp.MakePixelPerfect();
             sp.transform.localPosition = SetDefaultPos(sp, "middle");
         }
-        //背景的再次
+        //背景的再次显示
         while (t < 1)
         {
             t = Mathf.MoveTowards(t, 1, 1 / time * Time.deltaTime);
@@ -158,6 +158,7 @@ public class ImageManager : MonoBehaviour
         //    yield return null;
         //}
     }
+    #endregion
 
     /// <summary>
     /// 获取某一层的图片
@@ -208,6 +209,32 @@ public class ImageManager : MonoBehaviour
         return ui;
     }
 
+    /// <summary>
+    /// 获取某一live2d层
+    /// </summary>
+    /// <param name="depth">层编号</param>
+    private UITexture GetLive2DObject(int depth)
+    {
+        UITexture ui;
+        if (fgPanel.transform.Find("Texture" + depth) != null)
+        {
+            ui = fgPanel.transform.Find("Texture" + depth).GetComponent<UITexture>();
+        }
+        else
+        {
+            //由预设生成一个新的texture
+            GameObject go = Resources.Load("Prefab/Live2DTexture") as GameObject;
+            go = NGUITools.AddChild(fgPanel.gameObject, go);
+            go.transform.name = "Texture" + depth;
+            ui = go.GetComponent<UITexture>();
+        }
+        return ui;
+    }
+
+    /// <summary>
+    /// 移除某一层
+    /// </summary>
+    /// <param name="depth">层编号</param>
     private void RemoveSpriteByDepth(int depth)
     {
         if (fgPanel.transform.Find("sprite" + depth) != null)
@@ -327,6 +354,10 @@ public class ImageManager : MonoBehaviour
                 break;
             case NewImageEffect.OperateMode.Shake:
                 StartCoroutine(Shake(effect,callback));
+                break;
+            case NewImageEffect.OperateMode.SetLive2D:
+                break;
+            case NewImageEffect.OperateMode.ChangeMotion:
                 break;
         }
     }
@@ -557,37 +588,14 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    #region 渐变Trans相关
+
     /// <summary>
     /// 等待所有Trans完成
     /// </summary>
     private IEnumerator TransAll(float t, Action callback)
     {
         yield return new WaitForSeconds(t);
-
-        /*
-        float t = 0;
-        while (t < 1)
-        {
-            t = Mathf.MoveTowards(t, 1, 1 / effect.time * Time.deltaTime);
-            foreach (int item in transList)
-            {
-                UI2DSprite transSprite = GetTransByDepth(item);
-                UI2DSprite originSprite = GetSpriteByDepth(item);
-                //将trans层淡出同时 淡入原层
-                float origin = transSprite.alpha;
-                float final = 0;
-                transSprite.alpha = origin + t * (final - origin);
-                originSprite.alpha = t;
-            }
-            yield return null;
-        }
-        foreach (int item in transList)
-        {
-            UI2DSprite transSprite = GetTransByDepth(item);
-            Destroy(transSprite.gameObject);
-        }
-        */
-
         transList.Clear();
         callback();
     }
@@ -679,7 +687,7 @@ public class ImageManager : MonoBehaviour
         //删除trans
         if (effect.depth != -1)
         {
-            DestroyObject(trans.gameObject);
+            GameObject.Destroy(trans.gameObject);
         }
         if (transList.ContainsKey(effect.depth))
         {
@@ -688,6 +696,7 @@ public class ImageManager : MonoBehaviour
 
         callback();
     }
+    #endregion
 
     private IEnumerator Fade(NewImageEffect effect, Action callback)
     {

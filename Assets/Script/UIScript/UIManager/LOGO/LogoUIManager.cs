@@ -123,6 +123,7 @@ public class LogoUIManager : MonoBehaviour
                 clickCon.SetActive(false);
                 //切换至标题画面
                 ps.SwitchTo_VerifyIterative("Title_Panel");
+                //this.transform.gameObject.SetActive(false);
                 break;
 
         }
@@ -158,16 +159,16 @@ public class LogoUIManager : MonoBehaviour
     private void DataLoad()
     {
         //string[] filenames = { "BREAK", "HEAT UP", "HOPE VS DESPAIR", "Title", "Map","FirstSeason" };
-        AudioClip[] acs = Resources.LoadAll<AudioClip>("Audio");
+        //AudioClip[] acs = Resources.LoadAll<AudioClip>("Audio");
 
-        Dictionary<string, AudioClip> auDic = new Dictionary<string, AudioClip>();
+        //Dictionary<string, AudioClip> auDic = new Dictionary<string, AudioClip>();
 
-        foreach (AudioClip ac in acs)
-        {
+        //foreach (AudioClip ac in acs)
+        //{
             //AudioClip ac = Resources.Load<AudioClip>("Audio/" + str);
-            auDic.Add(ac.name, ac);
-        }
-        sm.SetAuDic(auDic);
+           // auDic.Add(ac.name, ac);
+        //}
+        //sm.SetAuDic(auDic);
         loadfinish = true;
     }
 

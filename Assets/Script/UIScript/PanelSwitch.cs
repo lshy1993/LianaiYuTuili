@@ -37,7 +37,8 @@ public class PanelSwitch : MonoBehaviour
         "Exam",
         "Shop",
         "Phone",
-        "Fin"
+        "Fin",
+        "Hardness"
     };
 
     Dictionary<string, GameObject> panels;
@@ -94,6 +95,7 @@ public class PanelSwitch : MonoBehaviour
     public void SwitchTo_VerifyIterative(string next, UIAnimationCallback closeCallback,
         UIAnimationCallback openCallback)
     {
+        //Debug.Log(next);
         //计算板块链：共有链，关闭链，开启链
         //例：Avg切换到Enqurie：关闭DialogBox 打开Enquire 共有Avg
         List<string>[] result = GetListIntersectAndDifference(currentPanelPath, iterator.pathTable[next]);

@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 114975901208763438}
   - component: {fileID: 61008907195920662}
   - component: {fileID: 114313202712207518}
+  - component: {fileID: 114689041759322916}
   m_Layer: 5
   m_Name: Select_Negotiate
   m_TagString: Untagged
@@ -83,9 +84,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 300, y: 60}
+  m_EdgeRadius: 0
 --- !u!114 &114313202712207518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,6 +191,22 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+--- !u!114 &114689041759322916
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1710590943618556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2936bf3910f1a4747ada8b8b2c394a93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  functionName: 
+  trigger: 0
+  includeChildren: 0
+  entranceNo: 0
 --- !u!114 &114975901208763438
 MonoBehaviour:
   m_ObjectHideFlags: 1

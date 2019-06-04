@@ -60,6 +60,11 @@ namespace Assets.Script.GameStruct.Model
             answer = (int)data["答案"];
         }
 
+        public Question()
+        {
+            choice = new List<string>();
+        }
+
         public string ToString(bool isEng)
         {
             string str = string.Empty;
