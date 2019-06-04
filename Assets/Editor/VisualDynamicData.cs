@@ -81,39 +81,37 @@ public class VisualDynamicData : EditorWindow
         EditorGUILayout.LabelField("BGM", dm.gameData.BGM);
         EditorGUILayout.LabelField("SE", dm.gameData.SE);
         EditorGUILayout.LabelField("Voice", dm.gameData.Voice);
-        toggle1 = GUILayout.Toggle(toggle1, "Player数据");
-        if (toggle1)
-        {
-            GUILayout.Label("=========养成相关=========");
-            EditorGUILayout.LabelField("姓", dm.gameData.heroXing);
-            EditorGUILayout.LabelField("名", dm.gameData.heroMing);
-            EditorGUILayout.LabelField("上午课程", dm.gameData.morningSchedule.ToString());
-            EditorGUILayout.LabelField("上午指数", dm.gameData.morningRate.ToString());
-            EditorGUILayout.LabelField("下午课程", dm.gameData.afternoonSchedule.ToString());
-            EditorGUILayout.LabelField("下午指数", dm.gameData.afternoonRate.ToString());
-            GUILayout.Label("=======角色养成属性=======");
-            EditorGUILayout.LabelField("文科", p.GetBasicStatus("文科").ToString());
-            EditorGUILayout.LabelField("理科", p.GetBasicStatus("理科").ToString());
-            EditorGUILayout.LabelField("艺术", p.GetBasicStatus("艺术").ToString());
-            EditorGUILayout.LabelField("体育", p.GetBasicStatus("体育").ToString());
-            EditorGUILayout.LabelField("宅力", p.GetBasicStatus("宅力").ToString());
-            EditorGUILayout.LabelField("体力", p.energyPoint.ToString());
-            EditorGUILayout.LabelField("排名", p.GetBasicStatus("排名").ToString());
-            EditorGUILayout.LabelField("金钱", p.GetBasicStatus("金钱").ToString());
-            GUILayout.Label("=========逻辑属性=========");
-            EditorGUILayout.LabelField("冷静", p.GetLogicStatus("冷静").ToString());
-            EditorGUILayout.LabelField("口才", p.GetLogicStatus("口才").ToString());
-            EditorGUILayout.LabelField("思维", p.GetLogicStatus("思维").ToString());
-            EditorGUILayout.LabelField("观察", p.GetLogicStatus("观察").ToString());
-            EditorGUILayout.LabelField("生命上限", p.LimitHP.ToString());
-            EditorGUILayout.LabelField("精力总量", dm.gameData.All_MP.ToString());
-            GUILayout.Label("=======攻略对象好感度=======");
-            EditorGUILayout.LabelField("苏梦忆", p.GetGirlPoint("苏梦忆").ToString());
-            EditorGUILayout.LabelField("西门吹", p.GetGirlPoint("西门吹").ToString());
-            EditorGUILayout.LabelField("欧阳晓芸", p.GetGirlPoint("欧阳晓芸").ToString());
-            EditorGUILayout.LabelField("车小曼", p.GetGirlPoint("车小曼").ToString());
-            EditorGUILayout.LabelField("陈瑜", p.GetGirlPoint("陈瑜").ToString());
-        }
+
+        GUILayout.Label("=========养成相关=========");
+        EditorGUILayout.LabelField("姓", dm.gameData.heroXing);
+        EditorGUILayout.LabelField("名", dm.gameData.heroMing);
+        EditorGUILayout.LabelField("上午课程", dm.gameData.morningSchedule.ToString());
+        EditorGUILayout.LabelField("上午指数", dm.gameData.morningRate.ToString());
+        EditorGUILayout.LabelField("下午课程", dm.gameData.afternoonSchedule.ToString());
+        EditorGUILayout.LabelField("下午指数", dm.gameData.afternoonRate.ToString());
+        GUILayout.Label("=======角色养成属性=======");
+        EditorGUILayout.LabelField("文科", p.GetBasicStatus("文科").ToString());
+        EditorGUILayout.LabelField("理科", p.GetBasicStatus("理科").ToString());
+        EditorGUILayout.LabelField("艺术", p.GetBasicStatus("艺术").ToString());
+        EditorGUILayout.LabelField("体育", p.GetBasicStatus("体育").ToString());
+        EditorGUILayout.LabelField("宅力", p.GetBasicStatus("宅力").ToString());
+        EditorGUILayout.LabelField("体力", p.energyPoint.ToString());
+        EditorGUILayout.LabelField("排名", p.GetBasicStatus("排名").ToString());
+        EditorGUILayout.LabelField("金钱", p.GetBasicStatus("金钱").ToString());
+        GUILayout.Label("=========逻辑属性=========");
+        EditorGUILayout.LabelField("冷静", p.GetLogicStatus("冷静").ToString());
+        EditorGUILayout.LabelField("口才", p.GetLogicStatus("口才").ToString());
+        EditorGUILayout.LabelField("思维", p.GetLogicStatus("思维").ToString());
+        EditorGUILayout.LabelField("观察", p.GetLogicStatus("观察").ToString());
+        EditorGUILayout.LabelField("生命上限", p.LimitHP.ToString());
+        EditorGUILayout.LabelField("精力总量", dm.gameData.All_MP.ToString());
+        GUILayout.Label("=======攻略对象好感度=======");
+        EditorGUILayout.LabelField("苏梦忆", p.GetGirlPoint("苏梦忆").ToString());
+        EditorGUILayout.LabelField("西门吹", p.GetGirlPoint("西门吹").ToString());
+        EditorGUILayout.LabelField("欧阳晓芸", p.GetGirlPoint("欧阳晓芸").ToString());
+        EditorGUILayout.LabelField("车小曼", p.GetGirlPoint("车小曼").ToString());
+        EditorGUILayout.LabelField("陈瑜", p.GetGirlPoint("陈瑜").ToString());
+
         GUILayout.EndScrollView();
         GUILayout.EndVertical();
 

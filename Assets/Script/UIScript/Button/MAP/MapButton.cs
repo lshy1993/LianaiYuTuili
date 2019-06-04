@@ -10,7 +10,7 @@ public class MapButton : MonoBehaviour
 {
     public TextAsset btnDataJSON;
 
-    private MapUIManager uiManager;
+    public MapUIManager uiManager;
 
     private string place;
     private string background;
@@ -20,7 +20,7 @@ public class MapButton : MonoBehaviour
 
     void Awake()
     {
-        uiManager = transform.parent.parent.GetComponent<MapUIManager>();
+        //uiManager = transform.parent.parent.parent.GetComponent<MapUIManager>();
         //LoadJson();
     }
 

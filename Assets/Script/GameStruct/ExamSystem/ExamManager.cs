@@ -6,11 +6,11 @@ namespace Assets.Script.GameStruct
 {
     public class ExamManager
     {
-        private static ExamManager instance;
+        private static ExamManager instance = new ExamManager();
 
         public static ExamManager GetInstance()
         {
-            if (instance == null) instance = new ExamManager();
+            //if (instance == null) instance = new ExamManager();
             return instance;
         }
 

@@ -12,18 +12,24 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Mono.Data.Sqlite;
+
 
 namespace Assets.Script.GameStruct
 {
     public class DataManager
     {
-        private static DataManager instance;
+        private static DataManager instance = new DataManager();
 
         public static readonly DateTime START_DAY = new DateTime(2014, 8, 31);
 
         public static DataManager GetInstance()
         {
-            if (instance == null) instance = new DataManager();
+            //if (instance == null)
+            //{
+            //    Debug.Log("new datamanager");
+            //    instance = new DataManager();
+            //}
             return instance;
         }
 
@@ -70,7 +76,7 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private bool blockSaveLoad = false;
 
-        public readonly string version = "测试用Demo 1.42";
+        public readonly string version = "测试用Demo 1.45";
 
         private DataManager()
         {
@@ -133,6 +139,8 @@ namespace Assets.Script.GameStruct
             gameData.fgSprites = new Dictionary<int, SpriteState>();
             //事件状态表的初始化
             gameData.eventStatus = EventManager.LoadEventState(staticData.eventTable);
+            //选过的选项清空
+            gameData.selectionSwitch = new List<string>();
             //游戏邮件系统的初始化
             gameData.charaMessages = new Dictionary<string, List<int>>();
             string str = staticData.mails[1].chara;
@@ -140,6 +148,12 @@ namespace Assets.Script.GameStruct
             gameData.charaMessages[str].Add(1);
             //朋友圈系统的初始化
             gameData.momentList = new List<Moment>();
+            gameData.momentList.Add(new Moment("匿名", "听说有新的留学生进来了……"));
+            gameData.momentList.Add(new Moment("匿名", "快开学了，暑假作业我还没有做完。"));
+            gameData.momentList.Add(new Moment("匿名", "学校的排练房是不是随时可以借用啊？"));
+            gameData.momentList.Add(new Moment("匿名", "真的嘛？你从哪里得来的消息啊？"));
+            gameData.momentList.Add(new Moment("匿名", "没做完的家伙，整个暑假在干什么呀。"));
+            //随机课程
             RandomCourse();
         }
 
@@ -197,19 +211,7 @@ namespace Assets.Script.GameStruct
         public void ResetSysConfig()
         {
             //游戏的默认设置
-            configData.settingMode = Constants.Setting_Mode.Graphic;
-            configData.fullScreen = false;
-            configData.fadingSwitch = true;
-            configData.animateSwitch = true;
-            configData.avatarSwitch = true;
-            configData.BGMTime = 3;
-            configData.chapterTime = 3;
-            configData.textSpeed = 60f;
-            configData.waitTime = 1.5f;
-            configData.diaboxAlpha = 75;
-            configData.defaultCharaNum = 0;
-            configData.charaVoiceVolume = new float[] { 1, 1, 1, 1, 1, 1 };
-            configData.charaVoice = new bool[] { true, true, true, true, true, true };
+            configData = new ConfigData();
         }
 
         #endregion
@@ -367,8 +369,7 @@ namespace Assets.Script.GameStruct
         private void InitCharacters()
         {
             //人物表情？
-            staticData.characters = CharacterManager.GetStaticCharacters();
-            CharacterManager.GetInstance().characterTable = staticData.characters;
+            CharacterManager.GetInstance().characterTable = CharacterManager.GetStaticCharacters();
         }
 
         /// <summary>
@@ -376,7 +377,76 @@ namespace Assets.Script.GameStruct
         /// </summary>
         private void InitExam()
         {
-            //staticData.exams = ;
+            staticData.examList = GetStaticQuestiones();
+            staticData.bgmTitleList = GetBGMTitle();
+            staticData.selections = StaticManager.GetStaticSelections();
+        }
+
+        public static Dictionary<int, Question> GetStaticQuestiones()
+        {
+            Dictionary<int, Question> dic = new Dictionary<int, Question>();
+
+            Sqlite sql = new Sqlite("liantui.db");
+            SqliteDataReader dataReader = sql.SelectDataBase("ExamList");
+            while (dataReader.Read())
+            {
+                //读取ID
+                int id = dataReader.GetInt32(dataReader.GetOrdinal("ID"));
+                Question qs = new Question();
+                //读取Name
+                int type = dataReader.GetInt32(dataReader.GetOrdinal("Type"));
+                qs.isTorF = type == 1;
+                int subject = dataReader.GetInt32(dataReader.GetOrdinal("Subject"));
+                qs.subject = "a" + subject;
+                int hard = dataReader.GetInt32(dataReader.GetOrdinal("Hardness"));
+                qs.hard = hard;
+                string title = dataReader.GetString(dataReader.GetOrdinal("Title"));
+                qs.content = title;
+                string select1 = dataReader.GetString(dataReader.GetOrdinal("Select1"));
+                qs.choice.Add(select1);
+                string select2 = dataReader.GetString(dataReader.GetOrdinal("Select2"));
+                qs.choice.Add(select2);
+                string select3 = dataReader.GetString(dataReader.GetOrdinal("Select3"));
+                qs.choice.Add(select3);
+                string select4 = dataReader.GetString(dataReader.GetOrdinal("Select4"));
+                qs.choice.Add(select4);
+                int answer = dataReader.GetInt32(dataReader.GetOrdinal("Answer"));
+                qs.answer = answer;
+                dic.Add(id, qs);
+            }
+            dataReader.Close();
+            sql.CloseDataBase();
+
+            //string path = Constants.DEBUG ? Constants.EXAM_DEBUG_PATH : Constants.EXAM_PATH;
+            //TextAsset text = Resources.Load<TextAsset>(path + "exam");
+            //DebugLog.Log("读取考试题库");
+            //JsonData jsondata = JsonMapper.ToObject(text.text);
+            //foreach (JsonData jd in jsondata)
+            //{
+            //    Question ee = new Question(jd);
+            //    DebugLog.LogDone("读取：" + ee.UID);
+            //    dic.Add(ee.UID, ee);
+            //}
+
+            return dic;
+        }
+
+        public Dictionary<string, string> GetBGMTitle()
+        {
+            Sqlite sql = new Sqlite("liantui.db");
+            SqliteDataReader dataReader = sql.SelectDataBase("BgmList");
+            Dictionary<string, string> bgmTitle = new Dictionary<string, string>();
+            while (dataReader.Read())
+            {
+                //读取ID
+                int id = dataReader.GetInt32(dataReader.GetOrdinal("ID"));
+                //读取Name
+                string filename = dataReader.GetString(dataReader.GetOrdinal("FileName"));
+                string title = dataReader.GetString(dataReader.GetOrdinal("Title"));
+                bgmTitle.Add(filename, title);
+            }
+            sql.CloseDataBase();
+            return bgmTitle;
         }
 
         /// <summary>
@@ -578,11 +648,13 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public DateTime GetToday()
         {
-            /* demo1.20 改动
-            int turn = GetGameVar<int>("回合");
-            */
             int turn = gameData.gameTurn;
             return START_DAY.AddDays(turn);
+        }
+
+        public string GetTodayText()
+        {
+            return GetToday().ToString("MM月dd日");
         }
 
         /// <summary>

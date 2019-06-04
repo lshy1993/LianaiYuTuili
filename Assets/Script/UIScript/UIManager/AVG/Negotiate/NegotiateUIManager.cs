@@ -27,6 +27,7 @@ public class NegotiateUIManager : MonoBehaviour
     /// 当前所显示的文本
     /// </summary>
     private Negotiate currentText;
+    private int nextNum;
 
     private List<string> topics;
 
@@ -245,6 +246,7 @@ public class NegotiateUIManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.2f);
+            nextNum = -1;
             if ( currentText.isReply == isReply )
             {
                 //如果与上一句的发言者相同，则隐藏对方的对话框
@@ -285,7 +287,6 @@ public class NegotiateUIManager : MonoBehaviour
                 target.transform.localPosition = final;
                 yield return null;
             }
-
             //如果有选项则出现
             if (currentText.nextSelect.Count > 0)
             {
@@ -306,15 +307,22 @@ public class NegotiateUIManager : MonoBehaviour
                     move = new Vector3(x, y + 20 * t);
                 target.transform.localPosition = move;
                 yield return null;
+                //if (nextNum != -1) break;
             }
             //关闭选项
             if (currentText.nextSelect.Count > 0)
             {
                 yield return StartCoroutine(CloseSelection());
             }
-            //下一句
-            if (currentText.nextNum == 0) break;
-            currentText = DataManager.GetInstance().staticData.negotiateTexts[currentText.nextNum];
+            //如果没有点击的话则默认
+            if (nextNum == -1)
+            {
+                nextNum = currentText.nextNum;
+            }
+            //下一句如果不存在则退出循环
+            if (nextNum == 0) break;
+            //设置下一句的文本
+            currentText = DataManager.GetInstance().staticData.negotiateTexts[nextNum];
         }
         yield return new WaitForSeconds(2f);
         leftLabel.SetActive(false);
@@ -382,28 +390,34 @@ public class NegotiateUIManager : MonoBehaviour
     {
         selectionContainer.transform.DestroyChildren();
         int n = currentText.nextSelect.Count;
+        //默认位置顺序：左右上下
+        int[] dx = { -200, 200, 0, 0 };
+        int[] dy = { 0, 0, 100, -100 };
         //加载选项
         for (int i = 0; i < n; i++)
         {
+            NegotiateSelection ns = currentText.nextSelect[i];
+            //如果不满足前置的话题则跳过
+            if (!JudgeSelection(ns))
+            {
+                continue;
+            }
             //加载Label
             GameObject go = Resources.Load("Prefab/Select_Negotiate") as GameObject;
             go = NGUITools.AddChild(selectionContainer, go);
-            go.transform.Find("Label").GetComponent<UILabel>().text = currentText.nextSelect[i].selectName;
-            //默认位置1: 中间，2：左右，3：左上右，4：左上右下
+            go.transform.Find("Label").GetComponent<UILabel>().text = ns.selectName;
+            //按钮获取
+            go.GetComponent<NegotiateSelectButton>().SetUIManager(this);
+            //设定按下后的链接点
+            go.GetComponent<NegotiateSelectButton>().entranceNo = ns.negotiateNum;
             if (n == 1)
             {
+                //单个选项位置 中间
                 go.transform.localPosition = Vector3.zero;
             }
             else
             {
-                if (i == 0)
-                    go.transform.localPosition = new Vector3(-200, 0);
-                if (i == 1)
-                    go.transform.localPosition = new Vector3(200, 0);
-                if (i == 2)
-                    go.transform.localPosition = new Vector3(0, 100);
-                if (n == 3)
-                    go.transform.localPosition = new Vector3(0, -100);
+                go.transform.localPosition = new Vector3(dx[i], dy[i]);
             }
         }
         selectionContainer.SetActive(true);
@@ -418,27 +432,39 @@ public class NegotiateUIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 判断选项能否出现
+    /// </summary>
+    private bool JudgeSelection(NegotiateSelection ns)
+    {
+        //获取当前的topic列表
+        return true;
+    }
+
+    /// <summary>
     /// 关闭选择框
     /// </summary>
     private IEnumerator CloseSelection()
     {
-        //闪烁
-        selectionContainer.GetComponent<UIWidget>().alpha = 0;
-        yield return new WaitForSeconds(0.1f);
-        selectionContainer.GetComponent<UIWidget>().alpha = 1;
-        yield return new WaitForSeconds(0.1f);
-        selectionContainer.GetComponent<UIWidget>().alpha = 0;
-        yield return new WaitForSeconds(0.05f);
-        selectionContainer.GetComponent<UIWidget>().alpha = 1;
-        yield return new WaitForSeconds(0.05f);
-        selectionContainer.GetComponent<UIWidget>().alpha = 0;
-        yield return new WaitForSeconds(0.025f);
-        selectionContainer.GetComponent<UIWidget>().alpha = 1;
-        yield return new WaitForSeconds(0.025f);
-        selectionContainer.GetComponent<UIWidget>().alpha = 0;
-        yield return new WaitForSeconds(0.025f);
-        selectionContainer.GetComponent<UIWidget>().alpha = 1;
-        yield return new WaitForSeconds(0.025f);
+        if (nextNum == -1)
+        {
+            //闪烁
+            selectionContainer.GetComponent<UIWidget>().alpha = 0;
+            yield return new WaitForSeconds(0.1f);
+            selectionContainer.GetComponent<UIWidget>().alpha = 1;
+            yield return new WaitForSeconds(0.1f);
+            selectionContainer.GetComponent<UIWidget>().alpha = 0;
+            yield return new WaitForSeconds(0.05f);
+            selectionContainer.GetComponent<UIWidget>().alpha = 1;
+            yield return new WaitForSeconds(0.05f);
+            selectionContainer.GetComponent<UIWidget>().alpha = 0;
+            yield return new WaitForSeconds(0.025f);
+            selectionContainer.GetComponent<UIWidget>().alpha = 1;
+            yield return new WaitForSeconds(0.025f);
+            selectionContainer.GetComponent<UIWidget>().alpha = 0;
+            yield return new WaitForSeconds(0.025f);
+            selectionContainer.GetComponent<UIWidget>().alpha = 1;
+            yield return new WaitForSeconds(0.025f);
+        }
         selectionContainer.SetActive(false);
     }
 
@@ -565,8 +591,11 @@ public class NegotiateUIManager : MonoBehaviour
     /// <summary>
     /// 选择回答
     /// </summary>
-    private void Select(int x)
+    public void Select(int x)
     {
-
+        Debug.Log(x);
+        nextNum = x;
+        StartCoroutine(CloseSelection());
     }
+
 }

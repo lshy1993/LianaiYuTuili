@@ -13,19 +13,20 @@ namespace Assets.Script.GameStruct
 {
     public class NodeFactory
     {
-        private static NodeFactory instance;
-        public static NodeFactory GetInstance()
-        {
-            if (instance == null) { instance = new NodeFactory(); }
-            return instance;
+        private static NodeFactory instance = new NodeFactory();
 
-        }
         private DataManager dm;
         private GameObject root;
         private PanelSwitch ps;
         private AvgPanelSwitch avgPanelSwitch;
         private static readonly string SCRIPT_PATH = "Assets.Script.TextScripts";
         private NodeFactory() { }
+
+        public static NodeFactory GetInstance()
+        {
+            //if (instance == null) { instance = new NodeFactory(); }
+            return instance;
+        }
 
         public void Init(DataManager manager, GameObject root, PanelSwitch ps)
         {
@@ -58,9 +59,9 @@ namespace Assets.Script.GameStruct
         /// 进入考试模式
         /// </summary>
         /// <returns></returns>
-        public TestNode GetTestNode()
+        public ExamNode GetExamNode()
         {
-            return new TestNode(dm, root, ps);
+            return new ExamNode(dm, root, ps);
         }
 
         /// <summary>
@@ -81,8 +82,20 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public SelectNode GetSelectNode(Dictionary<string, string> dic, float cd = 0f, string cdexit="")
         {
-            dm.gameData.MODE = "选择分歧";
+            dm.gameData.MODE = "特殊选择分歧";
             return new SelectNode(dm, root, ps, dic, cd, cdexit);
+        }
+
+        /// <summary>
+        /// 选择分歧（预设含网络）
+        /// </summary>
+        /// <param name="id">编号</param>
+        /// <returns></returns>
+        public SelectNode GetSelectNode(string id)
+        {
+            dm.gameData.MODE = "选择分歧";
+            dm.gameData.selectID = id;
+            return new SelectNode(dm, root, ps, id);
         }
 
         /// <summary>

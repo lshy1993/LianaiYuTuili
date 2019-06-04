@@ -9,7 +9,7 @@ using Assets.Script.GameStruct;
 public class MusicUIManager : MonoBehaviour
 {
     public SoundManager sm;
-    public AudioSource bgm;
+    public AudioPlayer bgm;
 
     public UILabel timelabel;
     public UIProgressBar timeBar;
@@ -31,12 +31,12 @@ public class MusicUIManager : MonoBehaviour
 
     private void Update()
     {
-        if (bgm.isPlaying)
+        if (bgm.IsPlaying())
         {
             //当前秒数
-            int tnow = (int)bgm.time;
+            int tnow = (int)bgm.GetPlayedTime();
             //总秒
-            int tall = (int)bgm.clip.length;
+            int tall = (int)bgm.GetAllTime();
             TimeSpan nowts = new TimeSpan(0, 0, tnow);
             TimeSpan allts = new TimeSpan(0, 0, tall);
             timelabel.text = nowts.ToString() + "/" + allts.ToString();
@@ -89,7 +89,7 @@ public class MusicUIManager : MonoBehaviour
 
     public void SetMusicTime(float x)
     {
-        bgm.time = x * bgm.clip.length;
+        //bgm.time = x * bgm.clip.length;
     }
 
     public void PrevMusic()

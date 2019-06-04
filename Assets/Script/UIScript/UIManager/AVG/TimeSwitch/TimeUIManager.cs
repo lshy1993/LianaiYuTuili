@@ -97,7 +97,7 @@ public class TimeUIManager : MonoBehaviour
         //将piece标记
         timePiece.finished = true;
         //开启点击部分
-        //clickCon.SetActive(true);
+        clickCon.SetActive(true);
     }
 
     private IEnumerator CloseMain(Action callback)
@@ -117,7 +117,6 @@ public class TimeUIManager : MonoBehaviour
         mainCon.SetActive(false);
         this.gameObject.SetActive(false);
         DataManager.GetInstance().isEffecting = false;
-
         callback();
         //结束该Node
         //switchNode.NodeExit(nextNode);

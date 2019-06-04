@@ -54,7 +54,7 @@ public class SaveLoadUIManager : MonoBehaviour
     public void SaveData()
     {
         string mode = DataManager.GetInstance().gameData.MODE;
-        if (mode == "Avg模式" || mode == "侦探模式")
+        if (mode == "Avg模式" || mode == "侦探模式" || mode == "选项分歧" || mode == "特殊选择分歧")
         {
             gm.sm.SaveSoundInfo();
             gm.im.SaveImageInfo();
@@ -247,6 +247,13 @@ public class SaveLoadUIManager : MonoBehaviour
                 gm.im.LoadImageInfo();
                 gm.sm.LoadSoundInfo();
                 gm.node = NodeFactory.GetInstance().FindTextScriptNoneInit(textName);
+                break;
+            case "选择分歧":
+                string selectID = DataManager.GetInstance().gameData.selectID;
+                //界面复原
+                gm.im.LoadImageInfo();
+                gm.sm.LoadSoundInfo();
+                gm.node = NodeFactory.GetInstance().GetSelectNode(selectID);
                 break;
         }
     }

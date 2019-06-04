@@ -31,8 +31,9 @@ namespace Assets.Script.UIScript
             functonContainer = this.transform.Find("Function_Container").gameObject;
 
             placebtnContainer = this.transform.Find("PlaceButton_Container").gameObject;
-            outterbtnContainer = this.transform.Find("PlaceButtonOut_Container").gameObject;
-
+            //outterbtnContainer = this.transform.Find("PlaceButtonOut_Container").gameObject;
+            outterbtnContainer = this.transform.Find("Out_ScrollView").gameObject;
+            
             base.Init();
         }
 
@@ -79,7 +80,8 @@ namespace Assets.Script.UIScript
                 timeContainer.transform.localPosition = new Vector3(timex, timey);
                 charaContainer.transform.localPosition = new Vector3(240, charay);
                 functonContainer.transform.localPosition = new Vector3(funcx, 0);
-                target.GetComponent<UIWidget>().alpha = t;
+                //target.GetComponent<UIWidget>().alpha = t;
+                target.GetComponent<UIRect>().alpha = t;
                 yield return null;
             }
             target.SetActive(false);
@@ -92,7 +94,8 @@ namespace Assets.Script.UIScript
             isout = DataManager.GetInstance().IsHoliday();
             GameObject target = isout ? outterbtnContainer : placebtnContainer;
             target.SetActive(true);
-            target.GetComponent<UIWidget>().alpha = 0;
+            //target.GetComponent<UIWidget>().alpha = 0;
+            target.GetComponent<UIRect>().alpha = 0;
             float timex, timey, charay, funcx;
             float t = 0;
             while (t < 1)
@@ -105,7 +108,8 @@ namespace Assets.Script.UIScript
                 timeContainer.transform.localPosition = new Vector3(timex, timey);
                 charaContainer.transform.localPosition = new Vector3(240, charay);
                 functonContainer.transform.localPosition = new Vector3(funcx, 0);
-                target.GetComponent<UIWidget>().alpha = t;
+                //target.GetComponent<UIWidget>().alpha = t;
+                target.GetComponent<UIRect>().alpha = t;
                 yield return null;
             }
         }

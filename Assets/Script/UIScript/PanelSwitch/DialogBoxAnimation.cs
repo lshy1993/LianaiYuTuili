@@ -24,7 +24,7 @@ namespace Assets.Script.UIScript
                     GetComponent<DialogBoxUIManager>().ShowWindow();
                     DataManager.GetInstance().tempData.isDiaboxRecover = false;
                 }
-                transform.Find("Click_Container").gameObject.SetActive(true);
+                //transform.Find("Click_Container").gameObject.SetActive(true);
                 callback();
             });
         }

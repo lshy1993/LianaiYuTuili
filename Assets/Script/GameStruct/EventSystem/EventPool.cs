@@ -11,13 +11,14 @@ namespace Assets.Script.GameStruct.EventSystem
     /// </summary>
     public class EventPool
     {
-        private static EventPool instance;
+        private static EventPool instance = new EventPool();
 
         private readonly string DEFAULT_PATH = "Text/MapEvents/";
         private readonly string DEBUG_PATH = "Text/TestEvents/";
+
         public static EventPool GetInstance()
         {
-            if (instance == null) instance = new EventPool();
+            //if (instance == null) instance = new EventPool();
             return instance;
         }
 

@@ -7,65 +7,53 @@ using UnityEngine;
 
 namespace Assets.Script.UIScript
 {
+    /// <summary>
+    /// 脚本文件转换为效果块
+    /// </summary>
     public class SoundEffect
     {
         public static bool fast = false;
 
-        public AudioSource aimAudio;
-        public string clip;
-
-        public float time, origin, final;
-        public bool loop, needrem;
-
         public enum SoundType { BGM, SE, Voice };
+        /// <summary>
+        /// 对象识别符
+        /// </summary>
         public SoundType target;
 
-        public enum OperateType { Fadeout, Fadein, Pause, Unpause,  Set, Remove };
+        public enum OperateType { Set, Remove, VolumeUp, VolumeDown, Pause, Unpause };
+        /// <summary>
+        /// 操作符
+        /// </summary>
         public OperateType operate;
 
-        //public SingleSoundUpdate update;
-        //public Action init, finish;
+        /// <summary>
+        /// 目标文件名
+        /// </summary>
+        public string clip;
+
+        /// <summary>
+        /// 动作持续时间
+        /// </summary>
+        public float time;
+
+        /// <summary>
+        /// 音量变动（相对）
+        /// </summary>
+        public float argus;
+
+        /// <summary>
+        /// 是否持续循环
+        /// </summary>
+        public bool loop;
 
         public SoundEffect()
         {
-            time = 1f;
+            target = SoundType.BGM;
+            operate = OperateType.Set;
+            clip = "";
+            time = 0;
             loop = false;
-            needrem = false;
-            //init = Init;
-            //finish = Finish;
         }
 
-        //    public void Init()
-        //    {
-        //        //记忆当前音量，防止变化影响玩家设定
-        //        originvolume = aimAudio.volume;
-        //    }
-
-        //    public void Finish()
-        //    {
-        //        //恢复至当前音量
-        //        aimAudio.volume = originvolume;
-        //    }
-
-        //    public IEnumerator Run(Action callback)
-        //    {
-        //        init();
-        //        yield return null;
-        //        float actualTime = fast ? 0f : time;
-        //        if (time > 0)
-        //        {
-        //            for (float t = 0; t < time; t += Time.fixedDeltaTime)
-        //            {
-        //                update(aimAudio, originvolume, actualTime, t);
-        //                yield return null;
-        //            }
-        //        }
-        //        finish();
-        //        callback();
-        //    }
-
-        //}
-
-        //public delegate void SingleSoundUpdate(AudioSource audio, float currentVolume, float time, float currentTime);
     }
 }

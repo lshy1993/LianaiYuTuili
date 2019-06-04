@@ -14,7 +14,7 @@ namespace Assets.Script.GameStruct
     /// </summary>
     public class DetectManager
     {
-        private static DetectManager instance;
+        private static DetectManager instance = new DetectManager();
 
         private DataManager manager;
 
@@ -73,7 +73,7 @@ namespace Assets.Script.GameStruct
 
         public static DetectManager GetInstance()
         {
-            if (instance == null) instance = new DetectManager();
+            //if (instance == null) instance = new DetectManager();
             return instance;
         }
 

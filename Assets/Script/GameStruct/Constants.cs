@@ -27,7 +27,7 @@ namespace Assets.Script.GameStruct
 
         public static readonly string ROOT_PATH = "JSON/";
 
-        public static readonly string DEFAULT_PATH = ROOT_PATH + "Events/";
+        public static readonly string EVENT_PATH = ROOT_PATH + "Events/";
         public static readonly string LOCATION_PATH = ROOT_PATH + "MapButtonConfig/";
         public static readonly string DETECT_PATH = ROOT_PATH + "Detect/";
         public static readonly string EVIDENCE_PATH = ROOT_PATH + "EvidenceConfig/";
@@ -40,7 +40,7 @@ namespace Assets.Script.GameStruct
         public static readonly string EXAM_PATH = ROOT_PATH + "ExamConfig/";
 
         //DEBUG paths
-        public static readonly string DEBUG_PATH = ROOT_PATH + "TestEvents/";
+        public static readonly string EVENT_DEBUG_PATH = ROOT_PATH + "TestEvents/";
         public static readonly string DETECT_DEBUG_PATH = ROOT_PATH + "DetectDebug/";
         public static readonly string EVIDENCE_DEBUG_PATH = ROOT_PATH + "EvidenceDebug/";
         public static readonly string EDU_DEBUG_PATH = ROOT_PATH + "EduDebug/";

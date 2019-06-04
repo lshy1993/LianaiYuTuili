@@ -1,0 +1,15 @@
+{
+  "version": "Sample 1.0.0",
+  "model": "girl/girl.moc",
+  "textures": [ "girl/girl.2048/texture_00.png" ],
+  "motions": {
+    "": [
+      { "file": "girl/motions/girl_nomal2.mtn" },
+      { "file": "girl/motions/girl_speak.mtn" },
+      { "file": "girl/motions/girl_speak2.mtn" },
+      { "file": "girl/motions/girl_walk.mtn" },
+      { "file": "girl/motions/girl_walk2.mtn" }
+    ],
+    "idle": [ { "file": "girl/motions/girl_nomal.mtn" } ]
+  }
+}

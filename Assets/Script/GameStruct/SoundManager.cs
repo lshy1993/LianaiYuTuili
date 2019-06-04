@@ -11,155 +11,137 @@ using Assets.Script.GameStruct;
 public class SoundManager : MonoBehaviour
 {
     /// <summary>
-    /// BGM音源
+    /// BGM控制器
     /// </summary>
-    public AudioSource currentBGM;
+    public AudioPlayer playerBGM;
+
     /// <summary>
     /// 效果音源
     /// </summary>
-    public AudioSource currentSE;
+    public AudioPlayer playerSE;
+
     /// <summary>
     /// 语音音源
     /// </summary>
-    public AudioSource currentVoice;
+    public AudioPlayer playerVoice;
+
     /// <summary>
     /// 系统效果音
     /// </summary>
-    public AudioSource systemSE;
+    public AudioPlayer playerSysSE;
 
     public SideLabelUIManager sideLabel;
 
-    [HideInInspector]
+    /// <summary>
+    /// 主音量
+    /// </summary>
+    [Range(0, 1), SerializeField]
+    public float masterVolume = 1;
+
     public float userBgmVolume
     {
-        get { return currentBGM.volume; }
-        set { currentBGM.volume = value; }
+        get { return dm.configData.userBGMVolume; }
+        set {
+            dm.configData.userBGMVolume = value;
+            playerBGM.GroupVolume = value;
+        }
     }
-    [HideInInspector]
     public float userSeVolume
     {
-        get {return currentSE.volume; }
-        set { currentSE.volume = value; }
+        get { return dm.configData.userSEVolume; }
+        set
+        {
+            dm.configData.userSEVolume = value;
+            playerSE.GroupVolume = value;
+        }
     }
-    [HideInInspector]
+
     public float userVoiceVolume
     {
-        get { return currentVoice.volume; }
-        set { currentVoice.volume = value; }
+        get { return dm.configData.userVoiceVolume; }
+        set
+        {
+            dm.configData.userVoiceVolume = value;
+            playerVoice.GroupVolume = value;
+        }
     }
-    [HideInInspector]
     public float userSysSEVolume
     {
-        get { return systemSE.volume; }
-        set { systemSE.volume = value; }
+        get { return dm.configData.userSysSEVolume; }
+        set
+        {
+            dm.configData.userSysSEVolume = value;
+            playerSysSE.GroupVolume = value;
+        }
     }
 
-
-    private float memoryVolume;
-    private Dictionary<string, AudioClip> auDic;
-    private AudioSource aim;
+    
+    //private Dictionary<string, AudioClip> auDic;
+    //private AudioSource aim;
 
     private DataManager dm;
 
     private void Start()
     {
         dm = DataManager.GetInstance();
-        memoryVolume = userBgmVolume;
+        userBgmVolume = dm.configData.userBGMVolume;
+        userSeVolume = dm.configData.userSEVolume;
+        userVoiceVolume = dm.configData.userVoiceVolume;
+        userSysSEVolume = dm.configData.userSysSEVolume;
+
     }
 
-    public void SetAuDic(Dictionary<string, AudioClip> auDic)
+    //public void SetAuDic(Dictionary<string, AudioClip> auDic)
+    //{
+    //    this.auDic = auDic;
+    //}
+
+    public void AddBGM(string fileName, bool loop = true)
     {
-        this.auDic = auDic;
+        if (string.IsNullOrEmpty(fileName)) return;
+        //设置资料
+        playerBGM.ChangeSound(fileName, 0.5f, loop);
     }
 
     public void SetBGM(string fileName, bool loop = true)
     {
         if (string.IsNullOrEmpty(fileName)) return;
-        //AudioClip ac = Resources.Load<AudioClip>("Audio/" + fileName);
-        AudioClip ac= null;
-        if (auDic.ContainsKey(fileName)) ac = auDic[fileName];
-        currentBGM.volume = memoryVolume;
-        //判断是否存在播放的内容 
-        if (currentBGM.clip != null)
-        {
-            if(currentBGM.clip.name != fileName)
-            {
-                //播放内容不同
-                currentBGM.clip = ac;
-                currentBGM.loop = loop;
-                currentBGM.Play();
-            }
-            else if(!currentBGM.isPlaying)
-            {
-                //相同但当前乐曲处于暂停
-                currentBGM.Play();
-            }
-        }
-        else
-        {
-            //不存在的情况
-            currentBGM.clip = ac;
-            currentBGM.loop = loop;
-            currentBGM.Play();
-        }
+        //设置资料
+        playerBGM.ChangeSound("BGM/" + fileName, 0.5f, loop);
     }
     public void PauseBGM()
     {
-        currentBGM.Pause();
+        playerBGM.Pause();
     }
     public void PlayBGM()
     {
-        currentBGM.UnPause();
+        playerBGM.UnPause();
     }
-    //public void UnPauseBGM()
-    //{
-    //    currentBGM.UnPause();
-    //}
     public void StopBGM()
     {
-        currentBGM.Stop();
-        currentBGM.clip = null;
+        playerBGM.Stop();
     }
 
     public void SetSE(string fileName, bool loop = false)
     {
-        if (string.IsNullOrEmpty(fileName))
-        {
-            if (currentSE.isPlaying) return;
-            currentSE.clip = null;
-        }
-        else
-        {
-            AudioClip ac = Resources.Load<AudioClip>("Audio/" + fileName);
-            currentSE.clip = ac;
-            currentSE.loop = loop;
-            currentSE.Play();
-        }
+        if (string.IsNullOrEmpty(fileName)) return;
+        playerSE.ChangeSound("SE/" + fileName, 0, loop);
     }
     public void StopSE()
     {
-        currentSE.Stop();
-        currentSE.clip = null;
+        playerSE.Stop();
     }
 
     public void SetVoice(string fileName)
     {
-        if (string.IsNullOrEmpty(fileName))
-        {
-            //若还在播放则忽视
-            if (currentVoice.isPlaying) return;
-            currentVoice.clip = null;
-        }
-        else
-        {
-            AudioClip ac = Resources.Load<AudioClip>("Voice/" + fileName);
-            currentVoice.clip = ac;
-            currentVoice.Play();
-        }
+        if (string.IsNullOrEmpty(fileName)) return;
+        //设置资料
+        Debug.Log(fileName);
+        playerVoice.ChangeSound("Voice/" + fileName, 0, false);
     }
     public void StopVoice()
     {
-        currentVoice.Stop();
+        playerVoice.Stop();
     }
 
     /// <summary>
@@ -168,9 +150,8 @@ public class SoundManager : MonoBehaviour
     public void SetSystemSE(string fileName)
     {
         if (string.IsNullOrEmpty(fileName)) return;
-        AudioClip ac = Resources.Load<AudioClip>("Audio/" + fileName);
-        systemSE.clip = ac;
-        systemSE.Play();
+        //设置资料
+        playerSysSE.ChangeSound("SE/" + fileName, 0f, false);
     }
 
 
@@ -180,84 +161,65 @@ public class SoundManager : MonoBehaviour
         switch (effect.operate)
         {
             case SoundEffect.OperateType.Pause:
-                SetAim(effect);
-                aim.Pause();
+                GetPlayer(effect).Pause();
                 callback();
                 break;
             case SoundEffect.OperateType.Unpause:
-                SetAim(effect);
-                aim.UnPause();
+                GetPlayer(effect).UnPause();
                 callback();
                 break;
             case SoundEffect.OperateType.Set:
+                GetPlayer(effect).ChangeSound("BGM/" + effect.clip, effect.time, effect.loop);
                 if(effect.target == SoundEffect.SoundType.BGM)
                 {
-                    SetBGM(effect.clip, effect.loop);
-                    sideLabel.ShowBGM(currentBGM.clip.name);
-                }
-                if(effect.target == SoundEffect.SoundType.SE)
-                {
-                    SetSE(effect.clip, effect.loop);
+                    //显示bgm标题哈希表获取标题
+                    string title = dm.staticData.bgmTitleList[effect.clip];
+                    sideLabel.ShowBGM(title);
                 }
                 callback();
                 break;
             case SoundEffect.OperateType.Remove:
-                SetAim(effect);
-                aim.Stop();
-                aim.clip = null;
+                GetPlayer(effect).Stop();
                 callback();
                 break;
             default:
-                SetAim(effect);
                 StartCoroutine(Run(effect, callback));
                 break;
         }
     }
 
-    private void SetAim(SoundEffect effect)
+    private AudioPlayer GetPlayer(SoundEffect effect)
     {
-        //决定操作源
         switch (effect.target)
         {
             case SoundEffect.SoundType.BGM:
-                aim = currentBGM;
-                break;
+                return playerBGM;
             case SoundEffect.SoundType.SE:
-                aim = currentSE;
-                break;
+                return playerSE;
             case SoundEffect.SoundType.Voice:
-                aim = currentVoice;
-                break;
+                return playerVoice;
             default:
-                break;
+                return playerBGM;
         }
     }
 
     public void SaveSoundInfo()
     {
-        /* demo1.20 改动
-        string bgmName = currentBGM.clip == null ? "" : currentBGM.clip.name;
-        string seName = currentSE.clip == null ? "" : currentSE.clip.name;
-        string voiceName = currentVoice.clip == null ? "" : currentVoice.clip.name;
-        DataManager.GetInstance().SetGameVar("BGM", bgmName);
-        DataManager.GetInstance().SetGameVar("SE", seName);
-        DataManager.GetInstance().SetGameVar("Voice", voiceName);
-        */
-        string bgmName = currentBGM.clip == null ? "" : currentBGM.clip.name;
-        string seName = currentSE.clip == null ? "" : currentSE.clip.name;
-        string voiceName = currentVoice.clip == null ? "" : currentVoice.clip.name;
+        string bgmName = playerBGM.GetAudioName();
+        string seName = playerSE.GetAudioName();
+        string voiceName = playerVoice.GetAudioName();
         dm.gameData.BGM = bgmName;
         dm.gameData.SE = seName;
         dm.gameData.Voice = voiceName;
     }
 
+    public bool IsVoicePlaying()
+    {
+        return playerVoice;
+    }
+
     public void LoadSoundInfo()
     {
-        /* demo1.20 改动
-        string bgmName = DataManager.GetInstance().GetGameVar<string>("BGM");
-        string seName = DataManager.GetInstance().GetGameVar<string>("SE");
-        string voiceName = DataManager.GetInstance().GetGameVar<string>("Voice");
-        */
         string bgmName = dm.gameData.BGM;
         string seName = dm.gameData.SE;
         string voiceName = dm.gameData.Voice;
@@ -268,16 +230,22 @@ public class SoundManager : MonoBehaviour
 
     private IEnumerator Run(SoundEffect effect, Action callback)
     {
-        callback();
-        if (effect.operate == SoundEffect.OperateType.Fadeout) memoryVolume = aim.volume;
-        float tweenFrom = effect.operate == SoundEffect.OperateType.Fadein ? 0 : aim.volume;
-        float tweenFinal = effect.operate == SoundEffect.OperateType.Fadein ? memoryVolume : 0;
-        for (float t = 0; t <= effect.time; t += Time.deltaTime)
+        //根据操作设定变化
+        AudioPlayer ap = GetPlayer(effect);
+        switch (effect.operate)
         {
-            aim.volume = Mathf.MoveTowards(aim.volume, tweenFinal, Math.Abs(tweenFinal - tweenFrom) / effect.time * Time.deltaTime);
+            case SoundEffect.OperateType.VolumeUp:
+                ap.VolumeUp(effect.time, effect.argus);
+                break;
+            case SoundEffect.OperateType.VolumeDown:
+                ap.VolumeDown(effect.time, effect.argus);
+                break;
+        }
+        while (ap.EffectEnd())
+        {
             yield return null;
         }
-        //callback();
+        callback();
     }
 
 }

@@ -108,6 +108,16 @@ public class MailUIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 返回联系人列表
+    /// </summary>
+    public void ReturnIcon()
+    {
+        OnEnable();
+        //iconCon.SetActive(true);
+        //mainCon.SetActive(false);
+    }
+
+    /// <summary>
     /// 点击 回复 显示可选选项
     /// </summary>
     public void SetChoice()

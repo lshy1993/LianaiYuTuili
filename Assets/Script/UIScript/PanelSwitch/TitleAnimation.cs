@@ -69,7 +69,10 @@ namespace Assets.Script.UIScript
             //}
             //callback();
 
-            return base.CloseSequence(() => { callback(); });
+            return base.CloseSequence(() => {
+                particleCon.SetActive(false);
+                callback();
+            });
         }
 
         public override IEnumerator OpenSequence(UIAnimationCallback callback)

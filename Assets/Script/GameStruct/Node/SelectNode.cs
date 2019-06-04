@@ -25,6 +25,17 @@ namespace Assets.Script.GameStruct
             uiManager.Show();
         }
 
+        public SelectNode(DataManager manager, GameObject root, PanelSwitch ps, string selection) : base(manager, root, ps)
+        {
+            uiManager = root.transform.Find("Avg_Panel/Selection_Panel").GetComponent<SelectUIManager>();
+            factory = NodeFactory.GetInstance();
+            uiManager.SetNode(this);
+            //uiManager.SetCountDown(cd, cdexit);
+            uiManager.SetSelects(selection);
+            uiManager.gameObject.SetActive(true);
+            uiManager.Show();
+        }
+
         public override void Update()
         { }
 

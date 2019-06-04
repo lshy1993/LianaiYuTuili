@@ -23,8 +23,25 @@ public class SettingUIManager : MonoBehaviour
     private void OnEnable()
     {
         //打开时自动切换至图像？
-        //TODO 考虑存档记忆
-        SwitchTab("Graphic_Button");
+        switch (settingMode)
+        {
+            case Constants.Setting_Mode.Graphic:
+                SwitchTab("Graphic_Button");
+                break;
+            case Constants.Setting_Mode.Operate:
+                SwitchTab("Operate_Button");
+                break;
+            case Constants.Setting_Mode.Sound:
+                SwitchTab("Sound_Button");
+                break;
+            case Constants.Setting_Mode.Text:
+                SwitchTab("Sound_Button");
+                break;
+            default:
+                SwitchTab("Graphic_Button");
+                break;
+        }
+        
     }
 
     /// <summary>
