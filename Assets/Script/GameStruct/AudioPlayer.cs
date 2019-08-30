@@ -242,8 +242,9 @@ public class AudioPlayer : MonoBehaviour
 
     public float GetAllTime()
     {
-        GameObject go = audioObjects.Values.FirstOrDefault();
-        return go.GetComponent<AudioSource>().clip.length;
+        //GameObject go = audioObjects.Values.FirstOrDefault();
+        List<float> lens = audioObjects.Values.Select(x => x.GetComponent<AudioSource>().clip.length).ToList();
+        return Mathf.Max(lens.ToArray());
     }
 
     public bool EffectEnd()

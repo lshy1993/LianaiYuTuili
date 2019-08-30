@@ -19,12 +19,15 @@ public class DialogBoxUIManager : MonoBehaviour
     private TextPiece currentPiece;
     private ToggleAuto toggleAuto;
     private UI2DSprite avatarSprite;
-
+    // 文字履历表
     public GameObject table;
-
+    // 玩家设定后的姓名
     private string xing, ming;
     private bool typewriting = false;
+    [SerializeField]
     private bool closedbox = false;
+
+    private Regex rx = new Regex(@"\[[^\]]+\]");
 
     void Awake()
     {
@@ -58,9 +61,10 @@ public class DialogBoxUIManager : MonoBehaviour
         DataManager.GetInstance().BlockWheel();
         this.currentPiece = currentPiece;
         nameLabel.text = AddColor(name);
+        //替换已读文本
         dialogLabel.text = ChangeName(dialog);
+        dialogLabel.alpha = DataManager.GetInstance().IsTextRead(currentPiece) ? 0.5f : 1f;
         //去掉颜色标签符号
-        Regex rx = new Regex(@"\[[^\]]+\]");
         DataManager.GetInstance().tempData.currentText = rx.Replace(dialogLabel.text, "");
         //头像
         SetAvatar(avatar);
@@ -208,15 +212,23 @@ public class DialogBoxUIManager : MonoBehaviour
     public void Open(float time, Action callback)
     {
         ClearText();
+        closedbox = false;
         StartCoroutine(OpenUI(time, callback));
     }
 
-    //关闭对话框
+    /// <summary>
+    /// 关闭对话框
+    /// </summary>
+    /// <param name="time"></param>
+    /// <param name="callback"></param>
     public void Close(float time, Action callback)
     {
         StartCoroutine(CloseUI(time, callback));
     }
 
+    /// <summary>
+    /// 替换自定义姓名
+    /// </summary>
     private string ChangeName(string origin)
     {
         return origin.Replace("李云萧", xing + ming);

@@ -282,7 +282,7 @@ public class PanelSwitch : MonoBehaviour
     }
     private IEnumerator ScreenShot()
     {
-        //开始截图
+        // 开始截图
         yield return new WaitForEndOfFrame();
         Texture2D tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
         tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
@@ -290,10 +290,10 @@ public class PanelSwitch : MonoBehaviour
         byte[] imagebytes = tex.EncodeToPNG();
         DataManager.GetInstance().SetTempVar("缩略图", imagebytes);
         Destroy(tex);
-        //隐去dialog
+        // 隐去dialog
         GameObject diabox = panels["Avg"].transform.Find("DialogBox_Panel").gameObject;
         diabox.GetComponent<DialogBoxUIManager>().HideWindow();
-        //打开菜单
+        // 打开菜单
         panels["System"].GetComponent<SystemUIManager>().quickOpen = true;
         panels["System"].SetActive(true);
         panels["System"].GetComponent<SystemUIManager>().Open();

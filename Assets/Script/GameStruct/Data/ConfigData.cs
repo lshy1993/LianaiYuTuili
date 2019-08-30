@@ -36,6 +36,11 @@ namespace Assets.Script.GameStruct
         public bool avatarSwitch;
 
         /// <summary>
+        /// 是否窗体置顶
+        /// </summary>
+        public bool topMost;
+
+        /// <summary>
         /// BGM曲名显示时长
         /// </summary>
         public int BGMTime;
@@ -107,6 +112,7 @@ namespace Assets.Script.GameStruct
             fadingSwitch = true;
             animateSwitch = true;
             avatarSwitch = true;
+            topMost = false;
             BGMTime = 3;
             chapterTime = 3;
             textSpeed = 60f;

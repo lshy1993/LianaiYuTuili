@@ -4,6 +4,7 @@ using Assets.Script.GameStruct;
 using System;
 using Assets.Script.TextScripts;
 using Assets.Script.GameStruct.EventSystem;
+using System.Runtime.InteropServices;
 
 
 /// <summary>
@@ -18,6 +19,36 @@ using Assets.Script.GameStruct.EventSystem;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    // win32
+    [DllImport("user32.dll")]
+    private static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+    [DllImport("user32.dll")]
+    private static extern bool GetWindowRect(HandleRef hWnd, out RECT lpRect);
+    //private static extern IntPtr GetForegroundWindow();
+    [DllImport("user32.dll", EntryPoint = "FindWindow", CharSet = CharSet.Auto)]
+    private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    //设置此窗体为活动窗体
+    //[DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
+    //public static extern bool SetForegroundWindow(IntPtr hWnd);
+    private IntPtr handler;
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct RECT
+    {
+        public int left;
+        public int top;
+        public int right;
+        public int bottom;
+    }
+
+    //const int GWL_STYLE = -16;
+    //const long WS_POPUP = 0x80000000L;
+    //const int WS_BORDER = 1;
+    const uint SWP_SHOWWINDOW = 0x0040;
+
+
+
+    // UI root
     private GameObject root;
 
     /// <summary>
@@ -67,7 +98,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //右键事件绑定 Esc 充当右键功能
-        if (Input.GetMouseButtonDown(1)||Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (dm.isEffecting || dm.IsRightClickBlocked())
                 return;
@@ -175,4 +206,22 @@ public class GameManager : MonoBehaviour
         nodeFactory = NodeFactory.GetInstance();
         nodeFactory.Init(dm, root, ps);
     }
+
+    public void SetTopMostWindow(bool topped)
+    {
+        string name = Application.productName;
+        handler = FindWindow(null, name);
+        if(handler == IntPtr.Zero)
+        {
+            return;
+        }
+        Debug.Log( String.Format("{0} {1}",handler,topped ? "to top" : "to notop"));
+        RECT rect1;
+        GetWindowRect(new HandleRef(this, handler), out rect1);
+        bool result = SetWindowPos(handler, topped ? -2 : -1, 
+            (int)rect1.left, (int)rect1.top,
+            (int)(rect1.right-rect1.left), (int)(rect1.bottom- rect1.top),
+            SWP_SHOWWINDOW);
+    }
+
 }

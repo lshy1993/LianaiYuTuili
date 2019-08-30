@@ -23,7 +23,7 @@ namespace Assets.Script.GameStruct
         private UI2DSprite avatarSprite;
         private DataManager manager;
 
-        private GameObject timepanel, diaboxpanel, evipanel, hpui, inputpanel, sidepanel;
+        private GameObject timepanel, diaboxpanel, fulldiapanel, evipanel, hpui, inputpanel, sidepanel;
 
         private int id = 0;
 
@@ -34,6 +34,7 @@ namespace Assets.Script.GameStruct
 
             timepanel = root.transform.Find("Avg_Panel/TimeSwitch_Panel").gameObject;
             diaboxpanel = root.transform.Find("Avg_Panel/DialogBox_Panel").gameObject;
+            fulldiapanel = root.transform.Find("Avg_Panel/FullScreenBox_Panel").gameObject;
             evipanel = root.transform.Find("Avg_Panel/EvidenceGet_Panel").gameObject;
             hpui = root.transform.Find("Avg_Panel/HPMP_Panel").gameObject;
             inputpanel = root.transform.Find("Avg_Panel/NameInput_Panel").gameObject;
@@ -91,6 +92,15 @@ namespace Assets.Script.GameStruct
         public ExecPiece s(ExecPiece.Execute setVar)
         {
             return new ExecPiece(id++, manager, setVar);
+        }
+
+        /// <summary>
+        /// 生成一个简单的全屏文字块
+        /// </summary>
+        /// <returns></returns>
+        public TextPiece sc(string dialog)
+        {
+            return new TextPiece(id++, fulldiapanel, "", dialog, "", "");
         }
         #endregion
 
@@ -159,7 +169,7 @@ namespace Assets.Script.GameStruct
         /// <param name="spriteName">新图</param>
         /// <param name="direction">方向（默认：左）</param>
         /// <param name="time">持续时长s（默认0.5s）</param>
-        public EffectPiece Mask(string spriteName, string maskName, float time = 0.5f)
+        public EffectPiece Mask(string spriteName, string maskName, float time = 1.0f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.Mask(spriteName, maskName, time));

@@ -215,7 +215,7 @@ public class SoundManager : MonoBehaviour
 
     public bool IsVoicePlaying()
     {
-        return playerVoice;
+        return playerVoice.IsPlaying();
     }
 
     public void LoadSoundInfo()

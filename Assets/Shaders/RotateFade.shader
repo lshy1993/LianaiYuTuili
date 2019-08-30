@@ -86,15 +86,15 @@
 				float gray;
 				if (_uvAngle <= _Angle - _fadeAngle) {
 					//渐变区以内的区域 新图
-					gray = 1;
+					gray = 1 - inverse;
 				}
 				else if (_uvAngle >= _Angle) {
 					//旋转轴以外的区域 旧图
-					gray = 0;
+					gray = 0 + inverse;
 				}
 				else {
 					float tempAngle = _uvAngle - (_Angle - _fadeAngle);
-					gray = 1 - tempAngle / _fadeAngle;
+					gray = inverse == 0 ? 1 - tempAngle / _fadeAngle : tempAngle / _fadeAngle;
 				}
 				//贴图混合
 				float4 oldp = tex2D(_MainTex, i.uv);

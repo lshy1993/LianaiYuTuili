@@ -132,6 +132,7 @@ public class SelectUIManager : MonoBehaviour
         int n = currentSelect.nums;
         int d = (720 - 80 * n) / (n + 1);
         //预清空
+        listCon.SetActive(false);
         listCon.transform.DestroyChildren();
         hintCon.transform.DestroyChildren();
         for(int i=1;i<=n;i++)

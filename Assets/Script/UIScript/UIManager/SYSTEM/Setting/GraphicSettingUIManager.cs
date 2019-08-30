@@ -14,6 +14,7 @@ public class GraphicSettingUIManager : MonoBehaviour
     public UISlider bgmSld, chapterSld;
 
     private DataManager dm;
+    //private GameManager gm;
 
     private void OnEnable()
     {
@@ -30,8 +31,8 @@ public class GraphicSettingUIManager : MonoBehaviour
         flag = dm.configData.avatarSwitch;
         SetTogglePressed(flag ? avatarOnBtn : avatarOffBtn);
         //总在最前
-        topOnBtn.GetComponent<UIButton>().enabled = false;
-        topOffBtn.GetComponent<UIButton>().enabled = false;
+        flag = dm.configData.topMost;
+        SetTogglePressed(flag ? topOnBtn : topOffBtn);
         //Live2D
         live2dOnBtn.GetComponent<UIButton>().enabled = false;
         live2dOffBtn.GetComponent<UIButton>().enabled = false;
@@ -66,7 +67,9 @@ public class GraphicSettingUIManager : MonoBehaviour
         //由于是切换状态，所以按钮与当前状态相反
         SetTogglePressed(Screen.fullScreen ? winBtn : fullBtn);
         SetToggleAvailable(Screen.fullScreen ? fullBtn : winBtn);
-
+        //Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        //Screen.fullScreenMode = FullScreenMode.Windowed;
+        //Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
         if (Screen.fullScreen)
         {
             Screen.SetResolution(1280, 720, false);
@@ -78,6 +81,16 @@ public class GraphicSettingUIManager : MonoBehaviour
             Shader.SetGlobalVector("_TexSize", new Vector4(1920, 1080, 0, 0));
         }
  
+    }
+
+    public void SwitchTop()
+    {
+        bool flag = dm.configData.topMost;
+        GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gm.SetTopMostWindow(flag);
+        SetTogglePressed(flag ? topOffBtn : topOnBtn);
+        SetToggleAvailable(flag ? topOnBtn : topOffBtn);
+        dm.configData.topMost = !flag;
     }
 
     public void SwitchFading()

@@ -684,6 +684,16 @@ namespace Assets.Script.GameStruct
             return tempData.backLog;
         }
 
+        /// <summary>
+        /// 判定是否已经读过文本
+        /// </summary>
+        /// <param name="tp"></param>
+        /// <returns></returns>
+        public bool IsTextRead(TextPiece tp)
+        {
+            return false;
+        }
+
         #endregion
 
         #region Get / Set 方法
