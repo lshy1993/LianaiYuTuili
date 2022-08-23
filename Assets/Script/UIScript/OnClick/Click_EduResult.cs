@@ -10,16 +10,4 @@ public class Click_EduResult : MonoBehaviour
         uiManager.NextDay();
     }
 
-    void OnHover(bool isHover)
-    {
-        if (isHover)
-        {
-            uiManager.SetHelp(-2);
-        }
-        else
-        {
-            uiManager.SetHelp(-1);
-        }
-
-    }
 }

@@ -32,7 +32,7 @@ namespace Assets.Script.GameStruct
             this.detectEvent = detectEvent;
 
             //Debug.Log(detectManager.CurrentPlace());
-            uiManager.SetDetectNode(this, detectEvent.sections, detectManager.CurrentPlace(), detectEvent.id);
+            uiManager.SetDetectNode(this, detectEvent.sections, detectManager.currentPlace, detectEvent.id);
         }
 
         public override void Update()
@@ -55,8 +55,7 @@ namespace Assets.Script.GameStruct
             }
             else
             {
-                //普通的移动
-                //重新对UI设置新数据
+                //普通的移动 UIManager设置新数据
                 uiManager.SetDetectNode(this, detectEvent.sections, place, detectEvent.id);
             }
             //修改数据
@@ -75,7 +74,10 @@ namespace Assets.Script.GameStruct
 
         public override string ToString()
         {
-            return detectEvent.id.ToString();
+            string str = string.Empty;
+            str += "ID: " + detectEvent.id;
+            str += " Exit: " + detectEvent.eventExit;
+            return str;
         }
     }
 }

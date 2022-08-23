@@ -13,19 +13,20 @@ namespace Assets.Script.GameStruct
 {
     public class NodeFactory
     {
-        private static NodeFactory instance;
-        public static NodeFactory GetInstance()
-        {
-            if (instance == null) { instance = new NodeFactory(); }
-            return instance;
+        private static NodeFactory instance = new NodeFactory();
 
-        }
         private DataManager dm;
         private GameObject root;
         private PanelSwitch ps;
         private AvgPanelSwitch avgPanelSwitch;
         private static readonly string SCRIPT_PATH = "Assets.Script.TextScripts";
         private NodeFactory() { }
+
+        public static NodeFactory GetInstance()
+        {
+            //if (instance == null) { instance = new NodeFactory(); }
+            return instance;
+        }
 
         public void Init(DataManager manager, GameObject root, PanelSwitch ps)
         {
@@ -40,7 +41,6 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public MapNode GetMapNode()
         {
-            //dm.SetGameVar("MODE", "大地图模式");
             dm.gameData.MODE = "大地图模式";
             return new MapNode(dm, root, ps);
         }
@@ -51,9 +51,51 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public EduNode GetEduNode()
         {
-            //dm.SetGameVar("MODE", "养成模式");
             dm.gameData.MODE = "养成模式";
             return new EduNode(dm, root, ps);
+        }
+
+        /// <summary>
+        /// 进入考试模式
+        /// </summary>
+        /// <returns></returns>
+        public ExamNode GetExamNode()
+        {
+            return new ExamNode(dm, root, ps);
+        }
+
+        /// <summary>
+        /// 时间转场
+        /// </summary>
+        /// <returns></returns>
+        public TimeSwitchNode GetSwitchNode(string time,string place,string exit)
+        {
+            return new TimeSwitchNode(dm, root, ps, time, place, exit);
+        }
+
+        /// <summary>
+        /// 选择分歧
+        /// </summary>
+        /// <param name="dic">分歧项</param>
+        /// <param name="cd">倒计时</param>
+        /// <param name="cdexit">时间为零时出口</param>
+        /// <returns></returns>
+        public SelectNode GetSelectNode(Dictionary<string, string> dic, float cd = 0f, string cdexit="")
+        {
+            dm.gameData.MODE = "特殊选择分歧";
+            return new SelectNode(dm, root, ps, dic, cd, cdexit);
+        }
+
+        /// <summary>
+        /// 选择分歧（预设含网络）
+        /// </summary>
+        /// <param name="id">编号</param>
+        /// <returns></returns>
+        public SelectNode GetSelectNode(string id)
+        {
+            dm.gameData.MODE = "选择分歧";
+            dm.gameData.selectID = id;
+            return new SelectNode(dm, root, ps, id);
         }
 
         /// <summary>
@@ -128,36 +170,51 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 寻找下一脚本文件
+        /// 寻找脚本文件(自动重置文本位置)
         /// </summary>
         /// <param name="name">脚本名</param>
         /// <returns></returns>
         public TextScript FindTextScript(string name)
         {
-            //dm.SetGameVar("文字位置", 0);
             dm.gameData.currentTextPos = 0;
-            return FindTextScriptNoneInit(name);
+            dm.gameData.currentScript = name;
+            dm.gameData.MODE = "Avg模式";
+            return FindScript(name);
         }
 
         /// <summary>
-        /// 寻找下一脚本文件(无切换)
+        /// 寻找脚本文件(不重置文字位置)
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">脚本名</param>
         /// <returns></returns>
         public TextScript FindTextScriptNoneInit(string name)
         {
-            /* demo1.20 改动
-            manager.SetGameVar("当前脚本名", name);
-            manager.SetGameVar("MODE", "Avg模式");
-            */
             dm.gameData.currentScript = name;
             dm.gameData.MODE = "Avg模式";
+            DataManager.GetInstance().tempData.isDiaboxRecover = true;
+            return FindScript(name);
+        }
 
-            string classStr = SCRIPT_PATH + "." + name;
-            Type t = Type.GetType(classStr);
-            object[] args = new object[] { dm, root, ps };
-            TextScript script = (TextScript)Activator.CreateInstance(t, args);
-            return script;
+        private TextScript FindScript(string name)
+        {
+            try
+            {
+                string classStr = SCRIPT_PATH + "." + name;
+                Type t = Type.GetType(classStr);
+                object[] args = new object[] { dm, root, ps };
+                TextScript script = (TextScript)Activator.CreateInstance(t, args);
+                return script;
+            }
+            catch
+            {
+                Debug.LogError("未找到对应入口文件！");
+                return null;
+            }
+            //string classStr = SCRIPT_PATH + "." + name;
+            //Type t = Type.GetType(classStr);
+            //object[] args = new object[] { dm, root, ps };
+            //TextScript script = (TextScript)Activator.CreateInstance(t, args);
+            //return script;
         }
 
     }

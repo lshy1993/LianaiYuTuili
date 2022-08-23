@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Assets.Script.GameStruct
 {
+    /// <summary>
+    /// 数据更改块
+    /// </summary>
     public class ExecPiece : Piece
     {
         public delegate void Execute(DataManager manager);

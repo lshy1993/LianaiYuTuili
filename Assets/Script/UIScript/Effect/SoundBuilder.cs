@@ -10,54 +10,12 @@ namespace Assets.Script.GameStruct
     public class SoundBuilder
     {
         static SoundManager soundManager;
-        public static AudioSource currentBGM, currentSE;
+        //public static AudioSource currentBGM, currentSE;
 
         public static void Init(SoundManager sm)
         {
             soundManager = GameObject.Find("GameManager").GetComponent<SoundManager>();
-            currentBGM = sm.currentBGM;
-            currentSE = sm.currentSE;
         }
-
-        //public static SoundEffect Parallel(List<SoundEffect> effects)
-        //{
-        //    SoundEffect effect = new SoundEffect();
-        //    List<float> times = new List<float>();
-
-        //    foreach (SoundEffect e in effects)
-        //    {
-        //        times.Add(e.time);
-        //    }
-
-        //    effect.time = times.Max();
-        //    effect.loop = false;
-        //    effect.init = () =>
-        //    {
-        //        foreach (SoundEffect e in effects)
-        //        {
-        //            e.init();
-        //        }
-        //    };
-
-        //    effect.finish = () =>
-        //    {
-        //        foreach (SoundEffect e in effects)
-        //        {
-        //            e.finish();
-        //        }
-        //    };
-
-        //    effect.update = (a, originvolume, time, nowtime) =>
-        //    {
-        //        foreach (SoundEffect e in effects)
-        //        {
-        //            if (nowtime < e.time)
-        //                e.update(e.aimAudio, e.originvolume, e.time, nowtime);
-        //        }
-        //    };
-
-        //    return effect;
-        //}
 
         private SoundEffect soundEffect;
 
@@ -65,6 +23,12 @@ namespace Assets.Script.GameStruct
         {
             soundEffect = new SoundEffect();
             soundEffect.target = mode;
+            return this;
+        }
+
+        public SoundBuilder Operater(SoundEffect.OperateType mode)
+        {
+            soundEffect.operate = mode;
             return this;
         }
 
@@ -80,50 +44,26 @@ namespace Assets.Script.GameStruct
             return this;
         }
 
+        public SoundBuilder Argus(float p)
+        {
+            soundEffect.argus = p;
+            return this;
+        }
+
         public SoundBuilder TotalTime(float time)
         {
             soundEffect.time = time;
             return this;
         }
 
-        public SoundBuilder Operater(SoundEffect.OperateType mode)
-        {
-            soundEffect.operate = mode;
-            return this;
-        }
-
-        //public SoundBuilder OriginVol(float volume)
-        //{
-        //    soundEffect.originvolume = volume;
-        //    return this;
-        //}
-
-        //public SoundBuilder Init(Action init)
-        //{
-        //    soundEffect.init = init;
-        //    return this;
-        //}
-
-        //public SoundBuilder Finish(Action finish)
-        //{
-        //    soundEffect.finish = finish;
-        //    return this;
-        //}
-
-        //public SoundBuilder AnimateUpdate(SingleSoundUpdate update)
-        //{
-        //    soundEffect.update = new SingleSoundUpdate(update);
-        //    return this;
-        //}
-
         public SoundEffect Get() { return soundEffect; }
 
-        public static SoundEffect SetBGM(string fname, bool loop)
+        public static SoundEffect SetBGM(string fname, float time, bool loop)
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.BGM)
-                .TotalTime(0)
                 .Operater(SoundEffect.OperateType.Set)
+                .TotalTime(time)
                 .Clip(fname)
                 .Loop(loop)
                 .Get();
@@ -134,29 +74,29 @@ namespace Assets.Script.GameStruct
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.BGM)
-                .TotalTime(0)
-                .Operater(SoundEffect.OperateType.Set)
-                .Clip("")
+                .Operater(SoundEffect.OperateType.Remove)
                 .Get();
             return e;
         }
 
-        public static SoundEffect FadeInBGM(float time)
+        public static SoundEffect VolumeUpBGM(float time, float change)
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.BGM)
+                .Operater(SoundEffect.OperateType.VolumeUp)
                 .TotalTime(time)
-                .Operater(SoundEffect.OperateType.Fadein)
+                .Argus(change)
                 .Get();
             return e;
         }
 
-        public static SoundEffect FadeOutBGM(float time)
+        public static SoundEffect VolumeDownBGM(float time, float change)
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.BGM)
+                .Operater(SoundEffect.OperateType.VolumeDown)
                 .TotalTime(time)
-                .Operater(SoundEffect.OperateType.Fadeout)
+                .Argus(change)
                 .Get();
             return e;
         }
@@ -165,7 +105,6 @@ namespace Assets.Script.GameStruct
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.BGM)
-                .TotalTime(0)
                 .Operater(SoundEffect.OperateType.Pause)
                 .Get();
             return e;
@@ -175,39 +114,49 @@ namespace Assets.Script.GameStruct
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.BGM)
-                .TotalTime(0)
                 .Operater(SoundEffect.OperateType.Unpause)
                 .Get();
             return e;
         }
 
-        public static SoundEffect SetSE(string fname, bool loop)
+        public static SoundEffect SetSE(string fname, float time, bool loop)
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.SE)
-                .TotalTime(0)
-                .Loop(loop)
                 .Operater(SoundEffect.OperateType.Set)
+                .TotalTime(time)
+                .Loop(loop)
                 .Get();
             return e;
         }
 
-        public static SoundEffect FadeInSE(float time)
+        public static SoundEffect RemoveSE()
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.SE)
-                .TotalTime(time)
-                .Operater(SoundEffect.OperateType.Fadein)
+                .Operater(SoundEffect.OperateType.Remove)
                 .Get();
             return e;
         }
 
-        public static SoundEffect FadeOutSE(float time)
+        public static SoundEffect VolumeUpSE(float time, float change)
         {
             SoundBuilder builder = new SoundBuilder();
             SoundEffect e = builder.Source(SoundEffect.SoundType.SE)
+                .Operater(SoundEffect.OperateType.VolumeUp)
+                .Argus(change)
                 .TotalTime(time)
-                .Operater(SoundEffect.OperateType.Fadeout)
+                .Get();
+            return e;
+        }
+
+        public static SoundEffect VolumeDownSE(float time, float change)
+        {
+            SoundBuilder builder = new SoundBuilder();
+            SoundEffect e = builder.Source(SoundEffect.SoundType.SE)
+                .Operater(SoundEffect.OperateType.VolumeDown)
+                .TotalTime(time)
+                .Argus(change)
                 .Get();
             return e;
         }

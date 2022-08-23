@@ -16,30 +16,40 @@ using Assets.Script.GameStruct;
  * System_Panel 系统大块
  * Map_Panel 地图模式大块
  * Edu_Panel 养成模式大块
+ * Exam_Panel 考试模式
+ * Shop_Panel 购物系统
  * Phone_Panel 电子手册大块
  */
 public class PanelSwitch : MonoBehaviour
 {
-
     private GameObject root;
 
     /// <summary>
     /// 存储面板名称
     /// </summary>
-    public readonly List<String> PANEL_NAMES = new List<String>()
+    public readonly List<string> PANEL_NAMES = new List<string>()
     {
         "Avg",
         "Title",
         "System",
         "Map",
         "Edu",
+        "Exam",
+        "Shop",
         "Phone",
-        "Fin"
+        "Fin",
+        "Hardness"
     };
 
     Dictionary<string, GameObject> panels;
     private string current;
-    private List<string> currentPanelPath;
+    //记录当前已开启的面板
+    private List<string> currentPanelPath
+    {
+        get { return DataManager.GetInstance().tempData.panelChain; }
+        set { DataManager.GetInstance().tempData.panelChain = value; }
+    }
+
     private FadeTreeIterator iterator;
 
     public void HidePanel(string name)
@@ -85,6 +95,7 @@ public class PanelSwitch : MonoBehaviour
     public void SwitchTo_VerifyIterative(string next, UIAnimationCallback closeCallback,
         UIAnimationCallback openCallback)
     {
+        //Debug.Log(next);
         //计算板块链：共有链，关闭链，开启链
         //例：Avg切换到Enqurie：关闭DialogBox 打开Enquire 共有Avg
         List<string>[] result = GetListIntersectAndDifference(currentPanelPath, iterator.pathTable[next]);
@@ -235,7 +246,7 @@ public class PanelSwitch : MonoBehaviour
             else
             {
                 //否则关闭菜单
-                panels["System"].GetComponent<SystemUIManager>().Close();
+                CloseMenu();
             }
         }
         else
@@ -249,13 +260,50 @@ public class PanelSwitch : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("Open Menu!");
-                    panels["System"].SetActive(true);
-                    panels["System"].GetComponent<SystemUIManager>().Open();
+                    OpenMenu();
                 }
             }
         }
 
+    }
+
+    //直接打开菜单
+    public void OpenMenu()
+    {
+        //Auto模式下先取消
+        if (DataManager.GetInstance().isAuto)
+        {
+            DataManager.GetInstance().isAuto = false;
+            return;
+        }
+        Debug.Log("Open Menu!");
+        //预截图
+        StartCoroutine(ScreenShot());
+    }
+    private IEnumerator ScreenShot()
+    {
+        // 开始截图
+        yield return new WaitForEndOfFrame();
+        Texture2D tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        TextureScale.Bilinear(tex, 540, 303);
+        byte[] imagebytes = tex.EncodeToPNG();
+        DataManager.GetInstance().SetTempVar("缩略图", imagebytes);
+        Destroy(tex);
+        // 隐去dialog
+        GameObject diabox = panels["Avg"].transform.Find("DialogBox_Panel").gameObject;
+        diabox.GetComponent<DialogBoxUIManager>().HideWindow();
+        // 打开菜单
+        panels["System"].GetComponent<SystemUIManager>().quickOpen = true;
+        panels["System"].SetActive(true);
+        panels["System"].GetComponent<SystemUIManager>().Open();
+    }
+
+    //关闭菜单
+    private void CloseMenu()
+    {
+        Debug.Log("Close Menu");
+        panels["System"].GetComponent<SystemUIManager>().Close();
     }
 
     //滚轮向上操作
@@ -265,12 +313,10 @@ public class PanelSwitch : MonoBehaviour
         if (panels["Avg"].activeSelf && !panels["Phone"].activeSelf)
         {
             GameObject backCon = panels["System"].transform.Find("Backlog_Container").gameObject;
-            //Backlog关闭 才能打开
-            if (!backCon.activeSelf && !DataManager.GetInstance().blockBacklog)
+            //Backlog关闭时 且 未被锁定才能打开
+            if (!backCon.activeSelf && !DataManager.GetInstance().IsBacklogBlocked())
             {
-                panels["System"].SetActive(true);
-                panels["System"].GetComponent<UIPanel>().alpha = 1;
-                panels["System"].GetComponent<SystemUIManager>().OpenBacklog();
+                OpenBacklog();
             }
             else
             {
@@ -283,6 +329,17 @@ public class PanelSwitch : MonoBehaviour
                
             }
         }
+    }
+
+    //开启BackLog
+    public void OpenBacklog()
+    {
+        if (DataManager.GetInstance().isAuto) return;
+        panels["Avg"].transform.Find("DialogBox_Panel").GetComponent<DialogBoxUIManager>().HideWindow();
+        panels["System"].GetComponent<SystemUIManager>().quickOpen = true;
+        panels["System"].SetActive(true);
+        panels["System"].GetComponent<UIPanel>().alpha = 1;
+        panels["System"].GetComponent<SystemUIManager>().OpenBacklog();
     }
 
     //滚轮朝下操作
@@ -300,7 +357,7 @@ public class PanelSwitch : MonoBehaviour
                 if(!uim.IsEnoughRow() || value >= 1)
                 {
                     //当文本不足 或 滚动条到底时 关闭backlog
-                    panels["System"].GetComponent<SystemUIManager>().Close();
+                    CloseMenu();
                 }
                 else
                 {
@@ -311,7 +368,7 @@ public class PanelSwitch : MonoBehaviour
             {
                 //否则 相当于左键
                 GameObject clickCon = panels["Avg"].transform.Find("DialogBox_Panel/Click_Container").gameObject;
-                clickCon.GetComponent<Click_Next>().ClickE();
+                clickCon.GetComponent<Click_Next>().Execute();
             }
 
         }

@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Assets.Script.TextScripts
 {
-    public class demofin : TextScript
+    public class demo_fin : TextScript
     {
-        public demofin(DataManager manager, GameObject root, PanelSwitch ps):base(manager, root, ps) { }
+        public demo_fin(DataManager manager, GameObject root, PanelSwitch ps):base(manager, root, ps) { }
         public override void InitText()
         {
             pieces = new List<Piece>()

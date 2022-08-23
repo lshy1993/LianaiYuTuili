@@ -25,10 +25,7 @@ public class DialogButton : BasicButton
 
     protected override void Execute()
     {
-        //Debug.Log(detectNode);
-        uiManager.ShowCharaContainer();
-        detectNode.SetKnown(dialog.dialog);
-        detectNode.ChooseNext(dialog.entry);
+        uiManager.ShowDialog(dialog);
     }
 
 }

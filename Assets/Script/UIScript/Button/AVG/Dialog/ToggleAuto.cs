@@ -9,44 +9,57 @@ public class ToggleAuto : MonoBehaviour
     public Click_Next cn;
     public UIProgressBar autoBar;
 
-    //是否开启了auto模式
+    /// <summary>
+    /// 是否开启了auto模式
+    /// </summary>
     private bool isAuto
     {
         get { return DataManager.GetInstance().isAuto; }
         set { DataManager.GetInstance().isAuto = value; }
     }
+
+    /// <summary>
+    /// 是否正在进行特效
+    /// </summary>
     private bool isEffecting
     {
         get { return DataManager.GetInstance().isEffecting; }
     }
 
     private bool isCounting = false;
-
     private float currentTime = 0f;
-    private float waitTime
-    {
-        get { return DataManager.GetInstance().systemData.waitTime; }
-    }
+    private float maxTime = 0f;
 
     private void Update()
     {
-        if (!isAuto) return;
+        // 检测到auto关闭 直接调用
+        if (!isAuto)
+        {
+            CancelAuto();
+            return;
+        }
+        // 倒计时中
         if (isCounting)
         {
             CountDown();
         }
         else
         {
-            CheckFinish();
+            InitTimer();
         }
     }
 
-    //检测当前块是否结束
-    private void CheckFinish()
+    // 初始化倒计时
+    private void InitTimer()
     {
         if (isEffecting) return;
+        // 检测当前文字是否打印结束
         if (!uiManager.IsTyping())
         {
+            // 用户设置等待时间
+            float waitTime = DataManager.GetInstance().configData.waitTime;
+            // 等待时间存在语音情况下取大值
+            maxTime = Mathf.Max(sm.playerVoice.GetAllTime(), waitTime);
             isCounting = true;
         }
     }
@@ -54,27 +67,30 @@ public class ToggleAuto : MonoBehaviour
     //计时器
     private void CountDown()
     {
-        //等待计时器数完
-        if (currentTime < waitTime)
+        // 等待计时器数完
+        if (currentTime < maxTime)
         {
             autoBar.gameObject.SetActive(true);
             currentTime += Time.deltaTime;
-            autoBar.value = currentTime / waitTime;
+            autoBar.value = currentTime / maxTime;
         }
         else
         {
-            autoBar.gameObject.SetActive(false);
-            if (sm.currentVoice.isPlaying) return;
-            //计时器关闭且重置
-            isCounting = false;
-            currentTime = 0f;
-            //调用Click
-            cn.ClickE();
+            // 如果还在播放语音则等待语音完成跳过
+            if (sm.IsVoicePlaying()) return;
+            // 计时器关闭且重置
+            ResetTimer();
+            // 调用Click
+            Debug.Log("计时器调用Click");
+            cn.Execute();
         }
     }
 
+    // 重置
     public void ResetTimer()
     {
+        autoBar.gameObject.SetActive(false);
+        isCounting = false;
         currentTime = 0f;
     }
 
@@ -82,15 +98,14 @@ public class ToggleAuto : MonoBehaviour
     {
         //切换模式
         isAuto = !isAuto;
-        this.GetComponent<UIToggle>().value = isAuto;
-        this.transform.parent.GetComponent<QuickFunctionHover>().enabled = !isAuto;
     }
 
     public void CancelAuto()
     {
         isAuto = false;
-        autoBar.gameObject.SetActive(false);
+        //autoBar.gameObject.SetActive(false);
+        currentTime = 0f;
         this.GetComponent<UIToggle>().value = false;
-        this.transform.parent.GetComponent<QuickFunctionHover>().enabled = true;
+        autoBar.gameObject.SetActive(false);
     }
 }

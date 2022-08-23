@@ -23,7 +23,7 @@ namespace Assets.Script.GameStruct
         private UI2DSprite avatarSprite;
         private DataManager manager;
 
-        private GameObject timepanel, diaboxpanel, evipanel, hpui, inputpanel;
+        private GameObject timepanel, diaboxpanel, fulldiapanel, evipanel, hpui, inputpanel, sidepanel;
 
         private int id = 0;
 
@@ -34,9 +34,11 @@ namespace Assets.Script.GameStruct
 
             timepanel = root.transform.Find("Avg_Panel/TimeSwitch_Panel").gameObject;
             diaboxpanel = root.transform.Find("Avg_Panel/DialogBox_Panel").gameObject;
+            fulldiapanel = root.transform.Find("Avg_Panel/FullScreenBox_Panel").gameObject;
             evipanel = root.transform.Find("Avg_Panel/EvidenceGet_Panel").gameObject;
             hpui = root.transform.Find("Avg_Panel/HPMP_Panel").gameObject;
             inputpanel = root.transform.Find("Avg_Panel/NameInput_Panel").gameObject;
+            sidepanel = root.transform.Find("Avg_Panel/SideLabel_Panel").gameObject;
         }
 
         #region TextPiece部分
@@ -91,25 +93,170 @@ namespace Assets.Script.GameStruct
         {
             return new ExecPiece(id++, manager, setVar);
         }
+
+        /// <summary>
+        /// 生成一个简单的全屏文字块
+        /// </summary>
+        /// <returns></returns>
+        public TextPiece sc(string dialog)
+        {
+            return new TextPiece(id++, fulldiapanel, "", dialog, "", "");
+        }
         #endregion
 
         #region EffectPiece部分
         /// <summary>
+        /// 圆形旋转渐变特效（顺时针）
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="inverse">是否逆向（默认否）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece RotateFade(string spriteName, bool inverse = false, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.RotateFade(spriteName, inverse, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 单侧渐变特效
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="direction">方向（默认：左）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece SideFade(string spriteName, string direction ="left", float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.SideFade(spriteName, direction, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 圆形展开特效（由内而外）
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="inverse">是否逆向（默认否）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece Circle(string spriteName, bool inverse = false, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Circle(spriteName, inverse, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 卷动特效
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="direction">方向（默认：左）</param>
+        /// <param name="isBoth">是否两图同时卷动</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece Scroll(string spriteName, string direction = "left", bool isBoth = false, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            if (isBoth) effects.Enqueue(NewEffectBuilder.ScrollBoth(spriteName, direction, time));
+            else effects.Enqueue(NewEffectBuilder.Scroll(spriteName, direction, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 蒙版特效
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="direction">方向（默认：左）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece Mask(string spriteName, string maskName, float time = 1.0f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Mask(spriteName, maskName, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 百叶窗特效
+        /// </summary>
+        /// <param name="spriteName">新图</param>
+        /// <param name="direction">方向（默认：左）</param>
+        /// <param name="time">持续时长s（默认0.5s）</param>
+        public EffectPiece Shutter(string spriteName, string direction = "left", float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Shutter(spriteName, direction, time));
+            effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 模糊特效
+        /// </summary>
+        public EffectPiece Blur()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Blur());
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 马赛克特效
+        /// </summary>
+        public EffectPiece Mosaic()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Mosaic());
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 灰度化特效
+        /// </summary>
+        public EffectPiece Gray()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Gray());
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 老照片效果
+        /// </summary>
+        public EffectPiece OldPhoto()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.OldPhoto());
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 等待
+        /// </summary>
+        /// <param name="time">时长s</param>
+        public EffectPiece Wait(float time)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.Wait(time));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
         /// 淡出所有立绘【需要与RemoveAllChara连用】
         /// </summary>
-        /// <param name="fadeout">淡出时间，默认0.3s</param>
+        /// <param name="fadeout">淡出时间s（默认0.3s）</param>
         public EffectPiece FadeoutAllChara(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutAllChara(fadeout));
             return new EffectPiece(id++, effects);
-            
         }
 
         /// <summary>
         /// 淡出所有图片【需要与RemoveAllPic连用】
         /// </summary>
-        /// <param name="fadeout">淡出时间，默认0.3s</param>
+        /// <param name="fadeout">淡出时间s（默认0.3s）</param>
         public EffectPiece FadeoutAllPic(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
@@ -120,11 +267,18 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 淡出所有（包括对话框）【需要与RemoveAll连用】
         /// </summary>
-        /// <param name="fadeout">淡出时间，默认0.3s</param>
+        /// <param name="fadeout">淡出时间s（默认0.3s）</param>
         public EffectPiece FadeoutAll(float fadeout = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
             effects.Enqueue(NewEffectBuilder.FadeOutAll(fadeout));
+            return new EffectPiece(id++, effects);
+        }
+
+        public EffectPiece TransAll(float transtime = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.TransAll(transtime));
             return new EffectPiece(id++, effects);
         }
 
@@ -135,21 +289,35 @@ namespace Assets.Script.GameStruct
         public EffectPiece SetBackground(string spriteName)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            effects.Enqueue(NewEffectBuilder.SetAlphaBackSprite(1));
             effects.Enqueue(NewEffectBuilder.SetBackSprite(spriteName));
+            effects.Enqueue(NewEffectBuilder.SetAlphaBackSprite(1));
             return new EffectPiece(id++, effects);
 
         }
 
         /// <summary>
-        /// 转换背景
+        /// 预渐变立绘
+        /// </summary>
+        /// <param name="depth">对象图层</param>
+        /// <param name="spriteName">改变后的图像</param>
+        public EffectPiece PreTransBackground(string spriteName)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.PreTransBackSprite(spriteName));
+            return new EffectPiece(id++, effects);
+        }
+
+
+        /// <summary>
+        /// 渐变背景
         /// </summary>
         /// <param name="spriteName">目标图片名</param>
         /// <param name="transtime">转换时间</param>
         public EffectPiece TransBackground(string spriteName, float transtime = 0.5f)
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            effects.Enqueue(NewEffectBuilder.TransBackSprite(spriteName, transtime));
+            effects.Enqueue(NewEffectBuilder.PreTransBackSprite(spriteName));
+            effects.Enqueue(NewEffectBuilder.TransBackSprite(transtime));
             return new EffectPiece(id++, effects);
         }
 
@@ -193,20 +361,6 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 设置立绘（画面中心）
-        /// </summary>
-        /// <param name="depth">目标所在的层级</param>
-        /// <param name="spriteName">需要更改的背景图片名</param>
-        //public EffectPiece SetCharacterSprite(int depth, string spriteName)
-        //{
-        //    Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-        //    effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth ,spriteName));
-        //    effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 0));
-        //    effects.Enqueue(NewEffectBuilder.SetDefaultPostionByDepth(depth, "middle"));
-        //    return new EffectPiece(id++, effects);
-        //}
-
-        /// <summary>
         /// 设置立绘（预设位置：左 中 右）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
@@ -237,29 +391,12 @@ namespace Assets.Script.GameStruct
             return new EffectPiece(id++, effects);
         }
 
-
         /// <summary>
-        /// 淡入立绘（画面中心）
+        /// 淡入立绘（预设坐标：左 中 右）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">需要更改的背景图片名</param>
-        /// <param name="fadein">淡入的时间，默认0.5s</param>
-        //public EffectPiece FadeInCharacterSprite(int depth, string spriteName, float fadein = 0.5f)
-        //{
-        //    Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-        //    effects.Enqueue(NewEffectBuilder.SetSpriteByDepth(depth, spriteName));
-        //    effects.Enqueue(NewEffectBuilder.SetAlphaByDepth(depth, 0));
-        //    effects.Enqueue(NewEffectBuilder.SetDefaultPostionByDepth(depth, "middle"));
-        //    effects.Enqueue(NewEffectBuilder.FadeInByDepth(depth, fadein));
-        //    return new EffectPiece(id++, effects);
-        //}
-
-        /// <summary>
-        /// 淡入立绘（预设位置：左 中 右）
-        /// </summary>
-        /// <param name="depth">目标所在的层级</param>
-        /// <param name="spriteName">需要更改的背景图片名</param>
-        /// <param name="position">left | middle | right </param>
+        /// <param name="position">left | middle | right</param>
         /// <param name="fadein">淡入的时间，默认0.5s</param>
         public EffectPiece FadeInCharacterSprite(int depth, string spriteName, string position = "middle", float fadein = 0.5f)
         {
@@ -272,7 +409,7 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 淡入立绘（带坐标）
+        /// 淡入立绘（xy坐标）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">需要更改的背景图片名</param>
@@ -290,16 +427,60 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 渐变立绘
+        /// 预渐变立绘（预设坐标）
         /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="spriteName">新显示的图片名</param>
-        /// <param name="transtime">渐变时间，默认0.5s</param>
-        /// <returns></returns>
-        public EffectPiece TransCharacterSprite(int depth, string spriteName, float transtime = 0.5f)
+        /// <param name="position">新图片的位置</param>
+        public EffectPiece PreTransCharacterSprite(int depth, string spriteName, string position = "middle")
         {
             Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
-            //TODO
+            effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, position));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 预渐变立绘（xy坐标）
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">新显示的图片名</param>
+        /// <param name="x">x轴坐标</param>
+        /// <param name="y">y轴坐标</param>
+        public EffectPiece PreTransCharacterSprite(int depth, string spriteName, float x, float y)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, new Vector3(x, y)));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 直接渐变立绘（预设坐标）
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">新显示的图片名</param>
+        /// <param name="position">新图片的位置，默认middle</param>
+        /// <param name="transtime">渐变时间，默认0.5s</param>
+        public EffectPiece TransCharacterSprite(int depth, string spriteName, string position = "middle", float transtime = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, position));
+            effects.Enqueue(NewEffectBuilder.TransByDepth(depth, transtime));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 直接渐变立绘（xy坐标）
+        /// </summary>
+        /// <param name="depth">目标所在的层级</param>
+        /// <param name="spriteName">新显示的图片名</param>
+        /// <param name="x">x轴坐标</param>
+        /// <param name="y">y轴坐标</param>
+        /// <param name="transtime">渐变时间，默认0.5s</param>
+        public EffectPiece TransCharacterSprite(int depth, string spriteName, float x, float y, float transtime = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.PreTransByDepth(depth, spriteName, new Vector3(x, y)));
+            effects.Enqueue(NewEffectBuilder.TransByDepth(depth, transtime));
             return new EffectPiece(id++, effects);
         }
 
@@ -334,6 +515,19 @@ namespace Assets.Script.GameStruct
         /// <summary>
         /// 移动立绘（从当前位置移动）
         /// </summary>
+        /// <param name="depth">目标所在层级</param>
+        /// <param name="position">left | middle | right</param>
+        /// <param name="time">移动时间，默认0.5s</param>
+        public EffectPiece MoveCharacterSprite(int depth, string position, float time = 0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.MoveDefaultByDepth(depth, position, time));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 移动立绘（从当前位置移动）
+        /// </summary>
         /// <param name="depth">目标所在的层级</param>
         /// <param name="x">目标位置的x轴坐标</param>
         /// <param name="y">目标位置的y轴坐标</param>
@@ -361,8 +555,47 @@ namespace Assets.Script.GameStruct
             effects.Enqueue(NewEffectBuilder.MoveByDepth(depth, new Vector3(x, y), time));
             return new EffectPiece(id++, effects);
         }
+
+        /// <summary>
+        /// 立绘摇动
+        /// </summary>
+        /// <param name="time"></param>
+        public EffectPiece SpriteShake()
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            //effects.Enqueue(NewEffectBuilder.SpriteShakeByDepth(freq, v, freq, time));
+            return new EffectPiece(id++, effects);
+        }
+
+        /// <summary>
+        /// 立绘震动
+        /// </summary>
+        /// <param name="depth">震动对象</param>
+        /// <param name="v">震动量</param>
+        /// <param name="speed">每秒震动次数</param>
+        /// <param name="time">持续时间</param>
+        public EffectPiece SpriteVibration(int depth, float v=10f, int freq = 100 , float time=0.5f)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.SpriteShakeByDepth(depth, v, freq, time));
+            return new EffectPiece(id++, effects);
+        }
+
+            /// <summary>
+            /// 窗口抖动（含UI）
+            /// </summary>
+            /// <param name="time">持续时间s，0则为永久</param>
+            /// <param name="v">震动量</param>
+            /// <param name="freq">每秒震动次数</param>
+        public EffectPiece WindowVibration(float time = 0.5f, float v = 0.01f, int freq = 100)
+        {
+            Queue<NewImageEffect> effects = new Queue<NewImageEffect>();
+            effects.Enqueue(NewEffectBuilder.WindowShake(v, freq, time));
+            return new EffectPiece(id++, effects);
+        }
         #endregion
 
+        #region 其他功能Piece
         /// <summary>
         /// 打开姓名输入框
         /// </summary>
@@ -372,27 +605,33 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 切换特效
+        /// 章节名显示
+        /// </summary>
+        /// <param name="chapter">显示内容</param>
+        public ChapterNamePiece ShowChapter(string chapter="")
+        {
+            return new ChapterNamePiece(id++, sidepanel ,chapter);
+        }
+
+        /// <summary>
+        /// 时间切换特效
         /// </summary>
         /// <param name="time">显示时间</param>
         /// <param name="place">显示文字</param>
-        public TimePiece SwitchText(string time, string place)
+        public TimeSwitchPiece TimeSwitch(string time, string place)
         {
-            return new TimePiece(id++, timepanel, time, place);
+            return new TimeSwitchPiece(id++, timepanel, time, place);
         }
 
-        #region EviPiece部分
         /// <summary>
         /// 获得证据
         /// </summary>
         /// <param name="eviName">证据唯一ID</param>
-        public EviPiece GetEvidence(string eviName)
+        public EviGetPiece GetEvidence(string eviName)
         {
-            return new EviPiece(id++, evipanel, eviName);
+            return new EviGetPiece(id++, evipanel, eviName);
         }
-        #endregion
 
-        #region HPPiece部分
         /// <summary>
         ///  扣血
         /// </summary>
@@ -401,9 +640,7 @@ namespace Assets.Script.GameStruct
         {
             return new HPPiece(id++, hpui, x);
         }
-        #endregion
 
-        #region DiaboxPiece部分
         /// <summary>
         /// 隐去对话框
         /// </summary>
@@ -421,13 +658,17 @@ namespace Assets.Script.GameStruct
         {
             return new DiaboxPiece(id++, diaboxpanel, true, time);
         }
-        #endregion
 
-        //立绘震动
-        public EffectPiece CharacterSpriteVariation()
+        public DiaboxSetPiece SetDialog(string file, int x, int y, int width, int height, int dx = 20, int dy = 20)
         {
-            return null;
+            return new DiaboxSetPiece(id++, diaboxpanel, file, x, y, width, height, dx, dx, dy, dy);
         }
+
+        public DiaboxSetPiece SetDialog(string file, int x, int y, int width, int height, int left, int top, int right, int bottom)
+        {
+            return new DiaboxSetPiece(id++, diaboxpanel, file, x, y, width, height, left, right, top, bottom);
+        }
+        #endregion
 
         #region SoundPiece部分
         /// <summary>
@@ -440,8 +681,8 @@ namespace Assets.Script.GameStruct
         public SoundPiece PlayBGM(string name, float fadein = 0.5f, bool loop = true)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            effectsq.Enqueue(SoundBuilder.SetBGM(name, loop));
-            effectsq.Enqueue(SoundBuilder.FadeInBGM(fadein));
+            effectsq.Enqueue(SoundBuilder.SetBGM(name, fadein, loop));
+            //effectsq.Enqueue(SoundBuilder.FadeInBGM(fadein));
             return new SoundPiece(id++, effectsq);
         }
 
@@ -453,7 +694,7 @@ namespace Assets.Script.GameStruct
         public SoundPiece StopBGM(float fadeout = 0.5f)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            effectsq.Enqueue(SoundBuilder.FadeOutBGM(fadeout));
+            if (fadeout != 0f) effectsq.Enqueue(SoundBuilder.VolumeDownBGM(fadeout, 1));
             effectsq.Enqueue(SoundBuilder.RemoveBGM());
             return new SoundPiece(id++, effectsq);
         }
@@ -466,7 +707,7 @@ namespace Assets.Script.GameStruct
         public SoundPiece PauseBGM(float fadeout = 0f)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            if (fadeout != 0f) effectsq.Enqueue(SoundBuilder.FadeOutBGM(fadeout));
+            if (fadeout != 0f) effectsq.Enqueue(SoundBuilder.VolumeDownBGM(fadeout, 1));
             effectsq.Enqueue(SoundBuilder.PauseBGM());
             return new SoundPiece(id++, effectsq);
             //return null;
@@ -481,7 +722,14 @@ namespace Assets.Script.GameStruct
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
             effectsq.Enqueue(SoundBuilder.UnpauseBGM());
-            if (fadein != 0f) effectsq.Enqueue(SoundBuilder.FadeInBGM(fadein));
+            if (fadein != 0f) effectsq.Enqueue(SoundBuilder.VolumeUpBGM(fadein, 1));
+            return new SoundPiece(id++, effectsq);
+        }
+
+        public SoundPiece ChangeVolumeBGM(float time,float p)
+        {
+            Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
+            effectsq.Enqueue(SoundBuilder.VolumeUpBGM(time, p));
             return new SoundPiece(id++, effectsq);
         }
 
@@ -495,8 +743,8 @@ namespace Assets.Script.GameStruct
         public SoundPiece PlaySE(string name, float fadein = 0f, bool loop = false)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            effectsq.Enqueue(SoundBuilder.SetSE(name, loop));
-            effectsq.Enqueue(SoundBuilder.FadeInSE(fadein));
+            effectsq.Enqueue(SoundBuilder.SetSE(name, fadein, loop));
+            //effectsq.Enqueue(SoundBuilder.FadeInSE(fadein));
             return new SoundPiece(id++, effectsq);
         }
 
@@ -508,18 +756,11 @@ namespace Assets.Script.GameStruct
         public SoundPiece StopSE(float fadeout = 0f)
         {
             Queue<SoundEffect> effectsq = new Queue<SoundEffect>();
-            effectsq.Enqueue(SoundBuilder.FadeOutSE(fadeout));
+            if (fadeout != 0f) effectsq.Enqueue(SoundBuilder.VolumeDownSE(fadeout, 1));
+            effectsq.Enqueue(SoundBuilder.RemoveSE());
             return new SoundPiece(id++, effectsq);
         }
         #endregion
         
-        //播放语音
-        public SoundPiece PlayVoice()
-        {
-            //SoundManager.GetInstance().SetVoice("");
-            return null;
-        }
-        
-
     }
 }

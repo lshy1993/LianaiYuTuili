@@ -23,7 +23,7 @@ public class Slider_ChapterLabel : MonoBehaviour
         {
             numlabel.text = time.ToString() + "s";
         }
-        DataManager.GetInstance().systemData.chapterTime = time;
+        DataManager.GetInstance().configData.chapterTime = time;
     }
 
     void OnHover(bool ishover)

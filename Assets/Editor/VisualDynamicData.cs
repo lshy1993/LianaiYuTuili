@@ -45,6 +45,8 @@ public class VisualDynamicData : EditorWindow
             index = -1;
         }
         GUILayout.Space(5);
+        EditorGUILayout.LabelField("面板链", ShowChain());
+        GUILayout.Space(5);
         GUILayout.BeginHorizontal();
         //game var
         GUILayout.BeginVertical(GUILayout.MaxWidth(300));
@@ -55,13 +57,21 @@ public class VisualDynamicData : EditorWindow
         EditorGUILayout.LabelField("当前事件名", dm.gameData.currentEvent);
         EditorGUILayout.LabelField("当前脚本名", dm.gameData.currentScript);
         EditorGUILayout.LabelField("文字位置", dm.gameData.currentTextPos.ToString());
-        if(GUILayout.Button("事件状态表", GUILayout.MaxWidth(100)))
+        if(GUILayout.Button("全事件状态表", GUILayout.MaxWidth(100)))
         {
             index = 0;
         }
         if (GUILayout.Button("地点可触发事件", GUILayout.MaxWidth(100)))
         {
             index = 1;
+        }
+        if (GUILayout.Button("重复默认事件", GUILayout.MaxWidth(100)))
+        {
+            index = 6;
+        }
+        if (GUILayout.Button("强制事件表", GUILayout.MaxWidth(100)))
+        {
+            index = 7;
         }
         EditorGUILayout.LabelField("背景图片", dm.gameData.bgSprite);
         if(GUILayout.Button("立绘信息", GUILayout.MaxWidth(100)))
@@ -71,39 +81,37 @@ public class VisualDynamicData : EditorWindow
         EditorGUILayout.LabelField("BGM", dm.gameData.BGM);
         EditorGUILayout.LabelField("SE", dm.gameData.SE);
         EditorGUILayout.LabelField("Voice", dm.gameData.Voice);
-        toggle1 = GUILayout.Toggle(toggle1, "Player数据");
-        if (toggle1)
-        {
-            GUILayout.Label("=========养成相关=========");
-            EditorGUILayout.LabelField("姓", dm.gameData.heroXing);
-            EditorGUILayout.LabelField("名", dm.gameData.heroMing);
-            EditorGUILayout.LabelField("上午课程", dm.gameData.morningSchedule.ToString());
-            EditorGUILayout.LabelField("上午指数", dm.gameData.morningRate.ToString());
-            EditorGUILayout.LabelField("下午课程", dm.gameData.afternoonSchedule.ToString());
-            EditorGUILayout.LabelField("下午指数", dm.gameData.afternoonRate.ToString());
-            GUILayout.Label("=======角色养成属性=======");
-            EditorGUILayout.LabelField("文科", p.GetBasicStatus("文科").ToString());
-            EditorGUILayout.LabelField("理科", p.GetBasicStatus("理科").ToString());
-            EditorGUILayout.LabelField("艺术", p.GetBasicStatus("艺术").ToString());
-            EditorGUILayout.LabelField("体育", p.GetBasicStatus("体育").ToString());
-            EditorGUILayout.LabelField("宅力", p.GetBasicStatus("宅力").ToString());
-            EditorGUILayout.LabelField("体力", p.energyPoint.ToString());
-            EditorGUILayout.LabelField("排名", p.GetBasicStatus("排名").ToString());
-            EditorGUILayout.LabelField("金钱", p.GetBasicStatus("金钱").ToString());
-            GUILayout.Label("=========逻辑属性=========");
-            EditorGUILayout.LabelField("冷静", p.GetLogicStatus("冷静").ToString());
-            EditorGUILayout.LabelField("口才", p.GetLogicStatus("口才").ToString());
-            EditorGUILayout.LabelField("思维", p.GetLogicStatus("思维").ToString());
-            EditorGUILayout.LabelField("观察", p.GetLogicStatus("观察").ToString());
-            EditorGUILayout.LabelField("生命上限", p.LimitHP.ToString());
-            EditorGUILayout.LabelField("精力总量", dm.gameData.All_MP.ToString());
-            GUILayout.Label("=======攻略对象好感度=======");
-            EditorGUILayout.LabelField("苏梦忆", p.GetGirlPoint("苏梦忆").ToString());
-            EditorGUILayout.LabelField("西门吹", p.GetGirlPoint("西门吹").ToString());
-            EditorGUILayout.LabelField("欧阳晓芸", p.GetGirlPoint("欧阳晓芸").ToString());
-            EditorGUILayout.LabelField("车小曼", p.GetGirlPoint("车小曼").ToString());
-            EditorGUILayout.LabelField("陈瑜", p.GetGirlPoint("陈瑜").ToString());
-        }
+
+        GUILayout.Label("=========养成相关=========");
+        EditorGUILayout.LabelField("姓", dm.gameData.heroXing);
+        EditorGUILayout.LabelField("名", dm.gameData.heroMing);
+        EditorGUILayout.LabelField("上午课程", dm.gameData.morningSchedule.ToString());
+        EditorGUILayout.LabelField("上午指数", dm.gameData.morningRate.ToString());
+        EditorGUILayout.LabelField("下午课程", dm.gameData.afternoonSchedule.ToString());
+        EditorGUILayout.LabelField("下午指数", dm.gameData.afternoonRate.ToString());
+        GUILayout.Label("=======角色养成属性=======");
+        EditorGUILayout.LabelField("文科", p.GetBasicStatus("文科").ToString());
+        EditorGUILayout.LabelField("理科", p.GetBasicStatus("理科").ToString());
+        EditorGUILayout.LabelField("艺术", p.GetBasicStatus("艺术").ToString());
+        EditorGUILayout.LabelField("体育", p.GetBasicStatus("体育").ToString());
+        EditorGUILayout.LabelField("宅力", p.GetBasicStatus("宅力").ToString());
+        EditorGUILayout.LabelField("体力", p.energyPoint.ToString());
+        EditorGUILayout.LabelField("排名", p.GetBasicStatus("排名").ToString());
+        EditorGUILayout.LabelField("金钱", p.GetBasicStatus("金钱").ToString());
+        GUILayout.Label("=========逻辑属性=========");
+        EditorGUILayout.LabelField("冷静", p.GetLogicStatus("冷静").ToString());
+        EditorGUILayout.LabelField("口才", p.GetLogicStatus("口才").ToString());
+        EditorGUILayout.LabelField("思维", p.GetLogicStatus("思维").ToString());
+        EditorGUILayout.LabelField("观察", p.GetLogicStatus("观察").ToString());
+        EditorGUILayout.LabelField("生命上限", p.LimitHP.ToString());
+        EditorGUILayout.LabelField("精力总量", dm.gameData.All_MP.ToString());
+        GUILayout.Label("=======攻略对象好感度=======");
+        EditorGUILayout.LabelField("苏梦忆", p.GetGirlPoint("苏梦忆").ToString());
+        EditorGUILayout.LabelField("西门吹", p.GetGirlPoint("西门吹").ToString());
+        EditorGUILayout.LabelField("欧阳晓芸", p.GetGirlPoint("欧阳晓芸").ToString());
+        EditorGUILayout.LabelField("车小曼", p.GetGirlPoint("车小曼").ToString());
+        EditorGUILayout.LabelField("陈瑜", p.GetGirlPoint("陈瑜").ToString());
+
         GUILayout.EndScrollView();
         GUILayout.EndVertical();
 
@@ -151,6 +159,16 @@ public class VisualDynamicData : EditorWindow
         GUILayout.EndHorizontal();
     }
 
+    string ShowChain()
+    {
+        string result = "";
+        foreach(string ss in dm.tempData.panelChain)
+        {
+            result += ss + ">";
+        }
+        return result;
+    }
+
     void ReShowContent()
     {
         switch (index)
@@ -176,6 +194,12 @@ public class VisualDynamicData : EditorWindow
             case 5:
                 ShowDetect();
                 break;
+            case 6:
+                ShowDefault();
+                break;
+            case 7:
+                ShowForce();
+                break;
         }
     }
 
@@ -183,7 +207,7 @@ public class VisualDynamicData : EditorWindow
     {
         detitle = "可触发事件";
         content = string.Empty;
-        Dictionary<string, List<MapEvent>> locationEvents = EventManager.GetInstance().getLocationEvents();
+        Dictionary<string, List<MapEvent>> locationEvents = EventManager.GetInstance().GetAvailableEvents();
         foreach(string item in locationEvents.Keys)
         {
             content += item + " : ";
@@ -193,7 +217,34 @@ public class VisualDynamicData : EditorWindow
             }
             content += "\n";
         }
-}
+    }
+
+    void ShowDefault()
+    {
+        detitle = "默认事件";
+        content = string.Empty;
+        Dictionary<string, List<MapEvent>> defaultEvents = EventManager.GetInstance().GetDefaultEvents();
+        foreach (string item in defaultEvents.Keys)
+        {
+            content += item + " : ";
+            foreach (MapEvent e in defaultEvents[item])
+            {
+                content += e.name + "  ";
+            }
+            content += "\n";
+        }
+    }
+
+    void ShowForce()
+    {
+        detitle = "强制事件表";
+        content = string.Empty;
+        Dictionary<string, MapEvent> fe = EventManager.GetInstance().GetForceEvents();
+        foreach (string item in fe.Keys)
+        {
+            content += item + "\n";
+        }
+    }
 
     void ShowEvidence()
     {

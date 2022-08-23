@@ -3,12 +3,12 @@ using System.Collections;
 using Assets.Script.GameStruct.Model;
 using Assets.Script.GameStruct;
 
-public class GirlQButton : MonoBehaviour 
+public class GirlQButton : BasicButton 
 {
     public LoveUIManager uiManager;
     public string girlname;
 
-    void OnClick()
+    protected override void Execute()
     {
         uiManager.ShowGirl(girlname);
     }

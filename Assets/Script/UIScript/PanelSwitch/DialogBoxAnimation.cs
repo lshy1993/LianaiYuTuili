@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Script.GameStruct;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,13 @@ namespace Assets.Script.UIScript
         {
             return base.OpenSequence(() =>
             {
-                transform.Find("Main_Container").gameObject.SetActive(true);
-                transform.Find("Click_Container").gameObject.SetActive(true);
+                //transform.Find("Main_Container").gameObject.SetActive(true);
+                if (DataManager.GetInstance().tempData.isDiaboxRecover)
+                {
+                    GetComponent<DialogBoxUIManager>().ShowWindow();
+                    DataManager.GetInstance().tempData.isDiaboxRecover = false;
+                }
+                //transform.Find("Click_Container").gameObject.SetActive(true);
                 callback();
             });
         }

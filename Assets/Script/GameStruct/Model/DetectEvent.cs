@@ -6,14 +6,27 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 侦探事件类
+    /// </summary>
     public class DetectEvent
     {
         private static int ID = 0;
-
-        public Dictionary<string, DetectPlaceSection> sections;
-        public List<string> conditions;
         public int id;
-        
+
+        /// <summary>
+        /// 子场景节点
+        /// </summary>
+        public Dictionary<string, DetectPlaceSection> sections;
+
+        /// <summary>
+        /// 前置开启条件
+        /// </summary>
+        public List<string> conditions;
+
+        /// <summary>
+        /// 达成后出口脚本名
+        /// </summary>
         public string eventExit;
 
         public DetectEvent(JsonData data)

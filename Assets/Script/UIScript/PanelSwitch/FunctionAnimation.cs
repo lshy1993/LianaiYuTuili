@@ -9,8 +9,8 @@ namespace Assets.Script.UIScript
 {
     public class FunctionAnimation : PanelAnimation
     {
-        private int origin = -385;
-        private int final = -335;
+        private int origin = -580;
+        private int final = -500;
 
         public UIButton move, dialog, invest;
 
@@ -31,7 +31,7 @@ namespace Assets.Script.UIScript
             float x = transform.localPosition.x;
             while (y > origin)
             {
-                y = Mathf.MoveTowards(y, origin, Math.Abs(origin - final) / closeTime * Time.fixedDeltaTime);
+                y = Mathf.MoveTowards(y, origin, Math.Abs(origin - final) / closeTime * Time.deltaTime);
                 this.transform.localPosition = new Vector3(x, y);
                 yield return null;
             }
@@ -47,7 +47,7 @@ namespace Assets.Script.UIScript
             float x = transform.localPosition.x;
             while (y < final)
             {
-                y = Mathf.MoveTowards(y, final, Math.Abs(origin - final) / openTime * Time.fixedDeltaTime);
+                y = Mathf.MoveTowards(y, final, Math.Abs(origin - final) / openTime * Time.deltaTime);
                 this.transform.localPosition = new Vector3(x, y);
                 yield return null;
             }

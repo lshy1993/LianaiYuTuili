@@ -8,8 +8,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 481352}
-  - component: {fileID: 6150290}
   - component: {fileID: 11400190}
+  - component: {fileID: 6150290}
   - component: {fileID: 11450398}
   - component: {fileID: 11494146}
   - component: {fileID: 11441172}
@@ -46,7 +46,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 100, y: 100}
+  m_Size: {x: 150, y: 150}
 --- !u!114 &11400190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,8 +77,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 100
-  mHeight: 100
+  mWidth: 150
+  mHeight: 150
   mDepth: 6
   mMat: {fileID: 0}
   autoResizeBoxCollider: 1

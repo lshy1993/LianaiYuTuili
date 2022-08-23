@@ -24,9 +24,12 @@ namespace Assets.Script.UIScript
         {
             return base.CloseSequence(() =>
             {
-                //TODO: 也许需要清除所有的背景
+                //清除背景与前景
                 transform.Find("Background_Panel/BackGround_Sprite").gameObject.GetComponent<UI2DSprite>().sprite2D = null;
                 transform.Find("CharaGraph_Panel").gameObject.transform.DestroyChildren();
+                //关闭其他panel
+                transform.Find("Selection_Panel").gameObject.SetActive(false);
+
                 callback();
             });
         }

@@ -29,7 +29,7 @@ namespace Assets.Script.GameStruct
 {
     public class AvgPanelSwitch : MonoBehaviour
     {
-        private static readonly List<String> PANEL_NAMES = new List<String>()
+        private static readonly List<string> PANEL_NAMES = new List<string>()
         {
             "DialogBox",
             "Invest",

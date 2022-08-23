@@ -7,7 +7,7 @@ public class PhoneAppButton : BasicButton
 
     protected override void Execute()
     {
-        uiManger.OpenApp();
+        uiManger.OpenIndex();
     }
 
     protected override void Hover(bool ishover)

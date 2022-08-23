@@ -12,7 +12,7 @@ public class Slider_DialogAlpha : MonoBehaviour
     {
         int alpha = Convert.ToInt32(slider.value * 100);
         numlabel.text = alpha.ToString("0");
-        DataManager.GetInstance().systemData.diaboxAlpha = alpha;
+        DataManager.GetInstance().configData.diaboxAlpha = alpha;
         uiManager.SetAlpha();
     }
 

@@ -38,4 +38,40 @@ namespace Assets.Script.GameStruct
             else uiManger.Close(time, callback);
         }
     }
+
+    public class DiaboxSetPiece : Piece
+    {
+        private GameObject diabox;
+        private string file;
+        private int x, y, width, height, left, right, top, bottom;
+
+        public DiaboxSetPiece(int id, GameObject diabox, string file, int x, int y, int width, int height, int left, int right, int top, int bottom) : base(id)
+        {
+            this.diabox = diabox;
+            this.file = file;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.left = left;
+            this.right = right;
+            this.top = top;
+            this.bottom = bottom;
+        }
+
+        public override void Exec()
+        {
+            DialogBoxUIManager uiManger = diabox.GetComponent<DialogBoxUIManager>();
+            uiManger.InitDialogBox(file,x,y,width,height);
+            uiManger.InitDialogLabel(left, top, right, bottom);
+        }
+
+        public void ExecAuto(Action callback)
+        {
+            DialogBoxUIManager uiManger = diabox.GetComponent<DialogBoxUIManager>();
+            uiManger.InitDialogBox(file, x, y, width, height);
+            uiManger.InitDialogLabel(left, top, right, bottom);
+            callback();
+        }
+    }
 }

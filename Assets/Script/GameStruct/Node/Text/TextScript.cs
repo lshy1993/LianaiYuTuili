@@ -12,10 +12,6 @@ namespace Assets.Script.GameStruct
     {
         private int current
         {
-            /*
-            set { manager.SetGameVar("文字位置", value); }
-            get { return manager.GetGameVar<int>("文字位置"); }
-            */
             set { manager.gameData.currentTextPos = value; }
             get { return manager.gameData.currentTextPos; }
         }
@@ -63,62 +59,87 @@ namespace Assets.Script.GameStruct
                     SoundPiece sp = (SoundPiece)pieces[current];
                     sp.ExecAuto(new Action(() => { manager.isEffecting = false; current = sp.Next(); Update(); }));
                 }
-                else if (pieces[current].GetType() == typeof(TimePiece))
+                else if (pieces[current].GetType() == typeof(ChapterNamePiece))
                 {
-                    //地点时间切换模块
-                    manager.blockRightClick = true;
-                    TimePiece tp = (TimePiece)pieces[current];
-                    tp.Exec();
-                    if (tp.finished)
-                    {
-                        current = tp.Next();
-                        manager.blockRightClick = false;
-                        Update();
-                    }
+                    //章节名显示模块
+                    ChapterNamePiece cnp = (ChapterNamePiece)pieces[current];
+                    cnp.Exec();
+                    current = cnp.Next();
+                    Update();
                 }
-                else if( pieces[current].GetType() == typeof(EviPiece))
+                else if( pieces[current].GetType() == typeof(EviGetPiece))
                 {
                     //证据显示处理块
-                    manager.blockRightClick = true;
-                    EviPiece ev = (EviPiece)pieces[current];
+                    manager.BlockRightClick();
+                    EviGetPiece ev = (EviGetPiece)pieces[current];
                     ev.Exec();
                     if (ev.finished)
                     {
                         current = ev.Next();
-                        manager.blockRightClick = false;
+                        manager.UnblockRightClick();
                         Update();
                     }
                 }
                 else if (pieces[current].GetType() == typeof(HPPiece))
                 {
                     //扣血模块
-                    manager.blockRightClick = true;
+                    manager.BlockRightClick();
                     HPPiece hp = (HPPiece)pieces[current];
                     hp.Exec();
                     if (hp.finished)
                     {
                         current = hp.Next();
-                        manager.blockRightClick = false;
+                        manager.UnblockRightClick();
                         Update();
                     }
+                }
+                else if(pieces[current].GetType() == typeof(DiaboxSetPiece))
+                {
+                    //对话框控制模块
+                    manager.isEffecting = true;
+                    manager.BlockRightClick();
+                    DiaboxSetPiece dp = (DiaboxSetPiece)pieces[current];
+                    dp.Exec();
+                    current = dp.Next();
+                    manager.isEffecting = false;
+                    manager.UnblockRightClick();
+                    Update();
                 }
                 else if (pieces[current].GetType() == typeof(DiaboxPiece))
                 {
                     //对话框控制模块
                     manager.isEffecting = true;
-                    manager.blockRightClick = true;
+                    manager.BlockRightClick();
                     DiaboxPiece dp = (DiaboxPiece)pieces[current];
-                    dp.ExecAuto(new Action(() => { manager.isEffecting = false; manager.blockRightClick = false; Update(); }));
+                    dp.ExecAuto(new Action(() => { manager.isEffecting = false; manager.UnblockRightClick(); Update(); }));
                     current = dp.Next();
                 }
                 else if (pieces[current].GetType() == typeof(InputPiece))
                 {
                     //姓名输入模块
                     manager.isEffecting = true;
-                    manager.blockRightClick = true;
+                    manager.BlockRightClick();
                     InputPiece ip = (InputPiece)pieces[current];
-                    ip.ExecAuto(new Action(() => { manager.isEffecting = false; manager.blockRightClick = false; Update(); }));
+                    ip.ExecAuto(new Action(() => { manager.isEffecting = false; manager.UnblockRightClick(); Update(); }));
                     current = ip.Next();
+                }
+                else if (pieces[current].GetType() == typeof(TimeSwitchPiece))
+                {
+                    //地点转换模块
+                    manager.BlockRightClick();
+                    TimeSwitchPiece tsp= (TimeSwitchPiece)pieces[current];
+                    if (tsp.finished)
+                    {
+                        tsp.ExecAuto(() => {
+                            manager.UnblockRightClick();
+                            Update();
+                        });
+                        current = tsp.Next();
+                    }
+                    else
+                    {
+                        tsp.Exec();
+                    }
                 }
                 else
                 {
@@ -126,7 +147,7 @@ namespace Assets.Script.GameStruct
                     TextPiece t = (TextPiece)pieces[current];
                     if (t.finish)
                     {
-                        t.HideIcon();
+                        t.Clear();
                         current = t.Next();
                         Update();
                     }

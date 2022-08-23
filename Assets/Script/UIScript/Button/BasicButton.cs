@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// 作为游戏内所有按钮的基类
 /// </summary>
-public class BasicButton : MonoBehaviour
+public class BasicButton : UIButtonMessage
 {
     protected SoundManager sm;
 
@@ -17,17 +17,18 @@ public class BasicButton : MonoBehaviour
     /// 按钮悬停效果触发
     /// </summary>
     /// <param name="ishover"></param>
-    protected virtual void OnHover(bool ishover)
+    protected virtual void OnHover(bool isOver)
     {
         if (!GetComponent<UIButton>().enabled) return;
         if (UICamera.currentTouchID == -2 || UICamera.currentTouchID == -3) return;
-        if (ishover)
+        if (isOver)
         {
             //if (UICamera.currentTouchID == -2 || UICamera.currentTouchID == -3) return;
             SE_Hover();
         }
-        Hover(ishover);
+        Hover(isOver);
     }
+
 
     /// <summary>
     /// 按钮点击的音效触发
@@ -53,7 +54,7 @@ public class BasicButton : MonoBehaviour
     /// </summary>
     protected virtual void SE_Click()
     {
-        sm.SetSystemSE("SE_confirm");
+        sm.SetSystemSE("decision3");
     }
 
     /// <summary>

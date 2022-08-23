@@ -7,6 +7,7 @@ public class MenuBacklogButton : BasicButton
 
     protected override void Execute()
     {
+        uiManager.fromButton = true;
         uiManager.OpenBacklog();
     }
 

@@ -6,11 +6,46 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 数值增减类
+    /// </summary>
+    public class EduStatistic
+    {
+        /// <summary>
+        /// 上下限
+        /// </summary>
+        public int max, min;
+
+        public EduStatistic(JsonData data)
+        {
+            max = (int)data["最大"];
+            min = (int)data["最小"];
+        }
+    }
+
+    /// <summary>
+    /// 养成事件类
+    /// </summary>
     public class EduEvent
     {
+        /// <summary>
+        /// 名称
+        /// </summary>
         public string name;
+
+        /// <summary>
+        /// （未启用）熟练等级
+        /// </summary>
         public int level;
+
+        /// <summary>
+        /// 数值增减类
+        /// </summary>
         public Dictionary<string, EduStatistic> statistic;
+
+        /// <summary>
+        /// 消耗活力
+        /// </summary>
         public int ap;
 
         public EduEvent(JsonData data)

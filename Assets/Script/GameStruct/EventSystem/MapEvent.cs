@@ -30,6 +30,11 @@ namespace Assets.Script.GameStruct
         public string entryNode { set; get; }
 
         /// <summary>
+        /// 前置【非】事件列表
+        /// </summary>
+        public List<string> conditionNotEvents;
+
+        /// <summary>
         /// 前置【与】事件列表
         /// </summary>
         public List<string> conditionAndEvents;
@@ -38,7 +43,12 @@ namespace Assets.Script.GameStruct
         /// 前置【或】事件列表
         /// </summary>
         public List<string> conditionOrEvents;
-        
+
+        /// <summary>
+        /// 选择项限制
+        /// </summary>
+        public List<string> conditionSelection;
+
         /// <summary>
         /// 回合数限制
         /// </summary>
@@ -70,6 +80,8 @@ namespace Assets.Script.GameStruct
             this.entryNode = entryNode;
             conditionAndEvents = new List<string>();
             conditionOrEvents = new List<string>();
+            conditionNotEvents = new List<string>();
+            conditionSelection = new List<string>();
             conditionStatus = new Dictionary<string, Range>();
             conditionGirls = new Dictionary<string, Range>();
             conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
@@ -86,6 +98,8 @@ namespace Assets.Script.GameStruct
             entryNode = (string)data["入口"];
             conditionAndEvents = new List<string>();
             conditionOrEvents = new List<string>();
+            conditionNotEvents = new List<string>();
+            conditionSelection = new List<string>();
             conditionStatus = new Dictionary<string, Range>();
             conditionGirls = new Dictionary<string, Range>();
             conditionTurn = new Range(Constants.TURN_MIN, Constants.TURN_MAX);
@@ -145,10 +159,47 @@ namespace Assets.Script.GameStruct
         }
 
         /// <summary>
-        /// 格式化输出
+        /// 添加与事件
         /// </summary>
-        /// <param name="isEng">是否显示变量名</param>
-        public string ToString(bool isEng)
+        /// <param name="eventName">事件名</param>
+        public void AddAndEvent(string eventName)
+        {
+            conditionAndEvents.Add(eventName);
+        }
+
+        /// <summary>
+        /// 添加或事件
+        /// </summary>
+        /// <param name="eventName"></param>
+        public void AddOrEvent(string eventName)
+        {
+            conditionOrEvents.Add(eventName);
+        }
+
+        /// <summary>
+        /// 添加非事件
+        /// </summary>
+        /// <param name="eventName"></param>
+        public void AddNotEvent(string eventName)
+        {
+            conditionNotEvents.Add(eventName);
+        }
+
+        /// <summary>
+        /// 添加选项需求
+        /// </summary>
+        /// <param name="selectionName">选项名</param>
+        public void AddSelection(string selectionName)
+        {
+            conditionSelection.Add(selectionName);
+        }
+
+
+    /// <summary>
+    /// 格式化输出
+    /// </summary>
+    /// <param name="isEng">是否显示变量名</param>
+    public string ToString(bool isEng)
         {
             string str = string.Empty;
 

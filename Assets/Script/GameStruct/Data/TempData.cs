@@ -7,24 +7,50 @@ using Assets.Script.GameStruct.Model;
 
 namespace Assets.Script.GameStruct
 {
+    /// <summary>
+    /// 游戏内临时数据
+    /// </summary>
     public class TempData
     {
-        private static TempData instance;
-
-        public static TempData GetInstance()
-        {
-            if (instance == null) instance = new TempData();
-            return instance;
-        }
-
         private Hashtable tempVar;
+
+        /// <summary>
+        /// 文字履历
+        /// </summary>
         public Queue<BacklogText> backLog;
+
+        /// <summary>
+        /// 当前的文本
+        /// </summary>
+        public string currentText;
+
+        /// <summary>
+        /// 存档信息
+        /// </summary>
+        public Dictionary<int, SavingInfo> saveInfo;
+
+        /// <summary>
+        /// 是否需要直接弹出对话框
+        /// </summary>
+        public bool isDiaboxRecover;
+
+        /// <summary>
+        /// 当前所处的事件
+        /// </summary>
+        public DetectEvent currentDetectEvent;
+
+        /// <summary>
+        /// 界面面板链
+        /// </summary>
+        public List<string> panelChain;
+
 
         public TempData()
         {
             tempVar = new Hashtable();
+            panelChain = new List<string>();
         }
-
+ 
         /// <summary>
         /// 获取临时数据
         /// </summary>
@@ -59,5 +85,8 @@ namespace Assets.Script.GameStruct
         {
             tempVar.Clear();
         }
+
+
+
     }
 }

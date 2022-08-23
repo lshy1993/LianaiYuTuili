@@ -10,7 +10,7 @@ public class MapButton : MonoBehaviour
 {
     public TextAsset btnDataJSON;
 
-    private MapUIManager uiManager;
+    public MapUIManager uiManager;
 
     private string place;
     private string background;
@@ -20,13 +20,14 @@ public class MapButton : MonoBehaviour
 
     void Awake()
     {
-        uiManager = transform.parent.parent.GetComponent<MapUIManager>();
-        LoadJson();
+        //uiManager = transform.parent.parent.parent.GetComponent<MapUIManager>();
+        //LoadJson();
     }
 
     private void LoadJson()
     {
         string jsonStr = btnDataJSON.text;
+
         if (jsonStr == null || jsonStr.Length == 0)
         {
             Debug.LogError("请检查按钮的JSON配置文件！" + gameObject.name);
@@ -34,34 +35,39 @@ public class MapButton : MonoBehaviour
         }
 
         JsonData jsonData = JsonMapper.ToObject(jsonStr);
-        if (jsonData.Contains("地点") &&
-           jsonData.Contains("背景") &&
-           jsonData.Contains("介绍"))
+        try
         {
             place = (string)jsonData["地点"];
-            background = (string)jsonData["背景"];
             info = (string)jsonData["介绍"];
+            background = (string)jsonData["背景"];
         }
-        else
+        catch
         {
             Debug.LogError("JSON配置文件格式错误！" + gameObject.name);
         }
+        //if (jsonData.Contains("地点")) place = (string)jsonData["地点"];
+        //if (jsonData.Contains("介绍")) info = (string)jsonData["介绍"];
+        //if (jsonData.Contains("背景")) background = (string)jsonData["背景"];
 
     }
 
+    /// <summary>
+    /// 显示地点是否有新的事件
+    /// </summary>
     public void ShowNew()
     {
+        LoadJson();
         if (string.IsNullOrEmpty(place)) return;
-        hasEvent = EventManager.GetInstance().GetCurrentEventAt(place) != null;
-        //Debug.Log(hasEvent);
-        this.transform.Find("Label").gameObject.SetActive(hasEvent);
+        hasEvent = EventManager.GetInstance().IsNewEventAt(place);
+        this.transform.Find("NewEvent_Label").gameObject.SetActive(hasEvent);
     }
 
     void OnHover(bool ishover)
     {
         if (ishover)
         {
-            string str = hasEvent ? info : info + "\n*当前地点没有事件*";
+            //string str = hasEvent ? info : info + "\n*当前地点没有事件*";
+            string str = info;
             // TODO: 换个图标之类
             uiManager.SetPlaceInfo(place, str);
         }

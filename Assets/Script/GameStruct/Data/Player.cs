@@ -77,6 +77,11 @@ namespace Assets.Script.GameStruct
             get { return basicStatus[basicName["体力"]]; }
         }
 
+        /// <summary>
+        /// 学习兴致状态
+        /// </summary>
+        public int studyStatus;
+
         public void ResetEnergyPoint()
         {
             energyPoint = Constants.MOVE_MAX;
@@ -93,6 +98,7 @@ namespace Assets.Script.GameStruct
             basicStatus = new int[8] { 50, 50, 50, 50, 50, 100, 150000, 100 };
             girls = new int[5] { 0, 0, 0, 0, 0 };
             logicStatus = new int[5] { 3, 4, 4, 3, 5 };
+            studyStatus = 0;
             /*
             basicStatus = new Dictionary<string, int>();
             girls = new Dictionary<string, int>();
@@ -234,6 +240,29 @@ namespace Assets.Script.GameStruct
             if (basicStatus[basicName[s]] < MIN) basicStatus[basicName[s]] = MIN;
         }
 
+        /// <summary>
+        /// 随机某项属性增加随机值
+        /// </summary>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        public void RandomAdd(int min, int max)
+        {
+            int seed = UnityEngine.Random.Range(0, 4);
+            int change = UnityEngine.Random.Range(min, max);
+            basicStatus[seed] += change;
+        }
+
+        /// <summary>
+        /// 对某一项属性随机增加
+        /// </summary>
+        /// <param name="bs">文科，理科，艺术，体育，宅力</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        public void AddRandom(string s, int min, int max)
+        {
+            int change = UnityEngine.Random.Range(min, max);
+            basicStatus[basicName[s]] += change;
+        }
 
         /// <summary>
         /// 好感度
@@ -265,6 +294,7 @@ namespace Assets.Script.GameStruct
         /// <returns></returns>
         public int GetLogicStatus(string s)
         {
+            //Debug.Log(s);
             return logicStatus[logicName[s]];
         }
 

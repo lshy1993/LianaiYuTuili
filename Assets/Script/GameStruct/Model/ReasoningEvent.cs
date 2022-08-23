@@ -6,17 +6,42 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 自我推理事件类
+    /// </summary>
     public class ReasoningEvent
     {
         public string id;
+
+        /// <summary>
+        /// 连续问题的编号
+        /// </summary>
+        public int num;
+
+        /// <summary>
+        /// 问题
+        /// </summary>
         public string question;
+
+        /// <summary>
+        /// 出口脚本名
+        /// </summary>
         public string exit;
+
+        /// <summary>
+        /// 文字选项
+        /// </summary>
         public List<ReasoningChoice> choice;
+
+        /// <summary>
+        /// 证物选项
+        /// </summary>
         public ReasoningEvidence answerEvi;
 
         public ReasoningEvent(JsonData data)
         {
             id = (string)data["ID"];
+            if (data.Contains("编号")) num = (int)data["编号"];
             question = (string)data["问题"];
 
             exit = data.Contains("出口") ? (string)data["出口"] : "";
@@ -57,7 +82,7 @@ namespace Assets.Script.GameStruct.Model
             }
             else
             {
-                str += (isEng ? "evidence" : "正确证据") + " : " + "\n";
+                str += (isEng ? "evidence" : "证据选项") + " : " + "\n";
                 str += answerEvi.ToString(isEng);
             }
 

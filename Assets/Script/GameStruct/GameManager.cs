@@ -4,6 +4,7 @@ using Assets.Script.GameStruct;
 using System;
 using Assets.Script.TextScripts;
 using Assets.Script.GameStruct.EventSystem;
+using System.Runtime.InteropServices;
 
 
 /// <summary>
@@ -18,6 +19,36 @@ using Assets.Script.GameStruct.EventSystem;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    // win32
+    [DllImport("user32.dll")]
+    private static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+    [DllImport("user32.dll")]
+    private static extern bool GetWindowRect(HandleRef hWnd, out RECT lpRect);
+    //private static extern IntPtr GetForegroundWindow();
+    [DllImport("user32.dll", EntryPoint = "FindWindow", CharSet = CharSet.Auto)]
+    private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    //设置此窗体为活动窗体
+    //[DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
+    //public static extern bool SetForegroundWindow(IntPtr hWnd);
+    private IntPtr handler;
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct RECT
+    {
+        public int left;
+        public int top;
+        public int right;
+        public int bottom;
+    }
+
+    //const int GWL_STYLE = -16;
+    //const long WS_POPUP = 0x80000000L;
+    //const int WS_BORDER = 1;
+    const uint SWP_SHOWWINDOW = 0x0040;
+
+
+
+    // UI root
     private GameObject root;
 
     /// <summary>
@@ -66,30 +97,41 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //右键事件绑定
-        if (Input.GetMouseButtonDown(1))
+        //右键事件绑定 Esc 充当右键功能
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
         {
-            if (dm.isEffecting || dm.blockRightClick)
+            if (dm.isEffecting || dm.IsRightClickBlocked())
                 return;
             else
                 ps.RightClick();
         }
-        //Esc 充当右键功能
-        if (Input.GetKeyDown(KeyCode.Escape))
+        /*
+        if ()
         {
-            if (dm.isEffecting || dm.blockRightClick)
+            if (dm.isEffecting || dm.IsRightClickBlocked())
                 return;
             else
                 ps.RightClick();
         }
+        */
+
         //滚轮作用绑定事件
-        if (Input.GetAxis("Mouse ScrollWheel") > 0) ps.MouseUpScroll(Input.GetAxis("Mouse ScrollWheel"));
-        if (Input.GetAxis("Mouse ScrollWheel") < 0) ps.MouseDownScroll(Input.GetAxis("Mouse ScrollWheel"));
+        if (!dm.IsWheelBlocked())
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                ps.MouseUpScroll(Input.GetAxis("Mouse ScrollWheel"));
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                ps.MouseDownScroll(Input.GetAxis("Mouse ScrollWheel"));
+            }
+        }
 
         if (node == null)
         {
+            //Debug.LogError("Game End, node null");
             // 游戏结束返回标题画面
-            //Debug.Log("Game End, node null");
             //ps.SwitchTo_VerifyIterative("Title_Panel");
         }
         else if (node.end)
@@ -117,17 +159,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
-        //0 重置gameVar
+        //重置gameVar
         dm.InitGame();
-        //1 刷新事件
+        //刷新事件池
         em.UpdateEvent();
         //获取强制事件
         MapEvent e = em.GetCurrentForceEvent();
         em.currentEvent = e;
-        //dm.SetGameVar("当前事件名", e.name);
         dm.gameData.currentEvent = e.name;
         node = nodeFactory.FindTextScript(e.entryNode);
-        //清空文字记录
+        //清空原先的文字记录
         dm.ClearHistory();
     }
 
@@ -143,10 +184,18 @@ public class GameManager : MonoBehaviour
     {
         root = GameObject.Find("UI Root");
         //ps初始化
-        if (ps == null) ps = transform.GetComponent<PanelSwitch>();
+        if (ps == null)
+        {
+            ps = transform.GetComponent<PanelSwitch>();
+            Debug.Log("PanelSwitch 再获取");
+        }
         ps.Init();
         //im初始化
-        if (im == null) im = transform.GetComponent<ImageManager>();
+        if (im == null)
+        {
+            im = transform.GetComponent<ImageManager>();
+            Debug.Log("ImageManager 再获取");
+        }
         //dm初始化
         dm = DataManager.GetInstance();
         //em初始化
@@ -157,4 +206,22 @@ public class GameManager : MonoBehaviour
         nodeFactory = NodeFactory.GetInstance();
         nodeFactory.Init(dm, root, ps);
     }
+
+    public void SetTopMostWindow(bool topped)
+    {
+        string name = Application.productName;
+        handler = FindWindow(null, name);
+        if(handler == IntPtr.Zero)
+        {
+            return;
+        }
+        Debug.Log( String.Format("{0} {1}",handler,topped ? "to top" : "to notop"));
+        RECT rect1;
+        GetWindowRect(new HandleRef(this, handler), out rect1);
+        bool result = SetWindowPos(handler, topped ? -2 : -1, 
+            (int)rect1.left, (int)rect1.top,
+            (int)(rect1.right-rect1.left), (int)(rect1.bottom- rect1.top),
+            SWP_SHOWWINDOW);
+    }
+
 }

@@ -77,6 +77,16 @@ namespace Assets.Script.GameStruct
         public Dictionary<string, int> eventStatus;
 
         /// <summary>
+        /// 选项开启状态
+        /// </summary>
+        public List<string> selectionSwitch;
+        
+        /// <summary>
+        /// 当前所处于的选项ID
+        /// </summary>
+        public string selectID;
+
+        /// <summary>
         /// 当前播放的BGM曲名
         /// </summary>
         public string BGM;
@@ -91,6 +101,19 @@ namespace Assets.Script.GameStruct
         /// </summary>
         public string Voice;
 
+        /// <summary>
+        /// 储存发来消息的人数
+        /// </summary>
+        public List<string> messageNameList;
 
+        /// <summary>
+        /// 储存每个角色收到的信息
+        /// </summary>
+        public Dictionary<string, List<int>> charaMessages;
+
+        /// <summary>
+        /// 至当前时间点的所有朋友圈
+        /// </summary>
+        public List<Moment> momentList;
     }
 }

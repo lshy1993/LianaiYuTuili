@@ -6,11 +6,29 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 单条证词类
+    /// </summary>
     public class EnquireTestimony
     {
+        /// <summary>
+        /// 位置编号
+        /// </summary>
         public int id;
+
+        /// <summary>
+        /// 正文
+        /// </summary>
         public string text;
+
+        /// <summary>
+        /// 威慑脚本名
+        /// </summary>
         public string pressOut;
+
+        /// <summary>
+        /// 出现前置条件（威慑）
+        /// </summary>
         public List<int> condition;
 
         public EnquireTestimony(JsonData content)

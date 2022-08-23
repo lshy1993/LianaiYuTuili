@@ -23,7 +23,7 @@ public class VisualGameFlow : EditorWindow
 
     private void OnEnable()
     {
-        events = EventManager.GetStaticEvent();
+        events = StaticManager.GetStaticEvent();
     }
 
     public class DrawCondition

@@ -18,16 +18,19 @@ namespace Assets.Script.UIScript
 
         private void InitPosition()
         {
+            //默认按钮初始位置于边框外
             foreach (Transform child in this.transform)
             {
-                child.localPosition = new Vector3(0, 410);
+                child.localPosition = new Vector3(0, 580);
             }
+            //计算按钮间隔
             int n = this.transform.childCount;
-            int d = (670 - 50 * n) / (n + 1);
+            int d = (1000 - 75 * n) / (n + 1);
             destinations = new int[n];
             for (int i = 0; i < destinations.Length; i++)
             {
-                destinations[i] = 360 - ((i + 1) * d + i * 50);
+                //己算每个按钮的y值
+                destinations[i] = 480 - ((i + 1) * d + i * 75);
             }
         }
 
@@ -36,16 +39,25 @@ namespace Assets.Script.UIScript
             panel.alpha = 1;
             InitPosition();
             float showtime = 0.2f;
+            float t = 0;
             while (!AllAriveFinialDest())
             {
+                t = Mathf.MoveTowards(t, 1, 1 / showtime * Time.deltaTime);
                 for (int i = 0; i < transform.childCount; i++)
                 {
-                    float y = Mathf.MoveTowards(transform.GetChild(i).localPosition.y, destinations[i], (360 - destinations[i]) / showtime * Time.fixedDeltaTime);
+                    float y = 580 - t *(580- destinations[i]);
                     transform.GetChild(i).localPosition = new Vector3(0, y);
                 }
                 yield return null;
             }
             callback();
+        }
+
+        public override IEnumerator CloseSequence(UIAnimationCallback callback)
+        {
+            yield return null;
+            callback();
+            //return base.CloseSequence(callback);
         }
 
         private bool AllAriveFinialDest()

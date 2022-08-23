@@ -3,7 +3,7 @@
 --- !u!30 &1
 GraphicsSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 12
   m_Deferred:
     m_Mode: 1
     m_Shader: {fileID: 69, guid: 0000000000000000f000000000000000, type: 0}
@@ -30,34 +30,43 @@ GraphicsSettings:
     m_Shader: {fileID: 102, guid: 0000000000000000f000000000000000, type: 0}
   m_AlwaysIncludedShaders:
   - {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 15104, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 15105, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 15106, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 4800000, guid: 583a13ae79f30b84aa73504e6a3e57b5, type: 3}
+  - {fileID: 4800000, guid: 176f4cc8236da374b95ee7472024a6b8, type: 3}
+  - {fileID: 4800000, guid: 24eeb72cc3e9a884193ff697106edcd3, type: 3}
   - {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10782, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 4800000, guid: 99b828e4dade14d4b90482b38eacb20c, type: 3}
+  - {fileID: 4800000, guid: 54478d851b13a2443a89fc38039ac4a8, type: 3}
+  - {fileID: 4800000, guid: 85f03c64c6b864b41a337dbe23f31638, type: 3}
+  - {fileID: 4800000, guid: 1fc986a6026e6644dbf503b66bc5a7e3, type: 3}
+  - {fileID: 4800000, guid: b23187592f3111e47b72529234235b98, type: 3}
+  - {fileID: 4800000, guid: e1d9085ad2807d14cad73d3bcdf5e1b8, type: 3}
+  - {fileID: 4800000, guid: 87ff8708e786412468e6957b2369bc80, type: 3}
+  - {fileID: 4800000, guid: 18e41a71bdb79e3479b9f4229eb8f5c2, type: 3}
+  - {fileID: 4800000, guid: 7dcb22d7431c9564893b931b3551f57e, type: 3}
+  - {fileID: 17000, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 16000, guid: 0000000000000000f000000000000000, type: 0}
   m_PreloadedShaders: []
   m_SpritesDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000,
     type: 0}
-  m_TierSettings_Tier1:
-    renderingPath: 1
-    useCascadedShadowMaps: 1
-  m_TierSettings_Tier2:
-    renderingPath: 1
-    useCascadedShadowMaps: 1
-  m_TierSettings_Tier3:
-    renderingPath: 1
-    useCascadedShadowMaps: 1
+  m_CustomRenderPipeline: {fileID: 0}
+  m_TransparencySortMode: 0
+  m_TransparencySortAxis: {x: 0, y: 0, z: 1}
   m_DefaultRenderingPath: 1
   m_DefaultMobileRenderingPath: 1
   m_TierSettings: []
   m_LightmapStripping: 0
   m_FogStripping: 0
+  m_InstancingStripping: 0
   m_LightmapKeepPlain: 1
   m_LightmapKeepDirCombined: 1
-  m_LightmapKeepDirSeparate: 1
   m_LightmapKeepDynamicPlain: 1
   m_LightmapKeepDynamicDirCombined: 1
-  m_LightmapKeepDynamicDirSeparate: 1
+  m_LightmapKeepShadowMask: 1
+  m_LightmapKeepSubtractive: 1
   m_FogKeepLinear: 1
   m_FogKeepExp: 1
   m_FogKeepExp2: 1
+  m_AlbedoSwatchInfos: []
+  m_LightsUseLinearIntensity: 0
+  m_LightsUseColorTemperature: 0

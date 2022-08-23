@@ -8,46 +8,50 @@ public class Click_Next : MonoBehaviour {
     public DialogBoxUIManager uiManger;
     public ToggleAuto ta;
 
-    private bool blockClick
-    {
-        get { return DataManager.GetInstance().blockClick; }
-    }
-    private bool isAuto
-    {
-        get { return DataManager.GetInstance().isAuto; }
-    }
-
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
-            ClickE();
+            Execute();
         }
     }
 
     void OnClick()
     {
         if (Input.GetMouseButtonUp(1)) return;
-        ClickE();
-    }
-
-    public void ClickE()
-    {
-        //如果锁定点击 则直接返回
-        if (blockClick) return;
-        //如果auto模式开启 则重置计时器
-        if (isAuto)
+        // 如果锁定点击 则直接返回
+        if (DataManager.GetInstance().IsClickBlocked())
         {
+            Debug.Log("blocked");
+            return;
+        }
+        // 如果auto模式开启 则关闭计时器
+        else if (DataManager.GetInstance().isAuto)
+        {
+            Execute();
+            Debug.Log("刷新计时器");
             ta.ResetTimer();
         }
-        //如果对话框被隐藏
-        if (uiManger.IsBoxClosed())
+        // 如果对话框被隐藏
+        else if (uiManger.IsBoxClosed())
         {
+            Debug.Log("显示对话框");
             uiManger.ShowWindow();
             return;
         }
+        else
+        {
+            Execute();
+        }
+    }
+
+    public void Execute()
+    {
+        if (DataManager.GetInstance().IsClickBlocked()) return;
         //否则根据Script类型执行Update
-        if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
+       if (typeof(TextScript).IsInstanceOfType(gm.GetCurrentNode()))
             gm.GetCurrentNode().Update();
+       else
+            Debug.Log("无效点击");
     }
 }

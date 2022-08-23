@@ -6,9 +6,19 @@ using LitJson;
 
 namespace Assets.Script.GameStruct.Model
 {
+    /// <summary>
+    /// 自我推理证物选项类
+    /// </summary>
     public class ReasoningEvidence
     {
+        /// <summary>
+        /// 正确/错误 进入脚本名
+        /// </summary>
         public string curretEntry, wrongEntry;
+        
+        /// <summary>
+        /// 需要选择的证据
+        /// </summary>
         public List<string> evi;
 
         public ReasoningEvidence(JsonData data)
@@ -29,7 +39,7 @@ namespace Assets.Script.GameStruct.Model
             str += "    " + (isEng ? "evi" : "需要证据") + " : ";
             foreach(string item in evi)
             {
-                str += evi + "  ";
+                str += item + "  ";
             }
             str += "\n";
             str += "    " + (isEng ? "curretEntry" : "正确进入脚本") + " : " + curretEntry + "\n";

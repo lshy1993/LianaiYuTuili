@@ -13,6 +13,15 @@ namespace Assets.Script.UIScript
         private GameObject timeContainer, charaContainer, functonContainer;
         private GameObject placebtnContainer, outterbtnContainer;
 
+        private const int startX_time = -1230;
+        private const int startY_time = 810;
+        private const int X_time = 270;
+        private const int Y_time = 270;
+        private const int startY_chara = 615;
+        private const int Y_chara = 150;
+        private const int startX_func = -1035;
+        private const int X_func = 150;
+
         public bool isout;
 
         public override void Init()
@@ -22,8 +31,9 @@ namespace Assets.Script.UIScript
             functonContainer = this.transform.Find("Function_Container").gameObject;
 
             placebtnContainer = this.transform.Find("PlaceButton_Container").gameObject;
-            outterbtnContainer = this.transform.Find("PlaceButtonOut_Container").gameObject;
-
+            //outterbtnContainer = this.transform.Find("PlaceButtonOut_Container").gameObject;
+            outterbtnContainer = this.transform.Find("Out_ScrollView").gameObject;
+            
             base.Init();
         }
 
@@ -63,14 +73,15 @@ namespace Assets.Script.UIScript
             while (t > 0)
             {
                 t = Mathf.MoveTowards(t, 0, 1 / closeTime * Time.deltaTime);
-                timex = -820 + 180 * t;
-                timey = 540 - 180 * t;
-                charay = 420 - 110 * t;
-                funcx = -700 + 110 * t;
+                timex = startX_time + X_time * t;
+                timey = startY_time - Y_time * t;
+                charay = startY_chara - Y_chara * t;
+                funcx = startX_func + X_func * t;
                 timeContainer.transform.localPosition = new Vector3(timex, timey);
-                charaContainer.transform.localPosition = new Vector3(160, charay);
+                charaContainer.transform.localPosition = new Vector3(240, charay);
                 functonContainer.transform.localPosition = new Vector3(funcx, 0);
-                target.GetComponent<UIWidget>().alpha = t;
+                //target.GetComponent<UIWidget>().alpha = t;
+                target.GetComponent<UIRect>().alpha = t;
                 yield return null;
             }
             target.SetActive(false);
@@ -83,20 +94,22 @@ namespace Assets.Script.UIScript
             isout = DataManager.GetInstance().IsHoliday();
             GameObject target = isout ? outterbtnContainer : placebtnContainer;
             target.SetActive(true);
-            target.GetComponent<UIWidget>().alpha = 0;
+            //target.GetComponent<UIWidget>().alpha = 0;
+            target.GetComponent<UIRect>().alpha = 0;
             float timex, timey, charay, funcx;
             float t = 0;
             while (t < 1)
             {
                 t = Mathf.MoveTowards(t, 1, 1 / openTime * Time.deltaTime);
-                timex = -820 + 180 * t;
-                timey = 540 - 180 * t;
-                charay = 420 - 110 * t;
-                funcx = -700 + 110 * t;
+                timex = startX_time + X_time * t;
+                timey = startY_time - Y_time * t;
+                charay = startY_chara - Y_chara * t;
+                funcx = startX_func + X_func * t;
                 timeContainer.transform.localPosition = new Vector3(timex, timey);
-                charaContainer.transform.localPosition = new Vector3(160, charay);
+                charaContainer.transform.localPosition = new Vector3(240, charay);
                 functonContainer.transform.localPosition = new Vector3(funcx, 0);
-                target.GetComponent<UIWidget>().alpha = t;
+                //target.GetComponent<UIWidget>().alpha = t;
+                target.GetComponent<UIRect>().alpha = t;
                 yield return null;
             }
         }

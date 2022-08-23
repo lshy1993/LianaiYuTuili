@@ -146,18 +146,18 @@ namespace Assets.Script.GameStruct
             else
             {
                 //通过UIManager设置文字，并开启打字机
-                uiManager.SetText(this, name, dialog, voice);
+                uiManager.SetText(this, name, dialog, voice, avatar);
                 sm.SetVoice(voice);
-                //模块结束
+                //模块设为未结束
                 finish = false;
             }
 
         }
 
-        public void HideIcon()
+        public void Clear()
         {
             DialogBoxUIManager uiManager = diabox.GetComponent<DialogBoxUIManager>();
-            uiManager.HideNextIcon();
+            uiManager.ClearText();
         }
 
         private void setVars(string name, string dialog, string avatar, string voice)

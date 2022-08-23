@@ -7,6 +7,9 @@ using Assets.Script.UIScript;
 
 namespace Assets.Script.GameStruct
 {
+    /// <summary>
+    /// 姓名输入块
+    /// </summary>
     public class InputPiece : Piece
     {
         private GameObject inputPanel;

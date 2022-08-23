@@ -24,8 +24,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 491576}
-  - component: {fileID: 6195752}
   - component: {fileID: 11461560}
+  - component: {fileID: 6195752}
   - component: {fileID: 11416398}
   - component: {fileID: 11425804}
   m_Layer: 5
@@ -75,7 +75,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 854, y: 50}
+  m_Size: {x: 1200, y: 75}
 --- !u!114 &11416398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,8 +143,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 800
-  mHeight: 50
+  mWidth: 1200
+  mHeight: 75
   mDepth: 6
   mMat: {fileID: 0}
   autoResizeBoxCollider: 1
@@ -212,7 +212,7 @@ MonoBehaviour:
   mTrueTypeFont: {fileID: 12800000, guid: f584ed31bd80b684f91edcdfc03b4de3, type: 3}
   mFont: {fileID: 0}
   mText: "\u5BC6\u5BA4\u4E8B\u4EF6"
-  mFontSize: 24
+  mFontSize: 36
   mFontStyle: 0
   mAlignment: 0
   mEncoding: 1

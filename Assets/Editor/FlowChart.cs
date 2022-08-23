@@ -31,8 +31,8 @@ public class FlowChart : MonoBehaviour
     {
         if (eventSystemPresent) return;
         EventManager eManager = GameObject.Find("GameManager").GetComponent<EventManager>();
-        eventTable = eManager.getEvents();
-        forceEventTable = eManager.getForceEvents();
-        eventState = eManager.getEventState();
+        eventTable = eManager.GetEvents();
+        forceEventTable = eManager.GetForceEvents();
+        eventState = eManager.GetEventState();
     }
 }
